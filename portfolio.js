@@ -98,11 +98,16 @@
   if (canvas && !reduceMotion) {
     const ctx = canvas.getContext('2d');
     let w, h, dpr, nodes = [], raf;
-    const mouse = { x: -9999, y: -9999 };
+    // target mouse + smoothed (trailing) mouse
+    const mouse = { x: -9999, y: -9999, has: false };
+    const eye = { x: 0, y: 0 };      // smoothed cursor
+    const par = { x: 0, y: 0 };      // parallax offset
     let bgOn = true, heroVisible = true;
+    let t = 0;
 
     let SKY = '56,189,248';
     let VIO = '167,139,250';
+    let TEAL = '45,212,191';
     function readAccents() {
       const cs = getComputedStyle(document.documentElement);
       const s = cs.getPropertyValue('--sky-rgb').trim();
@@ -110,6 +115,8 @@
       if (s) SKY = s;
       if (v) VIO = v;
     }
+
+    let blobs = [], comets = [];
 
     function size() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -120,73 +127,202 @@
     }
 
     function build() {
-      const count = Math.min(86, Math.max(34, Math.floor((w * h) / 19000)));
+      const count = Math.min(96, Math.max(40, Math.floor((w * h) / 17000)));
       nodes = [];
       for (let i = 0; i < count; i++) {
         nodes.push({
           x: Math.random() * w,
           y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.32,
-          vy: (Math.random() - 0.5) * 0.32,
-          r: Math.random() * 1.6 + 0.6,
+          vx: (Math.random() - 0.5) * 0.34,
+          vy: (Math.random() - 0.5) * 0.34,
+          r: Math.random() * 1.7 + 0.6,
+          depth: Math.random() * 0.8 + 0.4,
+          ph: Math.random() * Math.PI * 2,
           skyish: Math.random() > 0.5,
           get hue() { return this.skyish ? SKY : VIO; }
         });
       }
+      // drifting aurora clouds — the living color in the background
+      const cols = [SKY, VIO, TEAL, VIO, SKY];
+      blobs = cols.map((c, i) => ({
+        cx: Math.random() * w, cy: Math.random() * h,
+        // lissajous drift
+        ax: (0.18 + Math.random() * 0.22) * w,
+        ay: (0.18 + Math.random() * 0.22) * h,
+        sx: 0.06 + Math.random() * 0.08,
+        sy: 0.05 + Math.random() * 0.08,
+        phx: Math.random() * 6.28, phy: Math.random() * 6.28,
+        rad: Math.min(w, h) * (0.34 + Math.random() * 0.22),
+        getCol: () => (i % 3 === 0 ? SKY : i % 3 === 1 ? VIO : TEAL)
+      }));
+      comets = [];
+    }
+
+    function spawnComet() {
+      const edge = Math.floor(Math.random() * 4);
+      let x, y, ang;
+      if (edge === 0) { x = -30; y = Math.random() * h; ang = (Math.random() - 0.5) * 0.7; }
+      else if (edge === 1) { x = w + 30; y = Math.random() * h; ang = Math.PI + (Math.random() - 0.5) * 0.7; }
+      else if (edge === 2) { x = Math.random() * w; y = -30; ang = Math.PI / 2 + (Math.random() - 0.5) * 0.7; }
+      else { x = Math.random() * w; y = h + 30; ang = -Math.PI / 2 + (Math.random() - 0.5) * 0.7; }
+      const sp = 4.5 + Math.random() * 4;
+      comets.push({
+        x, y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
+        hue: Math.random() > 0.5 ? SKY : VIO, life: 0,
+        max: 120 + Math.random() * 120, len: 80 + Math.random() * 80
+      });
     }
 
     function step() {
+      t += 0.016;
       ctx.clearRect(0, 0, w, h);
-      const linkDist = 132;
+      const linkDist = 146;
+
+      // ease the smoothed cursor toward the real mouse
+      const tx = mouse.has ? mouse.x : w / 2;
+      const ty = mouse.has ? mouse.y : h / 2;
+      eye.x += (tx - eye.x) * 0.08;
+      eye.y += (ty - eye.y) * 0.08;
+      const pgx = mouse.has ? (mouse.x / w - 0.5) : 0;
+      const pgy = mouse.has ? (mouse.y / h - 0.5) : 0;
+      par.x += (pgx * -40 - par.x) * 0.06;
+      par.y += (pgy * -40 - par.y) * 0.06;
+
+      // ---- drifting aurora clouds (additive) ----
+      ctx.globalCompositeOperation = 'lighter';
+      for (const b of blobs) {
+        const cx = b.cx + Math.sin(t * b.sx + b.phx) * b.ax + par.x * 1.4;
+        const cy = b.cy + Math.cos(t * b.sy + b.phy) * b.ay + par.y * 1.4;
+        const col = b.getCol();
+        const gr = ctx.createRadialGradient(cx, cy, 0, cx, cy, b.rad);
+        gr.addColorStop(0, `rgba(${col},0.16)`);
+        gr.addColorStop(0.5, `rgba(${col},0.05)`);
+        gr.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = gr;
+        ctx.fillRect(0, 0, w, h);
+      }
+      ctx.globalCompositeOperation = 'source-over';
+
+      // ---- aurora glow that trails the cursor ----
+      if (mouse.has || eye.x) {
+        const gr = ctx.createRadialGradient(eye.x, eye.y, 0, eye.x, eye.y, 380);
+        gr.addColorStop(0, `rgba(${SKY},0.20)`);
+        gr.addColorStop(0.45, `rgba(${VIO},0.09)`);
+        gr.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = gr;
+        ctx.fillRect(0, 0, w, h);
+      }
 
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
         n.x += n.vx; n.y += n.vy;
-
-        // gentle mouse repulsion
-        const mdx = n.x - mouse.x, mdy = n.y - mouse.y;
+        const mdx = n.x - eye.x, mdy = n.y - eye.y;
         const md = Math.hypot(mdx, mdy);
-        if (md < 140) {
-          const f = (140 - md) / 140 * 0.6;
-          n.x += (mdx / (md || 1)) * f;
-          n.y += (mdy / (md || 1)) * f;
+        if (mouse.has && md < 230) {
+          if (md < 95) {
+            const f = (95 - md) / 95 * 1.0;
+            n.x += (mdx / (md || 1)) * f;
+            n.y += (mdy / (md || 1)) * f;
+          } else {
+            n.x += (-mdy / (md || 1)) * 0.3;
+            n.y += (mdx / (md || 1)) * 0.3;
+          }
         }
-
         if (n.x < -20) n.x = w + 20; if (n.x > w + 20) n.x = -20;
         if (n.y < -20) n.y = h + 20; if (n.y > h + 20) n.y = -20;
       }
 
-      // links
+      const px = (n) => n.x + par.x * n.depth;
+      const py = (n) => n.y + par.y * n.depth;
+
+      // glowing links (additive)
+      ctx.globalCompositeOperation = 'lighter';
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const a = nodes[i], b = nodes[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
+          const ax = px(a), ay = py(a), bx = px(b), by = py(b);
+          const dx = ax - bx, dy = ay - by;
           const d = Math.hypot(dx, dy);
           if (d < linkDist) {
-            const o = (1 - d / linkDist) * 0.5;
+            const o = (1 - d / linkDist) * 0.55;
             ctx.strokeStyle = `rgba(${a.hue},${o})`;
-            ctx.lineWidth = 0.7;
+            ctx.lineWidth = 0.8;
             ctx.beginPath();
-            ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
           }
         }
       }
-      // nodes
+
+      // beams from cursor to nearby nodes
+      if (mouse.has) {
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          const ax = px(n), ay = py(n);
+          const dx = ax - eye.x, dy = ay - eye.y;
+          const d = Math.hypot(dx, dy);
+          if (d < 210) {
+            const o = (1 - d / 210) * 0.9;
+            ctx.strokeStyle = `rgba(${n.hue},${o})`;
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.moveTo(eye.x, eye.y); ctx.lineTo(ax, ay); ctx.stroke();
+          }
+        }
+      }
+      ctx.globalCompositeOperation = 'source-over';
+
+      // nodes (twinkle)
       for (const n of nodes) {
-        ctx.fillStyle = `rgba(${n.hue},0.85)`;
+        const ax = px(n), ay = py(n);
+        const tw = 0.55 + 0.45 * Math.sin(t * 1.6 + n.ph);
+        ctx.fillStyle = `rgba(${n.hue},${0.85 * tw})`;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.arc(ax, ay, n.r, 0, Math.PI * 2);
         ctx.fill();
       }
+
+      // ---- streaking data comets ----
+      if (comets.length < 5 && Math.random() < 0.025) spawnComet();
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = comets.length - 1; i >= 0; i--) {
+        const c = comets[i];
+        c.x += c.vx; c.y += c.vy; c.life++;
+        const fade = c.life < 18 ? c.life / 18 : c.life > c.max - 24 ? Math.max(0, (c.max - c.life) / 24) : 1;
+        const tlx = c.x - c.vx / Math.hypot(c.vx, c.vy) * c.len;
+        const tly = c.y - c.vy / Math.hypot(c.vx, c.vy) * c.len;
+        const g2 = ctx.createLinearGradient(tlx, tly, c.x, c.y);
+        g2.addColorStop(0, `rgba(${c.hue},0)`);
+        g2.addColorStop(1, `rgba(${c.hue},${0.85 * fade})`);
+        ctx.strokeStyle = g2; ctx.lineWidth = 2; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(tlx, tly); ctx.lineTo(c.x, c.y); ctx.stroke();
+        ctx.fillStyle = `rgba(255,255,255,${0.9 * fade})`;
+        ctx.beginPath(); ctx.arc(c.x, c.y, 1.8, 0, Math.PI * 2); ctx.fill();
+        if (c.life > c.max || c.x < -120 || c.x > w + 120 || c.y < -120 || c.y > h + 120) comets.splice(i, 1);
+      }
+      ctx.globalCompositeOperation = 'source-over';
+
+      // cursor core + ring
+      if (mouse.has) {
+        ctx.fillStyle = `rgba(${SKY},0.95)`;
+        ctx.beginPath(); ctx.arc(eye.x, eye.y, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = `rgba(${SKY},${0.35 + 0.25 * Math.sin(t * 3)})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.arc(eye.x, eye.y, 12 + 3 * Math.sin(t * 3), 0, Math.PI * 2); ctx.stroke();
+      }
+
       raf = requestAnimationFrame(step);
     }
 
     window.addEventListener('resize', size);
-    canvas.addEventListener('pointermove', (e) => {
+    const moveHandler = (e) => {
       const r = canvas.getBoundingClientRect();
       mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
-    });
-    canvas.addEventListener('pointerleave', () => { mouse.x = -9999; mouse.y = -9999; });
+      mouse.has = true;
+    };
+    // listen on the hero (covers the text/content sitting above the canvas)
+    const heroEl = document.querySelector('.hero') || window;
+    heroEl.addEventListener('pointermove', moveHandler);
+    heroEl.addEventListener('pointerleave', () => { mouse.has = false; });
 
     function maybeRun() { if (bgOn && heroVisible && !raf) step(); }
     function stopBg() { cancelAnimationFrame(raf); raf = null; ctx.clearRect(0, 0, w, h); }

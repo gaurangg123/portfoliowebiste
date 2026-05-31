@@ -237,12 +237,13 @@ a { color: inherit; text-decoration: none; }
 .btn:hover .arrow { transform: translate(3px, -3px); }
 
 .hero__scroll {
-  position: absolute; left: var(--gut); bottom: 30px; z-index: 2;
+  position: absolute; right: var(--gut); bottom: 30px; z-index: 2;
   font-family: var(--mono); font-size: 12px; letter-spacing: 0.2em;
   text-transform: uppercase; color: var(--ink-mute);
-  display: flex; align-items: center; gap: 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  writing-mode: vertical-rl;
 }
-.hero__scroll .bar { width: 1px; height: 40px; background: linear-gradient(var(--sky), transparent); animation: drop 2s var(--ease) infinite; }
+.hero__scroll .bar { width: 1px; height: 46px; background: linear-gradient(var(--sky), transparent); animation: drop 2s var(--ease) infinite; }
 @keyframes drop { 0%,100% { opacity: 0.3; transform: scaleY(0.5); transform-origin: top; } 50% { opacity: 1; transform: scaleY(1); } }
 
 /* ============================================================
@@ -270,33 +271,21 @@ a { color: inherit; text-decoration: none; }
    ============================================================ */
 .about__grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(40px, 6vw, 90px); align-items: start; }
 .about__media { position: relative; }
-.about__card {
+.about__photo {
   width: 100%; aspect-ratio: 4/5; border-radius: var(--radius);
   border: 1px solid var(--line-2); overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 80% 0%, rgba(var(--violet-rgb), 0.18), transparent 55%),
-    radial-gradient(110% 90% at 0% 100%, rgba(var(--sky-rgb), 0.16), transparent 55%),
-    var(--panel);
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  gap: 14px; text-align: center; padding: 30px; position: relative;
+  position: relative; background: var(--panel);
 }
-.about__card::before {
-  content: ""; position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(148,163,184,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148,163,184,0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
-  -webkit-mask-image: radial-gradient(circle at 50% 45%, #000, transparent 75%);
-          mask-image: radial-gradient(circle at 50% 45%, #000, transparent 75%);
+.about__photo img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 32%;
+  filter: saturate(1.05) contrast(1.02);
+  transition: transform 0.7s var(--ease);
 }
-.about__mono {
-  font-family: var(--display); font-weight: 700; font-size: clamp(72px, 14vw, 132px);
-  line-height: 1; letter-spacing: -0.04em;
-  background: var(--accent-grad); -webkit-background-clip: text; background-clip: text; color: transparent;
-  position: relative;
+.about__media:hover .about__photo img { transform: scale(1.04); }
+.about__photo::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, rgba(7,10,18,0.55) 100%);
 }
-.about__card-name { font-family: var(--display); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; position: relative; }
-.about__card-sub { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.08em; color: var(--ink-mute); text-transform: uppercase; position: relative; }
 .about__frame {
   position: absolute; inset: -14px -14px auto auto; width: 60%; height: 60%;
   border: 1px solid rgba(var(--sky-rgb), 0.4); border-radius: var(--radius);
@@ -433,7 +422,7 @@ a { color: inherit; text-decoration: none; }
 /* ============================================================
    CONTACT
    ============================================================ */
-.contact { position: relative; overflow: hidden; }
+.contact { position: relative; overflow: hidden; padding-bottom: 0; }
 .contact .wrap { position: relative; z-index: 2; }
 .contact__big {
   font-family: var(--display); font-weight: 700;
@@ -461,7 +450,7 @@ a { color: inherit; text-decoration: none; }
 .social svg { width: 17px; height: 17px; }
 
 .footer {
-  border-top: 1px solid var(--line); padding-block: 34px;
+  border-top: 1px solid var(--line); padding-block: 30px 38px; margin-top: clamp(48px, 7vw, 84px);
   display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center;
   font-family: var(--mono); font-size: 13px; color: var(--ink-mute);
 }
