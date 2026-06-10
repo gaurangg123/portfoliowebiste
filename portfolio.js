@@ -87,6 +87,21 @@
     sections.forEach(s => so.observe(s));
   }
 
+  /* ---------- Dot-rail active sync ---------- */
+  const dots = [...document.querySelectorAll('.dotnav a')];
+  if (dots.length) {
+    const targets = dots.map(d => document.querySelector(d.getAttribute('href')));
+    const dotSync = () => {
+      const pos = window.scrollY + window.innerHeight * 0.4;
+      let active = 0;
+      targets.forEach((sec, i) => { if (sec && sec.offsetTop <= pos) active = i; });
+      dots.forEach((d, i) => d.classList.toggle('active', i === active));
+    };
+    window.addEventListener('scroll', dotSync, { passive: true });
+    window.addEventListener('resize', dotSync, { passive: true });
+    dotSync();
+  }
+
   /* ---------- Current year ---------- */
   const yr = document.getElementById('year');
   if (yr) yr.textContent = new Date().getFullYear();
@@ -350,5 +365,143 @@
     window.PORTFOLIO = window.PORTFOLIO || {};
     window.PORTFOLIO.refreshAccents = function () {};
     window.PORTFOLIO.setBg = function () {};
+  }
+})();
+
+
+/* ============================================================
+   LIVE UX layer — clock · typewriter · cursor · magnetic · tilt · decode
+   ============================================================ */
+(function () {
+  'use strict';
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = window.matchMedia('(pointer: fine)').matches;
+
+  /* ---- live IST clock ---- */
+  const clock = document.getElementById('ist-clock');
+  if (clock) {
+    const tick = () => {
+      clock.textContent = 'IST ' + new Date().toLocaleTimeString('en-IN', {
+        timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+      });
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  /* ---- typewriter role cycler ---- */
+  const typer = document.getElementById('typer');
+  if (typer && !reduce) {
+    const words = ['Data Scientist', 'Data Engineer', 'AI / ML Specialist', 'Data Storyteller'];
+    let wi = 0, txt = words[0], deleting = false;
+    function type() {
+      const full = words[wi];
+      txt = deleting ? full.slice(0, txt.length - 1) : full.slice(0, txt.length + 1);
+      typer.textContent = txt;
+      let delay = deleting ? 42 : 88;
+      if (!deleting && txt === full) { delay = 2400; deleting = true; }
+      else if (deleting && txt === '') { deleting = false; wi = (wi + 1) % words.length; delay = 400; }
+      setTimeout(type, delay);
+    }
+    setTimeout(type, 2600);
+  }
+
+  /* ---- glowing cursor ring ---- */
+  if (fine && !reduce) {
+    const ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+    document.body.appendChild(ring);
+    let x = -100, y = -100, rx = -100, ry = -100, s = 1, ts = 1;
+    window.addEventListener('pointermove', (e) => { x = e.clientX; y = e.clientY; }, { passive: true });
+    document.addEventListener('pointerover', (e) => {
+      ts = e.target.closest('a, button, .chip, .dotnav a, image-slot') ? 1.9 : 1;
+    });
+    document.addEventListener('pointerdown', () => { ts = 0.7; });
+    document.addEventListener('pointerup', () => { ts = 1; });
+    (function loop() {
+      rx += (x - rx) * 0.2; ry += (y - ry) * 0.2; s += (ts - s) * 0.16;
+      ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%,-50%) scale(' + s + ')';
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  /* ---- magnetic buttons ---- */
+  if (fine && !reduce) {
+    document.querySelectorAll('.btn, .social, .nav__cta').forEach((el) => {
+      el.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        el.style.transform = 'translate(' + (dx * 0.16) + 'px,' + (dy * 0.22) + 'px)';
+      });
+      el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+    });
+  }
+
+  /* ---- 3D tilt + cursor spotlight on cards ---- */
+  if (fine && !reduce) {
+    document.querySelectorAll('.skillcard, .cert, .about__photo').forEach((card) => {
+      card.addEventListener('pointermove', (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        card.style.setProperty('--mx', (px * 100) + '%');
+        card.style.setProperty('--my', (py * 100) + '%');
+        card.style.transform = 'perspective(900px) rotateX(' + ((0.5 - py) * 6).toFixed(2) + 'deg) rotateY(' + ((px - 0.5) * 8).toFixed(2) + 'deg) translateY(-4px)';
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.transform = '';
+        card.style.removeProperty('--mx');
+        card.style.removeProperty('--my');
+      });
+    });
+  }
+
+  /* ---- matrix decode on section kickers ---- */
+  if (!reduce) {
+    const chars = '!<>-_\\/[]{}=+*^?#01';
+    const done = new Set();
+    const decode = (el) => {
+      const orig = el.textContent;
+      let frame = 0;
+      (function tick() {
+        frame++;
+        const reveal = Math.floor(frame / 2);
+        el.textContent = orig.split('').map((c, i) =>
+          i < reveal ? c : (c === ' ' ? ' ' : chars[Math.floor(Math.random() * chars.length)])
+        ).join('');
+        if (reveal < orig.length) requestAnimationFrame(tick);
+        else el.textContent = orig;
+      })();
+    };
+    const scan = () => {
+      document.querySelectorAll('.kicker').forEach((k) => {
+        if (done.has(k)) return;
+        const r = k.getBoundingClientRect();
+        if (r.top < window.innerHeight - 40 && r.bottom > 0) { done.add(k); decode(k); }
+      });
+    };
+    window.addEventListener('scroll', scan, { passive: true });
+    scan();
+  }
+})();
+
+
+/* ---- hero background video ---- */
+(function () {
+  'use strict';
+  const v = document.querySelector('.bg-video');
+  if (!v) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.remove(); return; }
+  v.addEventListener('canplay', () => v.classList.add('ready'));
+  v.addEventListener('error', () => v.remove(), true);
+  const src = v.querySelector('source');
+  if (src) src.addEventListener('error', () => v.remove());
+  // pause when its section is out of view
+  const host = v.closest('section');
+  if (host && 'IntersectionObserver' in window) {
+    new IntersectionObserver((es) => {
+      es.forEach((e) => { if (e.isIntersecting) { v.play().catch(() => {}); } else { v.pause(); } });
+    }, { threshold: 0 }).observe(host);
   }
 })();

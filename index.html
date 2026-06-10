@@ -11,6 +11,16 @@
 <link rel="stylesheet" href="portfolio.css" />
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<nav class="dotnav" aria-label="Section navigation">
+  <a href="#top" data-label="Home"></a>
+  <a href="#about" data-label="About"></a>
+  <a href="#skills" data-label="Expertise"></a>
+  <a href="#experience" data-label="Experience"></a>
+  <a href="#contact" data-label="Contact"></a>
+</nav>
 
 <!-- ============ NAV ============ -->
 <header class="nav">
@@ -36,9 +46,10 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="top" data-screen-label="Hero">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
   <canvas id="bg-canvas"></canvas>
   <div class="wrap">
-    <div class="hero__status" data-reveal><span class="pulse"></span> Open for new projects, brainstorming &amp; exploration</div>
+    <div class="hero__status" data-reveal><span class="pulse"></span> Open for new projects, brainstorming &amp; exploration<span class="ist" id="ist-clock"></span></div>
 
     <h1>
       <span class="line"><span>Gaurang</span></span>
@@ -47,7 +58,7 @@
 
     <div class="hero__sub">
       <p class="hero__role" data-reveal style="--rd:200ms">
-        <b>//</b> Data Engineer · Data Scientist<br/><b>//</b> AI &amp; ML specialist
+        <b>//</b> <span class="roler" aria-label="Data Scientist"><span class="roler__track" aria-hidden="true"><span>Data Scientist</span><span>Data Engineer</span><span>AI / ML Specialist</span><span>Data Storyteller</span><span>Data Scientist</span></span></span><br/><b>//</b> Snowflake · Databricks · GenAI
       </p>
       <p class="hero__desc" data-reveal style="--rd:320ms">
         I build data pipelines, train models, and turn raw data into decisions —
@@ -83,7 +94,10 @@
 </div>
 
 <!-- ============ ABOUT ============ -->
-<section class="section" id="about" data-screen-label="About">
+<section class="section" id="about" data-watermark="PROFILE" data-screen-label="About">
+  <video class="bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="https://videos.pexels.com/video-files/28561463/12421438_2560_1440_30fps.mp4" type="video/mp4" />
+  </video>
   <div class="wrap">
     <div class="about__grid">
       <div class="about__media" data-reveal>
@@ -127,7 +141,7 @@
 </section>
 
 <!-- ============ SKILLS / EXPERTISE ============ -->
-<section class="section section--band" id="skills" data-screen-label="Skills">
+<section class="section section--band" id="skills" data-watermark="STACK" data-screen-label="Skills">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="kicker">02 — Expertise</span>
@@ -234,7 +248,7 @@
 </section>
 
 <!-- ============ EXPERIENCE ============ -->
-<section class="section" id="experience" data-screen-label="Experience">
+<section class="section" id="experience" data-watermark="JOURNEY" data-screen-label="Experience">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="kicker">03 — Experience &amp; Education</span>
@@ -297,7 +311,7 @@
 </section>
 
 <!-- ============ CONTACT ============ -->
-<section class="section contact section--band" id="contact" data-screen-label="Contact">
+<section class="section contact section--band" id="contact" data-watermark="CONNECT" data-screen-label="Contact">
   <div class="wrap">
     <span class="kicker" data-reveal>04 — Contact</span>
     <h2 class="contact__big" data-reveal style="--rd:80ms">
