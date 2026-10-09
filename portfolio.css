@@ -683,8 +683,6 @@ body.is-locked { overflow: hidden; }
 .pcard .ticks { margin-top: 20px; }
 .pcard .tags { margin-top: auto; padding-top: 22px; }
 .pcard--feature .tags, .pcard--wide .tags { margin-top: 0; }
-.pcard--pending { border-style: dashed; border-color: var(--line-2); }
-.pcard--pending .pcard__body { justify-content: center; }
 
 .feat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 30px; margin-block: 24px; padding-top: 22px; border-top: 1px dashed var(--line-2); }
 .feat__h { font: 700 10.5px var(--f-mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
