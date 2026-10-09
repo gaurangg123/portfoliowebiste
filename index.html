@@ -6,7 +6,7 @@
 <title>Gaurang Ashava | Data &amp; AI Engineer</title>
 <meta name="description" content="Portfolio of Gaurang Ashava, a Data &amp; AI Engineer working across Generative AI, data engineering, Snowflake, AI applications, enterprise chatbots, and full-stack development." />
 <meta name="author" content="Gaurang Ashava" />
-<meta name="theme-color" content="#0A0A0B" />
+<meta name="theme-color" content="#0C0815" />
 <link rel="canonical" href="https://gaurangg123.github.io/portfoliowebiste/" />
 
 <meta property="og:type" content="website" />
@@ -21,11 +21,11 @@
 <meta name="twitter:description" content="Building intelligent applications and scalable data solutions across AI, data engineering, Snowflake, and full-stack development." />
 <meta name="twitter:image" content="https://gaurangg123.github.io/portfoliowebiste/assets/og.png" />
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A0A0B'/%3E%3Cpath d='M20.6 11.6a5.6 5.6 0 1 0 .7 6.6h-5.1' fill='none' stroke='%23C7F24C' stroke-width='2.6' stroke-linecap='square'/%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FF3D8B'/%3E%3Cstop offset='1' stop-color='%23FFC75A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M9 3h14l8 13-8 13H9L1 16z' fill='%230C0815' stroke='url(%23g)' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='16' r='4.2' fill='url(%23g)'/%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Yellowtail&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="portfolio.css" />
 
 <script type="application/ld+json">
@@ -33,15 +33,37 @@
 </script>
 </head>
 <body>
+
+<!-- shared SVG defs: distressed-edge filter + palm silhouette -->
+<svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="rough" x="-2%" y="-10%" width="104%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="3" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+    <symbol id="palm" viewBox="0 0 200 300">
+      <path d="M95 300C99 232 107 172 115 108l9 2c-6 62-13 122-15 190z" />
+      <path d="M120 105C90 80 50 80 8 112c42-18 80-14 112-4z" />
+      <path d="M120 105c30-27 70-23 80 15-22-24-50-26-78-10z" />
+      <path d="M120 105C105 60 75 35 38 30c40 18 64 42 80 78z" />
+      <path d="M120 105c15-45 45-65 76-60-35 13-55 33-73 63z" />
+      <path d="M120 105c-2-35 5-70 20-95-8 35-12 65-16 96z" />
+      <path d="M120 105c-25 0-60 20-76 60 25-33 54-47 76-55z" />
+      <path d="M120 105c30 3 55 25 62 65-17-34-37-50-61-58z" />
+    </symbol>
+  </defs>
+</svg>
+
 <a class="skip" href="#main">Skip to content</a>
 <div class="progress" aria-hidden="true"><i></i></div>
+<div class="noise" aria-hidden="true"></div>
 
 <!-- ══════════════ NAV ══════════════ -->
 <header class="nav" id="nav">
   <div class="nav__inner">
     <a class="nav__brand" href="#top">
-      <span class="nav__mark" aria-hidden="true"></span>
-      Gaurang Ashava
+      <span class="hex" aria-hidden="true"></span>
+      <span>Gaurang <b>Ashava</b></span>
     </a>
 
     <nav class="nav__links" aria-label="Primary">
@@ -53,7 +75,7 @@
     </nav>
 
     <div class="nav__end">
-      <a class="btn btn--ghost btn--sm nav__cta" href="#contact">Let's talk <span class="arw" aria-hidden="true">→</span></a>
+      <a class="btn btn--sun btn--sm nav__cta" href="#contact">Let's talk <span class="arw" aria-hidden="true">→</span></a>
       <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
         <span aria-hidden="true"></span><span aria-hidden="true"></span>
       </button>
@@ -62,6 +84,7 @@
 </header>
 
 <div class="menu" id="menu" hidden>
+  <p class="menu__cap" aria-hidden="true">Tracklist</p>
   <nav class="menu__nav" aria-label="Mobile">
     <a href="#about"><i>01</i>About</a>
     <a href="#build"><i>02</i>What I Build</a>
@@ -83,12 +106,13 @@
 <section class="hero" id="top">
   <div class="wrap hero__grid">
     <div class="hero__main">
-      <p class="eyebrow" data-rv>Data &amp; AI Engineer</p>
+      <p class="eyebrow" data-rv><span class="eyebrow__ps" aria-hidden="true">~$</span> Data &amp; AI Engineer</p>
 
       <h1 class="hero__title">
-        <span class="ln"><span data-rv-line>Building intelligent</span></span>
-        <span class="ln"><span data-rv-line>systems with</span></span>
-        <span class="ln"><span data-rv-line>data &amp; AI<span class="dot">.</span></span></span>
+        <span class="ln"><span>Building</span></span>
+        <span class="ln"><span>intelligent</span></span>
+        <span class="ln"><span>systems with</span></span>
+        <span class="ln"><span><span class="spray"><span class="sunset">data &amp; AI.</span></span></span></span>
       </h1>
 
       <p class="hero__lede" data-rv style="--d:120ms">
@@ -97,7 +121,7 @@
       </p>
 
       <div class="hero__cta" data-rv style="--d:200ms">
-        <a class="btn btn--solid" href="#work">View my work <span class="arw" aria-hidden="true">→</span></a>
+        <a class="btn btn--sun" href="#work">View my work <span class="arw" aria-hidden="true">→</span></a>
         <a class="btn btn--ghost" href="#contact">Get in touch</a>
       </div>
 
@@ -108,31 +132,45 @@
       </dl>
     </div>
 
-    <div class="hero__aside" data-rv style="--d:340ms">
-      <div class="flow" role="img" aria-label="Data flow: data to pipelines to Snowflake to AI to application">
-        <p class="flow__cap" aria-hidden="true">flow.pipeline</p>
-        <ol class="flow__list" aria-hidden="true">
-          <li class="flow__node"><span class="flow__k">01</span><b>Data</b><em>sources &amp; systems</em></li>
-          <li class="flow__node"><span class="flow__k">02</span><b>Pipelines</b><em>etl / elt</em></li>
-          <li class="flow__node"><span class="flow__k">03</span><b>Snowflake</b><em>warehouse</em></li>
-          <li class="flow__node"><span class="flow__k">04</span><b>AI</b><em>generative layer</em></li>
-          <li class="flow__node is-end"><span class="flow__k">05</span><b>Application</b><em>people use it</em></li>
-        </ol>
+    <div class="hero__aside" data-rv style="--d:200ms">
+      <div class="scene">
+        <div class="sun" aria-hidden="true"></div>
+        <svg class="palm" aria-hidden="true" focusable="false"><use href="#palm" /></svg>
+        <div class="disc disc--hero" aria-hidden="true"><div class="disc__spin"><span class="disc__label">GA</span></div></div>
+
+        <div class="laptop" role="img" aria-label="Data flow: data to pipelines to Snowflake to AI to application">
+          <div class="laptop__screen">
+            <div class="term" aria-hidden="true">
+              <div class="term__bar"><i></i><i></i><i></i><span>gaurang@pune: ~/flow</span></div>
+              <div class="term__body">
+                <p class="t-cmd"><span class="t-ps">gaurang@pune:~$</span> ./pipeline --run</p>
+                <p class="t-ln" style="--i:0"><span class="t-k">[01]</span><b>Data</b><em>sources &amp; systems</em><span class="t-ok">ok</span></p>
+                <p class="t-ln" style="--i:1"><span class="t-k">[02]</span><b>Pipelines</b><em>etl / elt</em><span class="t-ok">ok</span></p>
+                <p class="t-ln" style="--i:2"><span class="t-k">[03]</span><b>Snowflake</b><em>warehouse</em><span class="t-ok">ok</span></p>
+                <p class="t-ln" style="--i:3"><span class="t-k">[04]</span><b>AI</b><em>generative layer</em><span class="t-ok">ok</span></p>
+                <p class="t-ln t-end" style="--i:4"><span class="t-k">[05]</span><b>Application</b><em>people use it</em><span class="t-cur"></span></p>
+              </div>
+            </div>
+          </div>
+          <div class="laptop__base"><i></i></div>
+        </div>
       </div>
     </div>
   </div>
-
-  <p class="hero__scroll" aria-hidden="true"><span></span>Scroll</p>
 </section>
 
-<!-- ══════════════ MARQUEE ══════════════ -->
-<div class="mq" aria-hidden="true">
-  <div class="mq__track">
-    <div class="mq__set">
-      <span>Data Engineering</span><span>Generative AI</span><span>Snowflake</span><span>Databricks</span><span>AI Applications</span><span>AI Agents</span><span>ETL / ELT</span><span>Full-Stack</span>
+<!-- ══════════════ TAPES (marquee) ══════════════ -->
+<div class="tapes" aria-hidden="true">
+  <div class="tape tape--sun">
+    <div class="tape__track">
+      <div class="tape__set"><span>Data Engineering</span><span>Generative AI</span><span>Snowflake</span><span>Databricks</span><span>AI Applications</span><span>AI Agents</span><span>ETL / ELT</span><span>Full-Stack</span></div>
+      <div class="tape__set"><span>Data Engineering</span><span>Generative AI</span><span>Snowflake</span><span>Databricks</span><span>AI Applications</span><span>AI Agents</span><span>ETL / ELT</span><span>Full-Stack</span></div>
     </div>
-    <div class="mq__set">
-      <span>Data Engineering</span><span>Generative AI</span><span>Snowflake</span><span>Databricks</span><span>AI Applications</span><span>AI Agents</span><span>ETL / ELT</span><span>Full-Stack</span>
+  </div>
+  <div class="tape tape--paper">
+    <div class="tape__track tape__track--rev">
+      <div class="tape__set"><span>Data Engineering</span><span>Generative AI</span><span>Snowflake</span><span>Databricks</span><span>AI Applications</span><span>AI Agents</span><span>ETL / ELT</span><span>Full-Stack</span></div>
+      <div class="tape__set"><span>Data Engineering</span><span>Generative AI</span><span>Snowflake</span><span>Databricks</span><span>AI Applications</span><span>AI Agents</span><span>ETL / ELT</span><span>Full-Stack</span></div>
     </div>
   </div>
 </div>
@@ -141,7 +179,7 @@
 <section class="sec" id="about">
   <div class="wrap">
     <header class="sec__head" data-rv>
-      <p class="sec__num">01 <i>—</i> About</p>
+      <p class="sec__num"><b>01</b> About</p>
     </header>
 
     <div class="about">
@@ -153,8 +191,14 @@
           <span class="statement__ar" aria-hidden="true"></span>
           <span class="statement__w statement__end">Application</span>
         </h2>
-        <figure class="portrait" data-rv style="--d:120ms">
-          <img src="assets/portrait.jpg" alt="Portrait of Gaurang Ashava" width="960" height="1280" loading="lazy" decoding="async" />
+
+        <figure class="sleeve" data-rv style="--d:120ms">
+          <div class="sleeve__disc" aria-hidden="true">
+            <div class="disc"><div class="disc__spin"><span class="disc__label">Side A</span></div></div>
+          </div>
+          <div class="sleeve__cover">
+            <img src="assets/portrait.jpg" alt="Portrait of Gaurang Ashava" width="960" height="1280" loading="lazy" decoding="async" />
+          </div>
           <figcaption>Gaurang Ashava<i>Data &amp; AI Engineer</i></figcaption>
         </figure>
       </div>
@@ -174,12 +218,26 @@
           end-to-end solutions.
         </p>
 
-        <dl class="cards" data-rv style="--d:200ms">
-          <div class="cards__c"><dt>Currently</dt><dd>Tata Technologies</dd></div>
-          <div class="cards__c"><dt>Based in</dt><dd>Pune, India</dd></div>
-          <div class="cards__c"><dt>Education</dt><dd>B.Tech CSE — Big Data Analytics</dd></div>
-          <div class="cards__c"><dt>Graduated</dt><dd>2025</dd></div>
-        </dl>
+        <div class="term term--fetch" data-rv style="--d:200ms">
+          <div class="term__bar" aria-hidden="true"><i></i><i></i><i></i><span>gaurang@pune: ~ — neofetch</span></div>
+          <div class="fetch">
+<pre class="fetch__logo" aria-hidden="true">   ________
+  /        \
+ /   G  A   \
+ \          /
+  \________/</pre>
+            <div class="fetch__info">
+              <p class="fetch__user" aria-hidden="true"><b>gaurang</b>@<b>pune</b></p>
+              <dl class="cards">
+                <div class="cards__c"><dt>Currently</dt><dd>Tata Technologies</dd></div>
+                <div class="cards__c"><dt>Based in</dt><dd>Pune, India</dd></div>
+                <div class="cards__c"><dt>Education</dt><dd>B.Tech CSE — Big Data Analytics</dd></div>
+                <div class="cards__c"><dt>Graduated</dt><dd>2025</dd></div>
+              </dl>
+              <p class="fetch__sw" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -190,7 +248,7 @@
   <div class="wrap">
     <header class="sec__head sec__head--split" data-rv>
       <div>
-        <p class="sec__num">02 <i>—</i> What I Build</p>
+        <p class="sec__num"><b>02</b> What I Build</p>
         <h2 class="sec__title">Four areas I keep coming back to.</h2>
       </div>
       <p class="sec__lede">Data has to move, be trusted, and end up somewhere a person can actually use it. These are the four layers I work across.</p>
@@ -198,7 +256,7 @@
 
     <div class="build">
       <article class="bcard" data-rv>
-        <p class="bcard__n">01</p>
+        <p class="pick" aria-hidden="true"><span>01</span></p>
         <h3>Data Engineering</h3>
         <p class="bcard__d">Designing reliable data flows from ingestion and transformation to warehousing and consumption.</p>
         <ul class="tags">
@@ -207,7 +265,7 @@
       </article>
 
       <article class="bcard" data-rv style="--d:80ms">
-        <p class="bcard__n">02</p>
+        <p class="pick" aria-hidden="true"><span>02</span></p>
         <h3>Generative AI</h3>
         <p class="bcard__d">Building practical AI applications around enterprise data and real-world workflows.</p>
         <ul class="tags">
@@ -216,7 +274,7 @@
       </article>
 
       <article class="bcard" data-rv style="--d:140ms">
-        <p class="bcard__n">03</p>
+        <p class="pick" aria-hidden="true"><span>03</span></p>
         <h3>AI Applications</h3>
         <p class="bcard__d">Connecting AI, backend logic, data, and user-facing interfaces into complete applications.</p>
         <ul class="tags">
@@ -225,7 +283,7 @@
       </article>
 
       <article class="bcard" data-rv style="--d:200ms">
-        <p class="bcard__n">04</p>
+        <p class="pick" aria-hidden="true"><span>04</span></p>
         <h3>Cloud Data Platforms</h3>
         <p class="bcard__d">Working with modern platforms for enterprise-scale data engineering and analytics.</p>
         <ul class="tags">
@@ -236,33 +294,29 @@
 
     <div class="plats" data-rv>
       <article class="plat">
-        <header class="plat__head">
-          <span class="plat__mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 4v16M4.8 7.8l14.4 8.4M19.2 7.8L4.8 16.2"/></svg>
-          </span>
-          <div>
+        <div class="cd" aria-hidden="true"></div>
+        <div class="plat__body">
+          <header class="plat__head">
             <h3>Snowflake</h3>
             <p>Cloud data warehouse</p>
-          </div>
-        </header>
-        <ul class="plat__list">
-          <li>Cloud Data Warehousing</li><li>Data Engineering</li><li>Data Migration</li><li>Data Transformation</li><li>Enterprise Data</li>
-        </ul>
+          </header>
+          <ul class="plat__list">
+            <li>Cloud Data Warehousing</li><li>Data Engineering</li><li>Data Migration</li><li>Data Transformation</li><li>Enterprise Data</li>
+          </ul>
+        </div>
       </article>
 
       <article class="plat">
-        <header class="plat__head">
-          <span class="plat__mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.5 21 8.2l-9 4.7-9-4.7 9-4.7Z"/><path d="m3 12.4 9 4.7 9-4.7"/><path d="m3 16.6 9 4.7 9-4.7"/></svg>
-          </span>
-          <div>
+        <div class="cd cd--alt" aria-hidden="true"></div>
+        <div class="plat__body">
+          <header class="plat__head">
             <h3>Databricks</h3>
             <p>Lakehouse &amp; processing</p>
-          </div>
-        </header>
-        <ul class="plat__list">
-          <li>Distributed Data Processing</li><li>Lakehouse Concepts</li><li>Data Engineering</li><li>Data Transformation</li><li>Large-scale Data Workloads</li>
-        </ul>
+          </header>
+          <ul class="plat__list">
+            <li>Distributed Data Processing</li><li>Lakehouse Concepts</li><li>Data Engineering</li><li>Data Transformation</li><li>Large-scale Data Workloads</li>
+          </ul>
+        </div>
       </article>
 
       <p class="plats__note">
@@ -278,7 +332,7 @@
   <div class="wrap">
     <header class="sec__head sec__head--split" data-rv>
       <div>
-        <p class="sec__num">03 <i>—</i> Selected Work</p>
+        <p class="sec__num"><b>03</b> Selected Work</p>
         <h2 class="sec__title">Things I've helped build.</h2>
       </div>
       <p class="sec__lede">Enterprise data and AI work — knowledge platforms, document intelligence, and the pipelines underneath them.</p>
@@ -289,7 +343,7 @@
       <!-- ── 01 FEATURED ── -->
       <article class="pcard pcard--feature" data-rv>
         <div class="pcard__body">
-          <p class="pcard__meta"><span class="pcard__n">01</span><span class="pcard__cat">AI / Enterprise Application</span></p>
+          <p class="pcard__meta"><span class="pcard__n">Trk 01</span><span class="pcard__cat">AI / Enterprise Application</span></p>
           <h3 class="pcard__title">Enterprise Knowledge Portal</h3>
           <p class="pcard__desc">
             An enterprise knowledge platform designed to centralize organizational knowledge
@@ -317,28 +371,30 @@
             </div>
           </div>
 
-          <ul class="tags tags--accent">
+          <ul class="tags tags--hot">
             <li>Enterprise Knowledge</li><li>Generative AI</li><li>Knowledge Discovery</li><li>Full-Stack Application</li>
           </ul>
         </div>
 
         <div class="pcard__viz" aria-hidden="true">
-          <div class="kviz">
-            <p class="kviz__cap">knowledge → answer</p>
-            <div class="kviz__files">
-              <span class="kfile"><i></i>policy.pdf</span>
-              <span class="kfile"><i></i>spec.docx</span>
-              <span class="kfile"><i></i>runbook.md</span>
-              <span class="kfile"><i></i>report.xlsx</span>
-            </div>
-            <div class="kviz__rail"><i></i></div>
-            <div class="kviz__index">
-              <span>index</span>
-              <div class="kviz__bars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            </div>
-            <div class="kviz__chat">
-              <p class="kbub kbub--u">Where is the onboarding checklist?</p>
-              <p class="kbub kbub--a"><span class="kcar"></span>Found in <b>runbook.md</b> — 3 related documents</p>
+          <div class="win">
+            <div class="term__bar"><i></i><i></i><i></i><span>knowledge → answer</span></div>
+            <div class="kviz">
+              <div class="kviz__files">
+                <span class="kfile"><i></i>policy.pdf</span>
+                <span class="kfile"><i></i>spec.docx</span>
+                <span class="kfile"><i></i>runbook.md</span>
+                <span class="kfile"><i></i>report.xlsx</span>
+              </div>
+              <div class="kviz__rail"><i></i></div>
+              <div class="kviz__index">
+                <span>index</span>
+                <div class="kviz__bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+              <div class="kviz__chat">
+                <p class="kbub kbub--u">Where is the onboarding checklist?</p>
+                <p class="kbub kbub--a"><span class="kcar"></span>Found in <b>runbook.md</b> — 3 related documents</p>
+              </div>
             </div>
           </div>
         </div>
@@ -347,7 +403,8 @@
       <!-- ── 02 + 03 MEDIUM ── -->
       <article class="pcard pcard--md" data-rv>
         <div class="pcard__body">
-          <p class="pcard__meta"><span class="pcard__n">02</span><span class="pcard__cat">Generative AI / Document Intelligence</span></p>
+          <div class="cd cd--mini" aria-hidden="true"></div>
+          <p class="pcard__meta"><span class="pcard__n">Trk 02</span><span class="pcard__cat">Generative AI / Document Intelligence</span></p>
           <h3 class="pcard__title">AI Legal Contract Intelligence</h3>
           <p class="pcard__desc">
             An AI-powered application designed for legal teams to analyze and track uploaded
@@ -365,7 +422,8 @@
 
       <article class="pcard pcard--md" data-rv style="--d:80ms">
         <div class="pcard__body">
-          <p class="pcard__meta"><span class="pcard__n">03</span><span class="pcard__cat">AI / Recruitment</span><span class="pill">POC</span></p>
+          <div class="cd cd--mini cd--alt" aria-hidden="true"></div>
+          <p class="pcard__meta"><span class="pcard__n">Trk 03</span><span class="pcard__cat">AI / Recruitment</span><span class="pill">POC</span></p>
           <h3 class="pcard__title">AI Resume Matching</h3>
           <p class="pcard__desc">
             Developed a proof of concept for an AI-powered resume matching solution designed
@@ -384,7 +442,7 @@
       <!-- ── 04 WIDE ── -->
       <article class="pcard pcard--wide" data-rv>
         <div class="pcard__body">
-          <p class="pcard__meta"><span class="pcard__n">04</span><span class="pcard__cat">Data Engineering</span></p>
+          <p class="pcard__meta"><span class="pcard__n">Trk 04</span><span class="pcard__cat">Data Engineering</span></p>
           <h3 class="pcard__title">Enterprise Data Migration<span class="pcard__sub">SQL Server → Snowflake</span></h3>
           <p class="pcard__desc">
             Contributed to a major enterprise data migration initiative involving the movement
@@ -418,7 +476,7 @@
   <div class="wrap">
     <header class="sec__head sec__head--split" data-rv>
       <div>
-        <p class="sec__num">04 <i>—</i> AI Experiments</p>
+        <p class="sec__num"><b>04</b> AI Experiments</p>
         <h2 class="sec__title">AI Experiments &amp; Automation</h2>
       </div>
       <p class="sec__lede">Small systems I build to make engineering work faster.</p>
@@ -426,10 +484,14 @@
 
     <div class="lab">
       <article class="lcard" data-rv>
-        <header class="lcard__head">
-          <h3>Bug Detailer</h3>
-          <p class="lcard__type">AI Agent / Developer Productivity</p>
-        </header>
+        <div class="lcard__label">
+          <span class="lcard__side" aria-hidden="true">A</span>
+          <div>
+            <h3>Bug Detailer</h3>
+            <p class="lcard__type">AI Agent / Developer Productivity</p>
+          </div>
+        </div>
+        <div class="lcard__win" aria-hidden="true"><span class="reel"></span><span class="lcard__band"></span><span class="reel"></span></div>
         <p class="lcard__d">
           An AI agent I built to turn a screenshot and a short issue description into a
           structured, detailed bug report.
@@ -447,10 +509,14 @@
       </article>
 
       <article class="lcard" data-rv style="--d:100ms">
-        <header class="lcard__head">
-          <h3>Web App Builder</h3>
-          <p class="lcard__type">AI Agent / Developer Productivity</p>
-        </header>
+        <div class="lcard__label">
+          <span class="lcard__side" aria-hidden="true">B</span>
+          <div>
+            <h3>Web App Builder</h3>
+            <p class="lcard__type">AI Agent / Developer Productivity</p>
+          </div>
+        </div>
+        <div class="lcard__win" aria-hidden="true"><span class="reel"></span><span class="lcard__band"></span><span class="reel"></span></div>
         <p class="lcard__d">
           An AI agent designed to understand existing application code and adapt it according
           to the required application logic.
@@ -467,7 +533,7 @@
 <section class="sec" id="experience">
   <div class="wrap">
     <header class="sec__head" data-rv>
-      <p class="sec__num">05 <i>—</i> Experience</p>
+      <p class="sec__num"><b>05</b> Experience</p>
       <h2 class="sec__title">Where I work &amp; what I've worked on.</h2>
     </header>
 
@@ -553,57 +619,67 @@
   <div class="wrap">
     <header class="sec__head sec__head--split" data-rv>
       <div>
-        <p class="sec__num">06 <i>—</i> Stack</p>
+        <p class="sec__num"><b>06</b> Stack</p>
         <h2 class="sec__title">Technical stack.</h2>
       </div>
       <p class="sec__lede">Grouped by what it's for, rather than ranked by an arbitrary number.</p>
     </header>
 
-    <div class="stack">
-      <section class="sgroup" data-rv>
-        <h3 class="sgroup__h">Data Engineering</h3>
-        <ul class="tags">
-          <li>Python</li><li>SQL</li><li>ETL / ELT</li><li>Data Pipelines</li><li>Data Modeling</li><li>Data Warehousing</li><li>Data Migration</li><li>Data Integration</li>
-        </ul>
-      </section>
+    <div class="term term--stack" data-rv>
+      <div class="term__bar" aria-hidden="true"><i></i><i></i><i></i><span>gaurang@pune: ~/stack</span></div>
+      <div class="stack">
+        <section class="sgroup">
+          <h3 class="sgroup__h"><span class="sr">Data Engineering</span><span aria-hidden="true"><span class="sgroup__ps">$ ls</span> data-engineering/</span></h3>
+          <ul class="tags tags--ls">
+            <li>Python</li><li>SQL</li><li>ETL / ELT</li><li>Data Pipelines</li><li>Data Modeling</li><li>Data Warehousing</li><li>Data Migration</li><li>Data Integration</li>
+          </ul>
+        </section>
 
-      <section class="sgroup" data-rv style="--d:60ms">
-        <h3 class="sgroup__h">AI</h3>
-        <ul class="tags">
-          <li>Generative AI</li><li>LLMs</li><li>AI Applications</li><li>AI Chatbots</li><li>AI Agents</li><li>Prompt Engineering</li><li>Document Intelligence</li>
-        </ul>
-      </section>
+        <section class="sgroup">
+          <h3 class="sgroup__h"><span class="sr">AI</span><span aria-hidden="true"><span class="sgroup__ps">$ ls</span> ai/</span></h3>
+          <ul class="tags tags--ls">
+            <li>Generative AI</li><li>LLMs</li><li>AI Applications</li><li>AI Chatbots</li><li>AI Agents</li><li>Prompt Engineering</li><li>Document Intelligence</li>
+          </ul>
+        </section>
 
-      <section class="sgroup" data-rv style="--d:120ms">
-        <h3 class="sgroup__h">Platforms</h3>
-        <ul class="tags">
-          <li>Snowflake</li><li>Databricks</li><li>Azure Data Factory</li>
-        </ul>
-      </section>
+        <section class="sgroup">
+          <h3 class="sgroup__h"><span class="sr">Platforms</span><span aria-hidden="true"><span class="sgroup__ps">$ ls</span> platforms/</span></h3>
+          <ul class="tags tags--ls">
+            <li>Snowflake</li><li>Databricks</li><li>Azure Data Factory</li>
+          </ul>
+        </section>
 
-      <section class="sgroup" data-rv style="--d:180ms">
-        <h3 class="sgroup__h">Full Stack</h3>
-        <ul class="tags">
-          <li>JavaScript</li><li>React</li><li>Angular</li><li>HTML/CSS</li><li>Backend / APIs</li>
-        </ul>
-      </section>
+        <section class="sgroup">
+          <h3 class="sgroup__h"><span class="sr">Full Stack</span><span aria-hidden="true"><span class="sgroup__ps">$ ls</span> full-stack/</span></h3>
+          <ul class="tags tags--ls">
+            <li>JavaScript</li><li>React</li><li>Angular</li><li>HTML/CSS</li><li>Backend / APIs</li>
+          </ul>
+        </section>
 
-      <section class="sgroup" data-rv style="--d:240ms">
-        <h3 class="sgroup__h">Tools</h3>
-        <ul class="tags">
-          <li>Git</li><li>GitHub</li><li>Jira</li>
-        </ul>
-      </section>
+        <section class="sgroup">
+          <h3 class="sgroup__h"><span class="sr">Tools</span><span aria-hidden="true"><span class="sgroup__ps">$ ls</span> tools/</span></h3>
+          <ul class="tags tags--ls">
+            <li>Git</li><li>GitHub</li><li>Jira</li>
+          </ul>
+        </section>
+
+        <p class="stack__cursor" aria-hidden="true"><span class="t-ps">gaurang@pune:~/stack$</span> <span class="t-cur"></span></p>
+      </div>
     </div>
 
     <div class="certs" data-rv>
       <p class="certs__label">Certifications &amp; Badges</p>
       <div class="certs__grid">
         <article class="cert">
-          <p class="cert__org">Snowflake</p>
-          <h3 class="cert__name">Foundational Badges</h3>
-          <p class="cert__note">Completed foundational Snowflake badges covering core data warehousing and platform concepts.</p>
-          <p class="cert__type">Badge</p>
+          <div class="cert__main">
+            <p class="cert__org">Snowflake</p>
+            <h3 class="cert__name">Foundational Badges</h3>
+            <p class="cert__note">Completed foundational Snowflake badges covering core data warehousing and platform concepts.</p>
+          </div>
+          <div class="cert__stub">
+            <span class="cert__hex" aria-hidden="true"></span>
+            <p class="cert__type">Badge</p>
+          </div>
         </article>
         <p class="cert cert--empty">
           Additional badges and credentials are added here as they're completed.
@@ -615,15 +691,18 @@
 
 <!-- ══════════════ 07 · CONTACT ══════════════ -->
 <section class="sec sec--contact" id="contact">
+  <div class="contact__disc" aria-hidden="true">
+    <div class="disc"><div class="disc__spin"><span class="disc__label">Side B</span></div></div>
+  </div>
   <div class="wrap">
-    <p class="sec__num" data-rv>07 <i>—</i> Contact</p>
-    <h2 class="contact__big" data-rv style="--d:80ms">Let's build something intelligent.</h2>
+    <p class="sec__num" data-rv><b>07</b> Contact</p>
+    <h2 class="contact__big" data-rv style="--d:80ms">Let's build something <span class="neon">intelligent.</span></h2>
     <p class="contact__lede" data-rv style="--d:140ms">
       Have an interesting problem, idea, or opportunity? I'd love to hear about it.
     </p>
 
     <div class="contact__cta" data-rv style="--d:200ms">
-      <a class="btn btn--solid btn--lg" href="mailto:gaurangashava@gmail.com">Get in touch <span class="arw" aria-hidden="true">→</span></a>
+      <a class="btn btn--sun btn--lg" href="mailto:gaurangashava@gmail.com">Get in touch <span class="arw" aria-hidden="true">→</span></a>
     </div>
 
     <dl class="contact__grid" data-rv style="--d:260ms">
@@ -651,6 +730,7 @@
 
 <!-- ══════════════ FOOTER ══════════════ -->
 <footer class="foot">
+  <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="wrap foot__inner">
     <div class="foot__id">
       <p class="foot__name">Gaurang Ashava</p>

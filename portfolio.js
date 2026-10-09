@@ -1,6 +1,6 @@
 /* ============================================================
    Gaurang Ashava — Data & AI Engineer
-   Interactions: nav · menu · reveal · progress · cursor
+   Interactions: nav · menu · reveal · progress · pick cursor
    No dependencies. ~4kb.
    ============================================================ */
 (function () {
@@ -138,7 +138,7 @@
     document.body.appendChild(dot);
 
     var tx = -50, ty = -50, cx = -50, cy = -50, running = false;
-    var hot = 'a, button, .pcard, .bcard, .lcard, .cert, .plat, .tags li';
+    var hot = 'a, button, .pcard, .bcard, .lcard, .cert, .plat, .sleeve, .pipe__s, .tags li';
 
     window.addEventListener('pointermove', function (e) {
       tx = e.clientX; ty = e.clientY;
