@@ -1,6 +1,6 @@
 /* ============================================================
    Gaurang Ashava — Data & AI Engineer
-   nav · menu · reveal · progress · theme toggle · vibe loop
+   nav · menu · reveal · progress · theme toggle · track pages · vibe loop
    No dependencies.
    ============================================================ */
 (function () {
@@ -118,6 +118,96 @@
       });
     }, { threshold: [0, 0.15, 0.35, 0.6, 0.9] });
     each(document.querySelectorAll('main section[id]'), function (s) { so.observe(s); });
+  }
+
+  /* ---------- track pages: #/trk-01 … #/trk-05 ----------
+     A hash route, so the phone's back button / gesture closes the page
+     and every track has a shareable link. */
+  var track = document.getElementById('track');
+  if (track) {
+    var pages = track.querySelectorAll('.tp');
+    var scroller = document.getElementById('trackScroll');
+    var count = document.getElementById('trackCount');
+    var behind = [document.getElementById('main'), nav, document.querySelector('.foot'), document.getElementById('vibe')];
+    var openedFromList = false, returnFocus = null, origin = null, baseTitle = document.title;
+
+    var idFromHash = function () { var m = location.hash.match(/^#\/trk-(\d\d)$/); return m ? m[1] : null; };
+    var setBehind = function (on) { behind.forEach(function (el) { if (el) { if (on) el.setAttribute('inert', ''); else el.removeAttribute('inert'); } }); };
+
+    var show = function (id) {
+      var page = track.querySelector('.tp[data-page="' + id + '"]');
+      if (!page) return false;
+      each(pages, function (p) { p.hidden = p !== page; });
+      track.setAttribute('aria-labelledby', 'tp-' + id);
+      if (count) count.textContent = 'Trk ' + id + ' / ' + (pages.length < 10 ? '0' : '') + pages.length;
+      document.title = page.querySelector('.tp__title').textContent + ' — Gaurang Ashava';
+      scroller.scrollTop = 0;
+      return page;
+    };
+
+    var open = function (id) {
+      var wasOpen = !track.hidden;
+      var page = show(id);
+      if (!page) return;
+      if (wasOpen) {                       /* prev / next: swap content */
+        page.classList.remove('is-swapping'); void page.offsetWidth; page.classList.add('is-swapping');
+        return;
+      }
+      track.hidden = false;
+      track.classList.remove('is-closing', 'is-expanding', 'is-fading-in');
+      if (origin && !reduce) {             /* grow out of the row that was tapped */
+        track.style.setProperty('--from', 'inset(' + origin.top + 'px ' + (window.innerWidth - origin.right) + 'px ' +
+          (window.innerHeight - origin.bottom) + 'px ' + origin.left + 'px round 12px)');
+        track.classList.add('is-expanding');
+      } else if (!reduce) {
+        track.classList.add('is-fading-in');
+      }
+      origin = null;
+      document.body.classList.add('is-locked');
+      setBehind(true);
+      track.focus({ preventScroll: true });
+    };
+
+    var close = function () {
+      if (track.hidden) return;
+      setBehind(false);
+      document.body.classList.remove('is-locked');
+      document.title = baseTitle;
+      var done = function () { track.hidden = true; track.classList.remove('is-closing'); };
+      if (reduce) done(); else { track.classList.add('is-closing'); window.setTimeout(done, 240); }
+      if (returnFocus) { returnFocus.focus({ preventScroll: true }); returnFocus = null; }
+    };
+
+    var route = function () { var id = idFromHash(); if (id) open(id); else close(); };
+
+    /* remember where the tap happened so the page can expand from that row */
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('.trk__link');
+      if (!link) return;
+      var r = link.getBoundingClientRect();
+      origin = { top: r.top, right: r.right, bottom: r.bottom, left: r.left };
+      openedFromList = true;
+      returnFocus = link;
+    });
+
+    track.addEventListener('click', function (e) {
+      var go = e.target.closest('[data-go]');
+      if (go) { location.replace('#/trk-' + go.getAttribute('data-go')); return; }
+      if (e.target.closest('[data-close]')) {
+        if (openedFromList) { openedFromList = false; history.back(); }
+        else {                             /* arrived via a shared link: land on the tracklist */
+          history.replaceState(null, '', location.pathname + location.search + '#work');
+          close();
+          var w = document.getElementById('work'); if (w) w.scrollIntoView();
+        }
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !track.hidden) track.querySelector('[data-close]').click();
+    });
+
+    window.addEventListener('hashchange', route);
+    route();                               /* deep link: /#/trk-03 opens straight away */
   }
 
   /* ---------- vibe: an original drum + bass loop, synthesized live ----------
