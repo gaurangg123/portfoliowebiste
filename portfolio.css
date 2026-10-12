@@ -572,7 +572,7 @@ body.is-locked { overflow: hidden; }
   background: var(--surface);
   box-shadow: 0 0 0 1px var(--line-2), 12px 16px 36px -18px rgba(0, 0, 0, 0.7);
 }
-.sleeve__cover img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 72%; }
+.sleeve__cover img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
 .sleeve figcaption {
   position: relative; z-index: 1;
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px;
@@ -750,7 +750,19 @@ body.is-locked { overflow: hidden; }
 }
 .sheet__x::after { content: ""; position: absolute; inset: -6px; }   /* 44px tap target */
 .sheet__x svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; }
-@media (hover: hover) { .sheet__x:hover { color: var(--ios-label); } }
+.sheet__snd {
+  position: absolute; z-index: 2; right: 56px; top: 10px;
+  display: grid; place-items: center;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--ios-sep); color: var(--ios-label-2);
+}
+.sheet__snd::after { content: ""; position: absolute; inset: -6px; }
+.sheet__snd svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.sheet__snd .snd-on { display: none; }
+.sheet__snd[aria-pressed="true"] { background: var(--red-btn); color: #fff; }
+.sheet__snd[aria-pressed="true"] .snd-on { display: block; }
+.sheet__snd[aria-pressed="true"] .snd-off { display: none; }
+@media (hover: hover) { .sheet__x:hover, .sheet__snd:hover { color: var(--ios-label); } .sheet__snd[aria-pressed="true"]:hover { color: #fff; } }
 
 .sheet__scroll {
   flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
@@ -1345,7 +1357,7 @@ body.is-locked { overflow: hidden; }
     aspect-ratio: 4 / 3; overflow: hidden; border-radius: 6px;
     box-shadow: 0 0 0 1px var(--line-2), 10px 12px 28px -16px rgba(0, 0, 0, 0.6);
   }
-  .side__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; transition: transform 0.6s var(--ease); }
+  .side__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; transition: transform 0.6s var(--ease); }
   .side__photo:hover img { transform: scale(1.03); }
   .side__name { margin-top: 20px; font: 400 clamp(30px, 2.6vw, 40px)/1 var(--f-display); text-transform: uppercase; }
   .side__name b { font-weight: 400; color: var(--red); }

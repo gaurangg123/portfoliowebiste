@@ -1,6 +1,6 @@
 /* ============================================================
    Gaurang Ashava — Data & AI Engineer
-   nav · menu · reveal · progress · theme toggle · track sheets · Papercut
+   nav · menu · reveal · progress · theme toggle · Papercut · track sheets
    No dependencies.
    ============================================================ */
 (function () {
@@ -122,6 +122,88 @@
   window.addEventListener('resize', spy, { passive: true });
   spy();
 
+  /* ---------- Papercut (instrumental) ----------
+     Site-wide from 2:09 via the floating button, or a cue per track when a
+     track opens. The quiet mix is baked into the file (iOS ignores page
+     volume); fades happen where the browser allows. preload="none". */
+  var music = (function () {
+    var el = document.getElementById('papercut');
+    var btn = document.getElementById('vibe');
+    if (!el || !btn) return null;
+    var label = btn.querySelector('.vibe__txt');
+    var snd = document.getElementById('sheetSound');
+    var CUES = { '01': 4.1, '02': 53.25, '03': 82, '04': 118.75, '05': 129 };   /* section entries */
+    var SITE = 129;                                                                /* 2:09 */
+    var siteOn = false, inTrack = false, current = null, raf = null;
+    var trackPref = function () { try { return localStorage.getItem('trackMusic') !== 'off'; } catch (e) { return true; } };
+    var setPref = function (on) { try { localStorage.setItem('trackMusic', on ? 'on' : 'off'); } catch (e) {} };
+
+    var fade = function (to, ms, done) {
+      cancelAnimationFrame(raf);
+      var from = el.volume, t0 = performance.now();
+      if (reduce || ms <= 0) { el.volume = to; if (done) done(); return; }
+      (function step(now) {
+        var k = Math.max(0, Math.min((now - t0) / ms, 1));   /* rAF time can precede t0 */
+        el.volume = Math.max(0, Math.min(1, from + (to - from) * k));
+        if (k < 1) raf = requestAnimationFrame(step); else if (done) done();
+      })(t0);
+    };
+    var seek = function (t) {
+      var go = function () { try { el.currentTime = t; } catch (e) {} };
+      if (el.readyState >= 1) go(); else el.addEventListener('loadedmetadata', go, { once: true });
+    };
+    var playAt = function (t) {               /* must run inside a tap (iOS) */
+      el.volume = 0; seek(t);
+      var p = el.play(); if (p && p.catch) p.catch(function () {});
+      fade(1, 600);
+    };
+    var jumpTo = function (t) { fade(0, 180, function () { seek(t); fade(1, 450); }); };
+    var stop = function () { fade(0, 350, function () { el.pause(); }); };
+
+    var sync = function () {
+      var on = !el.paused;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.setAttribute('aria-label', on ? 'Pause Papercut (instrumental)' : 'Play Papercut (instrumental)');
+      label.textContent = on ? 'Pause Papercut' : 'Play Papercut';
+      if (snd) {
+        snd.setAttribute('aria-pressed', on ? 'true' : 'false');
+        snd.setAttribute('aria-label', on ? 'Mute track music' : 'Play track music');
+      }
+    };
+    el.addEventListener('play', sync);
+    el.addEventListener('pause', sync);
+    el.addEventListener('ended', function () { siteOn = false; sync(); });
+    sync();
+
+    btn.addEventListener('click', function () {
+      if (!el.paused) { siteOn = false; stop(); } else { siteOn = true; playAt(SITE); }
+    });
+    if (snd) snd.addEventListener('click', function () {
+      if (!el.paused) { setPref(false); siteOn = false; stop(); }
+      else { setPref(true); playAt(current && CUES[current] != null ? CUES[current] : SITE); }
+    });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden && !el.paused) { siteOn = false; el.pause(); }
+    });
+
+    return {
+      /* a track was tapped open (or prev/next) */
+      enterTrack: function (id) {
+        current = id; inTrack = true;
+        if (CUES[id] == null) return;
+        if (!el.paused) jumpTo(CUES[id]);
+        else if (trackPref()) playAt(CUES[id]);
+      },
+      /* deep link: no tap, so no sound — just remember which track */
+      setTrack: function (id) { current = id; },
+      leaveTracks: function () {
+        if (!inTrack) return;
+        inTrack = false;
+        if (!siteOn && !el.paused) stop();
+      }
+    };
+  })();
+
   /* ---------- track sheets: #/trk-01 … #/trk-05 ----------
      A hash route, so the phone's back button / gesture closes the sheet
      and every track has a shareable link. */
@@ -141,6 +223,7 @@
       if (!page) return null;
       each(pages, function (p) { p.hidden = p !== page; });
       track.setAttribute('aria-labelledby', 'tp-' + id);
+      if (music) music.setTrack(id);
       document.title = page.querySelector('.tp__title').textContent + ' — Gaurang Ashava';
       scroller.scrollTop = 0;
       return page;
@@ -163,6 +246,7 @@
 
     var close = function () {
       if (track.hidden) return;
+      if (music) music.leaveTracks();
       setBehind(false);
       document.body.classList.remove('is-locked');
       document.title = baseTitle;
@@ -185,11 +269,11 @@
 
     document.addEventListener('click', function (e) {
       var link = e.target.closest('.trk__link');
-      if (link) { openedFromList = true; returnFocus = link; }
+      if (link) { openedFromList = true; returnFocus = link; if (music) music.enterTrack(link.getAttribute('data-trk')); }
     });
     track.addEventListener('click', function (e) {
       var go = e.target.closest('[data-go]');
-      if (go) { location.replace('#/trk-' + go.getAttribute('data-go')); return; }
+      if (go) { if (music) music.enterTrack(go.getAttribute('data-go')); location.replace('#/trk-' + go.getAttribute('data-go')); return; }
       if (e.target.closest('[data-close]')) dismiss();
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !track.hidden) dismiss(); });
@@ -254,30 +338,4 @@
     route();                               /* deep link: /#/trk-03 opens straight away */
   }
 
-  /* ---------- Papercut, from 2:09 (assets/papercut.mp3) ----------
-     preload="none": nothing downloads until the visitor taps. */
-  var vibeBtn = document.getElementById('vibe');
-  var song = document.getElementById('papercut');
-  if (vibeBtn && song) {
-    var START = 129;
-    var label = vibeBtn.querySelector('.vibe__txt');
-    var setUi = function (on) {
-      vibeBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      vibeBtn.setAttribute('aria-label', on ? 'Pause Papercut by Linkin Park' : 'Play Papercut by Linkin Park');
-      label.textContent = on ? 'Pause Papercut' : 'Play Papercut';
-    };
-    song.volume = 0.6;
-    song.addEventListener('loadedmetadata', function () { if (song.currentTime < START - 1) song.currentTime = START; });
-    song.addEventListener('ended', function () { setUi(false); });
-    vibeBtn.addEventListener('click', function () {
-      if (!song.paused) { song.pause(); setUi(false); return; }
-      if (song.ended || song.currentTime < START - 1) { try { song.currentTime = START; } catch (err) {} }
-      var p = song.play();                         /* inside the tap, so iOS allows it */
-      setUi(true);
-      if (p && p.catch) p.catch(function () { setUi(false); });
-    });
-    /* pause when the tab / app goes to the background */
-    document.addEventListener('visibilitychange', function () { if (document.hidden && !song.paused) { song.pause(); setUi(false); } });
-    setUi(false);
-  }
 })();

@@ -62,7 +62,7 @@
 <!-- ══════════════ DESKTOP SIDEBAR (≥1100px only; phones keep the top bar) ══════════════ -->
 <aside class="side" id="side" aria-label="Profile and sections">
   <a class="side__photo" href="#top" aria-label="Back to top">
-    <img src="assets/portrait.jpg" alt="Gaurang Ashava" width="960" height="1280" decoding="async" />
+    <img src="assets/gaurang.jpg" alt="Gaurang Ashava sitting on a grassy hillside with wind turbines behind him" width="900" height="1200" decoding="async" />
   </a>
   <p class="side__name">Gaurang <b>Ashava</b></p>
   <p class="side__role">GET – Data and AI Engineer<span>Tata Technologies · Pune, India</span></p>
@@ -225,7 +225,7 @@
             <div class="disc"><div class="disc__spin"><span class="disc__label">Side A</span></div></div>
           </div>
           <div class="sleeve__cover">
-            <img src="assets/portrait.jpg" alt="Portrait of Gaurang Ashava" width="960" height="1280" loading="lazy" decoding="async" />
+            <img src="assets/gaurang.jpg" alt="Gaurang Ashava sitting on a grassy hillside with wind turbines behind him" width="900" height="1200" loading="lazy" decoding="async" />
           </div>
           <figcaption>Gaurang Ashava<i>Data &amp; AI Engineer</i></figcaption>
         </figure>
@@ -732,6 +732,10 @@
   <div class="sheet" id="sheet">
     <div class="sheet__bar" id="sheetBar">
       <span class="sheet__grab" aria-hidden="true"></span>
+      <button class="sheet__snd" id="sheetSound" type="button" aria-pressed="false" aria-label="Play track music">
+        <svg class="snd-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" /><path d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11" /></svg>
+        <svg class="snd-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" /><path d="M16 9.5l5 5M21 9.5l-5 5" /></svg>
+      </button>
       <button class="sheet__x" type="button" data-close aria-label="Close">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" /></svg>
       </button>
@@ -904,13 +908,13 @@
   </div>
 </div>
 
-<!-- opt-in music: Papercut from 2:09 — nothing downloads until tapped -->
+<!-- Papercut (instrumental, quieter mix): site-wide from 2:09 via the button, or a cue per track when a track opens. Nothing downloads until tapped. -->
 <button class="vibe" id="vibe" type="button" aria-pressed="false">
   <span class="vibe__disc" aria-hidden="true"></span>
   <span class="vibe__txt">Play Papercut</span>
 </button>
 
-<audio id="papercut" src="assets/papercut.mp3#t=129" preload="none"></audio>
+<audio id="papercut" src="assets/papercut-instrumental.mp3" preload="none"></audio>
 
 <script src="portfolio.js" defer></script>
 </body>
