@@ -1256,6 +1256,7 @@ body.is-locked { overflow: hidden; }
   .cols > section + section > .group__h:first-child, .stackw { margin-top: 26px; }
   .edu__row { grid-template-columns: 1fr; align-items: start; }
   .sgroup { grid-template-columns: 1fr; gap: 6px; }
+  .bcard { min-height: 0; }
   .contact__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .foot__inner { grid-template-columns: 1fr 1fr; }
   .foot__id { grid-column: 1 / -1; }
@@ -1263,6 +1264,8 @@ body.is-locked { overflow: hidden; }
 
 @media (max-width: 640px) {
   body { font-size: 16px; }
+  .sec { padding-block: 56px; }
+  .sec__head { margin-bottom: 28px; }
   .nav__brand { font-size: 17px; }
   .vibe__txt { display: none; }
   .vibe { padding: 6px; }
@@ -1334,12 +1337,9 @@ body.is-locked { overflow: hidden; }
    away with the page) and the laptop terminal moves into About.
    ============================================================ */
 @media (max-width: 1099.98px) { .only-desk { display: none !important; } }
-@media (min-width: 1100px) {
-  .only-mob { display: none !important; }
-
-  /* hero: words left, album sleeve over the striped sun right.
-     Sized by height as well as width so the whole hero (and a peek of
-     the tape below it) fits common laptop screens (1366×768, 125% scaling). */
+/* Non-phone layouts (≥981px): size by screen height as well as width,
+   so sections never balloon on short laptop screens (125% scaling). */
+@media (min-width: 981px) {
   .hero {
     min-height: calc(100vh - 46px); min-height: calc(100svh - 46px);
     padding-top: calc(76px + 3vh); padding-bottom: 3vh;
@@ -1351,6 +1351,50 @@ body.is-locked { overflow: hidden; }
   .hero__cta { margin-top: 3vh; }
   .meta { margin-top: 3.4vh; padding-top: 1.6vh; }
 
+  /* every section: rhythm and type scale with the screen height too,
+     so laptops at 125% scaling don't get 2-screen-tall sections */
+  .sec { padding-block: clamp(52px, 9vh, 104px); }
+  .sec__head { margin-bottom: clamp(24px, 5vh, 56px); }
+  .sec__title { margin-top: 1.4vh; font-size: clamp(30px, min(4.2vw, 7.6vh), 60px); }
+  .sec__lede { font-size: clamp(15px, min(1.4vw, 2.4vh), 17px); }
+
+  /* about: statement + laptop terminal left, story right */
+  .about { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 5vw, 72px); }
+  .statement { font-size: clamp(36px, min(4.4vw, 8.6vh), 68px); }
+  .statement__ar { height: clamp(14px, 2.6vh, 26px); margin-block: 0.8vh; }
+  .about__lead { font-size: clamp(18px, min(1.8vw, 3.1vh), 24px); }
+  .about__body { margin-top: 2vh; }
+  .term--fetch { margin-top: 3.4vh; }
+
+  /* what I build: compact 2×2 */
+  .build { gap: 14px; }
+  .bcard { min-height: 0; padding: clamp(18px, 3vh, 28px) clamp(16px, 1.6vw, 24px); }
+  .bcard h3 { font-size: clamp(21px, min(1.9vw, 3.6vh), 28px); margin-top: 1.6vh; }
+  .bcard__d { font-size: 14.5px; margin: 1.2vh 0 2.4vh; }
+  .plats { margin-top: 14px; }
+
+  /* selected work / experiments / experience / stack / next / contact */
+  .trk__link { min-height: 0; padding-block: clamp(12px, 2.2vh, 20px); }
+  .lcard__win { margin-top: 1.8vh; }
+  .lcard__d { margin-top: 1.8vh; }
+  .job { padding-block: clamp(20px, 3.8vh, 42px); }
+  .edu { margin-top: clamp(28px, 5vh, 56px); }
+  .sgroup { padding-block: clamp(9px, 1.6vh, 14px); }
+  .certs { margin-top: clamp(28px, 5vh, 56px); }
+  .setlist { padding-block: clamp(22px, 4.4vh, 48px); }
+  .setlist__list li { padding-block: clamp(9px, 1.7vh, 14px); }
+  .setlist__list b { font-size: clamp(24px, min(3vw, 5.2vh), 38px); }
+  .contact__big { font-size: clamp(44px, min(7vw, 12.5vh), 108px); }
+  .contact__lede { margin-top: 2.6vh; }
+  .contact__cta { margin-top: 3.4vh; }
+  .contact__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(28px, 6vh, 64px); }
+}
+@media (min-width: 1100px) {
+  .only-mob { display: none !important; }
+
+  /* hero: words left, album sleeve over the striped sun right.
+     Sized by height as well as width so the whole hero (and a peek of
+     the tape below it) fits common laptop screens (1366×768, 125% scaling). */
   .scene { padding: 3vh 0 0; }
   .sun { left: auto; right: -4%; top: 0; transform: none; width: min(62%, 52vh, 360px); }
   .sleeve--hero { width: min(70%, 54vh, 400px); margin: 0 0 0 2%; transform: rotate(-2deg); }
@@ -1366,12 +1410,7 @@ body.is-locked { overflow: hidden; }
   .sleeve--hero .disc__label { transform: translateY(-120%) translateX(26%); }
   .sleeve--hero figcaption { transform: rotate(2deg); }
 
-  /* about: statement + laptop terminal left, story right */
-  .about { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
-  .statement { font-size: clamp(42px, 4.6vw, 68px); }
-  .laptop--about { width: 100%; max-width: 460px; margin: 40px 0 0; }
-
-  .contact__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .laptop--about { width: 100%; max-width: min(460px, 64vh); margin: 4vh 0 0; }
 }
 
 /* ============================================================

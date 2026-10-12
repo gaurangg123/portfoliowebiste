@@ -106,7 +106,7 @@
 
   /* ---------- active section in the top bar ----------
      The active section is the one crossing a line 35% down the viewport. */
-  var linkFor = { about: 'about', build: 'about', work: 'work', lab: 'work', experience: 'experience', stack: 'stack', next: 'stack', contact: 'contact' };
+  var linkFor = { about: 'about', build: 'about', work: 'work', lab: 'work', experience: 'experience', stack: 'stack', contact: 'contact' };   /* 'next' has no top-bar link */
   var navLinks = document.querySelectorAll('.nav__links a');
   var secs = document.querySelectorAll('main section[id]');
   var spyQueued = false;
@@ -150,16 +150,9 @@
       var go = function () { try { el.currentTime = t; } catch (e) {} };
       if (el.readyState >= 1) go(); else el.addEventListener('loadedmetadata', go, { once: true });
     };
-    var playAt = function (t) {               /* must run inside a tap (iOS) */
-      el.volume = 0; seek(t);
-      var p = el.play(); if (p && p.catch) p.catch(function () {});
-      fade(1, 600);
-    };
-    var jumpTo = function (t) { fade(0, 180, function () { seek(t); fade(1, 450); }); };
-    var stop = function () { fade(0, 350, function () { el.pause(); }); };
-
+    /* `on` is what the visitor asked for; the element may still be fading out */
+    var on = false;
     var sync = function () {
-      var on = !el.paused;
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
       btn.setAttribute('aria-label', on ? 'Pause Papercut (instrumental)' : 'Play Papercut (instrumental)');
       label.textContent = on ? 'Pause Papercut' : 'Play Papercut';
@@ -168,20 +161,29 @@
         snd.setAttribute('aria-label', on ? 'Mute track music' : 'Play track music');
       }
     };
-    el.addEventListener('play', sync);
-    el.addEventListener('pause', sync);
-    el.addEventListener('ended', function () { siteOn = false; sync(); });
+    var playAt = function (t) {               /* must run inside a tap (iOS) */
+      on = true; sync();
+      el.volume = 0; seek(t);
+      var p = el.play(); if (p && p.catch) p.catch(function () { on = false; sync(); });
+      fade(1, 600);
+    };
+    var jumpTo = function (t) { fade(0, 180, function () { seek(t); fade(1, 450); }); };
+    var stop = function () {                   /* UI flips at once, audio fades out */
+      on = false; sync();
+      fade(0, 350, function () { if (!on) el.pause(); });
+    };
+    el.addEventListener('ended', function () { on = false; siteOn = false; sync(); });
     sync();
 
     btn.addEventListener('click', function () {
-      if (!el.paused) { siteOn = false; stop(); } else { siteOn = true; playAt(SITE); }
+      if (on) { siteOn = false; stop(); } else { siteOn = true; playAt(SITE); }
     });
     if (snd) snd.addEventListener('click', function () {
-      if (!el.paused) { setPref(false); siteOn = false; stop(); }
+      if (on) { setPref(false); siteOn = false; stop(); }
       else { setPref(true); playAt(current && CUES[current] != null ? CUES[current] : SITE); }
     });
     document.addEventListener('visibilitychange', function () {
-      if (document.hidden && !el.paused) { siteOn = false; el.pause(); }
+      if (document.hidden && on) { on = false; siteOn = false; sync(); el.pause(); }
     });
 
     return {
@@ -189,7 +191,7 @@
       enterTrack: function (id) {
         current = id; inTrack = true;
         if (CUES[id] == null) return;
-        if (!el.paused) jumpTo(CUES[id]);
+        if (on) jumpTo(CUES[id]);
         else if (trackPref()) playAt(CUES[id]);
       },
       /* deep link: no tap, so no sound — just remember which track */
@@ -197,7 +199,7 @@
       leaveTracks: function () {
         if (!inTrack) return;
         inTrack = false;
-        if (!siteOn && !el.paused) stop();
+        if (!siteOn && on) stop();
       }
     };
   })();
