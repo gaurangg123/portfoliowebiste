@@ -39,7 +39,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="portfolio.css" />
+<link rel="stylesheet" href="portfolio.css?v=10" />
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Gaurang Ashava","jobTitle":"Data & AI Engineer","url":"https://gaurangg123.github.io/portfoliowebiste/","email":"mailto:gaurangashava@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Pune","addressCountry":"IN"},"worksFor":{"@type":"Organization","name":"Tata Technologies"},"alumniOf":{"@type":"CollegeOrUniversity","name":"SRM Institute of Science and Technology"},"sameAs":["https://www.linkedin.com/in/gaurang-ashava/","https://github.com/gaurangg123"]}
@@ -726,11 +726,11 @@
   <div class="sheet" id="sheet">
     <div class="sheet__bar" id="sheetBar">
       <span class="sheet__grab" aria-hidden="true"></span>
-      <button class="sheet__snd" id="sheetSound" type="button" aria-pressed="false" aria-label="Play track music">
+      <button class="sheet__snd" id="sheetSound" type="button" aria-pressed="false" aria-label="Play music" title="Music on / off">
         <svg class="snd-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" /><path d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11" /></svg>
         <svg class="snd-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" /><path d="M16 9.5l5 5M21 9.5l-5 5" /></svg>
       </button>
-      <button class="sheet__x" type="button" data-close aria-label="Close">
+      <button class="sheet__x" type="button" data-close aria-label="Close" title="Close">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" /></svg>
       </button>
     </div>
@@ -902,14 +902,14 @@
   </div>
 </div>
 
-<!-- Papercut (instrumental, quieter mix): site-wide from 2:09 via the button, or a cue per track when a track opens. Nothing downloads until tapped. -->
+<!-- Papercut (instrumental, quiet mix): one continuous loop, started by the button (2:09) or by opening a track (that track's part). Nothing downloads until tapped. -->
 <button class="vibe" id="vibe" type="button" aria-pressed="false">
   <span class="vibe__disc" aria-hidden="true"></span>
   <span class="vibe__txt">Play Papercut</span>
 </button>
 
-<audio id="papercut" src="assets/papercut-instrumental.mp3" preload="none"></audio>
+<audio id="papercut" src="assets/papercut-instrumental.mp3?v=2" preload="none"></audio>
 
-<script src="portfolio.js" defer></script>
+<script src="portfolio.js?v=10" defer></script>
 </body>
 </html>

@@ -43,15 +43,15 @@
 
   /* ---------- nav stuck state + progress ---------- */
   var nav = document.getElementById('nav');
-  var bar = document.querySelector('.progress i');
+  var progressBar = document.querySelector('.progress i');
   var ticking = false;
   function onFrame() {
     ticking = false;
     var y = window.pageYOffset || root.scrollTop;
     if (nav) nav.classList.toggle('is-stuck', y > 24);
-    if (bar) {
+    if (progressBar) {
       var max = root.scrollHeight - window.innerHeight;
-      bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(y / max, 1) : 0) + ')';
+      progressBar.style.transform = 'scaleX(' + (max > 0 ? Math.min(y / max, 1) : 0) + ')';
     }
   }
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(onFrame); } }
@@ -121,20 +121,27 @@
   spy();
 
   /* ---------- Papercut (instrumental) ----------
-     Site-wide from 2:09 via the floating button, or a cue per track when a
-     track opens. The quiet mix is baked into the file (iOS ignores page
-     volume); fades happen where the browser allows. preload="none". */
+     One continuous background loop at a low level:
+     - the file itself is mixed quiet (iOS ignores page volume); other
+       browsers are capped lower still (VOL)
+     - the first start (floating button, or opening a track) eases in
+       slowly so it never startles; opening a track starts at that
+       track's part of the song
+     - switching or closing tracks never cuts, seeks or fades — the music
+       simply carries on until the visitor pauses it
+     preload="none": nothing downloads until a tap. */
   var music = (function () {
     var el = document.getElementById('papercut');
     var btn = document.getElementById('vibe');
     if (!el || !btn) return null;
     var label = btn.querySelector('.vibe__txt');
     var snd = document.getElementById('sheetSound');
+    var VOL = 0.7;
     var CUES = { '01': 4.1, '02': 53.25, '03': 82, '04': 118.75, '05': 129 };   /* section entries */
     var SITE = 129;                                                                /* 2:09 */
-    var siteOn = false, inTrack = false, current = null, raf = null;
+    var on = false, current = null, raf = null;   /* `on` = what the visitor asked for */
     var trackPref = function () { try { return localStorage.getItem('trackMusic') !== 'off'; } catch (e) { return true; } };
-    var setPref = function (on) { try { localStorage.setItem('trackMusic', on ? 'on' : 'off'); } catch (e) {} };
+    var setPref = function (v) { try { localStorage.setItem('trackMusic', v ? 'on' : 'off'); } catch (e) {} };
 
     var fade = function (to, ms, done) {
       cancelAnimationFrame(raf);
@@ -142,65 +149,52 @@
       if (reduce || ms <= 0) { el.volume = to; if (done) done(); return; }
       (function step(now) {
         var k = Math.max(0, Math.min((now - t0) / ms, 1));   /* rAF time can precede t0 */
-        el.volume = Math.max(0, Math.min(1, from + (to - from) * k));
+        el.volume = Math.max(0, Math.min(1, from + (to - from) * k * k));   /* ease-in: gentle start */
         if (k < 1) raf = requestAnimationFrame(step); else if (done) done();
       })(t0);
     };
-    var seek = function (t) {
-      var go = function () { try { el.currentTime = t; } catch (e) {} };
-      if (el.readyState >= 1) go(); else el.addEventListener('loadedmetadata', go, { once: true });
-    };
-    /* `on` is what the visitor asked for; the element may still be fading out */
-    var on = false;
     var sync = function () {
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
       btn.setAttribute('aria-label', on ? 'Pause Papercut (instrumental)' : 'Play Papercut (instrumental)');
       label.textContent = on ? 'Pause Papercut' : 'Play Papercut';
       if (snd) {
         snd.setAttribute('aria-pressed', on ? 'true' : 'false');
-        snd.setAttribute('aria-label', on ? 'Mute track music' : 'Play track music');
+        snd.setAttribute('aria-label', on ? 'Pause music' : 'Play music');
       }
     };
-    var playAt = function (t) {               /* must run inside a tap (iOS) */
+    var start = function (t) {                 /* must run inside a tap (iOS) */
       on = true; sync();
-      el.volume = 0; seek(t);
+      var fresh = el.paused;
+      if (fresh) {
+        el.volume = 0;
+        var go = function () { try { el.currentTime = t; } catch (e) {} };
+        if (el.readyState >= 1) go(); else el.addEventListener('loadedmetadata', go, { once: true });
+      }
       var p = el.play(); if (p && p.catch) p.catch(function () { on = false; sync(); });
-      fade(1, 600);
+      fade(VOL, fresh ? 2500 : 400);
     };
-    var jumpTo = function (t) { fade(0, 180, function () { seek(t); fade(1, 450); }); };
-    var stop = function () {                   /* UI flips at once, audio fades out */
-      on = false; sync();
-      fade(0, 350, function () { if (!on) el.pause(); });
-    };
-    el.addEventListener('ended', function () { on = false; siteOn = false; sync(); });
+    var stop = function () { on = false; sync(); fade(0, 500, function () { if (!on) el.pause(); }); };
+
+    el.loop = true;
+    el.addEventListener('ended', function () { on = false; sync(); });
     sync();
 
-    btn.addEventListener('click', function () {
-      if (on) { siteOn = false; stop(); } else { siteOn = true; playAt(SITE); }
-    });
+    btn.addEventListener('click', function () { if (on) stop(); else start(current && CUES[current] != null ? CUES[current] : SITE); });
     if (snd) snd.addEventListener('click', function () {
-      if (on) { setPref(false); siteOn = false; stop(); }
-      else { setPref(true); playAt(current && CUES[current] != null ? CUES[current] : SITE); }
+      if (on) { setPref(false); stop(); }
+      else { setPref(true); start(current && CUES[current] != null ? CUES[current] : SITE); }
     });
     document.addEventListener('visibilitychange', function () {
-      if (document.hidden && on) { on = false; siteOn = false; sync(); el.pause(); }
+      if (document.hidden && on) { on = false; sync(); el.pause(); }
     });
 
     return {
-      /* a track was tapped open (or prev/next) */
+      /* a track was tapped open: start its part only if nothing is playing */
       enterTrack: function (id) {
-        current = id; inTrack = true;
-        if (CUES[id] == null) return;
-        if (on) jumpTo(CUES[id]);
-        else if (trackPref()) playAt(CUES[id]);
+        current = id;
+        if (!on && CUES[id] != null && trackPref()) start(CUES[id]);
       },
-      /* deep link: no tap, so no sound — just remember which track */
-      setTrack: function (id) { current = id; },
-      leaveTracks: function () {
-        if (!inTrack) return;
-        inTrack = false;
-        if (!siteOn && on) stop();
-      }
+      setTrack: function (id) { current = id; }
     };
   })();
 
@@ -246,7 +240,6 @@
 
     var close = function () {
       if (track.hidden) return;
-      if (music) music.leaveTracks();
       setBehind(false);
       document.body.classList.remove('is-locked');
       document.title = baseTitle;
@@ -273,7 +266,7 @@
     });
     track.addEventListener('click', function (e) {
       var go = e.target.closest('[data-go]');
-      if (go) { if (music) music.enterTrack(go.getAttribute('data-go')); location.replace('#/trk-' + go.getAttribute('data-go')); return; }
+      if (go) { location.replace('#/trk-' + go.getAttribute('data-go')); return; }
       if (e.target.closest('[data-close]')) dismiss();
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !track.hidden) dismiss(); });
@@ -300,21 +293,21 @@
     };
 
     /* 1. drag the header down (touch, pen or mouse) */
-    var bar = document.getElementById('sheetBar');
+    var sheetBar = document.getElementById('sheetBar');
     var startY = null, dy = 0;
-    bar.addEventListener('pointerdown', function (e) {
+    sheetBar.addEventListener('pointerdown', function (e) {
       if (e.target.closest('button') || e.button > 0) return;
       startY = e.clientY; dy = 0;
-      try { bar.setPointerCapture(e.pointerId); } catch (err) {}
+      try { sheetBar.setPointerCapture(e.pointerId); } catch (err) {}
     });
-    bar.addEventListener('pointermove', function (e) {
+    sheetBar.addEventListener('pointermove', function (e) {
       if (startY === null) return;
       dy = Math.max(0, e.clientY - startY);
       if (dy > 2) follow(dy);
     });
     var endDrag = function () { if (startY === null) return; startY = null; release(dy); };
-    bar.addEventListener('pointerup', endDrag);
-    bar.addEventListener('pointercancel', endDrag);
+    sheetBar.addEventListener('pointerup', endDrag);
+    sheetBar.addEventListener('pointercancel', endDrag);
 
     /* 2. laptops & desktops: keep scrolling up at the top of a sheet
        (two-finger trackpad swipe or mouse wheel) to pull it down */
