@@ -15,27 +15,27 @@
   if (yr) yr.textContent = new Date().getFullYear();
 
   /* ---------- theme: system by default, toggle remembers choice ---------- */
-  var toggle = document.getElementById('themeToggle');
+  var toggles = document.querySelectorAll('.js-theme');   /* header + desktop sidebar */
   var themeMeta = document.getElementById('themeColor');
   var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
 
   function applyTheme(t) {
     root.setAttribute('data-theme', t);
     if (themeMeta) themeMeta.setAttribute('content', t === 'dark' ? '#0F0E0D' : '#ECE5D7');
-    if (toggle) toggle.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    each(toggles, function (b) { b.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'); });
   }
   function savedTheme() {
     try { return localStorage.getItem('theme'); } catch (e) { return null; }
   }
   applyTheme(root.getAttribute('data-theme') || (systemDark.matches ? 'dark' : 'light'));
 
-  if (toggle) {
-    toggle.addEventListener('click', function () {
+  each(toggles, function (b) {
+    b.addEventListener('click', function () {
       var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       applyTheme(next);
       try { localStorage.setItem('theme', next); } catch (e) {}
     });
-  }
+  });
   /* follow the device while the visitor hasn't picked a theme */
   var onSystem = function (e) { if (!savedTheme()) applyTheme(e.matches ? 'dark' : 'light'); };
   if (systemDark.addEventListener) systemDark.addEventListener('change', onSystem);
@@ -104,21 +104,23 @@
   var hero = document.querySelector('.hero');
   if (hero) requestAnimationFrame(function () { requestAnimationFrame(function () { hero.classList.add('in'); }); });
 
-  /* ---------- active section in nav ---------- */
+  /* ---------- active section: top bar (grouped) + desktop sidebar (1:1) ----------
+     The active section is the one crossing a line 35% down the viewport. */
   var linkFor = { about: 'about', build: 'about', work: 'work', lab: 'work', experience: 'experience', stack: 'stack', next: 'stack', contact: 'contact' };
   var navLinks = document.querySelectorAll('.nav__links a');
-  if (navLinks.length && 'IntersectionObserver' in window) {
-    var ratios = {};
-    var so = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { ratios[e.target.id] = e.intersectionRatio; });
-      var best = null, bestR = 0;
-      Object.keys(ratios).forEach(function (id) { if (ratios[id] > bestR) { bestR = ratios[id]; best = id; } });
-      each(navLinks, function (a) {
-        a.classList.toggle('is-active', !!linkFor[best] && a.getAttribute('href') === '#' + linkFor[best]);
-      });
-    }, { threshold: [0, 0.15, 0.35, 0.6, 0.9] });
-    each(document.querySelectorAll('main section[id]'), function (s) { so.observe(s); });
-  }
+  var sideLinks = document.querySelectorAll('.side__nav a');
+  var secs = document.querySelectorAll('main section[id]');
+  var spyQueued = false;
+  var spy = function () {
+    spyQueued = false;
+    var line = window.innerHeight * 0.35, current = null;
+    each(secs, function (s) { if (s.getBoundingClientRect().top <= line) current = s.id; });
+    each(navLinks, function (a) { a.classList.toggle('is-active', !!linkFor[current] && a.getAttribute('href') === '#' + linkFor[current]); });
+    each(sideLinks, function (a) { a.classList.toggle('is-active', a.getAttribute('href') === '#' + current); });
+  };
+  window.addEventListener('scroll', function () { if (!spyQueued) { spyQueued = true; requestAnimationFrame(spy); } }, { passive: true });
+  window.addEventListener('resize', spy, { passive: true });
+  spy();
 
   /* ---------- track sheets: #/trk-01 … #/trk-05 ----------
      A hash route, so the phone's back button / gesture closes the sheet
@@ -128,8 +130,7 @@
     var sheet = document.getElementById('sheet');
     var pages = track.querySelectorAll('.tp');
     var scroller = document.getElementById('trackScroll');
-    var count = document.getElementById('trackCount');
-    var behind = [document.getElementById('main'), nav, document.querySelector('.foot'), document.getElementById('vibe')];
+    var behind = [document.getElementById('main'), nav, document.getElementById('side'), document.querySelector('.foot'), document.getElementById('vibe')];
     var openedFromList = false, returnFocus = null, baseTitle = document.title;
 
     var idFromHash = function () { var m = location.hash.match(/^#\/trk-(\d\d)$/); return m ? m[1] : null; };
@@ -140,7 +141,6 @@
       if (!page) return null;
       each(pages, function (p) { p.hidden = p !== page; });
       track.setAttribute('aria-labelledby', 'tp-' + id);
-      if (count) count.textContent = 'Trk ' + id + ' of ' + (pages.length < 10 ? '0' : '') + pages.length;
       document.title = page.querySelector('.tp__title').textContent + ' — Gaurang Ashava';
       scroller.scrollTop = 0;
       return page;
