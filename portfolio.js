@@ -15,7 +15,7 @@
   if (yr) yr.textContent = new Date().getFullYear();
 
   /* ---------- theme: system by default, toggle remembers choice ---------- */
-  var toggles = document.querySelectorAll('.js-theme');   /* header + desktop sidebar */
+  var toggles = document.querySelectorAll('.js-theme');
   var themeMeta = document.getElementById('themeColor');
   var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -104,11 +104,10 @@
   var hero = document.querySelector('.hero');
   if (hero) requestAnimationFrame(function () { requestAnimationFrame(function () { hero.classList.add('in'); }); });
 
-  /* ---------- active section: top bar (grouped) + desktop sidebar (1:1) ----------
+  /* ---------- active section in the top bar ----------
      The active section is the one crossing a line 35% down the viewport. */
   var linkFor = { about: 'about', build: 'about', work: 'work', lab: 'work', experience: 'experience', stack: 'stack', next: 'stack', contact: 'contact' };
   var navLinks = document.querySelectorAll('.nav__links a');
-  var sideLinks = document.querySelectorAll('.side__nav a');
   var secs = document.querySelectorAll('main section[id]');
   var spyQueued = false;
   var spy = function () {
@@ -116,7 +115,6 @@
     var line = window.innerHeight * 0.35, current = null;
     each(secs, function (s) { if (s.getBoundingClientRect().top <= line) current = s.id; });
     each(navLinks, function (a) { a.classList.toggle('is-active', !!linkFor[current] && a.getAttribute('href') === '#' + linkFor[current]); });
-    each(sideLinks, function (a) { a.classList.toggle('is-active', a.getAttribute('href') === '#' + current); });
   };
   window.addEventListener('scroll', function () { if (!spyQueued) { spyQueued = true; requestAnimationFrame(spy); } }, { passive: true });
   window.addEventListener('resize', spy, { passive: true });
@@ -212,7 +210,7 @@
     var sheet = document.getElementById('sheet');
     var pages = track.querySelectorAll('.tp');
     var scroller = document.getElementById('trackScroll');
-    var behind = [document.getElementById('main'), nav, document.getElementById('side'), document.querySelector('.foot'), document.getElementById('vibe')];
+    var behind = [document.getElementById('main'), nav, document.querySelector('.foot'), document.getElementById('vibe')];
     var openedFromList = false, returnFocus = null, baseTitle = document.title;
 
     var idFromHash = function () { var m = location.hash.match(/^#\/trk-(\d\d)$/); return m ? m[1] : null; };

@@ -59,37 +59,6 @@
 <div class="progress" aria-hidden="true"><i></i></div>
 <div class="grain" aria-hidden="true"></div>
 
-<!-- ══════════════ DESKTOP SIDEBAR (≥1100px only; phones keep the top bar) ══════════════ -->
-<aside class="side" id="side" aria-label="Profile and sections">
-  <a class="side__photo" href="#top" aria-label="Back to top">
-    <img src="assets/gaurang.jpg" alt="Gaurang Ashava sitting on a grassy hillside with wind turbines behind him" width="900" height="1200" decoding="async" />
-  </a>
-  <p class="side__name">Gaurang <b>Ashava</b></p>
-  <p class="side__role">GET – Data and AI Engineer<span>Tata Technologies · Pune, India</span></p>
-  <nav class="side__nav" aria-label="Sections">
-    <a href="#about"><i>01</i>About</a>
-    <a href="#build"><i>02</i>What I Build</a>
-    <a href="#work"><i>03</i>Selected Work</a>
-    <a href="#lab"><i>04</i>AI Experiments</a>
-    <a href="#experience"><i>05</i>Experience</a>
-    <a href="#stack"><i>06</i>Stack</a>
-    <a href="#next"><i>07</i>Next Up</a>
-    <a href="#contact"><i>08</i>Contact</a>
-  </nav>
-  <div class="side__foot">
-    <a class="btn btn--red btn--sm" href="#contact">Let's talk <span class="arw" aria-hidden="true">→</span></a>
-    <button class="iconbtn js-theme" type="button" aria-label="Switch to dark mode">
-      <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z" /></svg>
-      <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" /><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" /></svg>
-    </button>
-  </div>
-  <p class="side__links">
-    <a href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    <a href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer">GitHub</a>
-    <a href="mailto:gaurangashava@gmail.com">Email</a>
-  </p>
-</aside>
-
 <!-- ══════════════ NAV ══════════════ -->
 <header class="nav" id="nav">
   <div class="nav__inner">
@@ -172,7 +141,7 @@
     <div class="hero__aside" data-rv style="--d:200ms">
       <div class="scene">
         <div class="sun" aria-hidden="true"></div>
-        <div class="laptop" role="img" aria-label="Data flow: data to pipelines to Snowflake to AI to application">
+        <div class="laptop only-mob" role="img" aria-label="Data flow: data to pipelines to Snowflake to AI to application">
           <div class="laptop__screen">
             <div class="term" aria-hidden="true">
               <div class="term__bar"><i></i><i></i><i></i><span>gaurang: ~/flow</span></div>
@@ -188,6 +157,15 @@
           </div>
           <div class="laptop__base"><i></i></div>
         </div>
+        <figure class="sleeve sleeve--hero only-desk">
+          <div class="sleeve__disc" aria-hidden="true">
+            <div class="disc"><div class="disc__spin"><span class="disc__label">Side A</span></div></div>
+          </div>
+          <div class="sleeve__cover">
+            <img src="assets/gaurang.jpg" alt="Gaurang Ashava sitting on a grassy hillside with wind turbines behind him" width="900" height="1200" loading="lazy" decoding="async" />
+          </div>
+          <figcaption>Gaurang Ashava<i>Data &amp; AI Engineer</i></figcaption>
+        </figure>
       </div>
     </div>
   </div>
@@ -220,7 +198,7 @@
           <span class="statement__end">Application</span>
         </h2>
 
-        <figure class="sleeve" data-rv style="--d:120ms">
+        <figure class="sleeve only-mob" data-rv style="--d:120ms">
           <div class="sleeve__disc" aria-hidden="true">
             <div class="disc"><div class="disc__spin"><span class="disc__label">Side A</span></div></div>
           </div>
@@ -229,6 +207,22 @@
           </div>
           <figcaption>Gaurang Ashava<i>Data &amp; AI Engineer</i></figcaption>
         </figure>
+        <div class="laptop laptop--about only-desk" data-rv style="--d:120ms" role="img" aria-label="Data flow: data to pipelines to Snowflake to AI to application">
+          <div class="laptop__screen">
+            <div class="term" aria-hidden="true">
+              <div class="term__bar"><i></i><i></i><i></i><span>gaurang: ~/flow</span></div>
+              <div class="term__body">
+                <p class="t-cmd"><span class="t-ps">gaurang:~$</span> ./pipeline --run</p>
+                <p class="t-ln" style="--i:0"><span class="t-k">[01]</span><b>Data</b><em>sources &amp; systems</em><span class="t-ok">ok</span></p>
+                <p class="t-ln" style="--i:1"><span class="t-k">[02]</span><b>Pipelines</b><em>etl / elt</em><span class="t-ok">ok</span></p>
+                <p class="t-ln" style="--i:2"><span class="t-k">[03]</span><b>Snowflake</b><em>warehouse</em><span class="t-ok">ok</span></p>
+                <p class="t-ln" style="--i:3"><span class="t-k">[04]</span><b>AI</b><em>generative layer</em><span class="t-ok">ok</span></p>
+                <p class="t-ln t-end" style="--i:4"><span class="t-k">[05]</span><b>Application</b><em>people use it</em><span class="t-cur"></span></p>
+              </div>
+            </div>
+          </div>
+          <div class="laptop__base"><i></i></div>
+        </div>
       </div>
 
       <div class="about__right">
