@@ -598,6 +598,14 @@
           </div>
           <div class="cert__stub"><p class="cert__type">Badge</p></div>
         </article>
+        <article class="cert">
+          <div class="cert__main">
+            <p class="cert__org">Snowflake</p>
+            <h3 class="cert__name">Snowflake Ascent</h3>
+            <p class="cert__note">Hands-on training in the AI Data Cloud, building more practical Snowflake skills.</p>
+          </div>
+          <div class="cert__stub"><p class="cert__type">Training</p></div>
+        </article>
         <p class="cert cert--empty">
           Additional badges and credentials are added here as they're completed.
         </p>
@@ -709,7 +717,7 @@
         <img class="cover" src="assets/tracks/trk-01.webp" alt="Cover art: documents and a chat bubble inside a red hexagon" width="800" height="800" loading="lazy" decoding="async" />
         <div>
           <p class="tp__meta"><span class="stamp">Trk 01</span><span class="tp__cat">AI / Enterprise Application</span></p>
-          <h2 class="tp__title" id="tp-01" data-text="Enterprise Knowledge Portal">Enterprise Knowledge Portal</h2>
+          <h2 class="tp__title" id="tp-01">Enterprise Knowledge Portal</h2>
           <p class="tp__lede">An enterprise knowledge platform designed to centralize organizational knowledge and make information easier to discover, search, and interact with.</p>
         </div>
       </header>
@@ -754,7 +762,7 @@
       <header class="tp-hero">
         <img class="cover cover--banner" src="assets/tracks/trk-02.webp" alt="Cover art: a rising bar chart from FY2014 with a chat bubble" width="800" height="800" loading="lazy" decoding="async" />
         <p class="tp__meta"><span class="stamp">Trk 02</span><span class="tp__cat">Data &amp; AI / Enterprise Analytics</span></p>
-        <h2 class="tp__title" id="tp-02" data-text="Business Sheet">Business Sheet</h2>
+        <h2 class="tp__title" id="tp-02">Business Sheet</h2>
         <p class="tp__lede">A metrics platform where teams upload a defined set of data from every organization and its lines of business, then compare it across every financial year — from FY2014 to the current FY.</p>
       </header>
       <div class="cols">
@@ -791,7 +799,7 @@
         <img class="cover" src="assets/tracks/trk-03.webp" alt="Cover art: a contract page with highlighted clauses and a reviewed stamp" width="800" height="800" loading="lazy" decoding="async" />
         <div>
           <p class="tp__meta"><span class="stamp">Trk 03</span><span class="tp__cat">Generative AI / Document Intelligence</span></p>
-          <h2 class="tp__title" id="tp-03" data-text="AI Legal Contract Intelligence">AI Legal Contract Intelligence</h2>
+          <h2 class="tp__title" id="tp-03">AI Legal Contract Intelligence</h2>
           <p class="tp__lede">An AI-powered application designed for legal teams to analyze and track uploaded contracts and extract important contractual information.</p>
         </div>
       </header>
@@ -822,7 +830,7 @@
         <img class="store__icon" src="assets/tracks/trk-04.webp" alt="Cover art: a resume and a role checklist connected by red threads" width="800" height="800" loading="lazy" decoding="async" />
         <div>
           <p class="tp__meta"><span class="stamp">Trk 04</span><span class="tp__cat">AI / Recruitment</span></p>
-          <h2 class="tp__title" id="tp-04" data-text="AI Resume Matching">AI Resume Matching</h2>
+          <h2 class="tp__title" id="tp-04">AI Resume Matching</h2>
           <p class="store__badges"><span class="pill pill--live">POC</span><span class="tp__cat">Proof of concept</span></p>
         </div>
       </header>
@@ -842,7 +850,7 @@
       <header class="tp-hero">
         <img class="cover cover--banner" src="assets/tracks/trk-05.webp" alt="Cover art: a database sending data to a snowflake over a sunset" width="800" height="800" loading="lazy" decoding="async" />
         <p class="tp__meta"><span class="stamp">Trk 05</span><span class="tp__cat">Data Engineering</span></p>
-        <h2 class="tp__title" id="tp-05" data-text="Enterprise Data Migration">Enterprise Data Migration</h2>
+        <h2 class="tp__title" id="tp-05">Enterprise Data Migration</h2>
         <span class="tp__sub">SQL Server → Snowflake</span>
         <p class="tp__lede">Contributed to a major enterprise data migration initiative involving the movement of different types of data from traditional Microsoft SQL Server environments into a Snowflake data warehouse.</p>
       </header>
@@ -871,22 +879,13 @@
   </div>
 </div>
 
-<!-- opt-in music: official Papercut video via YouTube, from 2:09 — loads only when tapped -->
-<button class="vibe" id="vibe" type="button" aria-pressed="false" aria-controls="player">
+<!-- opt-in music: Papercut from 2:09 — nothing downloads until tapped -->
+<button class="vibe" id="vibe" type="button" aria-pressed="false">
   <span class="vibe__disc" aria-hidden="true"></span>
   <span class="vibe__txt">Play Papercut</span>
 </button>
 
-<div class="player" id="player" hidden>
-  <div class="player__bar">
-    <p class="player__t"><b>Papercut</b> · Linkin Park</p>
-    <a class="player__yt" href="https://www.youtube.com/watch?v=vjVkXlxsO8Q&amp;t=129s" target="_blank" rel="noopener noreferrer">YouTube <span class="arw" aria-hidden="true">↗</span></a>
-    <button class="player__x" type="button" aria-label="Stop and close player">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
-    </button>
-  </div>
-  <div class="player__frame" id="playerFrame"></div>
-</div>
+<audio id="papercut" src="assets/papercut.mp3#t=129" preload="none"></audio>
 
 <script src="portfolio.js" defer></script>
 </body>

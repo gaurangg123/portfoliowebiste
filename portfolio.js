@@ -1,6 +1,6 @@
 /* ============================================================
    Gaurang Ashava — Data & AI Engineer
-   nav · menu · reveal · progress · theme toggle · track sheets · Papercut player
+   nav · menu · reveal · progress · theme toggle · track sheets · Papercut
    No dependencies.
    ============================================================ */
 (function () {
@@ -129,7 +129,7 @@
     var pages = track.querySelectorAll('.tp');
     var scroller = document.getElementById('trackScroll');
     var count = document.getElementById('trackCount');
-    var behind = [document.getElementById('main'), nav, document.querySelector('.foot'), document.getElementById('vibe'), document.getElementById('player')];
+    var behind = [document.getElementById('main'), nav, document.querySelector('.foot'), document.getElementById('vibe')];
     var openedFromList = false, returnFocus = null, baseTitle = document.title;
 
     var idFromHash = function () { var m = location.hash.match(/^#\/trk-(\d\d)$/); return m ? m[1] : null; };
@@ -153,6 +153,8 @@
       if (wasOpen) { page.classList.remove('is-swapping'); void page.offsetWidth; page.classList.add('is-swapping'); return; }
       track.classList.remove('is-closing');
       sheet.style.transform = '';
+      sheet.classList.remove('is-opening'); void sheet.offsetWidth;
+      if (!reduce) sheet.classList.add('is-opening');   /* slide up once */
       track.hidden = false;
       document.body.classList.add('is-locked');
       setBehind(true);
@@ -192,64 +194,90 @@
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !track.hidden) dismiss(); });
 
-    /* iOS-style: drag the sheet's header down to dismiss */
+    sheet.addEventListener('animationend', function (e) {
+      if (e.animationName === 'sheet-up') sheet.classList.remove('is-opening');
+    });
+
+    /* follow the finger / mouse / trackpad, then either dismiss or spring back */
+    var follow = function (y) {
+      sheet.classList.remove('is-opening', 'is-settling');
+      sheet.classList.add('is-dragging');
+      sheet.style.transform = 'translate(-50%, ' + y + 'px)';
+    };
+    var springBack = function () {
+      sheet.classList.remove('is-dragging');
+      sheet.classList.add('is-settling');
+      sheet.style.transform = '';
+      window.setTimeout(function () { sheet.classList.remove('is-settling'); }, 320);
+    };
+    var release = function (y) {
+      sheet.classList.remove('is-dragging');
+      if (y > 110) dismiss(); else springBack();
+    };
+
+    /* 1. drag the header down (touch, pen or mouse) */
     var bar = document.getElementById('sheetBar');
     var startY = null, dy = 0;
     bar.addEventListener('pointerdown', function (e) {
-      if (e.target.closest('button')) return;
+      if (e.target.closest('button') || e.button > 0) return;
       startY = e.clientY; dy = 0;
-      sheet.classList.add('is-dragging');
-      bar.setPointerCapture(e.pointerId);
+      try { bar.setPointerCapture(e.pointerId); } catch (err) {}
     });
     bar.addEventListener('pointermove', function (e) {
       if (startY === null) return;
       dy = Math.max(0, e.clientY - startY);
-      sheet.style.transform = 'translate(-50%, ' + dy + 'px)';
+      if (dy > 2) follow(dy);
     });
-    var endDrag = function () {
-      if (startY === null) return;
-      startY = null;
-      sheet.classList.remove('is-dragging');
-      if (dy > 110) dismiss();
-      else {
-        sheet.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
-        sheet.style.transform = '';
-        window.setTimeout(function () { sheet.style.transition = ''; }, 320);
-      }
-    };
+    var endDrag = function () { if (startY === null) return; startY = null; release(dy); };
     bar.addEventListener('pointerup', endDrag);
     bar.addEventListener('pointercancel', endDrag);
+
+    /* 2. laptops & desktops: keep scrolling up at the top of a sheet
+       (two-finger trackpad swipe or mouse wheel) to pull it down */
+    var pull = 0, pullTimer = null, lastScroll = 0;
+    scroller.addEventListener('scroll', function () { lastScroll = Date.now(); }, { passive: true });
+    scroller.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || e.deltaY >= 0 || scroller.scrollTop > 0 || Date.now() - lastScroll < 250) {
+        if (pull) { pull = 0; springBack(); }
+        return;                                   /* normal scrolling, or momentum still settling */
+      }
+      e.preventDefault();
+      pull += -e.deltaY * (e.deltaMode === 1 ? 16 : 1);
+      var y = Math.min(pull * 0.5, 240);
+      window.clearTimeout(pullTimer);
+      if (y > 150) { pull = 0; release(y); return; }
+      follow(y);
+      pullTimer = window.setTimeout(function () { pull = 0; springBack(); }, 180);
+    }, { passive: false });
 
     window.addEventListener('hashchange', route);
     route();                               /* deep link: /#/trk-03 opens straight away */
   }
 
-  /* ---------- Papercut: official YouTube video from 2:09 ----------
-     Nothing loads until the visitor taps; the player can be closed any time. */
+  /* ---------- Papercut, from 2:09 (assets/papercut.mp3) ----------
+     preload="none": nothing downloads until the visitor taps. */
   var vibeBtn = document.getElementById('vibe');
-  var player = document.getElementById('player');
-  if (vibeBtn && player) {
-    var frame = document.getElementById('playerFrame');
+  var song = document.getElementById('papercut');
+  if (vibeBtn && song) {
+    var START = 129;
     var label = vibeBtn.querySelector('.vibe__txt');
     var setUi = function (on) {
       vibeBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      vibeBtn.setAttribute('aria-label', on ? 'Stop Papercut by Linkin Park' : 'Play Papercut by Linkin Park');
-      label.textContent = on ? 'Stop Papercut' : 'Play Papercut';
+      vibeBtn.setAttribute('aria-label', on ? 'Pause Papercut by Linkin Park' : 'Play Papercut by Linkin Park');
+      label.textContent = on ? 'Pause Papercut' : 'Play Papercut';
     };
-    var start = function () {
-      var f = document.createElement('iframe');
-      f.src = 'https://www.youtube-nocookie.com/embed/vjVkXlxsO8Q?start=129&autoplay=1&playsinline=1&rel=0';
-      f.title = 'Papercut by Linkin Park (official video) on YouTube';
-      f.allow = 'autoplay; encrypted-media; picture-in-picture';
-      f.referrerPolicy = 'strict-origin-when-cross-origin';
-      f.allowFullscreen = true;
-      frame.appendChild(f);
-      player.hidden = false;
+    song.volume = 0.6;
+    song.addEventListener('loadedmetadata', function () { if (song.currentTime < START - 1) song.currentTime = START; });
+    song.addEventListener('ended', function () { setUi(false); });
+    vibeBtn.addEventListener('click', function () {
+      if (!song.paused) { song.pause(); setUi(false); return; }
+      if (song.ended || song.currentTime < START - 1) { try { song.currentTime = START; } catch (err) {} }
+      var p = song.play();                         /* inside the tap, so iOS allows it */
       setUi(true);
-    };
-    var stop = function () { frame.innerHTML = ''; player.hidden = true; setUi(false); };
+      if (p && p.catch) p.catch(function () { setUi(false); });
+    });
+    /* pause when the tab / app goes to the background */
+    document.addEventListener('visibilitychange', function () { if (document.hidden && !song.paused) { song.pause(); setUi(false); } });
     setUi(false);
-    vibeBtn.addEventListener('click', function () { if (player.hidden) start(); else stop(); });
-    player.querySelector('.player__x').addEventListener('click', function () { stop(); vibeBtn.focus(); });
   }
 })();
