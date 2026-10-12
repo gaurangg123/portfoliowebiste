@@ -1337,14 +1337,33 @@ body.is-locked { overflow: hidden; }
 @media (min-width: 1100px) {
   .only-mob { display: none !important; }
 
-  /* hero: words left, album sleeve over the striped sun right */
+  /* hero: words left, album sleeve over the striped sun right.
+     Sized by height as well as width so the whole hero (and a peek of
+     the tape below it) fits common laptop screens (1366×768, 125% scaling). */
+  .hero {
+    min-height: calc(100vh - 46px); min-height: calc(100svh - 46px);
+    padding-top: calc(76px + 3vh); padding-bottom: 3vh;
+  }
   .hero__grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
-  .hero__title { font-size: clamp(52px, 5.8vw, 92px); }
-  .scene { padding: 28px 0 8px; }
-  .sun { left: auto; right: 0; top: -2%; transform: none; width: min(64%, 340px); }
-  .sleeve--hero { width: min(74%, 400px); margin: 0 0 0 4%; transform: rotate(-2deg); }
-  .sleeve--hero .sleeve__disc { transform: translateX(30%); }
-  .sleeve--hero:hover .sleeve__disc { transform: translateX(44%); }
+  .eyebrow { font-size: 12px; }
+  .hero__title { margin-top: 1.6vh; font-size: clamp(44px, min(5.8vw, 10.4vh), 92px); }
+  .hero__lede { margin-top: 2.4vh; font-size: clamp(15px, min(1.5vw, 2.5vh), 18px); }
+  .hero__cta { margin-top: 3vh; }
+  .meta { margin-top: 3.4vh; padding-top: 1.6vh; }
+
+  .scene { padding: 3vh 0 0; }
+  .sun { left: auto; right: -4%; top: 0; transform: none; width: min(62%, 52vh, 360px); }
+  .sleeve--hero { width: min(70%, 54vh, 400px); margin: 0 0 0 2%; transform: rotate(-2deg); }
+  .sleeve--hero .sleeve__disc { transform: translateX(42%); }
+  .sleeve--hero:hover .sleeve__disc { transform: translateX(54%); }
+  .sleeve--hero .disc { box-shadow: 0 0 0 1px rgba(237, 230, 216, 0.22), 0 24px 50px -20px rgba(0, 0, 0, 0.9); }
+  .sleeve--hero .disc__spin {
+    background:
+      conic-gradient(from 30deg, transparent 0 10%, rgba(255, 255, 255, 0.08) 14%, transparent 20% 58%, rgba(255, 255, 255, 0.06) 62%, transparent 68%),
+      repeating-radial-gradient(circle, #141210 0 1.6px, #2A2622 1.6px 2.8px);
+    animation: spin 9s linear infinite;
+  }
+  .sleeve--hero .disc__label { transform: translateY(-120%) translateX(26%); }
   .sleeve--hero figcaption { transform: rotate(2deg); }
 
   /* about: statement + laptop terminal left, story right */
@@ -1361,7 +1380,7 @@ body.is-locked { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   [data-rv], .ln > span, .hero.in .ln > span { opacity: 1; transform: none; transition: none; }
-  .tape__track, .t-cur, .t-ln, .eq i, .vibe__disc,
+  .tape__track, .t-cur, .t-ln, .eq i, .vibe__disc, .sleeve--hero .disc__spin,
   .sheet.is-opening, .track__scrim, .track.is-closing .sheet, .track.is-closing .track__scrim,
   .sleeve:hover .disc__spin, .lcard:hover .reel, .vibe[aria-pressed="true"] .vibe__disc { animation: none; }
   *, *::before, *::after { transition-duration: 0.01ms !important; }
