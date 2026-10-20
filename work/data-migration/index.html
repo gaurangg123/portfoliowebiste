@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Enterprise Data Migration — Gaurang Ashava</title>
+<meta name="description" content="Enterprise Data Migration: moving different types of data from Microsoft SQL Server into Snowflake through extract, transform, validate and load stages. A project Gaurang Ashava contributed to." />
+<meta name="author" content="Gaurang Ashava" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" id="themeColor" content="#F7F6F2" />
+<link rel="canonical" href="https://gaurangg123.github.io/portfoliowebiste/work/data-migration/" />
+
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://gaurangg123.github.io/portfoliowebiste/work/data-migration/" />
+<meta property="og:title" content="Enterprise Data Migration — Gaurang Ashava" />
+<meta property="og:description" content="A major enterprise data migration initiative, moving different types of data from traditional Microsoft SQL Server environments into a Snowflake data warehouse." />
+<meta property="og:image" content="https://gaurangg123.github.io/portfoliowebiste/assets/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Gaurang Ashava — I build data pipelines and AI applications." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Enterprise Data Migration — Gaurang Ashava" />
+<meta name="twitter:description" content="A major enterprise data migration initiative, moving different types of data from traditional Microsoft SQL Server environments into a Snowflake data warehouse." />
+<meta name="twitter:image" content="https://gaurangg123.github.io/portfoliowebiste/assets/og.jpg" />
+
+<link rel="icon" href="../../assets/favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png" />
+
+<script>
+(function (d, r) {
+  r.className += ' js';
+  var t = null;
+  try { t = localStorage.getItem('theme'); } catch (e) {}
+  if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  r.setAttribute('data-theme', t);
+  d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#141413' : '#F7F6F2');
+})(document, document.documentElement);
+</script>
+<link rel="stylesheet" href="../../portfolio.css?v=11" />
+<script src="../../portfolio.js?v=11" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-nav" data-nav>
+  <div class="container nav">
+    <a class="nav__brand" href="../../">Gaurang Ashava</a>
+    <button class="icon-btn nav__menu-btn js-only" type="button" data-menu-btn aria-expanded="false" aria-controls="nav-panel">Menu</button>
+    <div class="nav__panel" id="nav-panel">
+      <nav aria-label="Main">
+        <ul class="nav__links">
+          <li><a href="../../#work">Work</a></li>
+          <li><a href="../../#about">About</a></li>
+          <li><a href="../../#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="icon-btn theme-btn js-only" type="button" data-theme-toggle><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span class="theme-btn__txt">Switch to dark theme</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <article class="case" aria-labelledby="case-title">
+    <header class="case-head container" id="top">
+      <p class="case-head__back"><a href="../../#work"><span class="arrow" aria-hidden="true">←</span> All work</a></p>
+      <p class="kicker">Data engineering · SQL Server to Snowflake</p>
+      <h1 class="case-head__title" id="case-title">Enterprise Data Migration</h1>
+      <p class="case-head__lede">A major enterprise data migration initiative, moving different types of data from traditional Microsoft SQL Server environments into a Snowflake data warehouse.</p>
+      <dl class="facts">
+        <div><dt>Where</dt><dd>Tata Technologies</dd></div>
+        <div><dt>My part</dt><dd>Contributor to a team initiative</dd></div>
+        <div><dt>From</dt><dd>Microsoft SQL Server</dd></div>
+        <div><dt>To</dt><dd>Snowflake</dd></div>
+      </dl>
+    </header>
+
+    <figure class="case-visual container">
+      <div class="case-visual__stage">
+          <div class="ill ill--pipe" aria-hidden="true">
+            <div class="ill__canvas">
+              <ol class="pipe" data-pipe>
+                <li class="pipe__node"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13"/><path d="M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></svg><span><b>Microsoft SQL Server</b><small>Traditional sources</small></span></li>
+                <li class="pipe__step" style="--i:0"><b>Extract</b></li>
+                <li class="pipe__step" style="--i:1"><b>Transform</b></li>
+                <li class="pipe__step" style="--i:2"><b>Validate</b></li>
+                <li class="pipe__step" style="--i:3"><b>Load</b></li>
+                <li class="pipe__node pipe__node--dst"><svg viewBox="0 0 24 24"><path d="M12 2.5v19M3.8 7.25l16.4 9.5M3.8 16.75l16.4-9.5"/><path d="M9.6 4.1 12 6.5l2.4-2.4M9.6 19.9 12 17.5l2.4 2.4M4.6 10.4l3.3-.9-.9-3.3M19.4 13.6l-3.3.9.9 3.3M4.6 13.6l3.3.9-.9 3.3M19.4 10.4l-3.3-.9.9-3.3"/></svg><span><b>Snowflake</b><small>Cloud data warehouse</small></span></li>
+              </ol>
+              <p class="pipe__infra">Azure Data Factory · supporting infrastructure</p>
+            </div>
+          </div>
+      </div>
+      <figcaption>Diagram of the documented migration flow, with Azure Data Factory as supporting infrastructure. It doesn’t show the internals of the real systems.</figcaption>
+    </figure>
+
+    <div class="container">
+      <section class="case-sec" aria-labelledby="data-migration-problem">
+        <h2 class="case-sec__h" id="data-migration-problem">Problem</h2>
+        <div class="case-sec__body">
+            <p>Data held in traditional Microsoft SQL Server environments needed to move into Snowflake, a cloud data warehouse — across different types of data.</p>
+        </div>
+      </section>
+      <section class="case-sec" aria-labelledby="data-migration-my-role">
+        <h2 class="case-sec__h" id="data-migration-my-role">My role</h2>
+        <div class="case-sec__body">
+            <p>This was a team initiative, and I was one of its contributors. The work involved ETL, data transformation, integration and Snowflake.</p>
+        </div>
+      </section>
+      <section class="case-sec" aria-labelledby="data-migration-how-it-works">
+        <h2 class="case-sec__h" id="data-migration-how-it-works">How it works</h2>
+        <div class="case-sec__body">
+            <ol class="steps">
+              <li><span><b>Extract</b><span>Data is extracted from the SQL Server sources.</span></span></li>
+              <li><span><b>Transform</b><span>It’s transformed for the target warehouse.</span></span></li>
+              <li><span><b>Validate</b><span>It’s validated before loading.</span></span></li>
+              <li><span><b>Load</b><span>It’s loaded into Snowflake.</span></span></li>
+            </ol>
+            <p class="muted">Azure Data Factory provided supporting infrastructure.</p>
+        </div>
+      </section>
+      <section class="case-sec" aria-labelledby="data-migration-design-decision">
+        <h2 class="case-sec__h" id="data-migration-design-decision">Design decision</h2>
+        <div class="case-sec__body">
+            <p><b>Validation as its own stage.</b> Data is validated after it’s transformed and before it’s loaded, so problems surface before they reach the warehouse.</p>
+        </div>
+      </section>
+      <section class="case-sec" aria-labelledby="data-migration-technologies">
+        <h2 class="case-sec__h" id="data-migration-technologies">Technologies</h2>
+        <div class="case-sec__body">
+            <ul class="tags"><li>Microsoft SQL Server</li><li>Snowflake</li><li>Azure Data Factory</li><li>ETL</li><li>Data integration</li><li>Data transformation</li><li>Data quality</li></ul>
+        </div>
+      </section>
+
+      <nav class="case-next" aria-label="More projects">
+        <a href="../knowledge-portal/" rel="prev"><span>Previous project</span><b>Enterprise Knowledge Portal</b></a>
+        <a href="../contract-intelligence/" rel="next"><span>Next project</span><b>AI Legal Contract Intelligence</b></a>
+      </nav>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer">
+    <p>© <span data-year>2026</span> Gaurang Ashava · Pune, India</p>
+    <ul class="footer__links">
+      <li><a href="mailto:gaurangashava@gmail.com">Email</a></li>
+      <li><a href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      <li><a href="#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>
