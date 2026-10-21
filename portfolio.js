@@ -150,17 +150,67 @@
     measure();
   }
 
+  /* ---------- project walkthroughs ----------
+     The player and its demos load on the first "Watch walkthrough" click,
+     so they cost nothing until someone asks for one. Paths resolve from
+     this script's own URL, so they work on every page and under any base path. */
+  var demoTriggers = document.querySelectorAll('[data-demo]');
+  if (demoTriggers.length) {
+    var siteRoot = new URL('.', (document.currentScript && document.currentScript.src) || location.href).href;
+    var DEMO_V = '13';
+    var demoLoad = null;
+    var addAsset = function (tag, attrs) {
+      return new Promise(function (resolve, reject) {
+        var el = document.createElement(tag);
+        Object.keys(attrs).forEach(function (k) { el.setAttribute(k, attrs[k]); });
+        el.onload = resolve;
+        el.onerror = reject;
+        document.head.appendChild(el);
+      });
+    };
+    var loadDemos = function () {
+      if (window.PortfolioWalkthrough && window.PortfolioDemos) return Promise.resolve(window.PortfolioWalkthrough);
+      if (!demoLoad) {
+        var base = siteRoot + 'assets/walkthroughs/';
+        demoLoad = Promise.all([
+          addAsset('link', { rel: 'stylesheet', href: base + 'walkthrough.css?v=' + DEMO_V }),
+          addAsset('script', { src: base + 'demos.js?v=' + DEMO_V }),
+          addAsset('script', { src: base + 'walkthrough.js?v=' + DEMO_V })
+        ]).then(function () { return window.PortfolioWalkthrough; });
+        demoLoad.catch(function () { demoLoad = null; });   /* allow a retry */
+      }
+      return demoLoad;
+    };
+    each(demoTriggers, function (btn) {
+      btn.addEventListener('click', function () {
+        if (btn.getAttribute('aria-busy') === 'true') return;
+        btn.setAttribute('aria-busy', 'true');
+        var note = btn.closest('figure, .more__item, .case-demo');
+        note = note && note.querySelector('[data-demo-status]');
+        loadDemos().then(function (player) {
+          btn.removeAttribute('aria-busy');
+          if (note) note.textContent = '';
+          if (!player || !player.open(btn.getAttribute('data-demo'), btn, siteRoot)) throw new Error('missing demo');
+        }).catch(function () {
+          btn.removeAttribute('aria-busy');
+          if (note) note.textContent = 'The walkthrough couldn’t load. Please try again, or read the case study.';
+        });
+      });
+    });
+  }
+
   /* ---------- copy email ---------- */
   each(document.querySelectorAll('[data-copy]'), function (btn) {
     var note = btn.parentNode.querySelector('[data-copy-status]');
-    var label = btn.textContent;
+    var txt = btn.querySelector('span') || btn;   /* change the words, keep the icon */
+    var label = txt.textContent;
     var timer = null;
     btn.addEventListener('click', function () {
       var done = function (ok) {
-        btn.textContent = ok ? 'Copied' : label;
+        txt.textContent = ok ? 'Copied' : label;
         if (note) note.textContent = ok ? 'Email address copied.' : 'Couldn’t copy. Select the address instead.';
         window.clearTimeout(timer);
-        timer = window.setTimeout(function () { btn.textContent = label; if (note) note.textContent = ''; }, 2500);
+        timer = window.setTimeout(function () { txt.textContent = label; if (note) note.textContent = ''; }, 2500);
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(btn.getAttribute('data-copy')).then(function () { done(true); }, function () { done(false); });

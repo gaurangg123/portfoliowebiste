@@ -39,8 +39,8 @@
   d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
 })(document, document.documentElement);
 </script>
-<link rel="stylesheet" href="portfolio.css?v=12" />
-<script src="portfolio.js?v=12" defer></script>
+<link rel="stylesheet" href="portfolio.css?v=13" />
+<script src="portfolio.js?v=13" defer></script>
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Gaurang Ashava","jobTitle":"Data & AI Engineer","url":"https://gaurangg123.github.io/portfoliowebiste/","email":"mailto:gaurangashava@gmail.com","image":"https://gaurangg123.github.io/portfoliowebiste/assets/gaurang.jpg","address":{"@type":"PostalAddress","addressLocality":"Pune","addressCountry":"IN"},"worksFor":{"@type":"Organization","name":"Tata Technologies"},"alumniOf":{"@type":"CollegeOrUniversity","name":"SRM Institute of Science and Technology"},"sameAs":["https://www.linkedin.com/in/gaurang-ashava/","https://github.com/gaurangg123"]}
@@ -60,6 +60,7 @@
           <li><a href="#work">Work</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
+          <li><a href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume<span class="visually-hidden"> (opens in a new tab)</span> <span class="nav__ext" aria-hidden="true">↗</span></a></li>
         </ul>
       </nav>
       <button class="icon-btn theme-btn js-only" type="button" data-theme-toggle><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span class="theme-btn__txt">Switch to dark theme</span></button>
@@ -130,10 +131,12 @@
         <div class="project__text">
           <p class="kicker">Knowledge platform · Generative AI</p>
           <h3 class="project__title">Enterprise Knowledge Portal</h3>
-          <p class="project__summary">Brings organizational knowledge into one place, with search, file discovery and a dedicated AI chatbot.</p>
-          <a class="link-more project__link" href="work/knowledge-portal/">Read the case study<span class="visually-hidden">: Enterprise Knowledge Portal</span> <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="project__status"><span class="status-dot status-dot--scheduled">Built end to end · Production deployment scheduled</span></p>
+          <p class="project__summary">A shared knowledge platform with search, a catalogue, file discovery and an AI chatbot, behind role-based access.</p>
+          <a class="link-more" href="work/knowledge-portal/">Read the case study<span class="visually-hidden">: Enterprise Knowledge Portal</span> <span class="arrow" aria-hidden="true">→</span></a>
         </div>
-        <figure class="project__figure">
+        <figure class="project__figure demo-preview">
+          <div class="demo-preview__frame">
           <div class="ill ill--kp" aria-hidden="true">
             <div class="ill__canvas">
               <div class="ui">
@@ -156,7 +159,9 @@
               </div>
             </div>
           </div>
-          <figcaption class="figure-note">Illustrative interface · sample content</figcaption>
+            <button class="demo-preview__btn js-only" type="button" data-demo="knowledge-portal" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Enterprise Knowledge Portal (16 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:16</span></span></button>
+          </div>
+          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
         </figure>
       </article>
 
@@ -165,9 +170,10 @@
           <p class="kicker">Data engineering · SQL Server to Snowflake</p>
           <h3 class="project__title">Enterprise Data Migration</h3>
           <p class="project__summary">A team initiative I contributed to, moving different types of data from Microsoft SQL Server into a Snowflake warehouse.</p>
-          <a class="link-more project__link" href="work/data-migration/">Read the case study<span class="visually-hidden">: Enterprise Data Migration</span> <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="link-more" href="work/data-migration/">Read the case study<span class="visually-hidden">: Enterprise Data Migration</span> <span class="arrow" aria-hidden="true">→</span></a>
         </div>
-        <figure class="project__figure">
+        <figure class="project__figure demo-preview">
+          <div class="demo-preview__frame">
           <div class="ill ill--pipe" aria-hidden="true">
             <div class="ill__canvas">
               <ol class="pipe">
@@ -181,7 +187,9 @@
               <p class="pipe__infra">Azure Data Factory · supporting infrastructure</p>
             </div>
           </div>
-          <figcaption class="figure-note">Illustrative diagram · documented stages</figcaption>
+            <button class="demo-preview__btn js-only" type="button" data-demo="data-migration" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Enterprise Data Migration (16 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:16</span></span></button>
+          </div>
+          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative diagram · documented stages</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
         </figure>
       </article>
 
@@ -189,10 +197,11 @@
         <div class="project__text">
           <p class="kicker">Generative AI · Document intelligence</p>
           <h3 class="project__title">AI Legal Contract Intelligence</h3>
-          <p class="project__summary">Helps legal teams analyze and track contracts by extracting clauses, obligations and key information.</p>
-          <a class="link-more project__link" href="work/contract-intelligence/">Read the case study<span class="visually-hidden">: AI Legal Contract Intelligence</span> <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="project__summary">Helps legal teams review contracts by extracting clauses, obligations and key information.</p>
+          <a class="link-more" href="work/contract-intelligence/">Read the case study<span class="visually-hidden">: AI Legal Contract Intelligence</span> <span class="arrow" aria-hidden="true">→</span></a>
         </div>
-        <figure class="project__figure">
+        <figure class="project__figure demo-preview">
+          <div class="demo-preview__frame">
           <div class="ill ill--contract" aria-hidden="true">
             <div class="ill__canvas">
               <div class="ui">
@@ -222,7 +231,9 @@
               </div>
             </div>
           </div>
-          <figcaption class="figure-note">Illustrative interface · sample content</figcaption>
+            <button class="demo-preview__btn js-only" type="button" data-demo="contract-intelligence" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: AI Legal Contract Intelligence (14 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:14</span></span></button>
+          </div>
+          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
         </figure>
       </article>
     </div>
@@ -236,7 +247,7 @@
             <p class="more__meta"><span class="live-dot" aria-hidden="true"></span>Live in production</p>
           </div>
           <p class="more__desc">Evaluates candidate profiles against role requirements.</p>
-          <a class="link-more" href="work/resume-matching/">Read more<span class="visually-hidden">: AI Resume Matching</span> <span class="arrow" aria-hidden="true">→</span></a>
+          <div class="more__actions"><button class="demo-btn js-only" type="button" data-demo="resume-matching" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: AI Resume Matching</span></button><a class="link-more" href="work/resume-matching/">Read more<span class="visually-hidden">: AI Resume Matching</span> <span class="arrow" aria-hidden="true">→</span></a><span class="demo-status" data-demo-status role="status"></span></div>
         </li>
         <li class="more__item">
           <div class="more__main">
@@ -244,7 +255,7 @@
             <p class="more__meta">Data and AI · Enterprise analytics</p>
           </div>
           <p class="more__desc">Compares organization and line-of-business data from FY2014 to the current year, with a chatbot that explains each metric.</p>
-          <a class="link-more" href="work/business-sheet/">Read more<span class="visually-hidden">: Business Sheet</span> <span class="arrow" aria-hidden="true">→</span></a>
+          <div class="more__actions"><button class="demo-btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Business Sheet</span></button><a class="link-more" href="work/business-sheet/">Read more<span class="visually-hidden">: Business Sheet</span> <span class="arrow" aria-hidden="true">→</span></a><span class="demo-status" data-demo-status role="status"></span></div>
         </li>
       </ul>
     </div>
@@ -267,6 +278,7 @@
         <div class="about__intro">
           <p>I’m Gaurang, a Data &amp; AI Engineer at Tata Technologies in Pune. I joined in October 2025 after a B.Tech in computer science with a specialization in big data analytics.</p>
           <p>I work across data engineering and applied AI, and I like taking an idea from data, to AI, to an application people use. Next, I want to go deeper into agentic coding, managing AI agents and tailoring LLMs to business use cases.</p>
+          <p class="about__links"><a class="link-more" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">View resume<span class="visually-hidden"> (opens in a new tab)</span> <span class="arrow" aria-hidden="true">↗</span></a></p>
         </div>
 
         <div class="music" data-music-card>
@@ -290,7 +302,7 @@
             <div>
               <h4 class="row__title">GET – Data and AI Engineer</h4>
               <p class="row__org">Tata Technologies · Pune</p>
-              <p class="row__note">Data engineering and migration, AI-powered applications, and AI agents and automation for engineering workflows.</p>
+              <p class="row__note">Developed the Enterprise Knowledge Portal end to end, from the functional specification through UAT. Also data engineering and migration, other AI-powered applications, and AI agents and automation for engineering workflows.</p>
             </div>
           </li>
           <li class="row">
@@ -370,7 +382,7 @@
         </dl>
       </article>
     </div>
-    <p class="lab__note"><b>Built by me, with AI.</b> I developed both tools end to end, from the first idea to the working tool, with AI as my co-developer at every step.</p>
+    <p class="lab__note"><b>Built by me, with AI.</b> I built both tools myself, with AI as my co-developer at every step.</p>
   </div>
 </section>
 
@@ -383,7 +395,7 @@
     </header>
     <p class="contact__email">
       <a href="mailto:gaurangashava@gmail.com">gaurangashava@gmail.com</a>
-      <button class="copy-btn js-only" type="button" data-copy="gaurangashava@gmail.com">Copy email</button>
+      <button class="copy-btn js-only" type="button" data-copy="gaurangashava@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5v-2a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/></svg><span>Copy email</span></button>
       <span class="copy-status" role="status" data-copy-status></span>
     </p>
     <ul class="contact__links">

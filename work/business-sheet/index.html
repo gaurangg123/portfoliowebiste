@@ -36,8 +36,8 @@
   d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
 })(document, document.documentElement);
 </script>
-<link rel="stylesheet" href="../../portfolio.css?v=12" />
-<script src="../../portfolio.js?v=12" defer></script>
+<link rel="stylesheet" href="../../portfolio.css?v=13" />
+<script src="../../portfolio.js?v=13" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -52,6 +52,7 @@
           <li><a href="../../#work">Work</a></li>
           <li><a href="../../#about">About</a></li>
           <li><a href="../../#contact">Contact</a></li>
+          <li><a href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume<span class="visually-hidden"> (opens in a new tab)</span> <span class="nav__ext" aria-hidden="true">↗</span></a></li>
         </ul>
       </nav>
       <button class="icon-btn theme-btn js-only" type="button" data-theme-toggle><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span class="theme-btn__txt">Switch to dark theme</span></button>
@@ -73,7 +74,9 @@
       </dl>
     </header>
 
-    <figure class="case-visual container">
+    <div class="container case-visual">
+        <figure class="case-visual__figure demo-preview">
+          <div class="demo-preview__frame">
           <div class="ill ill--sheet" aria-hidden="true">
             <div class="ill__canvas">
               <div class="ui">
@@ -93,18 +96,21 @@
               </div>
             </div>
           </div>
-      <figcaption class="figure-note">Illustrative interface · sample content</figcaption>
-    </figure>
+            <button class="demo-preview__btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Business Sheet (15 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:15</span></span></button>
+          </div>
+          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
+        </figure>
+    </div>
 
     <div class="container">
-      <section class="case-sec" aria-labelledby="business-sheet-problem-and-users">
-        <h2 class="case-sec__h" id="business-sheet-problem-and-users">Problem and users</h2>
+      <section class="case-sec" aria-labelledby="business-sheet-business-problem">
+        <h2 class="case-sec__h" id="business-sheet-business-problem">Business problem</h2>
         <div class="case-sec__body">
-            <p>This comparison used to be done by hand. Now a central team uploads the data, the platform does the comparison, and people can ask a chatbot which metrics are tracked and what each one means.</p>
+            <p>Teams needed to compare a defined set of data from every organization and line of business across financial years, and that comparison was done by hand.</p>
         </div>
       </section>
-      <section class="case-sec" aria-labelledby="business-sheet-how-it-works">
-        <h2 class="case-sec__h" id="business-sheet-how-it-works">How it works</h2>
+      <section class="case-sec" aria-labelledby="business-sheet-how-the-solution-works">
+        <h2 class="case-sec__h" id="business-sheet-how-the-solution-works">How the solution works</h2>
         <div class="case-sec__body">
             <ol class="steps">
               <li><span><b>Upload</b><span>A defined set of data from every organization and line of business.</span></span></li>
@@ -113,10 +119,23 @@
             </ol>
         </div>
       </section>
-      <section class="case-sec" aria-labelledby="business-sheet-focus-areas">
-        <h2 class="case-sec__h" id="business-sheet-focus-areas">Focus areas</h2>
+      <section class="case-sec" aria-labelledby="business-sheet-result">
+        <h2 class="case-sec__h" id="business-sheet-result">Result</h2>
         <div class="case-sec__body">
-            <ul class="tags"><li>Enterprise analytics</li><li>Year-over-year comparison</li><li>AI chatbot</li><li>Automation</li></ul>
+            <p>The year-over-year comparison is automated, and people can ask the chatbot which metrics are tracked and what each one means.</p>
+        </div>
+      </section>
+      <section class="case-sec" aria-labelledby="business-sheet-demonstration">
+        <h2 class="case-sec__h" id="business-sheet-demonstration">Demonstration</h2>
+        <div class="case-sec__body">
+            <p>A 15-second illustrative walkthrough of the workflow, using sample data. It plays silently and you can pause or replay it at any time.</p>
+            <ol class="steps">
+              <li><span><b>Choose what to compare</b><span>An organization, a line of business and the financial years are selected (sample selections).</span></span></li>
+              <li><span><b>Compare across years</b><span>A sample metric is compared year by year, from FY2014 to the current FY.</span></span></li>
+              <li><span><b>Ask about metrics</b><span>A user asks the chatbot which metrics are tracked.</span></span></li>
+              <li><span><b>Metric explanation</b><span>The chatbot lists the metrics and explains what one of them means (sample answer).</span></span></li>
+            </ol>
+            <p class="case-demo"><button class="demo-btn demo-btn--primary js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Business Sheet</span></button><span class="demo-status" data-demo-status role="status"></span></p>
         </div>
       </section>
 
