@@ -1,334 +1,259 @@
 /* ============================================================
-   Gaurang Ashava — Data & AI Engineer
-   nav · menu · reveal · progress · theme toggle · Papercut · track sheets
-   No dependencies.
+   Gaurang Ashava — portfolio
+   theme · nav · active link · gentle reveal · pipeline demo ·
+   copy email · Papercut (plays only when Play is pressed)
+   No dependencies. The pages work without this file; it only adds behaviour.
    ============================================================ */
 (function () {
   'use strict';
 
   var root = document.documentElement;
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var each = function (list, fn) { Array.prototype.forEach.call(list, fn); };
 
   /* ---------- year ---------- */
-  var yr = document.getElementById('yr');
-  if (yr) yr.textContent = new Date().getFullYear();
+  each(document.querySelectorAll('[data-year]'), function (el) { el.textContent = new Date().getFullYear(); });
 
-  /* ---------- theme: system by default, toggle remembers choice ---------- */
-  var toggles = document.querySelectorAll('.js-theme');
+  /* ---------- theme: follows the device until the visitor picks one ---------- */
   var themeMeta = document.getElementById('themeColor');
   var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  var themeBtns = document.querySelectorAll('[data-theme-toggle]');
 
-  function applyTheme(t) {
-    root.setAttribute('data-theme', t);
-    if (themeMeta) themeMeta.setAttribute('content', t === 'dark' ? '#0F0E0D' : '#ECE5D7');
-    each(toggles, function (b) { b.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'); });
-  }
   function savedTheme() {
     try { return localStorage.getItem('theme'); } catch (e) { return null; }
   }
+  function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    if (themeMeta) themeMeta.setAttribute('content', t === 'dark' ? '#141413' : '#F7F6F2');
+    each(themeBtns, function (b) {
+      var txt = b.querySelector('.theme-btn__txt');
+      if (txt) txt.textContent = t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+    });
+  }
   applyTheme(root.getAttribute('data-theme') || (systemDark.matches ? 'dark' : 'light'));
 
-  each(toggles, function (b) {
+  each(themeBtns, function (b) {
     b.addEventListener('click', function () {
       var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       applyTheme(next);
       try { localStorage.setItem('theme', next); } catch (e) {}
     });
   });
-  /* follow the device while the visitor hasn't picked a theme */
-  var onSystem = function (e) { if (!savedTheme()) applyTheme(e.matches ? 'dark' : 'light'); };
+  var onSystem = function (e) {
+    var s = savedTheme();
+    if (s !== 'light' && s !== 'dark') applyTheme(e.matches ? 'dark' : 'light');
+  };
   if (systemDark.addEventListener) systemDark.addEventListener('change', onSystem);
   else if (systemDark.addListener) systemDark.addListener(onSystem);
 
-  /* ---------- nav stuck state + progress ---------- */
-  var nav = document.getElementById('nav');
-  var progressBar = document.querySelector('.progress i');
-  var ticking = false;
-  function onFrame() {
-    ticking = false;
-    var y = window.pageYOffset || root.scrollTop;
-    if (nav) nav.classList.toggle('is-stuck', y > 24);
-    if (progressBar) {
-      var max = root.scrollHeight - window.innerHeight;
-      progressBar.style.transform = 'scaleX(' + (max > 0 ? Math.min(y / max, 1) : 0) + ')';
-    }
-  }
-  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(onFrame); } }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
-  onFrame();
-
-  /* ---------- mobile menu ---------- */
-  var burger = document.getElementById('burger');
-  var menu = document.getElementById('menu');
-  function openMenu() {
-    menu.hidden = false;
-    document.body.classList.add('is-locked');
-    burger.setAttribute('aria-expanded', 'true');
-    burger.setAttribute('aria-label', 'Close menu');
-    requestAnimationFrame(function () { menu.classList.add('is-open'); });
-  }
-  function closeMenu() {
-    if (menu.hidden) return;
-    menu.classList.remove('is-open');
-    document.body.classList.remove('is-locked');
-    burger.setAttribute('aria-expanded', 'false');
-    burger.setAttribute('aria-label', 'Open menu');
-    window.setTimeout(function () { menu.hidden = true; }, reduce ? 0 : 250);
-  }
-  if (burger && menu) {
-    burger.addEventListener('click', function () { if (menu.hidden) openMenu(); else closeMenu(); });
-    menu.addEventListener('click', function (e) { if (e.target.closest('a')) closeMenu(); });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !menu.hidden) { closeMenu(); burger.focus(); }
+  /* ---------- old track links (#/trk-01 … #/trk-05) now have real pages ----------
+     The inline head script redirects fresh loads; this covers a hash
+     change on an already-open homepage. */
+  if (document.getElementById('work')) {
+    var legacy = ['knowledge-portal', 'business-sheet', 'contract-intelligence', 'resume-matching', 'data-migration'];
+    window.addEventListener('hashchange', function () {
+      var m = location.hash.match(/^#\/trk-0([1-5])$/);
+      if (m) location.replace('work/' + legacy[m[1] - 1] + '/');
     });
-    window.addEventListener('resize', function () { if (window.innerWidth > 980) closeMenu(); });
   }
 
-  /* ---------- reveal on scroll ---------- */
-  var revealables = document.querySelectorAll('[data-rv]');
-  if (reduce || !('IntersectionObserver' in window)) {
-    each(revealables, function (el) { el.classList.add('in'); });
-  } else {
-    var rv = new IntersectionObserver(function (entries) {
+  /* ---------- nav: hairline once the page scrolls ---------- */
+  var nav = document.querySelector('[data-nav]');
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      ticking = false;
+      if (nav) nav.classList.toggle('is-scrolled', (window.pageYOffset || root.scrollTop) > 8);
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- small screens: menu disclosure ---------- */
+  var menuBtn = document.querySelector('[data-menu-btn]');
+  var panel = document.getElementById('nav-panel');
+  if (menuBtn && panel && nav) {
+    var menuOpen = false;
+    var setMenu = function (open) {
+      menuOpen = open;
+      panel.classList.toggle('is-open', open);
+      nav.classList.toggle('is-open', open);
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    menuBtn.addEventListener('click', function () { setMenu(!menuOpen); });
+    panel.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menuOpen) { setMenu(false); menuBtn.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (menuOpen && !nav.contains(e.target)) setMenu(false);
+    });
+    nav.addEventListener('focusout', function (e) {
+      if (menuOpen && e.relatedTarget && !nav.contains(e.relatedTarget)) setMenu(false);
+    });
+    var wide = window.matchMedia('(min-width: 640px)');
+    var onWide = function (e) { if (e.matches) setMenu(false); };
+    if (wide.addEventListener) wide.addEventListener('change', onWide);
+    else if (wide.addListener) wide.addListener(onWide);
+  }
+
+  /* ---------- current section in the nav (homepage) ---------- */
+  var navLinks = document.querySelectorAll('.nav__links a[href^="#"]');
+  if (navLinks.length && 'IntersectionObserver' in window) {
+    var linkFor = {};
+    each(navLinks, function (a) {
+      var id = a.getAttribute('href').slice(1);
+      if (document.getElementById(id)) linkFor[id] = a;
+    });
+    var spy = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); rv.unobserve(e.target); }
+        var a = linkFor[e.target.id];
+        if (!a) return;
+        if (e.isIntersecting) {
+          each(navLinks, function (l) { l.removeAttribute('aria-current'); });
+          a.setAttribute('aria-current', 'true');
+        } else {
+          a.removeAttribute('aria-current');
+        }
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
-    each(revealables, function (el) { rv.observe(el); });
-    /* safety net: never leave content hidden */
-    window.setTimeout(function () { each(revealables, function (el) { el.classList.add('in'); }); }, 2500);
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(linkFor).forEach(function (id) { spy.observe(document.getElementById(id)); });
   }
 
-  var hero = document.querySelector('.hero');
-  if (hero) requestAnimationFrame(function () { requestAnimationFrame(function () { hero.classList.add('in'); }); });
+  /* ---------- gentle entrance for content below the fold ----------
+     Nothing is hidden until this runs, and anything already on screen
+     is shown straight away, so content never waits on animation. */
+  var revealables = document.querySelectorAll('[data-reveal]');
+  if (revealables.length && 'IntersectionObserver' in window && !reduceMotion.matches) {
+    var reveal = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('is-in'); reveal.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 });
+    var fold = window.innerHeight * 0.94;
+    each(revealables, function (el) {
+      if (el.getBoundingClientRect().top < fold) el.classList.add('is-in');
+      else reveal.observe(el);
+    });
+    root.classList.add('reveal-ready');
+  }
 
-  /* ---------- active section in the top bar ----------
-     The active section is the one crossing a line 35% down the viewport. */
-  var linkFor = { about: 'about', build: 'about', work: 'work', lab: 'work', experience: 'experience', stack: 'stack', contact: 'contact' };   /* 'next' has no top-bar link */
-  var navLinks = document.querySelectorAll('.nav__links a');
-  var secs = document.querySelectorAll('main section[id]');
-  var spyQueued = false;
-  var spy = function () {
-    spyQueued = false;
-    var line = window.innerHeight * 0.35, current = null;
-    each(secs, function (s) { if (s.getBoundingClientRect().top <= line) current = s.id; });
-    each(navLinks, function (a) { a.classList.toggle('is-active', !!linkFor[current] && a.getAttribute('href') === '#' + linkFor[current]); });
-  };
-  window.addEventListener('scroll', function () { if (!spyQueued) { spyQueued = true; requestAnimationFrame(spy); } }, { passive: true });
-  window.addEventListener('resize', spy, { passive: true });
-  spy();
+  /* ---------- data migration diagram: stages light up once, in order ---------- */
+  var pipes = document.querySelectorAll('[data-pipe]');
+  if (pipes.length && 'IntersectionObserver' in window && !reduceMotion.matches) {
+    var pipeSeen = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('is-playing'); pipeSeen.unobserve(e.target); }
+      });
+    }, { threshold: 0.6 });
+    each(pipes, function (p) { pipeSeen.observe(p); });
+  }
+
+  /* ---------- copy email ---------- */
+  each(document.querySelectorAll('[data-copy]'), function (btn) {
+    var note = btn.parentNode.querySelector('[data-copy-status]');
+    var label = btn.textContent;
+    var timer = null;
+    btn.addEventListener('click', function () {
+      var done = function (ok) {
+        btn.textContent = ok ? 'Copied' : label;
+        if (note) note.textContent = ok ? 'Email address copied.' : 'Couldn’t copy. Select the address instead.';
+        window.clearTimeout(timer);
+        timer = window.setTimeout(function () { btn.textContent = label; if (note) note.textContent = ''; }, 2500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(btn.getAttribute('data-copy')).then(function () { done(true); }, function () { done(false); });
+      } else {
+        done(false);
+      }
+    });
+  });
 
   /* ---------- Papercut (instrumental) ----------
-     One continuous background loop at a low level:
-     - the file itself is mixed quiet (iOS ignores page volume); other
-       browsers are capped lower still (VOL)
-     - the first start (floating button, or opening a track) eases in
-       slowly so it never startles; opening a track starts at that
-       track's part of the song
-     - switching or closing tracks never cuts, seeks or fades — the music
-       simply carries on until the visitor pauses it
-     preload="none": nothing downloads until a tap. */
-  var music = (function () {
-    var el = document.getElementById('papercut');
-    var btn = document.getElementById('vibe');
-    if (!el || !btn) return null;
-    var label = btn.querySelector('.vibe__txt');
-    var snd = document.getElementById('sheetSound');
-    var VOL = 0.7;
-    var CUES = { '01': 4.1, '02': 53.25, '03': 82, '04': 118.75, '05': 129 };   /* section entries */
-    var SITE = 129;                                                                /* 2:09 */
-    var on = false, current = null, raf = null;   /* `on` = what the visitor asked for */
-    var trackPref = function () { try { return localStorage.getItem('trackMusic') !== 'off'; } catch (e) { return true; } };
-    var setPref = function (v) { try { localStorage.setItem('trackMusic', v ? 'on' : 'off'); } catch (e) {} };
+     - silent on every page load; only the Play button starts it
+     - the file isn't requested until that first press
+     - eases in quietly from 2:09; after the first Play a small control
+       stays in the nav so it can be paused from anywhere
+     - pauses when the tab is hidden, and says so if it can't play */
+  var audio = document.getElementById('papercut');
+  var playBtns = document.querySelectorAll('[data-music]');
+  if (audio && playBtns.length) {
+    var mini = document.querySelector('[data-music-mini]');
+    var status = document.getElementById('music-status');
+    var VOL = 0.7, START = 129;
+    var state = 'idle';                         /* idle | loading | playing */
+    var everStarted = false, raf = null;
 
     var fade = function (to, ms, done) {
       cancelAnimationFrame(raf);
-      var from = el.volume, t0 = performance.now();
-      if (reduce || ms <= 0) { el.volume = to; if (done) done(); return; }
+      var from = audio.volume, t0 = performance.now();
+      if (reduceMotion.matches || ms <= 0) { audio.volume = to; if (done) done(); return; }
       (function step(now) {
-        var k = Math.max(0, Math.min((now - t0) / ms, 1));   /* rAF time can precede t0 */
-        el.volume = Math.max(0, Math.min(1, from + (to - from) * k * k));   /* ease-in: gentle start */
+        var k = Math.max(0, Math.min((now - t0) / ms, 1));
+        audio.volume = Math.max(0, Math.min(1, from + (to - from) * k * k));
         if (k < 1) raf = requestAnimationFrame(step); else if (done) done();
       })(t0);
     };
-    var sync = function () {
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      btn.setAttribute('aria-label', on ? 'Pause Papercut (instrumental)' : 'Play Papercut (instrumental)');
-      label.textContent = on ? 'Pause Papercut' : 'Play Papercut';
-      if (snd) {
-        snd.setAttribute('aria-pressed', on ? 'true' : 'false');
-        snd.setAttribute('aria-label', on ? 'Pause music' : 'Play music');
+    var say = function (msg) { if (status) status.textContent = msg; };
+    var render = function () {
+      var on = state !== 'idle';
+      each(playBtns, function (b) {
+        b.classList.toggle('is-on', on);
+        b.querySelector('.music-btn__txt').textContent = on ? 'Pause Papercut' : 'Play Papercut';
+      });
+      if (mini) {
+        if (on) mini.hidden = false;            /* appears after the first Play, then stays */
+        mini.classList.toggle('is-on', on);
+        mini.setAttribute('aria-label', (on ? 'Pause' : 'Play') + ' Papercut (instrumental)');
       }
     };
-    var start = function (t) {                 /* must run inside a tap (iOS) */
-      on = true; sync();
-      var fresh = el.paused;
-      if (fresh) {
-        el.volume = 0;
-        var go = function () { try { el.currentTime = t; } catch (e) {} };
-        if (el.readyState >= 1) go(); else el.addEventListener('loadedmetadata', go, { once: true });
-      }
-      var p = el.play(); if (p && p.catch) p.catch(function () { on = false; sync(); });
-      fade(VOL, fresh ? 2500 : 400);
+    var fail = function () {
+      cancelAnimationFrame(raf);
+      state = 'idle';
+      render();
+      say('The track couldn’t be played right now.');
     };
-    var stop = function () { on = false; sync(); fade(0, 500, function () { if (!on) el.pause(); }); };
 
-    el.loop = true;
-    el.addEventListener('ended', function () { on = false; sync(); });
-    sync();
+    var play = function () {
+      if (!audio.getAttribute('src')) audio.src = audio.getAttribute('data-src');
+      state = 'loading';
+      render();
+      say('Loading…');
+      var first = !everStarted;
+      everStarted = true;
+      if (first) {
+        audio.volume = 0;
+        var seek = function () { try { audio.currentTime = START; } catch (e) {} };
+        if (audio.readyState >= 1) seek(); else audio.addEventListener('loadedmetadata', seek, { once: true });
+      }
+      var p = audio.play();
+      if (p && p.catch) p.catch(function (err) { if (!err || err.name !== 'AbortError') fail(); });
+      fade(VOL, first ? 2500 : 400);
+    };
+    var pause = function () {
+      state = 'idle';
+      render();
+      say('');
+      fade(0, 400, function () { if (state === 'idle') audio.pause(); });
+    };
 
-    btn.addEventListener('click', function () { if (on) stop(); else start(current && CUES[current] != null ? CUES[current] : SITE); });
-    if (snd) snd.addEventListener('click', function () {
-      if (on) { setPref(false); stop(); }
-      else { setPref(true); start(current && CUES[current] != null ? CUES[current] : SITE); }
+    audio.loop = true;
+    audio.addEventListener('playing', function () {
+      if (state === 'idle') return;
+      state = 'playing';
+      render();
+      say('');
     });
+    audio.addEventListener('error', function () { if (state !== 'idle') fail(); });
+
+    each(playBtns, function (b) {
+      b.addEventListener('click', function () { if (state === 'idle') play(); else pause(); });
+    });
+    if (mini) mini.addEventListener('click', function () { if (state === 'idle') play(); else pause(); });
     document.addEventListener('visibilitychange', function () {
-      if (document.hidden && on) { on = false; sync(); el.pause(); }
+      if (document.hidden && state !== 'idle') { cancelAnimationFrame(raf); state = 'idle'; render(); audio.pause(); }
     });
-
-    return {
-      /* a track was tapped open: start its part only if nothing is playing */
-      enterTrack: function (id) {
-        current = id;
-        if (!on && CUES[id] != null && trackPref()) start(CUES[id]);
-      },
-      setTrack: function (id) { current = id; }
-    };
-  })();
-
-  /* ---------- track sheets: #/trk-01 … #/trk-05 ----------
-     A hash route, so the phone's back button / gesture closes the sheet
-     and every track has a shareable link. */
-  var track = document.getElementById('track');
-  if (track) {
-    var sheet = document.getElementById('sheet');
-    var pages = track.querySelectorAll('.tp');
-    var scroller = document.getElementById('trackScroll');
-    var behind = [document.getElementById('main'), nav, document.querySelector('.foot'), document.getElementById('vibe')];
-    var openedFromList = false, returnFocus = null, baseTitle = document.title;
-
-    var idFromHash = function () { var m = location.hash.match(/^#\/trk-(\d\d)$/); return m ? m[1] : null; };
-    var setBehind = function (on) { behind.forEach(function (el) { if (el) { if (on) el.setAttribute('inert', ''); else el.removeAttribute('inert'); } }); };
-
-    var show = function (id) {
-      var page = track.querySelector('.tp[data-page="' + id + '"]');
-      if (!page) return null;
-      each(pages, function (p) { p.hidden = p !== page; });
-      track.setAttribute('aria-labelledby', 'tp-' + id);
-      if (music) music.setTrack(id);
-      document.title = page.querySelector('.tp__title').textContent + ' — Gaurang Ashava';
-      scroller.scrollTop = 0;
-      return page;
-    };
-
-    var open = function (id) {
-      var wasOpen = !track.hidden;
-      var page = show(id);
-      if (!page) return;
-      if (wasOpen) { page.classList.remove('is-swapping'); void page.offsetWidth; page.classList.add('is-swapping'); return; }
-      track.classList.remove('is-closing');
-      sheet.style.transform = '';
-      sheet.classList.remove('is-opening'); void sheet.offsetWidth;
-      if (!reduce) sheet.classList.add('is-opening');   /* slide up once */
-      track.hidden = false;
-      document.body.classList.add('is-locked');
-      setBehind(true);
-      track.focus({ preventScroll: true });
-    };
-
-    var close = function () {
-      if (track.hidden) return;
-      setBehind(false);
-      document.body.classList.remove('is-locked');
-      document.title = baseTitle;
-      var done = function () { track.hidden = true; track.classList.remove('is-closing'); sheet.style.transform = ''; };
-      if (reduce) done(); else { track.classList.add('is-closing'); window.setTimeout(done, 290); }
-      if (returnFocus) { returnFocus.focus({ preventScroll: true }); returnFocus = null; }
-    };
-
-    /* "Done", scrim, Esc, swipe-down all go through here */
-    var dismiss = function () {
-      if (openedFromList) { openedFromList = false; history.back(); }
-      else {                               /* arrived via a shared link: land on the tracklist */
-        history.replaceState(null, '', location.pathname + location.search + '#work');
-        close();
-        var w = document.getElementById('work'); if (w) w.scrollIntoView();
-      }
-    };
-
-    var route = function () { var id = idFromHash(); if (id) open(id); else close(); };
-
-    document.addEventListener('click', function (e) {
-      var link = e.target.closest('.trk__link');
-      if (link) { openedFromList = true; returnFocus = link; if (music) music.enterTrack(link.getAttribute('data-trk')); }
-    });
-    track.addEventListener('click', function (e) {
-      var go = e.target.closest('[data-go]');
-      if (go) { location.replace('#/trk-' + go.getAttribute('data-go')); return; }
-      if (e.target.closest('[data-close]')) dismiss();
-    });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !track.hidden) dismiss(); });
-
-    sheet.addEventListener('animationend', function (e) {
-      if (e.animationName === 'sheet-up') sheet.classList.remove('is-opening');
-    });
-
-    /* follow the finger / mouse / trackpad, then either dismiss or spring back */
-    var follow = function (y) {
-      sheet.classList.remove('is-opening', 'is-settling');
-      sheet.classList.add('is-dragging');
-      sheet.style.transform = 'translate(-50%, ' + y + 'px)';
-    };
-    var springBack = function () {
-      sheet.classList.remove('is-dragging');
-      sheet.classList.add('is-settling');
-      sheet.style.transform = '';
-      window.setTimeout(function () { sheet.classList.remove('is-settling'); }, 320);
-    };
-    var release = function (y) {
-      sheet.classList.remove('is-dragging');
-      if (y > 110) dismiss(); else springBack();
-    };
-
-    /* 1. drag the header down (touch, pen or mouse) */
-    var sheetBar = document.getElementById('sheetBar');
-    var startY = null, dy = 0;
-    sheetBar.addEventListener('pointerdown', function (e) {
-      if (e.target.closest('button') || e.button > 0) return;
-      startY = e.clientY; dy = 0;
-      try { sheetBar.setPointerCapture(e.pointerId); } catch (err) {}
-    });
-    sheetBar.addEventListener('pointermove', function (e) {
-      if (startY === null) return;
-      dy = Math.max(0, e.clientY - startY);
-      if (dy > 2) follow(dy);
-    });
-    var endDrag = function () { if (startY === null) return; startY = null; release(dy); };
-    sheetBar.addEventListener('pointerup', endDrag);
-    sheetBar.addEventListener('pointercancel', endDrag);
-
-    /* 2. laptops & desktops: keep scrolling up at the top of a sheet
-       (two-finger trackpad swipe or mouse wheel) to pull it down */
-    var pull = 0, pullTimer = null, lastScroll = 0;
-    scroller.addEventListener('scroll', function () { lastScroll = Date.now(); }, { passive: true });
-    scroller.addEventListener('wheel', function (e) {
-      if (e.ctrlKey || e.deltaY >= 0 || scroller.scrollTop > 0 || Date.now() - lastScroll < 250) {
-        if (pull) { pull = 0; springBack(); }
-        return;                                   /* normal scrolling, or momentum still settling */
-      }
-      e.preventDefault();
-      pull += -e.deltaY * (e.deltaMode === 1 ? 16 : 1);
-      var y = Math.min(pull * 0.5, 240);
-      window.clearTimeout(pullTimer);
-      if (y > 150) { pull = 0; release(y); return; }
-      follow(y);
-      pullTimer = window.setTimeout(function () { pull = 0; springBack(); }, 180);
-    }, { passive: false });
-
-    window.addEventListener('hashchange', route);
-    route();                               /* deep link: /#/trk-03 opens straight away */
   }
-
 })();

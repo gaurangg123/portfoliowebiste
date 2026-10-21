@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Page not found — Gaurang Ashava</title>
+<meta name="description" content="This page doesn’t exist." />
+<meta name="author" content="Gaurang Ashava" />
+<meta name="robots" content="noindex" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" id="themeColor" content="#F7F6F2" />
+
+<link rel="icon" href="/portfoliowebiste/assets/favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="apple-touch-icon" href="/portfoliowebiste/assets/apple-touch-icon.png" />
+
+<script>
+(function (d, r) {
+  r.className += ' js';
+  var t = null;
+  try { t = localStorage.getItem('theme'); } catch (e) {}
+  if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  r.setAttribute('data-theme', t);
+  d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#141413' : '#F7F6F2');
+})(document, document.documentElement);
+</script>
+<link rel="stylesheet" href="/portfoliowebiste/portfolio.css?v=11" />
+<script src="/portfoliowebiste/portfolio.js?v=11" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-nav" data-nav>
+  <div class="container nav">
+    <a class="nav__brand" href="/portfoliowebiste/">Gaurang Ashava</a>
+    <button class="icon-btn nav__menu-btn js-only" type="button" data-menu-btn aria-expanded="false" aria-controls="nav-panel">Menu</button>
+    <div class="nav__panel" id="nav-panel">
+      <nav aria-label="Main">
+        <ul class="nav__links">
+          <li><a href="/portfoliowebiste/#work">Work</a></li>
+          <li><a href="/portfoliowebiste/#about">About</a></li>
+          <li><a href="/portfoliowebiste/#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="icon-btn theme-btn js-only" type="button" data-theme-toggle><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span class="theme-btn__txt">Switch to dark theme</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="container notfound" id="top" aria-labelledby="nf-title">
+    <p class="kicker">404</p>
+    <h1 class="case-head__title" id="nf-title">This page doesn’t exist.</h1>
+    <p class="case-head__lede">The link may be old or mistyped. Everything lives on the homepage.</p>
+    <a class="btn btn--primary" href="/portfoliowebiste/">Go to the homepage</a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer">
+    <p>© <span data-year>2026</span> Gaurang Ashava · Pune, India</p>
+    <ul class="footer__links">
+      <li><a href="mailto:gaurangashava@gmail.com">Email</a></li>
+      <li><a href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      <li><a href="#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>
