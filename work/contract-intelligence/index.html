@@ -36,8 +36,8 @@
   d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
 })(document, document.documentElement);
 </script>
-<link rel="stylesheet" href="../../portfolio.css?v=12" />
-<script src="../../portfolio.js?v=12" defer></script>
+<link rel="stylesheet" href="../../portfolio.css?v=13" />
+<script src="../../portfolio.js?v=13" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -52,6 +52,7 @@
           <li><a href="../../#work">Work</a></li>
           <li><a href="../../#about">About</a></li>
           <li><a href="../../#contact">Contact</a></li>
+          <li><a href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume<span class="visually-hidden"> (opens in a new tab)</span> <span class="nav__ext" aria-hidden="true">↗</span></a></li>
         </ul>
       </nav>
       <button class="icon-btn theme-btn js-only" type="button" data-theme-toggle><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span class="theme-btn__txt">Switch to dark theme</span></button>
@@ -73,7 +74,9 @@
       </dl>
     </header>
 
-    <figure class="case-visual container">
+    <div class="container case-visual">
+        <figure class="case-visual__figure demo-preview">
+          <div class="demo-preview__frame">
           <div class="ill ill--contract" aria-hidden="true">
             <div class="ill__canvas">
               <div class="ui">
@@ -103,18 +106,21 @@
               </div>
             </div>
           </div>
-      <figcaption class="figure-note">Illustrative interface · sample content</figcaption>
-    </figure>
+            <button class="demo-preview__btn js-only" type="button" data-demo="contract-intelligence" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: AI Legal Contract Intelligence (14 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:14</span></span></button>
+          </div>
+          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
+        </figure>
+    </div>
 
     <div class="container">
-      <section class="case-sec" aria-labelledby="contract-intelligence-problem-and-users">
-        <h2 class="case-sec__h" id="contract-intelligence-problem-and-users">Problem and users</h2>
+      <section class="case-sec" aria-labelledby="contract-intelligence-business-problem">
+        <h2 class="case-sec__h" id="contract-intelligence-business-problem">Business problem</h2>
         <div class="case-sec__body">
-            <p>Legal teams need to find the clauses, obligations and key details in each contract, and keep track of their contracts over time.</p>
+            <p>Legal teams need to identify and review the clauses, obligations and important information in each contract, and keep track of their contracts.</p>
         </div>
       </section>
-      <section class="case-sec" aria-labelledby="contract-intelligence-how-it-works">
-        <h2 class="case-sec__h" id="contract-intelligence-how-it-works">How it works</h2>
+      <section class="case-sec" aria-labelledby="contract-intelligence-how-the-solution-works">
+        <h2 class="case-sec__h" id="contract-intelligence-how-the-solution-works">How the solution works</h2>
         <div class="case-sec__body">
             <ol class="steps">
               <li><span><b>Upload</b><span>A contract is uploaded to the application.</span></span></li>
@@ -122,18 +128,26 @@
               <li><span><b>Extract</b><span>It identifies clauses and extracts obligations and other key information.</span></span></li>
               <li><span><b>Track</b><span>Contracts are tracked in the application.</span></span></li>
             </ol>
+            <p class="muted">It supports human review: it organizes contract information for the legal team, and doesn’t give legal advice or make legal decisions.</p>
         </div>
       </section>
-      <section class="case-sec" aria-labelledby="contract-intelligence-design-decision">
-        <h2 class="case-sec__h" id="contract-intelligence-design-decision">Design decision</h2>
+      <section class="case-sec" aria-labelledby="contract-intelligence-result">
+        <h2 class="case-sec__h" id="contract-intelligence-result">Result</h2>
         <div class="case-sec__body">
-            <p><b>Support legal review; don’t replace it.</b> The application organizes contract information for legal teams. It doesn’t give legal advice or make legal decisions.</p>
+            <p>Legal teams get each contract’s clauses, obligations and key information as a structured summary to review, and their contracts are tracked in the application.</p>
         </div>
       </section>
-      <section class="case-sec" aria-labelledby="contract-intelligence-focus-areas">
-        <h2 class="case-sec__h" id="contract-intelligence-focus-areas">Focus areas</h2>
+      <section class="case-sec" aria-labelledby="contract-intelligence-demonstration">
+        <h2 class="case-sec__h" id="contract-intelligence-demonstration">Demonstration</h2>
         <div class="case-sec__body">
-            <ul class="tags"><li>Generative AI</li><li>Document intelligence</li><li>Enterprise AI</li><li>Legal technology</li></ul>
+            <p>A 14-second illustrative walkthrough of the workflow, using sample data. It plays silently and you can pause or replay it at any time.</p>
+            <ol class="steps">
+              <li><span><b>A sample contract</b><span>A fictional services agreement is uploaded for analysis.</span></span></li>
+              <li><span><b>Clauses and obligations</b><span>Example clauses, obligations and key details are highlighted in the text.</span></span></li>
+              <li><span><b>Structured summary</b><span>The extracted information is organized into a structured summary.</span></span></li>
+              <li><span><b>Human review</b><span>The legal team reviews the summary and makes the decisions. The application doesn’t give legal advice.</span></span></li>
+            </ol>
+            <p class="case-demo"><button class="demo-btn demo-btn--primary js-only" type="button" data-demo="contract-intelligence" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: AI Legal Contract Intelligence</span></button><span class="demo-status" data-demo-status role="status"></span></p>
         </div>
       </section>
 

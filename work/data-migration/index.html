@@ -36,8 +36,8 @@
   d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
 })(document, document.documentElement);
 </script>
-<link rel="stylesheet" href="../../portfolio.css?v=12" />
-<script src="../../portfolio.js?v=12" defer></script>
+<link rel="stylesheet" href="../../portfolio.css?v=13" />
+<script src="../../portfolio.js?v=13" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -52,6 +52,7 @@
           <li><a href="../../#work">Work</a></li>
           <li><a href="../../#about">About</a></li>
           <li><a href="../../#contact">Contact</a></li>
+          <li><a href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume<span class="visually-hidden"> (opens in a new tab)</span> <span class="nav__ext" aria-hidden="true">↗</span></a></li>
         </ul>
       </nav>
       <button class="icon-btn theme-btn js-only" type="button" data-theme-toggle><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span class="theme-btn__txt">Switch to dark theme</span></button>
@@ -68,12 +69,14 @@
       <p class="case-head__lede">A major enterprise initiative to move different types of data from traditional Microsoft SQL Server environments into a Snowflake data warehouse.</p>
       <dl class="facts">
         <div><dt>Where</dt><dd>Tata Technologies</dd></div>
-        <div><dt>From</dt><dd>Microsoft SQL Server</dd></div>
-        <div><dt>To</dt><dd>Snowflake</dd></div>
+        <div><dt>My part</dt><dd>Contributor to a team initiative</dd></div>
+        <div><dt>From → to</dt><dd>SQL Server → Snowflake</dd></div>
       </dl>
     </header>
 
-    <figure class="case-visual container">
+    <div class="container case-visual">
+        <figure class="case-visual__figure demo-preview">
+          <div class="demo-preview__frame">
           <div class="ill ill--pipe" aria-hidden="true">
             <div class="ill__canvas">
               <ol class="pipe">
@@ -87,18 +90,27 @@
               <p class="pipe__infra">Azure Data Factory · supporting infrastructure</p>
             </div>
           </div>
-      <figcaption class="figure-note">Illustrative diagram · documented stages</figcaption>
-    </figure>
+            <button class="demo-preview__btn js-only" type="button" data-demo="data-migration" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Enterprise Data Migration (16 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:16</span></span></button>
+          </div>
+          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative diagram · documented stages</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
+        </figure>
+    </div>
 
     <div class="container">
+      <section class="case-sec" aria-labelledby="data-migration-business-problem">
+        <h2 class="case-sec__h" id="data-migration-business-problem">Business problem</h2>
+        <div class="case-sec__body">
+            <p>Different types of enterprise data held in traditional Microsoft SQL Server environments needed to move into a cloud data warehouse, Snowflake.</p>
+        </div>
+      </section>
       <section class="case-sec" aria-labelledby="data-migration-my-contribution">
         <h2 class="case-sec__h" id="data-migration-my-contribution">My contribution</h2>
         <div class="case-sec__body">
             <p>This was a team initiative, and I was one of its contributors.</p>
         </div>
       </section>
-      <section class="case-sec" aria-labelledby="data-migration-how-it-works">
-        <h2 class="case-sec__h" id="data-migration-how-it-works">How it works</h2>
+      <section class="case-sec" aria-labelledby="data-migration-how-the-solution-works">
+        <h2 class="case-sec__h" id="data-migration-how-the-solution-works">How the solution works</h2>
         <div class="case-sec__body">
             <ol class="steps">
               <li><span><b>Extract</b><span>Data is extracted from the SQL Server sources.</span></span></li>
@@ -106,13 +118,21 @@
               <li><span><b>Validate</b><span>It’s validated before loading.</span></span></li>
               <li><span><b>Load</b><span>It’s loaded into Snowflake.</span></span></li>
             </ol>
-            <p class="muted">Azure Data Factory provided supporting infrastructure.</p>
+            <p class="muted">Validation is its own stage, between transformation and loading, so problems surface before data reaches the warehouse. Azure Data Factory provided supporting infrastructure.</p>
         </div>
       </section>
-      <section class="case-sec" aria-labelledby="data-migration-design-decision">
-        <h2 class="case-sec__h" id="data-migration-design-decision">Design decision</h2>
+      <section class="case-sec" aria-labelledby="data-migration-demonstration">
+        <h2 class="case-sec__h" id="data-migration-demonstration">Demonstration</h2>
         <div class="case-sec__body">
-            <p><b>Validation as its own stage.</b> Data is validated after it’s transformed and before it’s loaded, so problems surface before they reach the warehouse.</p>
+            <p>A 16-second illustrative walkthrough of the workflow, using sample data. It plays silently and you can pause or replay it at any time.</p>
+            <ol class="steps">
+              <li><span><b>Source data</b><span>Different types of data sit in traditional Microsoft SQL Server environments (sample tables).</span></span></li>
+              <li><span><b>Extract</b><span>Data is extracted from the SQL Server sources.</span></span></li>
+              <li><span><b>Transform and validate</b><span>It’s transformed for the target warehouse, then validated before loading.</span></span></li>
+              <li><span><b>Load into Snowflake</b><span>Validated data is loaded into the Snowflake data warehouse.</span></span></li>
+              <li><span><b>The end-to-end flow</b><span>Extract, transform, validate, load — with Azure Data Factory as supporting infrastructure.</span></span></li>
+            </ol>
+            <p class="case-demo"><button class="demo-btn demo-btn--primary js-only" type="button" data-demo="data-migration" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Enterprise Data Migration</span></button><span class="demo-status" data-demo-status role="status"></span></p>
         </div>
       </section>
       <section class="case-sec" aria-labelledby="data-migration-technologies">
