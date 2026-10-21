@@ -4,10 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>AI Legal Contract Intelligence — Gaurang Ashava</title>
-<meta name="description" content="AI Legal Contract Intelligence: an application that helps legal teams analyze and track uploaded contracts, identify clauses and extract obligations and key information. A project by Gaurang Ashava." />
+<meta name="description" content="AI Legal Contract Intelligence: an application that helps legal teams analyze and track uploaded contracts, identify clauses and extract obligations and key information." />
 <meta name="author" content="Gaurang Ashava" />
 <meta name="color-scheme" content="light dark" />
-<meta name="theme-color" id="themeColor" content="#F7F6F2" />
+<meta name="theme-color" id="themeColor" content="#F6F4EE" />
 <link rel="canonical" href="https://gaurangg123.github.io/portfoliowebiste/work/contract-intelligence/" />
 
 <meta property="og:type" content="article" />
@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://gaurangg123.github.io/portfoliowebiste/assets/og.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Gaurang Ashava — I build data pipelines and AI applications." />
+<meta property="og:image:alt" content="Gaurang Ashava — Data systems. AI applications. Built to be used." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="AI Legal Contract Intelligence — Gaurang Ashava" />
 <meta name="twitter:description" content="An AI-powered application for legal teams to analyze and track uploaded contracts and extract important contractual information." />
@@ -33,18 +33,18 @@
   try { t = localStorage.getItem('theme'); } catch (e) {}
   if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   r.setAttribute('data-theme', t);
-  d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#141413' : '#F7F6F2');
+  d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
 })(document, document.documentElement);
 </script>
-<link rel="stylesheet" href="../../portfolio.css?v=11" />
-<script src="../../portfolio.js?v=11" defer></script>
+<link rel="stylesheet" href="../../portfolio.css?v=12" />
+<script src="../../portfolio.js?v=12" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="site-nav" data-nav>
   <div class="container nav">
-    <a class="nav__brand" href="../../">Gaurang Ashava</a>
+    <a class="brand" href="../../"><svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12.5" cy="12.8" r="10.6" fill="#6E1020"/><circle cx="12" cy="12" r="10.6" fill="#BB2436"/><path d="M12 4.2a7.8 7.8 0 0 1 7.6 6" fill="none" stroke="#F5B3AB" stroke-width="2"/><circle cx="12" cy="12" r="3.8" fill="#FFFEFA"/></svg><span class="brand__name">Gaurang Ashava</span></a>
     <button class="icon-btn nav__menu-btn js-only" type="button" data-menu-btn aria-expanded="false" aria-controls="nav-panel">Menu</button>
     <div class="nav__panel" id="nav-panel">
       <nav aria-label="Main">
@@ -74,12 +74,12 @@
     </header>
 
     <figure class="case-visual container">
-      <div class="case-visual__stage">
           <div class="ill ill--contract" aria-hidden="true">
             <div class="ill__canvas">
+              <div class="ui">
+                <div class="ui__bar"><span class="ui__dots"><i></i><i></i><i></i></span><span class="ui__name">Contract review</span><span class="ui__meta">sample-services-agreement.pdf</span></div>
               <div class="ct">
                 <div class="ct__doc">
-                  <p class="ct__file">sample-services-agreement.pdf</p>
                   <p class="ct__title">Master services agreement</p>
                   <p class="ct__p">Between <mark class="hl hl--key">Sample Client Pvt. Ltd.</mark> and <mark class="hl hl--key">Sample Supplier Ltd.</mark>, effective <mark class="hl hl--key">1 April 2025</mark>.</p>
                   <p class="ct__p"><b>7. Term.</b> This agreement runs for <mark class="hl hl--key">24 months</mark>.</p>
@@ -94,29 +94,23 @@
                     <div><dt>Term</dt><dd>24 months</dd></div>
                   </dl>
                   <p class="ct__h">Clauses</p>
-                  <p class="ct__chips"><span>Term</span><span>Reporting</span><span>Termination</span></p>
+                  <p class="ct__list">Term · Reporting · Termination</p>
                   <p class="ct__h">Obligations</p>
                   <p class="ct__ob">Monthly service report · Supplier</p>
                   <p class="ct__track ct__extra">Tracked · review before Apr 2027</p>
                 </div>
               </div>
+              </div>
             </div>
           </div>
-      </div>
-      <figcaption>Illustrative interface with a made-up contract and synthetic data. It isn’t the product’s actual screens or output.</figcaption>
+      <figcaption class="figure-note">Illustrative interface · sample content</figcaption>
     </figure>
 
     <div class="container">
       <section class="case-sec" aria-labelledby="contract-intelligence-problem-and-users">
         <h2 class="case-sec__h" id="contract-intelligence-problem-and-users">Problem and users</h2>
         <div class="case-sec__body">
-            <p>Legal teams need to find the clauses, obligations and key details in each contract, and keep track of their contracts over time. This application analyzes uploaded contracts and pulls that information out for the team to review.</p>
-        </div>
-      </section>
-      <section class="case-sec" aria-labelledby="contract-intelligence-my-role">
-        <h2 class="case-sec__h" id="contract-intelligence-my-role">My role</h2>
-        <div class="case-sec__body">
-            <p>I worked on this application as part of my role at Tata Technologies, where I build AI-powered applications including intelligent document solutions.</p>
+            <p>Legal teams need to find the clauses, obligations and key details in each contract, and keep track of their contracts over time.</p>
         </div>
       </section>
       <section class="case-sec" aria-labelledby="contract-intelligence-how-it-works">
@@ -152,14 +146,16 @@
 </main>
 
 <footer class="site-footer">
-  <div class="container footer">
-    <p>© <span data-year>2026</span> Gaurang Ashava · Pune, India</p>
-    <ul class="footer__links">
-      <li><a href="mailto:gaurangashava@gmail.com">Email</a></li>
-      <li><a href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-      <li><a href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-      <li><a href="#top">Back to top</a></li>
-    </ul>
+  <div class="container">
+    <div class="footer">
+      <p>© <span data-year>2026</span> Gaurang Ashava · Pune, India</p>
+      <ul class="footer__links">
+        <li><a href="mailto:gaurangashava@gmail.com">Email</a></li>
+        <li><a href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        <li><a href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        <li><a href="#top">Back to top</a></li>
+      </ul>
+    </div>
   </div>
 </footer>
 </body>
