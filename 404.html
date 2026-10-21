@@ -8,7 +8,7 @@
 <meta name="author" content="Gaurang Ashava" />
 <meta name="robots" content="noindex" />
 <meta name="color-scheme" content="light dark" />
-<meta name="theme-color" id="themeColor" content="#F7F6F2" />
+<meta name="theme-color" id="themeColor" content="#F6F4EE" />
 
 <link rel="icon" href="/portfoliowebiste/assets/favicon-32.png" sizes="32x32" type="image/png" />
 <link rel="apple-touch-icon" href="/portfoliowebiste/assets/apple-touch-icon.png" />
@@ -20,18 +20,18 @@
   try { t = localStorage.getItem('theme'); } catch (e) {}
   if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   r.setAttribute('data-theme', t);
-  d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#141413' : '#F7F6F2');
+  d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
 })(document, document.documentElement);
 </script>
-<link rel="stylesheet" href="/portfoliowebiste/portfolio.css?v=11" />
-<script src="/portfoliowebiste/portfolio.js?v=11" defer></script>
+<link rel="stylesheet" href="/portfoliowebiste/portfolio.css?v=12" />
+<script src="/portfoliowebiste/portfolio.js?v=12" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="site-nav" data-nav>
   <div class="container nav">
-    <a class="nav__brand" href="/portfoliowebiste/">Gaurang Ashava</a>
+    <a class="brand" href="/portfoliowebiste/"><svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12.5" cy="12.8" r="10.6" fill="#6E1020"/><circle cx="12" cy="12" r="10.6" fill="#BB2436"/><path d="M12 4.2a7.8 7.8 0 0 1 7.6 6" fill="none" stroke="#F5B3AB" stroke-width="2"/><circle cx="12" cy="12" r="3.8" fill="#FFFEFA"/></svg><span class="brand__name">Gaurang Ashava</span></a>
     <button class="icon-btn nav__menu-btn js-only" type="button" data-menu-btn aria-expanded="false" aria-controls="nav-panel">Menu</button>
     <div class="nav__panel" id="nav-panel">
       <nav aria-label="Main">
@@ -56,14 +56,16 @@
 </main>
 
 <footer class="site-footer">
-  <div class="container footer">
-    <p>© <span data-year>2026</span> Gaurang Ashava · Pune, India</p>
-    <ul class="footer__links">
-      <li><a href="mailto:gaurangashava@gmail.com">Email</a></li>
-      <li><a href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-      <li><a href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-      <li><a href="#top">Back to top</a></li>
-    </ul>
+  <div class="container">
+    <div class="footer">
+      <p>© <span data-year>2026</span> Gaurang Ashava · Pune, India</p>
+      <ul class="footer__links">
+        <li><a href="mailto:gaurangashava@gmail.com">Email</a></li>
+        <li><a href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        <li><a href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        <li><a href="#top">Back to top</a></li>
+      </ul>
+    </div>
   </div>
 </footer>
 </body>

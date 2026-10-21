@@ -1,6 +1,6 @@
 /* ============================================================
    Gaurang Ashava — portfolio
-   theme · nav · active link · gentle reveal · pipeline demo ·
+   theme · nav · current section · record rotation fallback ·
    copy email · Papercut (plays only when Play is pressed)
    No dependencies. The pages work without this file; it only adds behaviour.
    ============================================================ */
@@ -10,41 +10,13 @@
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var each = function (list, fn) { Array.prototype.forEach.call(list, fn); };
+  var onChange = function (mq, fn) {
+    if (mq.addEventListener) mq.addEventListener('change', fn);
+    else if (mq.addListener) mq.addListener(fn);
+  };
 
   /* ---------- year ---------- */
   each(document.querySelectorAll('[data-year]'), function (el) { el.textContent = new Date().getFullYear(); });
-
-  /* ---------- theme: follows the device until the visitor picks one ---------- */
-  var themeMeta = document.getElementById('themeColor');
-  var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
-  var themeBtns = document.querySelectorAll('[data-theme-toggle]');
-
-  function savedTheme() {
-    try { return localStorage.getItem('theme'); } catch (e) { return null; }
-  }
-  function applyTheme(t) {
-    root.setAttribute('data-theme', t);
-    if (themeMeta) themeMeta.setAttribute('content', t === 'dark' ? '#141413' : '#F7F6F2');
-    each(themeBtns, function (b) {
-      var txt = b.querySelector('.theme-btn__txt');
-      if (txt) txt.textContent = t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
-    });
-  }
-  applyTheme(root.getAttribute('data-theme') || (systemDark.matches ? 'dark' : 'light'));
-
-  each(themeBtns, function (b) {
-    b.addEventListener('click', function () {
-      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      applyTheme(next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
-    });
-  });
-  var onSystem = function (e) {
-    var s = savedTheme();
-    if (s !== 'light' && s !== 'dark') applyTheme(e.matches ? 'dark' : 'light');
-  };
-  if (systemDark.addEventListener) systemDark.addEventListener('change', onSystem);
-  else if (systemDark.addListener) systemDark.addListener(onSystem);
 
   /* ---------- old track links (#/trk-01 … #/trk-05) now have real pages ----------
      The inline head script redirects fresh loads; this covers a hash
@@ -57,19 +29,47 @@
     });
   }
 
-  /* ---------- nav: hairline once the page scrolls ---------- */
-  var nav = document.querySelector('[data-nav]');
-  var ticking = false;
-  function onScroll() {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(function () {
-      ticking = false;
-      if (nav) nav.classList.toggle('is-scrolled', (window.pageYOffset || root.scrollTop) > 8);
+  /* ---------- theme: follows the device until the visitor picks one ---------- */
+  var themeMeta = document.getElementById('themeColor');
+  var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  var themeBtns = document.querySelectorAll('[data-theme-toggle]');
+
+  function savedTheme() {
+    try { return localStorage.getItem('theme'); } catch (e) { return null; }
+  }
+  function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    if (themeMeta) themeMeta.setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
+    each(themeBtns, function (b) {
+      var txt = b.querySelector('.theme-btn__txt');
+      if (txt) txt.textContent = t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
     });
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  applyTheme(root.getAttribute('data-theme') || (systemDark.matches ? 'dark' : 'light'));
+  each(themeBtns, function (b) {
+    b.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+  });
+  onChange(systemDark, function (e) {
+    var s = savedTheme();
+    if (s !== 'light' && s !== 'dark') applyTheme(e.matches ? 'dark' : 'light');
+  });
+
+  /* ---------- header: hairline once the page scrolls ---------- */
+  var nav = document.querySelector('[data-nav]');
+  var navQueued = false;
+  window.addEventListener('scroll', function () {
+    if (navQueued || !nav) return;
+    navQueued = true;
+    requestAnimationFrame(function () {
+      navQueued = false;
+      nav.classList.toggle('is-scrolled', window.pageYOffset > 8);
+    });
+  }, { passive: true });
+  if (nav) nav.classList.toggle('is-scrolled', window.pageYOffset > 8);
 
   /* ---------- small screens: menu disclosure ---------- */
   var menuBtn = document.querySelector('[data-menu-btn]');
@@ -93,10 +93,7 @@
     nav.addEventListener('focusout', function (e) {
       if (menuOpen && e.relatedTarget && !nav.contains(e.relatedTarget)) setMenu(false);
     });
-    var wide = window.matchMedia('(min-width: 640px)');
-    var onWide = function (e) { if (e.matches) setMenu(false); };
-    if (wide.addEventListener) wide.addEventListener('change', onWide);
-    else if (wide.addListener) wide.addListener(onWide);
+    onChange(window.matchMedia('(min-width: 640px)'), function (e) { if (e.matches) setMenu(false); });
   }
 
   /* ---------- current section in the nav (homepage) ---------- */
@@ -122,33 +119,35 @@
     Object.keys(linkFor).forEach(function (id) { spy.observe(document.getElementById(id)); });
   }
 
-  /* ---------- gentle entrance for content below the fold ----------
-     Nothing is hidden until this runs, and anything already on screen
-     is shown straight away, so content never waits on animation. */
-  var revealables = document.querySelectorAll('[data-reveal]');
-  if (revealables.length && 'IntersectionObserver' in window && !reduceMotion.matches) {
-    var reveal = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('is-in'); reveal.unobserve(e.target); }
-      });
-    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 });
-    var fold = window.innerHeight * 0.94;
-    each(revealables, function (el) {
-      if (el.getBoundingClientRect().top < fold) el.classList.add('is-in');
-      else reveal.observe(el);
-    });
-    root.classList.add('reveal-ready');
-  }
-
-  /* ---------- data migration diagram: stages light up once, in order ---------- */
-  var pipes = document.querySelectorAll('[data-pipe]');
-  if (pipes.length && 'IntersectionObserver' in window && !reduceMotion.matches) {
-    var pipeSeen = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('is-playing'); pipeSeen.unobserve(e.target); }
-      });
-    }, { threshold: 0.6 });
-    each(pipes, function (p) { pipeSeen.observe(p); });
+  /* ---------- hero record: scroll-linked rotation fallback ----------
+     Browsers with CSS scroll-driven animations rotate it in CSS. Elsewhere this
+     maps the hero's scroll range to the same angle: geometry is measured only
+     when the layout changes, and scrolling just reads the scroll position. */
+  var spin = document.querySelector('.sculpture__spin');
+  var heroEl = document.querySelector('.hero');
+  var cssScroll = window.CSS && CSS.supports && CSS.supports('animation-timeline: view()');
+  if (spin && heroEl && !cssScroll) {
+    var start = 0, range = 1, maxTurn = 140, turnQueued = false;
+    var turn = function () {
+      turnQueued = false;
+      var p = reduceMotion.matches ? 0 : (window.pageYOffset - start) / range;
+      p = p < 0 ? 0 : p > 1 ? 1 : p;
+      spin.style.setProperty('--turn', (p * maxTurn).toFixed(2) + 'deg');
+    };
+    var measure = function () {
+      var r = heroEl.getBoundingClientRect();
+      start = r.top + window.pageYOffset - (nav ? nav.offsetHeight : 0);
+      range = Math.max(1, r.height);
+      maxTurn = parseFloat(getComputedStyle(spin).getPropertyValue('--turn-max')) || 140;
+      turn();
+    };
+    window.addEventListener('scroll', function () {
+      if (!turnQueued) { turnQueued = true; requestAnimationFrame(turn); }
+    }, { passive: true });
+    if ('ResizeObserver' in window) new ResizeObserver(measure).observe(heroEl);
+    else window.addEventListener('resize', measure, { passive: true });
+    onChange(reduceMotion, turn);
+    measure();
   }
 
   /* ---------- copy email ---------- */
@@ -172,19 +171,21 @@
   });
 
   /* ---------- Papercut (instrumental) ----------
-     - silent on every page load; only the Play button starts it
-     - the file isn't requested until that first press
-     - eases in quietly from 2:09; after the first Play a small control
-       stays in the nav so it can be paused from anywhere
-     - pauses when the tab is hidden, and says so if it can't play */
+     - silent on every page load; only the Play button starts it, and the file
+       isn't requested before that first press
+     - what the controls show comes from the audio element's own events, so it
+       stays right when playback is blocked, fails, buffers or is paused elsewhere
+     - after the first Play a small control stays in the header for pausing
+     - eases in quietly from 2:09 and pauses when the tab is hidden */
   var audio = document.getElementById('papercut');
   var playBtns = document.querySelectorAll('[data-music]');
   if (audio && playBtns.length) {
+    var card = document.querySelector('[data-music-card]');
     var mini = document.querySelector('[data-music-mini]');
     var status = document.getElementById('music-status');
     var VOL = 0.7, START = 129;
-    var state = 'idle';                         /* idle | loading | playing */
-    var everStarted = false, raf = null;
+    var state = 'idle';                       /* idle | loading | playing — mirrors the element */
+    var started = false, raf = null;
 
     var fade = function (to, ms, done) {
       cancelAnimationFrame(raf);
@@ -201,59 +202,59 @@
       var on = state !== 'idle';
       each(playBtns, function (b) {
         b.classList.toggle('is-on', on);
-        b.querySelector('.music-btn__txt').textContent = on ? 'Pause Papercut' : 'Play Papercut';
+        b.querySelector('.music__label').textContent = on ? 'Pause' : 'Play';
       });
+      if (card) card.classList.toggle('is-playing', state === 'playing');
       if (mini) {
-        if (on) mini.hidden = false;            /* appears after the first Play, then stays */
+        if (started) mini.hidden = false;
         mini.classList.toggle('is-on', on);
         mini.setAttribute('aria-label', (on ? 'Pause' : 'Play') + ' Papercut (instrumental)');
       }
     };
-    var fail = function () {
-      cancelAnimationFrame(raf);
-      state = 'idle';
-      render();
-      say('The track couldn’t be played right now.');
-    };
+    var set = function (s, msg) { state = s; render(); if (msg !== undefined) say(msg); };
 
     var play = function () {
+      if (started && !audio.paused) { set('playing', ''); fade(VOL, 400); return; }   /* pressed again mid fade-out */
       if (!audio.getAttribute('src')) audio.src = audio.getAttribute('data-src');
-      state = 'loading';
-      render();
-      say('Loading…');
-      var first = !everStarted;
-      everStarted = true;
+      var first = !started;
+      started = true;
+      set('loading', 'Loading…');
       if (first) {
         audio.volume = 0;
         var seek = function () { try { audio.currentTime = START; } catch (e) {} };
         if (audio.readyState >= 1) seek(); else audio.addEventListener('loadedmetadata', seek, { once: true });
       }
       var p = audio.play();
-      if (p && p.catch) p.catch(function (err) { if (!err || err.name !== 'AbortError') fail(); });
+      if (p && p.catch) p.catch(function (err) {
+        if (err && err.name === 'AbortError') return;          /* paused before it started */
+        cancelAnimationFrame(raf);
+        set('idle', err && err.name === 'NotAllowedError'
+          ? 'Your browser blocked playback. Press Play to try again.'
+          : 'The track couldn’t be played. Please try again.');
+      });
       fade(VOL, first ? 2500 : 400);
     };
     var pause = function () {
-      state = 'idle';
-      render();
-      say('');
-      fade(0, 400, function () { if (state === 'idle') audio.pause(); });
+      set('idle', '');
+      fade(0, 300, function () { if (state === 'idle') audio.pause(); });
     };
+    var toggle = function () { if (state === 'idle') play(); else pause(); };
 
     audio.loop = true;
-    audio.addEventListener('playing', function () {
-      if (state === 'idle') return;
-      state = 'playing';
-      render();
-      say('');
+    audio.addEventListener('playing', function () { if (state !== 'idle') set('playing', ''); });
+    audio.addEventListener('waiting', function () { if (state === 'playing') set('loading', 'Loading…'); });
+    audio.addEventListener('pause', function () { if (state !== 'idle') set('idle', ''); });
+    audio.addEventListener('error', function () {
+      if (!started) return;
+      cancelAnimationFrame(raf);
+      set('idle', 'The track couldn’t be played. Please try again.');
     });
-    audio.addEventListener('error', function () { if (state !== 'idle') fail(); });
 
-    each(playBtns, function (b) {
-      b.addEventListener('click', function () { if (state === 'idle') play(); else pause(); });
-    });
-    if (mini) mini.addEventListener('click', function () { if (state === 'idle') play(); else pause(); });
+    each(playBtns, function (b) { b.addEventListener('click', toggle); });
+    if (mini) mini.addEventListener('click', toggle);
     document.addEventListener('visibilitychange', function () {
-      if (document.hidden && state !== 'idle') { cancelAnimationFrame(raf); state = 'idle'; render(); audio.pause(); }
+      if (document.hidden && state !== 'idle') { cancelAnimationFrame(raf); audio.pause(); }
     });
+    render();
   }
 })();
