@@ -93,7 +93,7 @@
     nav.addEventListener('focusout', function (e) {
       if (menuOpen && e.relatedTarget && !nav.contains(e.relatedTarget)) setMenu(false);
     });
-    onChange(window.matchMedia('(min-width: 640px)'), function (e) { if (e.matches) setMenu(false); });
+    onChange(window.matchMedia('(min-width: 900px)'), function (e) { if (e.matches) setMenu(false); });
   }
 
   /* ---------- current section in the nav (homepage) ---------- */
@@ -157,7 +157,7 @@
   var demoTriggers = document.querySelectorAll('[data-demo]');
   if (demoTriggers.length) {
     var siteRoot = new URL('.', (document.currentScript && document.currentScript.src) || location.href).href;
-    var DEMO_V = '13';
+    var DEMO_V = '14';
     var demoLoad = null;
     var addAsset = function (tag, attrs) {
       return new Promise(function (resolve, reject) {
