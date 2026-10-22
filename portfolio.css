@@ -54,9 +54,11 @@
 
   --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px; --s5: 24px;
   --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px;
-  --section: clamp(64px, 8vw, 112px);
+  /* section padding: follows the smaller of width and height, so phones,
+     tablets and laptop screens all keep a compact rhythm (40–80px) */
+  --section: clamp(40px, min(12vw, 6.5vh), 80px);
 
-  --maxw: 1200px;
+  --maxw: 75rem;          /* 1200px at the default text size; wider when the reader enlarges text */
   --gutter: clamp(20px, 5vw, 48px);
   --nav-h: 64px;
   --r-sm: 8px;
@@ -67,6 +69,8 @@
 
   --turn-max: 140deg;     /* hero record: rotation across the hero's scroll range */
 }
+/* short desktop screens (e.g. 1280×720, 1366×768): a tighter 32–48px rhythm */
+@media (min-width: 1024px) and (max-height: 820px) { :root { --section: clamp(32px, 6vh, 48px); } }
 
 /* ---------- Tokens: dark (system, unless light was chosen) ---------- */
 @media (prefers-color-scheme: dark) {
@@ -252,8 +256,9 @@ html:not(.js) .js-only { display: none !important; }
 
 /* ---------- Section panels ----------
    Each homepage section is its own pane: its own surface and a hairline where it begins.
-   On larger screens a pane is at least as tall as the viewport under the header, with
-   its content centred; longer sections simply grow. Nothing is clipped, nothing scrolls
+   On a desktop at least 1024 × 700, a pane is at least as tall as the viewport under the
+   header, with its content centred; longer sections simply grow. Smaller or shorter
+   windows and enlarged text use natural height. Nothing is clipped, nothing scrolls
    inside a pane, and scrolling stays the browser's own. */
 .panel { position: relative; padding-block: var(--section); background: var(--panel-bg); border-top: 1px solid var(--p-edge); }
 .panel--intro { --panel-bg: var(--p-intro); border-top: 0; }
@@ -264,16 +269,17 @@ html:not(.js) .js-only { display: none !important; }
 .panel--certs { --panel-bg: var(--p-cert); }
 .panel--lab { --panel-bg: var(--p-lab); }
 .panel--contact { --panel-bg: var(--ink); border-top-color: var(--ink); }
-@media (min-width: 900px) and (min-height: 600px) {
+@media (min-width: 1024px) and (min-height: 700px) {
   .panel {
     display: flex; flex-direction: column; justify-content: center;
     min-height: calc(100vh - var(--nav-h)); min-height: calc(100svh - var(--nav-h));
   }
   .panel--contact { min-height: calc(100vh - var(--nav-h) - var(--footer-h)); min-height: calc(100svh - var(--nav-h) - var(--footer-h)); }
 }
-.panel__head { display: grid; gap: var(--s3); margin-bottom: clamp(24px, 3vw, 40px); max-width: 44rem; align-content: start; }
+.panel__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s2) var(--s4); margin-bottom: clamp(20px, calc(var(--section) * 0.4), 28px); max-width: 44rem; }
 .panel__num { display: flex; align-items: center; gap: 10px; color: var(--accent); font: 500 var(--fs-mono)/1 var(--font-mono); letter-spacing: 0.06em; }
-.panel__num::after { content: ""; width: 32px; height: 1px; background: currentColor; opacity: 0.55; }
+.panel__num::after { content: ""; width: 24px; height: 1px; background: currentColor; opacity: 0.55; }
+.panel__head .section__lede { flex-basis: 100%; }
 /* a heading column beside its content (Experience, Education, Certifications) */
 @media (min-width: 900px) {
   .panel__split { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: clamp(32px, 5vw, 72px); align-items: start; }
@@ -316,7 +322,9 @@ html:not(.js) .js-only { display: none !important; }
 }
 
 /* ---------- The record sculpture ---------- */
-.sculpture { position: relative; width: min(100%, 460px); aspect-ratio: 1; }
+/* clipped to its own square: the record stays inside it, and the turning layer's
+   corners never widen the page */
+.sculpture { position: relative; width: min(100%, 460px); aspect-ratio: 1; overflow: hidden; overflow: clip; }
 .sculpture__layer { position: absolute; inset: 0; width: 100%; height: 100%; }
 .sculpture__spin { transform: rotate(var(--turn, 0deg)); transform-origin: 50% 50%; will-change: transform; }
 /* scroll-linked rotation: the outer record turns across the hero's scroll range and reverses
@@ -329,24 +337,55 @@ html:not(.js) .js-only { display: none !important; }
 }
 @keyframes record-turn { from { transform: rotate(0deg); } to { transform: rotate(var(--turn-max)); } }
 
-/* ---------- Selected work ---------- */
-.work__grid { display: grid; gap: clamp(16px, 2vw, 24px); }
-@media (min-width: 1100px) { .work__grid { grid-template-columns: 1fr 1fr; } .project--lead { grid-column: 1 / -1; } }
+/* ---------- Selected work ----------
+   Three equal cards: a small schematic preview, the essentials and two separate
+   actions. Three columns only where a card still reads comfortably; narrower
+   screens lay each card flat, then stack them. These breakpoints are in em, so a
+   larger default text size gets fewer columns (at 16px: 480, 640, 900, 1150px).
+   The detailed illustrations are on the case studies and in the walkthroughs. */
+.work__grid { display: grid; gap: clamp(14px, 1.6vw, 20px); }
+@media (min-width: 71.875em) { .work__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 .project {
-  position: relative; display: flex; flex-direction: column;
+  display: flex; flex-direction: column; gap: var(--s3); padding: var(--s3);
   background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-lg);
-  overflow: hidden; transition: border-color var(--t-fast) ease;
+}
+.project__mini { position: relative; flex: none; border-radius: var(--r-md); background: var(--surface-2); overflow: hidden; }
+.project__mini svg { display: block; width: 100%; height: auto; aspect-ratio: 32 / 9; }
+.project__tag { position: absolute; top: 24.4%; right: 7%; transform: translateY(-50%); color: var(--text-2); font: 500 0.6875rem/1 var(--font-mono); letter-spacing: 0.02em; }
+.project__body { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; flex: 1; padding: 0 var(--s2) var(--s2); }
+.project__title { font-size: clamp(1.1875rem, 1.1rem + 0.3vw, 1.375rem); letter-spacing: -0.015em; }
+.project__status { color: var(--text-2); font-size: var(--fs-small); }
+.project__summary, .more__desc { color: var(--text-2); font-size: 1rem; line-height: 1.55; }
+.project__actions, .more__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4); }
+.project__actions { margin-top: auto; padding-top: var(--s2); }
+.project__actions .link-more, .more__actions .link-more { font-size: var(--fs-small); }
+.project__actions .demo-status, .more__actions .demo-status { flex-basis: 100%; }
+@media (max-width: 29.99em) {
+  .project { padding: 10px; }
+  .project__body { padding: 0 4px 4px; }
+}
+@media (min-width: 40em) and (max-width: 71.874em) {
+  .project { flex-direction: row; align-items: flex-start; gap: var(--s5); }
+  .project__mini { width: 40%; }
+  .project__body { padding: var(--s2) var(--s3) var(--s2) 0; }
 }
 
-.project__text { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s3); padding: clamp(24px, 3vw, 36px); }
-.project__title { font-size: var(--fs-h3); letter-spacing: -0.018em; }
-.project--lead .project__title { font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem); letter-spacing: -0.022em; }
-.project__summary { color: var(--text-2); max-width: 32em; }
-.project__text .link-more { margin-top: var(--s1); }
-.project__status { color: var(--text-2); font-size: var(--fs-small); }
-
-.project__figure { margin-top: auto; padding: 0 clamp(16px, 2.4vw, 32px) clamp(16px, 2.4vw, 28px); }
+/* schematic previews: shapes in the site's colours */
+.project__mini .m-win { fill: var(--surface); stroke: var(--line-2); }
+.project__mini .m-line { fill: none; stroke: var(--line); }
+.project__mini .m-dot, .project__mini .m-soft, .project__mini .m-bar { fill: var(--line-2); }
+.project__mini .m-pane { fill: var(--bg); }
+.project__mini .m-ink { fill: var(--text-2); }
+.project__mini .m-on, .project__mini .m-oblig { fill: var(--mark-pink); }
+.project__mini .m-key { fill: var(--mark-key); }
+.project__mini .m-field, .project__mini .m-bot { fill: var(--surface); stroke: var(--line-2); }
+.project__mini .m-me { fill: var(--text); }
+.project__mini .m-btn, .project__mini .m-bar--key, .project__mini .m-file--1 { fill: #BB2436; }
+.project__mini .m-file--2 { fill: #2F5D9E; }
+.project__mini .m-file--3 { fill: #2E7A4A; }
+.project__mini .m-clause { fill: none; stroke: #BB2436; stroke-width: 1.5; }
+.project__mini svg * { vector-effect: non-scaling-stroke; }
 .figure-note { margin-top: 10px; color: var(--text-2); font: 400 0.8125rem/1.4 var(--font-mono); }
 
 /* status: a filled dot when live, a ring when scheduled */
@@ -395,31 +434,16 @@ html:not(.js) .demo-preview__frame .ill { border-bottom: 0; border-radius: inher
 .demo-btn--primary { border-color: var(--text); }
 @media (hover: hover) { .demo-btn:hover { border-color: var(--text); } }
 
-@media (min-width: 900px) {
-  .project--lead { flex-direction: row; align-items: stretch; }
-  .project--lead .project__text { flex: 0 0 36%; justify-content: center; padding-right: var(--s4); }
-  .project--lead .project__figure { flex: 1 1 auto; min-width: 0; margin: 0; padding: clamp(24px, 3vw, 36px) clamp(24px, 3vw, 36px) clamp(20px, 2.6vw, 30px) 0; display: flex; flex-direction: column; justify-content: center; }
-}
-@media (min-width: 1100px) {
-  .project:not(.project--lead) .ill { aspect-ratio: 4 / 3; }
-}
-
-/* more work: compact list */
-.more { margin-top: clamp(40px, 5vw, 64px); }
-.more__title { font-size: var(--fs-h3); margin-bottom: var(--s3); }
-.more__list { list-style: none; border-top: 1px solid var(--line); }
-.more__item { position: relative; display: grid; gap: 4px var(--s6); padding: var(--s5) 0; border-bottom: 1px solid var(--line); }
+/* more work: two compact entries, side by side from 900px */
+.more { margin-top: clamp(24px, calc(var(--section) / 2), 36px); }
+.more__title { font-size: 1.125rem; margin-bottom: var(--s2); }
+.more__list { list-style: none; display: grid; column-gap: clamp(24px, 3vw, 48px); border-top: 1px solid var(--line); }
+@media (min-width: 56.25em) { .more__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.more__item { display: grid; grid-template-rows: auto 1fr auto; gap: 4px; padding: var(--s4) 0; border-bottom: 1px solid var(--line); }
+.more__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--s4); }
 .more__name { font-size: 1.1875rem; letter-spacing: -0.01em; }
-.more__meta { color: var(--text-2); font-size: var(--fs-small); display: flex; align-items: center; gap: 8px; }
-.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
-.more__desc { color: var(--text-2); }
-.more__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s5); margin-top: var(--s2); }
-.more__actions .demo-status { flex-basis: 100%; }
-@media (min-width: 900px) {
-  .more__item { grid-template-columns: 4fr 5fr minmax(0, auto); align-items: center; }
-  .more__actions { margin-top: 0; justify-content: flex-end; }
-  .more__main { display: grid; gap: 2px; }
-}
+.more__meta { color: var(--text-2); font-size: var(--fs-small); }
+.more__actions { margin-top: var(--s2); }
 
 /* ---------- Illustrations: figures built in HTML/CSS, scaled with their container ---------- */
 .ill {
@@ -585,28 +609,32 @@ html:not(.js) .demo-preview__frame .ill { border-bottom: 0; border-radius: inher
 }
 
 /* ---------- About ---------- */
-.about__grid { display: grid; gap: clamp(28px, 4.5vw, 64px); }
-@media (min-width: 900px) { .about__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; } }
+.about__grid { display: grid; gap: clamp(24px, 4vw, 56px); }
+@media (min-width: 900px) { .about__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; } }
+/* the portrait is cropped, never stretched: a modest landscape crop on small screens;
+   on wider ones, as tall as the space under the header allows, within limits.
+   The crop keeps the face (about 66% across, 35% down) and the turbines behind. */
 .about__photo img {
-  width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 66% 46%;
+  width: 100%; aspect-ratio: 4 / 3; max-height: 380px; object-fit: cover; object-position: 62% 40%;
   border-radius: var(--r-lg); background: var(--surface-2);
 }
-@media (min-width: 900px) { .about__photo img { aspect-ratio: 4 / 5; object-position: 60% 52%; } }
-.about__body { display: grid; gap: var(--s5); align-content: center; }
+@media (min-width: 900px) {
+  .about__photo img { aspect-ratio: auto; max-height: none; height: clamp(320px, calc(100vh - var(--nav-h) - 2 * var(--section)), 540px); object-position: 64% 42%; }
+}
+.about__body { display: grid; gap: var(--s4); align-content: center; }
 .about__body .panel__head { margin-bottom: 0; }
-.about__intro { display: grid; gap: var(--s4); max-width: 36em; }
+.about__intro { display: grid; gap: var(--s3); max-width: 36em; }
 .about__intro p:first-child { font-size: var(--fs-lede); line-height: 1.5; }
 .about__intro p + p { color: var(--text-2); }
-.about__intro .about__links { margin-top: var(--s1); }
 .nav__ext { font-size: 0.85em; margin-left: 3px; }
 
 /* Papercut: a small record, a title and one clearly labelled control */
 .music {
   display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--s4);
-  max-width: 30rem; padding: 14px 14px 14px 14px;
+  max-width: 30rem; padding: 12px;
   border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
 }
-.music__thumb { width: 56px; height: 56px; }
+.music__thumb { width: 48px; height: 48px; }
 .music__thumb svg { width: 100%; height: 100%; }
 .music__title { font-weight: 600; line-height: 1.25; }
 .music__artist { color: var(--text-2); font-size: var(--fs-small); }

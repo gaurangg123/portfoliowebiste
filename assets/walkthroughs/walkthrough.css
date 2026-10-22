@@ -212,7 +212,7 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 .wt-kp__field p { min-height: 3.6em; padding: 0.7em 0.9em; border: 1px solid var(--line-2); border-radius: 0.6em; background: var(--surface); }
 .wt-kp__send { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6em 1em; }
 .wt-kp__btn { display: inline-flex; padding: 0.55em 1.15em; border-radius: 999px; background: #BB2436; color: #FFFFFF; font-weight: 600; }
-.is-s2 .wt-kp__btn { animation: wt-press 0.55s ease 1.4s both; }
+.is-s2 .wt-kp__btn { animation: wt-press 0.55s ease 1.4s; }
 .wt-kp__done { display: inline-flex; align-items: center; gap: 0.45em; color: var(--text-2); font-size: 0.92em; opacity: 0; transition: opacity 0.4s ease 2s; }
 .wt-kp__done::before { content: ""; width: 0.6em; height: 0.6em; border-radius: 50%; background: #2E7A4A; }
 .is-s2 .wt-kp__done { opacity: 1; }
@@ -493,7 +493,7 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 .is-s5 .wt-bs__from .b { opacity: 1; }
 .wt-bs__go { margin-left: auto; }
 .wt-bs__go span { display: inline-flex; padding: 0.55em 1.15em; border-radius: 999px; background: #BB2436; color: #FFFFFF; font-weight: 600; white-space: nowrap; }
-[data-scene="3"] .wt-bs__go span { animation: wt-press 0.55s ease 0.4s both; }
+[data-scene="3"] .wt-bs__go span { animation: wt-press 0.55s ease 0.4s; }
 
 .wt-bs__body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 1.2em; padding: 1em 1.1em 1.1em; }
 .wt-bs__sheet, .wt-bs__chart, .wt-bs__chat { grid-row: 1; min-height: 0; border: 1px solid var(--line); border-radius: 0.8em; }

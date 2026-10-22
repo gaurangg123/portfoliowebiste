@@ -39,8 +39,8 @@
   d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
 })(document, document.documentElement);
 </script>
-<link rel="stylesheet" href="portfolio.css?v=14" />
-<script src="portfolio.js?v=14" defer></script>
+<link rel="stylesheet" href="portfolio.css?v=15" />
+<script src="portfolio.js?v=15" defer></script>
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Gaurang Ashava","jobTitle":"Data & AI Engineer","url":"https://gaurangg123.github.io/portfoliowebiste/","email":"mailto:gaurangashava@gmail.com","image":"https://gaurangg123.github.io/portfoliowebiste/assets/gaurang.jpg","address":{"@type":"PostalAddress","addressLocality":"Pune","addressCountry":"IN"},"worksFor":{"@type":"Organization","name":"Tata Technologies"},"alumniOf":{"@type":"CollegeOrUniversity","name":"SRM Institute of Science and Technology"},"sameAs":["https://www.linkedin.com/in/gaurang-ashava/","https://github.com/gaurangg123"]}
@@ -132,134 +132,86 @@
     </header>
 
     <div class="work__grid">
-      <article class="project project--lead">
-        <div class="project__text">
+      <article class="project">
+        <div class="project__mini" aria-hidden="true">
+          <svg viewBox="0 0 320 90" focusable="false">
+            <rect class="m-win" x="14" y="12" width="292" height="100" rx="8"/>
+            <circle class="m-dot" cx="26" cy="22" r="2.5"/><circle class="m-dot" cx="34" cy="22" r="2.5"/><circle class="m-dot" cx="42" cy="22" r="2.5"/>
+            <path class="m-line" d="M14 32.5h292"/>
+            <path class="m-pane" d="M14.5 33h55v57h-55z"/>
+            <rect class="m-on" x="20" y="38" width="44" height="9" rx="4.5"/>
+            <rect class="m-soft" x="25" y="52" width="30" height="4" rx="2"/><rect class="m-soft" x="25" y="61" width="34" height="4" rx="2"/><rect class="m-soft" x="25" y="70" width="28" height="4" rx="2"/><rect class="m-soft" x="25" y="79" width="36" height="4" rx="2"/>
+            <path class="m-line" d="M69.5 33v57"/>
+            <rect class="m-field" x="80" y="39" width="124" height="10" rx="5"/>
+            <rect class="m-file m-file--1" x="80" y="55" width="9" height="10" rx="1.5"/><rect class="m-ink" x="95" y="55.5" width="74" height="4" rx="2"/><rect class="m-soft" x="95" y="61.5" width="42" height="3" rx="1.5"/><rect class="m-file m-file--2" x="80" y="67" width="9" height="10" rx="1.5"/><rect class="m-ink" x="95" y="67.5" width="62" height="4" rx="2"/><rect class="m-soft" x="95" y="73.5" width="50" height="3" rx="1.5"/><rect class="m-file m-file--3" x="80" y="79" width="9" height="10" rx="1.5"/><rect class="m-ink" x="95" y="79.5" width="68" height="4" rx="2"/><rect class="m-soft" x="95" y="85.5" width="36" height="3" rx="1.5"/>
+            <path class="m-pane" d="M214.5 33h91v57h-91z"/>
+            <path class="m-line" d="M214.5 33v57"/>
+            <rect class="m-me" x="246" y="40" width="52" height="11" rx="5.5"/>
+            <rect class="m-bot" x="222" y="57" width="68" height="18" rx="6"/>
+            <rect class="m-soft" x="228" y="64.5" width="44" height="3" rx="1.5"/>
+            </svg>
+          <span class="project__tag">Illustration</span>
+        </div>
+        <div class="project__body">
           <p class="kicker">Knowledge platform · Generative AI</p>
           <h3 class="project__title">Enterprise Knowledge Portal</h3>
-          <p class="project__status"><span class="status-dot status-dot--scheduled">Built end to end · Production deployment scheduled</span></p>
+          <p class="project__status"><span class="status-dot status-dot--scheduled">Developed end to end · Production deployment scheduled</span></p>
           <p class="project__summary">An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards.</p>
-          <a class="link-more" href="work/knowledge-portal/">Read the case study<span class="visually-hidden">: Enterprise Knowledge Portal</span> <span class="arrow" aria-hidden="true">→</span></a>
+          <div class="project__actions"><button class="demo-btn js-only" type="button" data-demo="knowledge-portal" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Enterprise Knowledge Portal</span></button><a class="link-more" href="work/knowledge-portal/">Case study<span class="visually-hidden">: Enterprise Knowledge Portal</span> <span class="arrow" aria-hidden="true">→</span></a><span class="demo-status" data-demo-status role="status"></span></div>
         </div>
-        <figure class="project__figure demo-preview">
-          <div class="demo-preview__frame">
-          <div class="ill ill--kp" aria-hidden="true">
-            <div class="ill__canvas">
-              <div class="ui">
-                <div class="ui__bar"><span class="ui__dots"><i></i><i></i><i></i></span><span class="ui__name">Knowledge portal</span><span class="ui__meta">Sample data</span></div>
-                <div class="kp__body">
-                  <ul class="kp__nav"><li class="is-on">Discover</li><li>Requests</li><li>Approvals</li><li>Assistant</li><li>Leaderboard</li></ul>
-                  <div class="kp__main">
-                    <p class="kp__query">3 results for <b>“onboarding”</b></p>
-                    <ul class="kp__results">
-                      <li><span class="file file--pdf">PDF</span><span><b>New joiner onboarding guide</b><small>HR · Onboarding</small></span></li>
-                      <li><span class="file file--doc">DOC</span><span><b>Laptop and access setup</b><small>IT · Onboarding</small></span></li>
-                      <li><span class="file file--xls">XLS</span><span><b>First-week checklist</b><small>HR · Templates</small></span></li>
-                    </ul>
-                  </div>
-                  <div class="kp__chat">
-                    <p class="kp__chat-h"><i></i>Assistant</p>
-                    <p class="msg msg--me">Where's the onboarding guide for new joiners?</p>
-                    <p class="msg msg--bot">It's in HR › Onboarding, titled “New joiner onboarding guide”.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-            <button class="demo-preview__btn js-only" type="button" data-demo="knowledge-portal" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Enterprise Knowledge Portal (22 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:22</span></span></button>
-          </div>
-          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
-        </figure>
       </article>
 
       <article class="project">
-        <div class="project__text">
+        <div class="project__mini" aria-hidden="true">
+          <svg viewBox="0 0 320 90" focusable="false">
+            <rect class="m-win" x="14" y="12" width="292" height="100" rx="8"/>
+            <circle class="m-dot" cx="26" cy="22" r="2.5"/><circle class="m-dot" cx="34" cy="22" r="2.5"/><circle class="m-dot" cx="42" cy="22" r="2.5"/>
+            <path class="m-line" d="M14 32.5h292"/>
+            <rect class="m-field" x="24" y="38" width="46" height="11" rx="5.5"/>
+            <rect class="m-field" x="76" y="38" width="46" height="11" rx="5.5"/>
+            <rect class="m-field" x="128" y="38" width="62" height="11" rx="5.5"/>
+            <rect class="m-btn" x="244" y="38" width="54" height="11" rx="5.5"/>
+            <path class="m-line" d="M14 55.5h292"/>
+            <path class="m-pane" d="M14.5 56h82v34h-82z"/>
+            <rect class="m-ink" x="22" y="62" width="28" height="3" rx="1.5"/><rect class="m-ink" x="62" y="62" width="22" height="3" rx="1.5"/><rect class="m-soft" x="22" y="69" width="28" height="3" rx="1.5"/><rect class="m-soft" x="62" y="69" width="22" height="3" rx="1.5"/><rect class="m-soft" x="22" y="76" width="28" height="3" rx="1.5"/><rect class="m-soft" x="62" y="76" width="22" height="3" rx="1.5"/><rect class="m-soft" x="22" y="83" width="28" height="3" rx="1.5"/><rect class="m-soft" x="62" y="83" width="22" height="3" rx="1.5"/>
+            <path class="m-line" d="M96.5 56v34"/>
+            <rect class="m-bar m-bar--key" x="110" y="75.4" width="10" height="12.6" rx="1.5"/><rect class="m-bar" x="125.6" y="74.2" width="10" height="13.8" rx="1.5"/><rect class="m-bar" x="141.2" y="74.6" width="10" height="13.4" rx="1.5"/><rect class="m-bar" x="156.8" y="73.0" width="10" height="15.0" rx="1.5"/><rect class="m-bar" x="172.4" y="72.0" width="10" height="16.0" rx="1.5"/><rect class="m-bar" x="188" y="72.4" width="10" height="15.6" rx="1.5"/><rect class="m-bar" x="203.6" y="70.7" width="10" height="17.3" rx="1.5"/><rect class="m-bar" x="219.2" y="69.1" width="10" height="18.9" rx="1.5"/><rect class="m-bar" x="234.8" y="69.9" width="10" height="18.1" rx="1.5"/><rect class="m-bar" x="250.4" y="66.7" width="10" height="21.3" rx="1.5"/><rect class="m-bar" x="266" y="64.4" width="10" height="23.6" rx="1.5"/><rect class="m-bar m-bar--key" x="281.6" y="62.0" width="10" height="26.0" rx="1.5"/>
+            </svg>
+          <span class="project__tag">Illustration</span>
+        </div>
+        <div class="project__body">
           <p class="kicker">Data and AI · Enterprise analytics</p>
           <h3 class="project__title">Business Sheet</h3>
           <p class="project__summary">Turns manual Excel reporting into customisable charts and comparisons, with a chatbot that helps users understand the metrics.</p>
-          <a class="link-more" href="work/business-sheet/">Read the case study<span class="visually-hidden">: Business Sheet</span> <span class="arrow" aria-hidden="true">→</span></a>
+          <div class="project__actions"><button class="demo-btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Business Sheet</span></button><a class="link-more" href="work/business-sheet/">Case study<span class="visually-hidden">: Business Sheet</span> <span class="arrow" aria-hidden="true">→</span></a><span class="demo-status" data-demo-status role="status"></span></div>
         </div>
-        <figure class="project__figure demo-preview">
-          <div class="demo-preview__frame">
-          <div class="ill ill--sheet" aria-hidden="true">
-            <div class="ill__canvas">
-              <div class="ui">
-                <div class="ui__bar"><span class="ui__dots"><i></i><i></i><i></i></span><span class="ui__name">Business Sheet</span><span class="ui__meta">Sample data</span></div>
-                <div class="bs__tools">
-                  <span class="bs__pick"><small>Organization</small><b>Org A</b></span>
-                  <span class="bs__pick"><small>Line of business</small><b>LOB 2</b></span>
-                  <span class="bs__pick"><small>Financial years</small><b>FY2014 → Current FY</b></span>
-                  <span class="bs__go">Generate charts</span>
-                </div>
-                <div class="bs">
-                  <div class="bs__sheet">
-                    <p class="bs__file">sample-data.xlsx</p>
-                    <table>
-                      <thead><tr><th scope="col">FY</th><th scope="col">Revenue</th></tr></thead>
-                      <tbody>
-                        <tr><td>FY2014</td><td>64</td></tr>
-                        <tr><td>FY2015</td><td>70</td></tr>
-                        <tr class="is-gap"><td>⋮</td><td>⋮</td></tr>
-                        <tr><td>Current FY</td><td>132</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="bs__chart">
-                    <div class="bs__head"><b>Revenue · Org A · LOB 2</b></div>
-                    <div class="bs__plot"><i style="--h:42%" data-v="64"></i><i style="--h:46%"></i><i style="--h:44%"></i><i style="--h:50%"></i><i style="--h:53%"></i><i style="--h:51%"></i><i style="--h:57%"></i><i style="--h:63%"></i><i style="--h:60%"></i><i style="--h:70%"></i><i style="--h:78%"></i><i style="--h:86%" data-v="132"></i></div>
-                    <div class="bs__axis"><span>FY2014</span><span>Current FY</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-            <button class="demo-preview__btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Business Sheet (21 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:21</span></span></button>
-          </div>
-          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
-        </figure>
       </article>
 
       <article class="project">
-        <div class="project__text">
+        <div class="project__mini" aria-hidden="true">
+          <svg viewBox="0 0 320 90" focusable="false">
+            <rect class="m-win" x="14" y="12" width="292" height="100" rx="8"/>
+            <circle class="m-dot" cx="26" cy="22" r="2.5"/><circle class="m-dot" cx="34" cy="22" r="2.5"/><circle class="m-dot" cx="42" cy="22" r="2.5"/>
+            <path class="m-line" d="M14 32.5h292"/>
+            <rect class="m-ink" x="26" y="39" width="92" height="5" rx="2.5"/>
+            <rect class="m-key" x="64" y="47.5" width="54" height="9" rx="2"/>
+            <rect class="m-oblig" x="24" y="65.5" width="122" height="9" rx="2"/>
+            <rect class="m-soft" x="26" y="50" width="150" height="4" rx="2"/><rect class="m-soft" x="26" y="59" width="162" height="4" rx="2"/><rect class="m-soft" x="26" y="68" width="140" height="4" rx="2"/><rect class="m-soft" x="26" y="77" width="156" height="4" rx="2"/><rect class="m-soft" x="26" y="86" width="118" height="4" rx="2"/>
+            <path class="m-clause" d="M26 83h110"/>
+            <path class="m-pane" d="M206.5 33h99v57h-99z"/>
+            <path class="m-line" d="M206.5 33v57"/>
+            <rect class="m-ink" x="216" y="39" width="48" height="5" rx="2.5"/>
+            <rect class="m-soft" x="216" y="50" width="26" height="4" rx="2"/><rect class="m-ink" x="262" y="50" width="32" height="4" rx="2"/><rect class="m-soft" x="216" y="60" width="30" height="4" rx="2"/><rect class="m-ink" x="258" y="60" width="36" height="4" rx="2"/><rect class="m-soft" x="216" y="70" width="22" height="4" rx="2"/><rect class="m-ink" x="266" y="70" width="28" height="4" rx="2"/>
+            <rect class="m-oblig" x="214" y="79" width="78" height="9" rx="3"/>
+            </svg>
+          <span class="project__tag">Illustration</span>
+        </div>
+        <div class="project__body">
           <p class="kicker">Generative AI · Document intelligence</p>
           <h3 class="project__title">AI Legal Contract Intelligence</h3>
-          <p class="project__summary">Helps legal teams review contracts by extracting clauses, obligations and key information.</p>
-          <a class="link-more" href="work/contract-intelligence/">Read the case study<span class="visually-hidden">: AI Legal Contract Intelligence</span> <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="project__summary">Helps legal teams analyze and track uploaded contracts, extracting clauses, obligations and key information.</p>
+          <div class="project__actions"><button class="demo-btn js-only" type="button" data-demo="contract-intelligence" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: AI Legal Contract Intelligence</span></button><a class="link-more" href="work/contract-intelligence/">Case study<span class="visually-hidden">: AI Legal Contract Intelligence</span> <span class="arrow" aria-hidden="true">→</span></a><span class="demo-status" data-demo-status role="status"></span></div>
         </div>
-        <figure class="project__figure demo-preview">
-          <div class="demo-preview__frame">
-          <div class="ill ill--contract" aria-hidden="true">
-            <div class="ill__canvas">
-              <div class="ui">
-                <div class="ui__bar"><span class="ui__dots"><i></i><i></i><i></i></span><span class="ui__name">Contract review</span><span class="ui__meta">sample-services-agreement.pdf</span></div>
-              <div class="ct">
-                <div class="ct__doc">
-                  <p class="ct__title">Master services agreement</p>
-                  <p class="ct__p">Between <mark class="hl hl--key">Sample Client Pvt. Ltd.</mark> and <mark class="hl hl--key">Sample Supplier Ltd.</mark>, effective <mark class="hl hl--key">1 April 2025</mark>.</p>
-                  <p class="ct__p"><b>7. Term.</b> This agreement runs for <mark class="hl hl--key">24 months</mark>.</p>
-                  <p class="ct__p"><b>9. Reporting.</b> <mark class="hl hl--oblig">The Supplier shall deliver a monthly service report.</mark></p>
-                  <p class="ct__p ct__extra"><b>12. Termination.</b> <span class="hl hl--clause">Either party may terminate with 60 days' written notice.</span></p>
-                </div>
-                <div class="ct__panel">
-                  <p class="ct__h">Key information</p>
-                  <dl class="ct__fields">
-                    <div><dt>Parties</dt><dd>2</dd></div>
-                    <div><dt>Effective</dt><dd>1 Apr 2025</dd></div>
-                    <div><dt>Term</dt><dd>24 months</dd></div>
-                  </dl>
-                  <p class="ct__h">Clauses</p>
-                  <p class="ct__list">Term · Reporting · Termination</p>
-                  <p class="ct__h">Obligations</p>
-                  <p class="ct__ob">Monthly service report · Supplier</p>
-                  <p class="ct__track ct__extra">Tracked · review before Apr 2027</p>
-                </div>
-              </div>
-              </div>
-            </div>
-          </div>
-            <button class="demo-preview__btn js-only" type="button" data-demo="contract-intelligence" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: AI Legal Contract Intelligence (14 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:14</span></span></button>
-          </div>
-          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
-        </figure>
       </article>
     </div>
 
@@ -267,20 +219,20 @@
       <h3 class="more__title">More work</h3>
       <ul class="more__list">
         <li class="more__item">
-          <div class="more__main">
+          <div class="more__head">
             <h4 class="more__name">AI Resume Matching</h4>
-            <p class="more__meta"><span class="live-dot" aria-hidden="true"></span>Live in production</p>
+            <p class="more__meta"><span class="status-dot">Live in production</span></p>
           </div>
-          <p class="more__desc">Evaluates candidate profiles against role requirements.</p>
-          <div class="more__actions"><button class="demo-btn js-only" type="button" data-demo="resume-matching" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: AI Resume Matching</span></button><a class="link-more" href="work/resume-matching/">Read more<span class="visually-hidden">: AI Resume Matching</span> <span class="arrow" aria-hidden="true">→</span></a><span class="demo-status" data-demo-status role="status"></span></div>
+          <p class="more__desc">Evaluates candidate profiles against role requirements. I developed its original proof of concept.</p>
+          <div class="more__actions"><button class="demo-btn js-only" type="button" data-demo="resume-matching" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: AI Resume Matching</span></button><a class="link-more" href="work/resume-matching/">Case study<span class="visually-hidden">: AI Resume Matching</span> <span class="arrow" aria-hidden="true">→</span></a><span class="demo-status" data-demo-status role="status"></span></div>
         </li>
         <li class="more__item">
-          <div class="more__main">
+          <div class="more__head">
             <h4 class="more__name">Enterprise Data Migration</h4>
             <p class="more__meta">Data engineering · SQL Server to Snowflake</p>
           </div>
           <p class="more__desc">A team initiative I contributed to, migrating data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.</p>
-          <div class="more__actions"><button class="demo-btn js-only" type="button" data-demo="data-migration" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Enterprise Data Migration</span></button><a class="link-more" href="work/data-migration/">Read more<span class="visually-hidden">: Enterprise Data Migration</span> <span class="arrow" aria-hidden="true">→</span></a><span class="demo-status" data-demo-status role="status"></span></div>
+          <div class="more__actions"><button class="demo-btn js-only" type="button" data-demo="data-migration" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Enterprise Data Migration</span></button><a class="link-more" href="work/data-migration/">Case study<span class="visually-hidden">: Enterprise Data Migration</span> <span class="arrow" aria-hidden="true">→</span></a><span class="demo-status" data-demo-status role="status"></span></div>
         </li>
       </ul>
     </div>
