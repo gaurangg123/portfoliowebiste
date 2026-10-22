@@ -183,7 +183,7 @@
     cur.playing = false;
     cancelAnimationFrame(cur.raf);
     cur.raf = 0;
-    animations('pause');
+    animations('finish');   /* settle the current step: a paused frame is never half-drawn */
     setButton();
   }
   function finish() {
@@ -210,7 +210,7 @@
     cur.ended = false;
     if (cur.playing) cur.last = performance.now();
     progress();
-    if (!cur.playing) animations('play');   /* a chosen step is shown in full even while paused */
+    if (!cur.playing) animations('finish');   /* while paused, a chosen step appears complete at once */
   }
 
   /* ---------- open / close ---------- */

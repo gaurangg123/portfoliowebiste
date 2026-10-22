@@ -11,7 +11,7 @@ const { sculpture } = require('./sculpture.js');
 
 const REPO = path.resolve(__dirname, '..');
 const SITE = 'https://gaurangg123.github.io/portfoliowebiste/';
-const V = '14';                                   // cache-busting for css/js
+const V = '15';                                   // cache-busting for css/js
 const EMAIL = 'gaurangashava@gmail.com';
 const GITHUB = 'https://github.com/gaurangg123';
 const LINKEDIN = 'https://www.linkedin.com/in/gaurang-ashava/';
@@ -184,6 +184,50 @@ ILL.sheet = `<div class="ill ill--sheet" aria-hidden="true">
             </div>
           </div>`;
 
+/* ---------- small previews for the homepage cards ----------
+   Schematic and decorative: shapes only, drawn in the site's colours. The detailed
+   illustrations stay on the case studies and in the walkthroughs. */
+const miniWin = (body) => `<svg viewBox="0 0 320 90" focusable="false">
+            <rect class="m-win" x="14" y="12" width="292" height="100" rx="8"/>
+            <circle class="m-dot" cx="26" cy="22" r="2.5"/><circle class="m-dot" cx="34" cy="22" r="2.5"/><circle class="m-dot" cx="42" cy="22" r="2.5"/>
+            <path class="m-line" d="M14 32.5h292"/>
+            ${body}
+            </svg>`;
+const MINI = {
+  // a sidebar, search results and a chat beside them
+  'knowledge-portal': miniWin(`<path class="m-pane" d="M14.5 33h55v57h-55z"/>
+            <rect class="m-on" x="20" y="38" width="44" height="9" rx="4.5"/>
+            ${[52, 61, 70, 79].map((y, i) => `<rect class="m-soft" x="25" y="${y}" width="${[30, 34, 28, 36][i]}" height="4" rx="2"/>`).join('')}
+            <path class="m-line" d="M69.5 33v57"/>
+            <rect class="m-field" x="80" y="39" width="124" height="10" rx="5"/>
+            ${[55, 67, 79].map((y, i) => `<rect class="m-file m-file--${i + 1}" x="80" y="${y}" width="9" height="10" rx="1.5"/><rect class="m-ink" x="95" y="${y + 0.5}" width="${[74, 62, 68][i]}" height="4" rx="2"/><rect class="m-soft" x="95" y="${y + 6.5}" width="${[42, 50, 36][i]}" height="3" rx="1.5"/>`).join('')}
+            <path class="m-pane" d="M214.5 33h91v57h-91z"/>
+            <path class="m-line" d="M214.5 33v57"/>
+            <rect class="m-me" x="246" y="40" width="52" height="11" rx="5.5"/>
+            <rect class="m-bot" x="222" y="57" width="68" height="18" rx="6"/>
+            <rect class="m-soft" x="228" y="64.5" width="44" height="3" rx="1.5"/>`),
+  // selections, a Generate button, the sheet and the chart it produces
+  'business-sheet': miniWin(`<rect class="m-field" x="24" y="38" width="46" height="11" rx="5.5"/>
+            <rect class="m-field" x="76" y="38" width="46" height="11" rx="5.5"/>
+            <rect class="m-field" x="128" y="38" width="62" height="11" rx="5.5"/>
+            <rect class="m-btn" x="244" y="38" width="54" height="11" rx="5.5"/>
+            <path class="m-line" d="M14 55.5h292"/>
+            <path class="m-pane" d="M14.5 56h82v34h-82z"/>
+            ${[62, 69, 76, 83].map((y, i) => `<rect class="${i ? 'm-soft' : 'm-ink'}" x="22" y="${y}" width="28" height="3" rx="1.5"/><rect class="${i ? 'm-soft' : 'm-ink'}" x="62" y="${y}" width="22" height="3" rx="1.5"/>`).join('')}
+            <path class="m-line" d="M96.5 56v34"/>
+            ${REV.map((v, i) => `<rect class="${i === REV.length - 1 || i === 0 ? 'm-bar m-bar--key' : 'm-bar'}" x="${110 + i * 15.6}" y="${(88 - v / 132 * 26).toFixed(1)}" width="10" height="${(v / 132 * 26).toFixed(1)}" rx="1.5"/>`).join('')}`),
+  // a contract with highlights, and the key information drawn from it
+  'contract-intelligence': miniWin(`<rect class="m-ink" x="26" y="39" width="92" height="5" rx="2.5"/>
+            <rect class="m-key" x="64" y="47.5" width="54" height="9" rx="2"/>
+            <rect class="m-oblig" x="24" y="65.5" width="122" height="9" rx="2"/>
+            ${[[50, 150], [59, 162], [68, 140], [77, 156], [86, 118]].map(([y, w]) => `<rect class="m-soft" x="26" y="${y}" width="${w}" height="4" rx="2"/>`).join('')}
+            <path class="m-clause" d="M26 83h110"/>
+            <path class="m-pane" d="M206.5 33h99v57h-99z"/>
+            <path class="m-line" d="M206.5 33v57"/>
+            <rect class="m-ink" x="216" y="39" width="48" height="5" rx="2.5"/>
+            ${[50, 60, 70].map((y, i) => `<rect class="m-soft" x="216" y="${y}" width="${[26, 30, 22][i]}" height="4" rx="2"/><rect class="m-ink" x="${[262, 258, 266][i]}" y="${y}" width="${[32, 36, 28][i]}" height="4" rx="2"/>`).join('')}
+            <rect class="m-oblig" x="214" y="79" width="78" height="9" rx="3"/>`),
+};
 
 /* ---------- shared chrome ---------- */
 const themeScript = (legacy) => `<script>
@@ -279,7 +323,7 @@ ${items.map(([b, t]) => `              <li><span><b>${b}</b><span>${t}</span></s
 const P = {
   'knowledge-portal': {
     kicker: 'Knowledge platform · Generative AI',
-    status: 'Built end to end · Production deployment scheduled',
+    status: 'Developed end to end · Production deployment scheduled',
     summary: 'An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards.',
     lede: 'An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards. I developed it end to end.',
     description: 'Enterprise Knowledge Portal, developed end to end by Gaurang Ashava: knowledge discovery, knowledge requests, an AI chatbot, an approval queue and leaderboards, with sharing and role-based access. Production deployment is scheduled.',
@@ -324,7 +368,7 @@ const P = {
   },
   'contract-intelligence': {
     kicker: 'Generative AI · Document intelligence',
-    summary: 'Helps legal teams review contracts by extracting clauses, obligations and key information.',
+    summary: 'Helps legal teams analyze and track uploaded contracts, extracting clauses, obligations and key information.',
     lede: 'An AI-powered application for legal teams to analyze and track uploaded contracts and extract important contractual information.',
     description: 'AI Legal Contract Intelligence: an application that helps legal teams analyze and track uploaded contracts, identify clauses and extract obligations and key information.',
     facts: [['Where', 'Tata Technologies'], ['For', 'Legal teams'], ['Type', 'Generative AI application']],
@@ -339,13 +383,13 @@ const P = {
   'resume-matching': {
     kicker: 'AI · Recruitment',
     live: true,
-    summary: 'Evaluates candidate profiles against role requirements.',
+    summary: 'Evaluates candidate profiles against role requirements. I developed its original proof of concept.',
     lede: 'An AI-powered solution that evaluates candidate profiles against role requirements. It’s live in production.',
-    description: 'AI Resume Matching: an AI-powered solution, live in production, that evaluates candidate profiles against role requirements.',
-    facts: [['Where', 'Tata Technologies'], ['For', 'Recruitment'], ['Status', '<span class="status-dot">Live in production</span>']],
+    description: 'AI Resume Matching: an AI-powered solution, live in production, that evaluates candidate profiles against role requirements. Gaurang Ashava developed its original proof of concept.',
+    facts: [['Where', 'Tata Technologies'], ['My part', 'Original proof of concept'], ['Status', '<span class="status-dot">Live in production</span>']],
     visual: ILL.match,
     problem: `<p>Recruiters need to compare each candidate’s profile with what a role requires.</p>`,
-    contribution: { text: `<p>I developed the original proof of concept for this solution, which has since gone live in production.</p>`, bullets: [] },
+    contribution: { text: `<p>I developed the original proof of concept for this solution. The solution has since gone live in production.</p>`, bullets: [] },
     built: ['How the solution works', `${steps([['Resume understanding', 'Reads and understands candidate resumes.'], ['Requirement matching', 'Matches profiles against the role’s requirements.'], ['Skill and experience alignment', 'Compares a candidate’s skills and experience with what the role needs.'], ['AI-assisted evaluation', 'Supports the evaluation of each candidate with AI.']])}`],
     result: ['Result and current status', `<p>Candidate profiles are compared with role requirements on skills and experience, supporting the people who make the decision. The solution is live in production.</p>`],
     tech: null,
@@ -376,8 +420,8 @@ const DEMO_NOTE = 'Illustrative walkthrough · sample data';
 const secs = (slug) => String(Math.round(DEMOS[slug].duration / 1000)).padStart(2, '0');
 const caseLink = (slug, label = 'Read the case study') =>
   `<a class="link-more" href="work/${slug}/">${label}<span class="visually-hidden">: ${P[slug].title}</span> <span class="arrow" aria-hidden="true">→</span></a>`;
-// a project's preview: the illustration with a real button over it that opens the walkthrough
-const preview = (slug, cls = 'project__figure') => `<figure class="${cls} demo-preview">
+// a case study's preview: the illustration with a real button over it that opens the walkthrough
+const preview = (slug) => `<figure class="case-visual__figure demo-preview">
           <div class="demo-preview__frame">
           ${P[slug].visual}
             <button class="demo-preview__btn js-only" type="button" data-demo="${slug}" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta">${I.play}<span>Watch walkthrough</span></span><span class="visually-hidden">: ${P[slug].title} (${secs(slug)} seconds)</span><span class="demo-preview__len" aria-hidden="true">0:${secs(slug)}</span></span></button>
@@ -392,22 +436,27 @@ const panelHead = (num, id, title, lede = '') => `<header class="panel__head">
       <h2 class="section__title" id="${id}">${title}</h2>${lede ? `
       <p class="section__lede">${lede}</p>` : ''}
     </header>`;
+// two separate actions: the walkthrough (a button) and the case study (a link)
+const actions = (slug, cls) => `<div class="${cls}">${demoButton(slug)}${caseLink(slug, 'Case study')}<span class="demo-status" data-demo-status role="status"></span></div>`;
 const moreItem = (slug) => `        <li class="more__item">
-          <div class="more__main">
+          <div class="more__head">
             <h4 class="more__name">${P[slug].title}</h4>
-            <p class="more__meta">${P[slug].live ? '<span class="live-dot" aria-hidden="true"></span>Live in production' : P[slug].kicker}</p>
+            <p class="more__meta">${P[slug].live ? '<span class="status-dot">Live in production</span>' : P[slug].kicker}</p>
           </div>
           <p class="more__desc">${P[slug].summary}</p>
-          <div class="more__actions">${demoButton(slug)}${caseLink(slug, 'Read more')}<span class="demo-status" data-demo-status role="status"></span></div>
+          ${actions(slug, 'more__actions')}
         </li>`;
-const tile = (slug, lead = false) => `      <article class="project${lead ? ' project--lead' : ''}">
-        <div class="project__text">
+const tile = (slug) => `      <article class="project">
+        <div class="project__mini" aria-hidden="true">
+          ${MINI[slug]}
+          <span class="project__tag">Illustration</span>
+        </div>
+        <div class="project__body">
           <p class="kicker">${P[slug].kicker}</p>
           <h3 class="project__title">${P[slug].title}</h3>
 ${P[slug].status ? `          <p class="project__status"><span class="status-dot status-dot--scheduled">${P[slug].status}</span></p>\n` : ''}          <p class="project__summary">${P[slug].summary}</p>
-          ${caseLink(slug)}
+          ${actions(slug, 'project__actions')}
         </div>
-        ${preview(slug)}
       </article>`;
 
 /* ---------- homepage ---------- */
@@ -456,9 +505,7 @@ ${navBar({ home: true, music: true })}
     ${panelHead('01', 'work-title', 'Selected work')}
 
     <div class="work__grid">
-${tile(FEATURED[0], true)}
-
-${FEATURED.slice(1).map((slug) => tile(slug)).join('\n\n')}
+${FEATURED.map((slug) => tile(slug)).join('\n\n')}
     </div>
 
     <div class="more">
@@ -681,7 +728,7 @@ ${p.facts.map(([k, v]) => `        <div><dt>${k}</dt><dd>${v}</dd></div>`).join(
     </header>
 
     <div class="container case-visual">
-        ${preview(slug, 'case-visual__figure')}
+        ${preview(slug)}
     </div>
 
     <div class="container">

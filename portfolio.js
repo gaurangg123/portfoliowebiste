@@ -1,6 +1,7 @@
 /* ============================================================
    Gaurang Ashava — portfolio
-   theme · nav · current section · record rotation fallback ·
+   theme · nav · current section · keeping your place on resize ·
+   record rotation fallback ·
    copy email · Papercut (plays only when Play is pressed)
    No dependencies. The pages work without this file; it only adds behaviour.
    ============================================================ */
@@ -119,6 +120,52 @@
     Object.keys(linkFor).forEach(function (id) { spy.observe(document.getElementById(id)); });
   }
 
+  /* ---------- keep your place when the window is resized (homepage) ----------
+     On larger screens a section's height follows the viewport, and that makes the
+     browser's own scroll anchoring stand down during a resize. So remember which
+     section sits under the header, and how far into it, and put it back after a
+     resize. Scrolling itself is left to the browser; a phone's toolbar sliding
+     away (a height-only change on a touch screen) is ignored. */
+  var panes = document.querySelectorAll('main > section[id]');
+  if (panes.length > 1) {
+    var finePointer = window.matchMedia('(pointer: fine)');
+    var place = null, settling = 0, placeQueued = false;
+    var lastW = window.innerWidth, lastH = window.innerHeight;
+    var headerLine = function () { return parseFloat(getComputedStyle(root).scrollPaddingTop) || 0; };
+    var remember = function () {
+      placeQueued = false;
+      if (settling) return;
+      var line = headerLine();
+      for (var i = 0; i < panes.length; i++) {
+        var r = panes[i].getBoundingClientRect();
+        if (r.bottom > line + 1) { place = { el: panes[i], at: (line - r.top) / r.height }; return; }
+      }
+    };
+    var restore = function () {
+      settling = 0;
+      if (!place) return;
+      var r = place.el.getBoundingClientRect();
+      var dy = r.top + place.at * r.height - headerLine();
+      if (Math.abs(dy) < 2) return;
+      var behavior = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';   /* an instant correction, never an animated scroll */
+      window.scrollBy(0, dy);
+      root.style.scrollBehavior = behavior;
+    };
+    window.addEventListener('scroll', function () {
+      if (!placeQueued) { placeQueued = true; requestAnimationFrame(remember); }
+    }, { passive: true });
+    window.addEventListener('resize', function () {
+      var w = window.innerWidth, h = window.innerHeight;
+      var moved = w !== lastW || (h !== lastH && finePointer.matches);
+      lastW = w; lastH = h;
+      if (!moved) return;
+      window.clearTimeout(settling);
+      settling = window.setTimeout(restore, 120);
+    }, { passive: true });
+    remember();
+  }
+
   /* ---------- hero record: scroll-linked rotation fallback ----------
      Browsers with CSS scroll-driven animations rotate it in CSS. Elsewhere this
      maps the hero's scroll range to the same angle: geometry is measured only
@@ -157,7 +204,7 @@
   var demoTriggers = document.querySelectorAll('[data-demo]');
   if (demoTriggers.length) {
     var siteRoot = new URL('.', (document.currentScript && document.currentScript.src) || location.href).href;
-    var DEMO_V = '14';
+    var DEMO_V = '15';
     var demoLoad = null;
     var addAsset = function (tag, attrs) {
       return new Promise(function (resolve, reject) {
@@ -185,7 +232,7 @@
       btn.addEventListener('click', function () {
         if (btn.getAttribute('aria-busy') === 'true') return;
         btn.setAttribute('aria-busy', 'true');
-        var note = btn.closest('figure, .more__item, .case-demo');
+        var note = btn.closest('figure, .project, .more__item, .case-demo');
         note = note && note.querySelector('[data-demo-status]');
         loadDemos().then(function (player) {
           btn.removeAttribute('aria-busy');
