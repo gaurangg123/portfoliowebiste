@@ -39,8 +39,8 @@
   d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
 })(document, document.documentElement);
 </script>
-<link rel="stylesheet" href="portfolio.css?v=13" />
-<script src="portfolio.js?v=13" defer></script>
+<link rel="stylesheet" href="portfolio.css?v=14" />
+<script src="portfolio.js?v=14" defer></script>
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Gaurang Ashava","jobTitle":"Data & AI Engineer","url":"https://gaurangg123.github.io/portfoliowebiste/","email":"mailto:gaurangashava@gmail.com","image":"https://gaurangg123.github.io/portfoliowebiste/assets/gaurang.jpg","address":{"@type":"PostalAddress","addressLocality":"Pune","addressCountry":"IN"},"worksFor":{"@type":"Organization","name":"Tata Technologies"},"alumniOf":{"@type":"CollegeOrUniversity","name":"SRM Institute of Science and Technology"},"sameAs":["https://www.linkedin.com/in/gaurang-ashava/","https://github.com/gaurangg123"]}
@@ -59,6 +59,10 @@
         <ul class="nav__links">
           <li><a href="#work">Work</a></li>
           <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li class="nav__extra"><a href="#education">Education</a></li>
+          <li class="nav__extra"><a href="#certifications">Certifications</a></li>
+          <li class="nav__extra"><a href="#experiments">Experiments</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume<span class="visually-hidden"> (opens in a new tab)</span> <span class="nav__ext" aria-hidden="true">↗</span></a></li>
         </ul>
@@ -70,8 +74,8 @@
 
 <main id="main">
 
-<!-- Hero -->
-<section class="hero" id="top" aria-labelledby="hero-title">
+<!-- 1 · Introduction -->
+<section class="panel panel--intro hero" id="top" aria-labelledby="hero-title">
   <div class="container hero__grid">
     <div class="hero__text">
       <h1 class="hero__title" id="hero-title">
@@ -119,10 +123,11 @@
   </div>
 </section>
 
-<!-- Selected work -->
-<section class="section work" id="work" aria-labelledby="work-title">
+<!-- 2 · Selected work -->
+<section class="panel panel--work work" id="work" aria-labelledby="work-title">
   <div class="container">
-    <header class="section__head">
+    <header class="panel__head">
+      <p class="panel__num" aria-hidden="true">01</p>
       <h2 class="section__title" id="work-title">Selected work</h2>
     </header>
 
@@ -132,7 +137,7 @@
           <p class="kicker">Knowledge platform · Generative AI</p>
           <h3 class="project__title">Enterprise Knowledge Portal</h3>
           <p class="project__status"><span class="status-dot status-dot--scheduled">Built end to end · Production deployment scheduled</span></p>
-          <p class="project__summary">A shared knowledge platform with search, a catalogue, file discovery and an AI chatbot, behind role-based access.</p>
+          <p class="project__summary">An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards.</p>
           <a class="link-more" href="work/knowledge-portal/">Read the case study<span class="visually-hidden">: Enterprise Knowledge Portal</span> <span class="arrow" aria-hidden="true">→</span></a>
         </div>
         <figure class="project__figure demo-preview">
@@ -140,8 +145,9 @@
           <div class="ill ill--kp" aria-hidden="true">
             <div class="ill__canvas">
               <div class="ui">
-                <div class="ui__bar"><span class="ui__dots"><i></i><i></i><i></i></span><span class="ui__name">Knowledge portal</span><span class="ui__meta">Role: User</span></div>
+                <div class="ui__bar"><span class="ui__dots"><i></i><i></i><i></i></span><span class="ui__name">Knowledge portal</span><span class="ui__meta">Sample data</span></div>
                 <div class="kp__body">
+                  <ul class="kp__nav"><li class="is-on">Discover</li><li>Requests</li><li>Approvals</li><li>Assistant</li><li>Leaderboard</li></ul>
                   <div class="kp__main">
                     <p class="kp__query">3 results for <b>“onboarding”</b></p>
                     <ul class="kp__results">
@@ -159,7 +165,7 @@
               </div>
             </div>
           </div>
-            <button class="demo-preview__btn js-only" type="button" data-demo="knowledge-portal" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Enterprise Knowledge Portal (16 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:16</span></span></button>
+            <button class="demo-preview__btn js-only" type="button" data-demo="knowledge-portal" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Enterprise Knowledge Portal (22 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:22</span></span></button>
           </div>
           <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
         </figure>
@@ -167,29 +173,48 @@
 
       <article class="project">
         <div class="project__text">
-          <p class="kicker">Data engineering · SQL Server to Snowflake</p>
-          <h3 class="project__title">Enterprise Data Migration</h3>
-          <p class="project__summary">A team initiative I contributed to, moving different types of data from Microsoft SQL Server into a Snowflake warehouse.</p>
-          <a class="link-more" href="work/data-migration/">Read the case study<span class="visually-hidden">: Enterprise Data Migration</span> <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="kicker">Data and AI · Enterprise analytics</p>
+          <h3 class="project__title">Business Sheet</h3>
+          <p class="project__summary">Turns manual Excel reporting into customisable charts and comparisons, with a chatbot that helps users understand the metrics.</p>
+          <a class="link-more" href="work/business-sheet/">Read the case study<span class="visually-hidden">: Business Sheet</span> <span class="arrow" aria-hidden="true">→</span></a>
         </div>
         <figure class="project__figure demo-preview">
           <div class="demo-preview__frame">
-          <div class="ill ill--pipe" aria-hidden="true">
+          <div class="ill ill--sheet" aria-hidden="true">
             <div class="ill__canvas">
-              <ol class="pipe">
-                <li class="pipe__node"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13"/><path d="M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></svg><span><b>Microsoft SQL Server</b><small>Traditional sources</small></span></li>
-                <li class="pipe__step"><b>Extract</b></li>
-                <li class="pipe__step"><b>Transform</b></li>
-                <li class="pipe__step"><b>Validate</b></li>
-                <li class="pipe__step"><b>Load</b></li>
-                <li class="pipe__node pipe__node--dst"><svg viewBox="0 0 24 24"><path d="M12 2.5v19M3.8 7.25l16.4 9.5M3.8 16.75l16.4-9.5"/><path d="M9.6 4.1 12 6.5l2.4-2.4M9.6 19.9 12 17.5l2.4 2.4M4.6 10.4l3.3-.9-.9-3.3M19.4 13.6l-3.3.9.9 3.3M4.6 13.6l3.3.9-.9 3.3M19.4 10.4l-3.3-.9.9-3.3"/></svg><span><b>Snowflake</b><small>Cloud data warehouse</small></span></li>
-              </ol>
-              <p class="pipe__infra">Azure Data Factory · supporting infrastructure</p>
+              <div class="ui">
+                <div class="ui__bar"><span class="ui__dots"><i></i><i></i><i></i></span><span class="ui__name">Business Sheet</span><span class="ui__meta">Sample data</span></div>
+                <div class="bs__tools">
+                  <span class="bs__pick"><small>Organization</small><b>Org A</b></span>
+                  <span class="bs__pick"><small>Line of business</small><b>LOB 2</b></span>
+                  <span class="bs__pick"><small>Financial years</small><b>FY2014 → Current FY</b></span>
+                  <span class="bs__go">Generate charts</span>
+                </div>
+                <div class="bs">
+                  <div class="bs__sheet">
+                    <p class="bs__file">sample-data.xlsx</p>
+                    <table>
+                      <thead><tr><th scope="col">FY</th><th scope="col">Revenue</th></tr></thead>
+                      <tbody>
+                        <tr><td>FY2014</td><td>64</td></tr>
+                        <tr><td>FY2015</td><td>70</td></tr>
+                        <tr class="is-gap"><td>⋮</td><td>⋮</td></tr>
+                        <tr><td>Current FY</td><td>132</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="bs__chart">
+                    <div class="bs__head"><b>Revenue · Org A · LOB 2</b></div>
+                    <div class="bs__plot"><i style="--h:42%" data-v="64"></i><i style="--h:46%"></i><i style="--h:44%"></i><i style="--h:50%"></i><i style="--h:53%"></i><i style="--h:51%"></i><i style="--h:57%"></i><i style="--h:63%"></i><i style="--h:60%"></i><i style="--h:70%"></i><i style="--h:78%"></i><i style="--h:86%" data-v="132"></i></div>
+                    <div class="bs__axis"><span>FY2014</span><span>Current FY</span></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-            <button class="demo-preview__btn js-only" type="button" data-demo="data-migration" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Enterprise Data Migration (16 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:16</span></span></button>
+            <button class="demo-preview__btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Business Sheet (21 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:21</span></span></button>
           </div>
-          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative diagram · documented stages</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
+          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
         </figure>
       </article>
 
@@ -251,19 +276,19 @@
         </li>
         <li class="more__item">
           <div class="more__main">
-            <h4 class="more__name">Business Sheet</h4>
-            <p class="more__meta">Data and AI · Enterprise analytics</p>
+            <h4 class="more__name">Enterprise Data Migration</h4>
+            <p class="more__meta">Data engineering · SQL Server to Snowflake</p>
           </div>
-          <p class="more__desc">Compares organization and line-of-business data from FY2014 to the current year, with a chatbot that explains each metric.</p>
-          <div class="more__actions"><button class="demo-btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Business Sheet</span></button><a class="link-more" href="work/business-sheet/">Read more<span class="visually-hidden">: Business Sheet</span> <span class="arrow" aria-hidden="true">→</span></a><span class="demo-status" data-demo-status role="status"></span></div>
+          <p class="more__desc">A team initiative I contributed to, migrating data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.</p>
+          <div class="more__actions"><button class="demo-btn js-only" type="button" data-demo="data-migration" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Enterprise Data Migration</span></button><a class="link-more" href="work/data-migration/">Read more<span class="visually-hidden">: Enterprise Data Migration</span> <span class="arrow" aria-hidden="true">→</span></a><span class="demo-status" data-demo-status role="status"></span></div>
         </li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- About -->
-<section class="section section--rule about" id="about" aria-labelledby="about-title">
+<!-- 3 · About -->
+<section class="panel panel--about about" id="about" aria-labelledby="about-title">
   <div class="container">
     <div class="about__grid">
       <figure class="about__photo">
@@ -274,7 +299,10 @@
       </figure>
 
       <div class="about__body">
-        <h2 class="section__title" id="about-title">About</h2>
+        <header class="panel__head">
+      <p class="panel__num" aria-hidden="true">02</p>
+      <h2 class="section__title" id="about-title">About</h2>
+    </header>
         <div class="about__intro">
           <p>I’m Gaurang, a Data &amp; AI Engineer at Tata Technologies in Pune. I joined in October 2025 after a B.Tech in computer science with a specialization in big data analytics.</p>
           <p>I work across data engineering and applied AI, and I like taking an idea from data, to AI, to an application people use. Next, I want to go deeper into agentic coding, managing AI agents and tailoring LLMs to business use cases.</p>
@@ -290,77 +318,99 @@
           <button class="music__btn js-only" type="button" data-music><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><svg class="i-pause" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.6 1.6h2.4v8.8H2.6zM7 1.6h2.4v8.8H7z"/></svg><span class="music__label">Play</span><span class="visually-hidden"> Papercut by Linkin Park (instrumental)</span></button>
           <p class="music__status" id="music-status" role="status"></p>
         </div>
-      </div>
-    </div>
 
-    <div class="history">
-      <div id="experience">
-        <h3 class="history__h">Experience</h3>
-        <ol class="rows">
-          <li class="row row--now">
-            <p class="row__when">Oct 2025 – now</p>
-            <div>
-              <h4 class="row__title">GET – Data and AI Engineer</h4>
-              <p class="row__org">Tata Technologies · Pune</p>
-              <p class="row__note">Developed the Enterprise Knowledge Portal end to end, from the functional specification through UAT. Also data engineering and migration, other AI-powered applications, and AI agents and automation for engineering workflows.</p>
-            </div>
-          </li>
-          <li class="row">
-            <p class="row__when">Dec 2023 – Jan 2024</p>
-            <div>
-              <h4 class="row__title">Training Internship – Data Analytics</h4>
-              <p class="row__org">Vertisystem · Indore</p>
-              <p class="row__note">SQL analysis across databases, web scraping and analytical reports.</p>
-            </div>
-          </li>
-          <li class="row">
-            <p class="row__when">Jun – Jul 2023</p>
-            <div>
-              <h4 class="row__title">Software Developer Intern / L1</h4>
-              <p class="row__org">Swap Infotech · Indore</p>
-              <p class="row__note">Live AngularJS web projects, testing and client documentation in an Agile team.</p>
-            </div>
-          </li>
-        </ol>
-      </div>
-
-      <div>
-        <h3 class="history__h">Education</h3>
-        <ul class="rows rows--stack">
-          <li class="row">
-            <p class="row__when">2021 – 2025</p>
-            <div>
-              <h4 class="row__title">B.Tech, Computer Science Engineering</h4>
-              <p class="row__org">SRM Institute of Science &amp; Technology</p>
-              <p class="row__note">Specialization in Big Data Analytics · CGPA 8.68/10</p>
-            </div>
-          </li>
-        </ul>
-        <h3 class="history__h">Certifications</h3>
-        <ul class="rows rows--stack">
-          <li class="row">
-            <div>
-              <h4 class="row__title">Snowflake foundational badges</h4>
-              <p class="row__note">Core data warehousing and platform concepts.</p>
-            </div>
-          </li>
-          <li class="row">
-            <div>
-              <h4 class="row__title">Snowflake Ascent</h4>
-              <p class="row__note">Hands-on training in the AI Data Cloud.</p>
-            </div>
-          </li>
-        </ul>
         <p class="tools"><b>Tools I use:</b> SQL, Python, Snowflake, Databricks, Azure Data Factory, JavaScript, React, Angular, Git and Jira.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Experiments -->
-<section class="section section--rule lab" id="experiments" aria-labelledby="lab-title">
+<!-- 4 · Experience -->
+<section class="panel panel--experience" id="experience" aria-labelledby="experience-title">
+  <div class="container panel__split">
+    <header class="panel__head">
+      <p class="panel__num" aria-hidden="true">03</p>
+      <h2 class="section__title" id="experience-title">Experience</h2>
+    </header>
+    <ol class="rows">
+      <li class="row row--now">
+        <p class="row__when">Oct 2025 – now</p>
+        <div>
+          <h3 class="row__title">GET – Data and AI Engineer</h3>
+          <p class="row__org">Tata Technologies · Pune</p>
+          <p class="row__note">Developed the Enterprise Knowledge Portal end to end, from the functional specification through UAT. Also data engineering and migration, other AI-powered applications, and AI agents and automation for engineering workflows.</p>
+        </div>
+      </li>
+      <li class="row">
+        <p class="row__when">Dec 2023 – Jan 2024</p>
+        <div>
+          <h3 class="row__title">Training Internship – Data Analytics</h3>
+          <p class="row__org">Vertisystem · Indore</p>
+          <p class="row__note">SQL analysis across databases, web scraping and analytical reports.</p>
+        </div>
+      </li>
+      <li class="row">
+        <p class="row__when">Jun – Jul 2023</p>
+        <div>
+          <h3 class="row__title">Software Developer Intern / L1</h3>
+          <p class="row__org">Swap Infotech · Indore</p>
+          <p class="row__note">Live AngularJS web projects, testing and client documentation in an Agile team.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 5 · Education -->
+<section class="panel panel--education" id="education" aria-labelledby="education-title">
+  <div class="container panel__split">
+    <header class="panel__head">
+      <p class="panel__num" aria-hidden="true">04</p>
+      <h2 class="section__title" id="education-title">Education</h2>
+    </header>
+    <div class="edu">
+      <p class="edu__when">2021 – 2025</p>
+      <h3 class="edu__title">B.Tech, Computer Science Engineering</h3>
+      <p class="edu__org">SRM Institute of Science &amp; Technology</p>
+      <dl class="facts edu__facts">
+        <div><dt>Specialization</dt><dd>Big Data Analytics</dd></div>
+        <div><dt>CGPA</dt><dd>8.68 / 10</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · Certifications -->
+<section class="panel panel--certs" id="certifications" aria-labelledby="certifications-title">
+  <div class="container panel__split">
+    <header class="panel__head">
+      <p class="panel__num" aria-hidden="true">05</p>
+      <h2 class="section__title" id="certifications-title">Certifications</h2>
+    </header>
+    <ul class="certs">
+      <li class="cert">
+        <span class="cert__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9.5" r="5.5"/><path d="M8.6 13.9 7.5 21l4.5-2.4 4.5 2.4-1.1-7.1"/><path d="m9.8 9.6 1.5 1.5 3-3.1"/></svg></span>
+        <div>
+          <h3 class="cert__title">Snowflake foundational badges</h3>
+          <p class="cert__note">Core data warehousing and platform concepts.</p>
+        </div>
+      </li>
+      <li class="cert">
+        <span class="cert__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9.5" r="5.5"/><path d="M8.6 13.9 7.5 21l4.5-2.4 4.5 2.4-1.1-7.1"/><path d="m9.8 9.6 1.5 1.5 3-3.1"/></svg></span>
+        <div>
+          <h3 class="cert__title">Snowflake Ascent</h3>
+          <p class="cert__note">Hands-on training in the AI Data Cloud.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- 7 · Experiments -->
+<section class="panel panel--lab lab" id="experiments" aria-labelledby="lab-title">
   <div class="container">
-    <header class="section__head">
+    <header class="panel__head">
+      <p class="panel__num" aria-hidden="true">06</p>
       <h2 class="section__title" id="lab-title">Experiments</h2>
       <p class="section__lede">Two AI agents I built to make engineering work faster.</p>
     </header>
@@ -386,10 +436,11 @@
   </div>
 </section>
 
-<!-- Contact -->
-<section class="contact" id="contact" aria-labelledby="contact-title">
+<!-- 8 · Contact -->
+<section class="panel panel--contact contact" id="contact" aria-labelledby="contact-title">
   <div class="container">
-    <header class="section__head">
+    <header class="panel__head">
+      <p class="panel__num" aria-hidden="true">07</p>
       <h2 class="section__title" id="contact-title">Get in touch</h2>
       <p class="section__lede">Have an interesting problem, idea, or opportunity? I’d love to hear about it.</p>
     </header>

@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Business Sheet — Gaurang Ashava</title>
-<meta name="description" content="Business Sheet: a metrics platform that compares organization and line-of-business data from FY2014 to the current financial year, with a chatbot that explains each metric." />
+<meta name="description" content="Business Sheet: turns manual Excel reporting into customisable charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that helps users understand the tracked metrics." />
 <meta name="author" content="Gaurang Ashava" />
 <meta name="color-scheme" content="light dark" />
 <meta name="theme-color" id="themeColor" content="#F6F4EE" />
@@ -13,14 +13,14 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://gaurangg123.github.io/portfoliowebiste/work/business-sheet/" />
 <meta property="og:title" content="Business Sheet — Gaurang Ashava" />
-<meta property="og:description" content="A metrics platform that compares a defined set of data from every organization and line of business across financial years, from FY2014 to the current year." />
+<meta property="og:description" content="Automates the manual Excel work behind organization and line-of-business reporting: meaningful charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that explains the metrics." />
 <meta property="og:image" content="https://gaurangg123.github.io/portfoliowebiste/assets/og.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Gaurang Ashava — Data systems. AI applications. Built to be used." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Business Sheet — Gaurang Ashava" />
-<meta name="twitter:description" content="A metrics platform that compares a defined set of data from every organization and line of business across financial years, from FY2014 to the current year." />
+<meta name="twitter:description" content="Automates the manual Excel work behind organization and line-of-business reporting: meaningful charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that explains the metrics." />
 <meta name="twitter:image" content="https://gaurangg123.github.io/portfoliowebiste/assets/og.jpg" />
 
 <link rel="icon" href="../../assets/favicon-32.png" sizes="32x32" type="image/png" />
@@ -36,8 +36,8 @@
   d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
 })(document, document.documentElement);
 </script>
-<link rel="stylesheet" href="../../portfolio.css?v=13" />
-<script src="../../portfolio.js?v=13" defer></script>
+<link rel="stylesheet" href="../../portfolio.css?v=14" />
+<script src="../../portfolio.js?v=14" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -51,6 +51,10 @@
         <ul class="nav__links">
           <li><a href="../../#work">Work</a></li>
           <li><a href="../../#about">About</a></li>
+          <li><a href="../../#experience">Experience</a></li>
+          <li class="nav__extra"><a href="../../#education">Education</a></li>
+          <li class="nav__extra"><a href="../../#certifications">Certifications</a></li>
+          <li class="nav__extra"><a href="../../#experiments">Experiments</a></li>
           <li><a href="../../#contact">Contact</a></li>
           <li><a href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume<span class="visually-hidden"> (opens in a new tab)</span> <span class="nav__ext" aria-hidden="true">↗</span></a></li>
         </ul>
@@ -66,7 +70,7 @@
       <p class="case-head__back"><a href="../../#work"><span class="arrow" aria-hidden="true">←</span> All work</a></p>
       <p class="kicker">Data and AI · Enterprise analytics</p>
       <h1 class="case-head__title" id="case-title">Business Sheet</h1>
-      <p class="case-head__lede">A metrics platform that compares a defined set of data from every organization and line of business across financial years, from FY2014 to the current year.</p>
+      <p class="case-head__lede">Automates the manual Excel work behind organization and line-of-business reporting: meaningful charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that explains the metrics.</p>
       <dl class="facts">
         <div><dt>Where</dt><dd>Tata Technologies</dd></div>
         <div><dt>Compares</dt><dd>FY2014 to the current FY</dd></div>
@@ -81,22 +85,35 @@
             <div class="ill__canvas">
               <div class="ui">
                 <div class="ui__bar"><span class="ui__dots"><i></i><i></i><i></i></span><span class="ui__name">Business Sheet</span><span class="ui__meta">Sample data</span></div>
-              <div class="bs">
-                <div class="bs__chart">
-                  <div class="bs__head"><b>Sample metric · all organizations</b><span>By financial year</span></div>
-                  <div class="bs__plot"><i style="--h:34%"></i><i style="--h:38%"></i><i style="--h:36%"></i><i style="--h:44%"></i><i style="--h:47%"></i><i style="--h:45%"></i><i style="--h:52%"></i><i style="--h:58%"></i><i style="--h:55%"></i><i style="--h:63%"></i><i style="--h:68%"></i><i style="--h:74%"></i></div>
-                  <div class="bs__axis"><span>FY2014</span><span>Current FY</span></div>
+                <div class="bs__tools">
+                  <span class="bs__pick"><small>Organization</small><b>Org A</b></span>
+                  <span class="bs__pick"><small>Line of business</small><b>LOB 2</b></span>
+                  <span class="bs__pick"><small>Financial years</small><b>FY2014 → Current FY</b></span>
+                  <span class="bs__go">Generate charts</span>
                 </div>
-                <div class="bs__chat">
-                  <p class="kp__chat-h"><i></i>Metrics assistant</p>
-                  <p class="msg msg--me">Which metrics are tracked?</p>
-                  <p class="msg msg--bot">Here's the full list, with what each metric means.</p>
+                <div class="bs">
+                  <div class="bs__sheet">
+                    <p class="bs__file">sample-data.xlsx</p>
+                    <table>
+                      <thead><tr><th scope="col">FY</th><th scope="col">Revenue</th></tr></thead>
+                      <tbody>
+                        <tr><td>FY2014</td><td>64</td></tr>
+                        <tr><td>FY2015</td><td>70</td></tr>
+                        <tr class="is-gap"><td>⋮</td><td>⋮</td></tr>
+                        <tr><td>Current FY</td><td>132</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="bs__chart">
+                    <div class="bs__head"><b>Revenue · Org A · LOB 2</b></div>
+                    <div class="bs__plot"><i style="--h:42%" data-v="64"></i><i style="--h:46%"></i><i style="--h:44%"></i><i style="--h:50%"></i><i style="--h:53%"></i><i style="--h:51%"></i><i style="--h:57%"></i><i style="--h:63%"></i><i style="--h:60%"></i><i style="--h:70%"></i><i style="--h:78%"></i><i style="--h:86%" data-v="132"></i></div>
+                    <div class="bs__axis"><span>FY2014</span><span>Current FY</span></div>
+                  </div>
                 </div>
-              </div>
               </div>
             </div>
           </div>
-            <button class="demo-preview__btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Business Sheet (15 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:15</span></span></button>
+            <button class="demo-preview__btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Business Sheet (21 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:21</span></span></button>
           </div>
           <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
         </figure>
@@ -106,42 +123,46 @@
       <section class="case-sec" aria-labelledby="business-sheet-business-problem">
         <h2 class="case-sec__h" id="business-sheet-business-problem">Business problem</h2>
         <div class="case-sec__body">
-            <p>Teams needed to compare a defined set of data from every organization and line of business across financial years, and that comparison was done by hand.</p>
+            <p>Preparing and comparing information from Excel required manual work, making it cumbersome to turn the data into useful views.</p>
         </div>
       </section>
       <section class="case-sec" aria-labelledby="business-sheet-how-the-solution-works">
         <h2 class="case-sec__h" id="business-sheet-how-the-solution-works">How the solution works</h2>
         <div class="case-sec__body">
+            <p>Business Sheet automates the preparation of meaningful charts and financial-year comparisons, with customisation controls and a chatbot for metric explanations.</p>
             <ol class="steps">
-              <li><span><b>Upload</b><span>A defined set of data from every organization and line of business.</span></span></li>
-              <li><span><b>Compare</b><span>Every financial year side by side, from FY2014 to the current FY.</span></span></li>
-              <li><span><b>Ask</b><span>A chatbot lists the tracked metrics and explains what each one means.</span></span></li>
+              <li><span><b>Select</b><span>Choose the organization, line of business and financial years, from FY2014 to the current financial year.</span></span></li>
+              <li><span><b>Generate</b><span>Charts and comparisons are produced with a button, rather than assembled by hand in Excel.</span></span></li>
+              <li><span><b>Customise</b><span>Simple button-driven actions customise the views, for example changing the selections.</span></span></li>
+              <li><span><b>Ask</b><span>A chatbot helps users understand the tracked metrics.</span></span></li>
             </ol>
         </div>
       </section>
       <section class="case-sec" aria-labelledby="business-sheet-result">
         <h2 class="case-sec__h" id="business-sheet-result">Result</h2>
         <div class="case-sec__body">
-            <p>The year-over-year comparison is automated, and people can ask the chatbot which metrics are tracked and what each one means.</p>
+            <p>Users can generate and customise useful views through button-driven actions instead of repeatedly assembling them manually in Excel.</p>
         </div>
       </section>
       <section class="case-sec" aria-labelledby="business-sheet-demonstration">
         <h2 class="case-sec__h" id="business-sheet-demonstration">Demonstration</h2>
         <div class="case-sec__body">
-            <p>A 15-second illustrative walkthrough of the workflow, using sample data. It plays silently and you can pause or replay it at any time.</p>
+            <p>A 21-second illustrative walkthrough of the workflow, using sample data. It plays silently and you can pause or replay it at any time.</p>
             <ol class="steps">
-              <li><span><b>Choose what to compare</b><span>An organization, a line of business and the financial years are selected (sample selections).</span></span></li>
-              <li><span><b>Compare across years</b><span>A sample metric is compared year by year, from FY2014 to the current FY.</span></span></li>
-              <li><span><b>Ask about metrics</b><span>A user asks the chatbot which metrics are tracked.</span></span></li>
-              <li><span><b>Metric explanation</b><span>The chatbot lists the metrics and explains what one of them means (sample answer).</span></span></li>
+              <li><span><b>Excel data</b><span>The starting point: sample financial-year data in an Excel-style sheet, which used to be turned into views by hand.</span></span></li>
+              <li><span><b>Choose what to compare</b><span>An organization, a line of business and a financial-year range are selected (sample selections).</span></span></li>
+              <li><span><b>Generate charts</b><span>One button turns the selected data into a chart, instead of building it manually in Excel.</span></span></li>
+              <li><span><b>Compare across years</b><span>The chart compares sample revenue from FY2014 to the current FY: 64 at the start, 132 now.</span></span></li>
+              <li><span><b>Change a selection</b><span>Changing a selection, here the first financial year, updates the chart.</span></span></li>
+              <li><span><b>Ask about a metric</b><span>The chatbot explains a metric using the figures in the chart (sample answer).</span></span></li>
             </ol>
             <p class="case-demo"><button class="demo-btn demo-btn--primary js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Business Sheet</span></button><span class="demo-status" data-demo-status role="status"></span></p>
         </div>
       </section>
 
       <nav class="case-next" aria-label="More projects">
-        <a href="../resume-matching/" rel="prev"><span>Previous project</span><b>AI Resume Matching</b></a>
-        <a href="../../#work" rel="next"><span>That’s all of them</span><b>Back to all work</b></a>
+        <a href="../knowledge-portal/" rel="prev"><span>Previous project</span><b>Enterprise Knowledge Portal</b></a>
+        <a href="../contract-intelligence/" rel="next"><span>Next project</span><b>AI Legal Contract Intelligence</b></a>
       </nav>
     </div>
   </article>
