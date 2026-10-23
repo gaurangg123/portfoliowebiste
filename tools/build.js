@@ -8,10 +8,11 @@
 const fs = require('fs');
 const path = require('path');
 const { sculpture } = require('./sculpture.js');
+const XP = require('./explain.js');
 
 const REPO = path.resolve(__dirname, '..');
 const SITE = 'https://gaurangg123.github.io/portfoliowebiste/';
-const V = '15';                                   // cache-busting for css/js
+const V = '16';                                   // cache-busting for css/js
 const EMAIL = 'gaurangashava@gmail.com';
 const GITHUB = 'https://github.com/gaurangg123';
 const LINKEDIN = 'https://www.linkedin.com/in/gaurang-ashava/';
@@ -91,7 +92,7 @@ ILL.contract = `<div class="ill ill--contract" aria-hidden="true">
                   <p class="ct__list">Term · Reporting · Termination</p>
                   <p class="ct__h">Obligations</p>
                   <p class="ct__ob">Monthly service report · Supplier</p>
-                  <p class="ct__track ct__extra">Tracked · review before Apr 2027</p>
+                  <p class="ct__track ct__extra">Tracked · term ends 31 Mar 2027</p>
                 </div>
               </div>
               </div>
@@ -227,6 +228,31 @@ const MINI = {
             <rect class="m-ink" x="216" y="39" width="48" height="5" rx="2.5"/>
             ${[50, 60, 70].map((y, i) => `<rect class="m-soft" x="216" y="${y}" width="${[26, 30, 22][i]}" height="4" rx="2"/><rect class="m-ink" x="${[262, 258, 266][i]}" y="${y}" width="${[32, 36, 28][i]}" height="4" rx="2"/>`).join('')}
             <rect class="m-oblig" x="214" y="79" width="78" height="9" rx="3"/>`),
+  // role requirements beside a candidate profile, row by row
+  'resume-matching': miniWin(`<rect class="m-ink" x="26" y="39" width="58" height="5" rx="2.5"/>
+            ${[50, 60, 70, 80].map((y, i) => `<rect class="m-soft" x="26" y="${y}" width="${[64, 56, 72, 60][i]}" height="4" rx="2"/><rect class="${i === 3 ? 'm-field' : 'm-key'}" x="112" y="${y - 1.5}" width="30" height="7" rx="3.5"/>`).join('')}
+            ${[50, 60, 70, 80].map((y) => `<path class="m-dash" d="M146 ${y + 2}h26"/>`).join('')}
+            <path class="m-pane" d="M176.5 33h129v57h-129z"/>
+            <path class="m-line" d="M176.5 33v57"/>
+            <rect class="m-ink" x="186" y="39" width="52" height="5" rx="2.5"/>
+            ${[50, 60, 70, 80].map((y, i) => `<circle class="${i === 3 ? 'm-part' : 'm-ok'}" cx="191" cy="${y + 2}" r="3.2"/><rect class="m-soft" x="199" y="${y}" width="${[78, 70, 62, 84][i]}" height="4" rx="2"/>`).join('')}`),
+  // source to warehouse through four stages, with dashboards and data sources alongside
+  'data-migration': `<svg viewBox="0 0 320 90" focusable="false">
+            <path class="m-track" d="M58 30H262"/>
+            <rect class="m-win" x="22" y="14" width="36" height="32" rx="8"/>
+            <path class="m-ico" d="M32 23.5c0-1.6 3.6-2.6 8-2.6s8 1 8 2.6-3.6 2.6-8 2.6-8-1-8-2.6zM32 23.5v12c0 1.6 3.6 2.6 8 2.6s8-1 8-2.6v-12M32 29.5c0 1.6 3.6 2.6 8 2.6s8-1 8-2.6"/>
+            ${[100, 140, 180, 220].map((x) => `<circle class="m-stage" cx="${x}" cy="30" r="6.5"/>`).join('')}
+            <rect class="m-win" x="262" y="14" width="36" height="32" rx="8"/>
+            <path class="m-flake" d="M280 19v22M270.5 24.5l19 11M270.5 35.5l19-11"/>
+            <rect class="m-scope" x="96" y="58" width="128" height="22" rx="6"/>
+            <rect class="m-field" x="106" y="64" width="12" height="10" rx="2"/><rect class="m-soft" x="122" y="67" width="30" height="4" rx="2"/>
+            <rect class="m-field" x="162" y="64" width="12" height="10" rx="2"/><rect class="m-soft" x="178" y="67" width="34" height="4" rx="2"/>
+          </svg>`,
+  // the overview: three cards and two more entries
+  all: `<svg viewBox="0 0 320 90" focusable="false">
+            ${[22, 120, 218].map((x) => `<rect class="m-win" x="${x}" y="14" width="80" height="42" rx="6"/><rect class="m-pane" x="${x + 5}" y="19" width="70" height="14" rx="3"/><rect class="m-ink" x="${x + 6}" y="39" width="44" height="4" rx="2"/><rect class="m-soft" x="${x + 6}" y="47" width="58" height="3" rx="1.5"/>`).join('')}
+            ${[66, 78].map((y) => `<rect class="m-soft" x="22" y="${y}" width="128" height="4" rx="2"/><rect class="m-soft" x="170" y="${y}" width="128" height="4" rx="2"/>`).join('')}
+          </svg>`,
 };
 
 /* ---------- shared chrome ---------- */
@@ -320,93 +346,87 @@ const steps = (items) => `<ol class="steps">
 ${items.map(([b, t]) => `              <li><span><b>${b}</b><span>${t}</span></span></li>`).join('\n')}
             </ol>`;
 // Titles come from demos.js (one source for the pages and the walkthroughs).
+// Contribution and status are stated only where they are confirmed.
 const P = {
   'knowledge-portal': {
-    kicker: 'Knowledge platform · Generative AI',
-    status: 'Developed end to end · Production deployment scheduled',
+    kicker: 'Knowledge platform',
+    role: 'Owned the full build, from functional spec to UAT',
+    status: ['scheduled', 'Production deployment scheduled'],
     summary: 'An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards.',
-    lede: 'An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards. I developed it end to end.',
+    lede: 'An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards. I owned its build, from the functional specification through UAT.',
     description: 'Enterprise Knowledge Portal, developed end to end by Gaurang Ashava: knowledge discovery, knowledge requests, an AI chatbot, an approval queue and leaderboards, with sharing and role-based access. Production deployment is scheduled.',
-    facts: [['Where', 'Tata Technologies'], ['My role', 'Developed end to end'], ['Status', '<span class="status-dot status-dot--scheduled">Production deployment scheduled</span>']],
+    facts: [['My contribution', 'Owned the full build, from functional spec to UAT'], ['Status', '<span class="status-dot status-dot--scheduled">Production deployment scheduled</span>']],
     visual: ILL.kp,
     problem: `<p>Make organizational knowledge easier to discover and use through a shared platform with role-based access. It serves four roles: Viewer, User, Admin and Champion.</p>`,
-    contribution: {
-      text: `<p>I developed the Enterprise Knowledge Portal end to end, starting from the supplied functional specification document. I implemented the application and incorporated business feedback during UAT. Production deployment is scheduled.</p>`,
-      bullets: ['Translated the functional specification’s requirements into the application.', 'Developed the functionality.', 'Incorporated business feedback during UAT.'],
-    },
-    built: ['What I built', `<p>The portal brings six groups of capabilities together in one platform.</p>
-            ${steps([
-              ['Discover knowledge', 'A knowledge repository with search, a catalogue and file discovery.'],
-              ['Raise knowledge requests', 'Users can raise a request for knowledge they need.'],
-              ['Use the chatbot', 'A dedicated AI chatbot offers a conversational way to work with the knowledge.'],
-              ['Review requests in the approval queue', 'Requests are reviewed in an approval queue. Managers and portal champions are involved in approvals.'],
-              ['View leaderboards', 'Leaderboards are part of the portal.'],
-              ['Share and access knowledge by role', 'Knowledge can be shared, and access follows the documented roles: Viewer, User, Admin and Champion.'],
-            ])}
-            <p class="muted">The chatbot is one capability of the platform, not the whole product.</p>`],
-    result: ['Result and current status', `<p>The application brings these knowledge workflows into one place and has been refined through business feedback during UAT. Production deployment is scheduled.</p>`],
+    contribution: `<p>I developed the Enterprise Knowledge Portal end to end, starting from the supplied functional specification document. I implemented the application and incorporated business feedback during UAT. Production deployment is scheduled.</p>
+            ${XP.kpTimeline()}`,
+    explain: ['How it works', `${XP.kpMap()}
+        <p class="xp__foot">The chatbot is one capability of the platform, not the whole product.</p>`],
+    outcome: ['Outcome and current status', `<p>The application brings these knowledge workflows into one place and has been refined through business feedback during UAT. Production deployment is scheduled.</p>`],
+    walk: 'It follows a sample user through discovery, a knowledge request, the approval queue, the chatbot and a leaderboard.',
     tech: null,
   },
   'business-sheet': {
-    kicker: 'Data and AI · Enterprise analytics',
+    kicker: 'Enterprise analytics',
+    role: 'Owned the full build',
+    status: ['scheduled', 'Production deployment scheduled'],
     summary: 'Turns manual Excel reporting into customisable charts and comparisons, with a chatbot that helps users understand the metrics.',
-    lede: 'Automates the manual Excel work behind organization and line-of-business reporting: meaningful charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that explains the metrics.',
-    description: 'Business Sheet: turns manual Excel reporting into customisable charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that helps users understand the tracked metrics.',
-    facts: [['Where', 'Tata Technologies'], ['Compares', 'FY2014 to the current FY'], ['Outcome', 'A manual process, automated']],
+    lede: 'Automates the manual Excel work behind organization and line-of-business reporting: meaningful charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that explains the metrics. I built it end to end, from chart generation to the metrics chatbot.',
+    description: 'Business Sheet, built end to end by Gaurang Ashava: turns manual Excel reporting into customisable charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that helps users understand the tracked metrics. Production deployment is scheduled.',
+    facts: [['My contribution', 'Owned the full build'], ['Status', '<span class="status-dot status-dot--scheduled">Production deployment scheduled</span>'], ['Compares', 'FY2014 to the current FY']],
     visual: ILL.sheet,
     problem: `<p>Preparing and comparing information from Excel required manual work, making it cumbersome to turn the data into useful views.</p>`,
-    contribution: null,
-    built: ['How the solution works', `<p>Business Sheet automates the preparation of meaningful charts and financial-year comparisons, with customisation controls and a chatbot for metric explanations.</p>
-            ${steps([
-              ['Select', 'Choose the organization, line of business and financial years, from FY2014 to the current financial year.'],
-              ['Generate', 'Charts and comparisons are produced with a button, rather than assembled by hand in Excel.'],
-              ['Customise', 'Simple button-driven actions customise the views, for example changing the selections.'],
-              ['Ask', 'A chatbot helps users understand the tracked metrics.'],
-            ])}`],
-    result: ['Result', `<p>Users can generate and customise useful views through button-driven actions instead of repeatedly assembling them manually in Excel.</p>`],
+    contribution: `<p>I built Business Sheet end to end: the selections, chart generation and customisation, and the chatbot that explains the metrics. Production deployment is scheduled.</p>`,
+    explain: ['How it works', XP.bsSheet()],
+    outcome: ['Outcome and current status', `<p>Users can generate and customise useful views through button-driven actions instead of repeatedly assembling them manually in Excel. Production deployment is scheduled.</p>`],
+    walk: 'It shows sample Excel data becoming a chart, a changed selection and a chatbot explanation of a metric.',
     tech: null,
   },
   'contract-intelligence': {
-    kicker: 'Generative AI · Document intelligence',
+    kicker: 'Document intelligence',
     summary: 'Helps legal teams analyze and track uploaded contracts, extracting clauses, obligations and key information.',
     lede: 'An AI-powered application for legal teams to analyze and track uploaded contracts and extract important contractual information.',
     description: 'AI Legal Contract Intelligence: an application that helps legal teams analyze and track uploaded contracts, identify clauses and extract obligations and key information.',
-    facts: [['Where', 'Tata Technologies'], ['For', 'Legal teams'], ['Type', 'Generative AI application']],
+    facts: [['For', 'Legal teams'], ['Type', 'Generative AI application']],
     visual: ILL.contract,
     problem: `<p>Legal teams need to identify and review the clauses, obligations and important information in each contract, and keep track of their contracts.</p>`,
     contribution: null,
-    built: ['How the solution works', `${steps([['Upload', 'A contract is uploaded to the application.'], ['Analyze', 'The application analyzes it with generative AI.'], ['Extract', 'It identifies clauses and extracts obligations and other key information.'], ['Track', 'Contracts are tracked in the application.']])}
-            <p class="muted">It supports human review: it organizes contract information for the legal team, and doesn’t give legal advice or make legal decisions.</p>`],
-    result: ['Result', `<p>Legal teams get each contract’s clauses, obligations and key information as a structured summary to review, and their contracts are tracked in the application.</p>`],
+    explain: ['How it works', XP.ciDoc()],
+    outcome: ['Outcome', `<p>Legal teams get each contract’s clauses, obligations and key information as a structured summary to review, and their contracts are tracked in the application.</p>`],
+    walk: 'It shows a fictional contract being analyzed, with its clauses, obligations and key details highlighted and summarized for review.',
     tech: null,
   },
   'resume-matching': {
-    kicker: 'AI · Recruitment',
-    live: true,
-    summary: 'Evaluates candidate profiles against role requirements. I developed its original proof of concept.',
+    kicker: 'Recruitment AI',
+    role: 'Original proof of concept',
+    status: ['live', 'Live in production'],
+    summary: 'Evaluates candidate profiles against role requirements.',
     lede: 'An AI-powered solution that evaluates candidate profiles against role requirements. It’s live in production.',
     description: 'AI Resume Matching: an AI-powered solution, live in production, that evaluates candidate profiles against role requirements. Gaurang Ashava developed its original proof of concept.',
-    facts: [['Where', 'Tata Technologies'], ['My part', 'Original proof of concept'], ['Status', '<span class="status-dot">Live in production</span>']],
+    facts: [['My contribution', 'Original proof of concept'], ['Status', '<span class="status-dot">Live in production</span>']],
     visual: ILL.match,
     problem: `<p>Recruiters need to compare each candidate’s profile with what a role requires.</p>`,
-    contribution: { text: `<p>I developed the original proof of concept for this solution. The solution has since gone live in production.</p>`, bullets: [] },
-    built: ['How the solution works', `${steps([['Resume understanding', 'Reads and understands candidate resumes.'], ['Requirement matching', 'Matches profiles against the role’s requirements.'], ['Skill and experience alignment', 'Compares a candidate’s skills and experience with what the role needs.'], ['AI-assisted evaluation', 'Supports the evaluation of each candidate with AI.']])}`],
-    result: ['Result and current status', `<p>Candidate profiles are compared with role requirements on skills and experience, supporting the people who make the decision. The solution is live in production.</p>`],
+    contribution: `<p>I developed the original proof of concept for this solution. The solution has since gone live in production.</p>`,
+    explain: ['How it works', XP.rmMatrix()],
+    outcome: ['Outcome and current status', `<p>Candidate profiles are compared with role requirements on skills and experience, supporting the people who make the decision. The solution is live in production.</p>`],
+    walk: 'It shows a fictional role and profile compared, requirement by requirement, for a recruiter to review.',
     tech: null,
   },
   'data-migration': {
-    kicker: 'Data engineering · SQL Server to Snowflake',
-    summary: 'A team initiative I contributed to, migrating data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.',
-    lede: 'A major enterprise initiative to move different types of data from traditional Microsoft SQL Server environments into a Snowflake data warehouse. The initiative also involved migrating dashboards and their underlying data sources.',
-    description: 'Enterprise Data Migration: moving different types of data from Microsoft SQL Server into Snowflake through extract, transform, validate and load stages, and migrating dashboards and their underlying data sources. A team initiative Gaurang Ashava contributed to.',
-    facts: [['Where', 'Tata Technologies'], ['My part', 'Contributor to a team initiative'], ['From → to', 'SQL Server → Snowflake']],
+    kicker: 'Data engineering',
+    role: 'Contributor to a team initiative',
+    status: ['done', 'Completed'],
+    summary: 'Migrated data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.',
+    lede: 'A major enterprise initiative to move different types of data from traditional Microsoft SQL Server environments into a Snowflake data warehouse. The initiative also involved migrating dashboards and their underlying data sources. The migration is complete.',
+    description: 'Enterprise Data Migration: moving different types of data from Microsoft SQL Server into Snowflake through extract, transform, validate and load stages, and migrating dashboards and their underlying data sources. A completed team initiative Gaurang Ashava contributed to.',
+    facts: [['My contribution', 'Contributor to a team initiative'], ['Status', '<span class="status-dot">Completed</span>'], ['From → to', 'SQL Server → Snowflake']],
     visual: ILL.pipe,
     problem: `<p>Different types of enterprise data held in traditional Microsoft SQL Server environments needed to move into a cloud data warehouse, Snowflake.</p>`,
-    contribution: { text: `<p>This was a team initiative, and I was one of its contributors.</p>`, bullets: [] },
-    scope: ['Scope of work', `${steps([['Data', 'Different types of data, from traditional Microsoft SQL Server environments into Snowflake.'], ['Dashboards and data sources', 'The initiative also involved migrating dashboards and their underlying data sources.']])}`],
-    built: ['How the solution works', `${steps([['Extract', 'Data is extracted from the SQL Server sources.'], ['Transform', 'It’s transformed for the target warehouse.'], ['Validate', 'It’s validated before loading.'], ['Load', 'It’s loaded into Snowflake.']])}
-            <p class="muted">Validation is its own stage, between transformation and loading, so problems surface before data reaches the warehouse. Azure Data Factory provided supporting infrastructure.</p>`],
-    result: null,
+    contribution: `<p>This was a team initiative, and I was one of its contributors.</p>`,
+    explain: ['How the migration works', `${XP.dmFlow()}
+        <p class="xp__foot">Validation is its own stage, between transformation and loading, so problems surface before data reaches the warehouse.</p>`],
+    outcome: ['Outcome and current status', `<p>The migration is complete. Data moved from traditional Microsoft SQL Server environments into Snowflake, and the initiative also covered dashboards and their underlying data sources.</p>`],
+    walk: 'It follows sample data from SQL Server through extraction, transformation, validation and loading into Snowflake, alongside dashboards and their data sources.',
     tech: ['Microsoft SQL Server', 'Snowflake', 'Azure Data Factory', 'ETL', 'Data integration', 'Data transformation', 'Data quality'],
   },
 };
@@ -418,10 +438,8 @@ const ORDER = FEATURED.concat(MORE);
 
 const DEMO_NOTE = 'Illustrative walkthrough · sample data';
 const secs = (slug) => String(Math.round(DEMOS[slug].duration / 1000)).padStart(2, '0');
-const caseLink = (slug, label = 'Read the case study') =>
-  `<a class="link-more" href="work/${slug}/">${label}<span class="visually-hidden">: ${P[slug].title}</span> <span class="arrow" aria-hidden="true">→</span></a>`;
-// a case study's preview: the illustration with a real button over it that opens the walkthrough
-const preview = (slug) => `<figure class="case-visual__figure demo-preview">
+// a case study's walkthrough preview: the illustration with a real button over it that opens the walkthrough
+const preview = (slug) => `<figure class="walk__figure demo-preview">
           <div class="demo-preview__frame">
           ${P[slug].visual}
             <button class="demo-preview__btn js-only" type="button" data-demo="${slug}" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta">${I.play}<span>Watch walkthrough</span></span><span class="visually-hidden">: ${P[slug].title} (${secs(slug)} seconds)</span><span class="demo-preview__len" aria-hidden="true">0:${secs(slug)}</span></span></button>
@@ -436,25 +454,32 @@ const panelHead = (num, id, title, lede = '') => `<header class="panel__head">
       <h2 class="section__title" id="${id}">${title}</h2>${lede ? `
       <p class="section__lede">${lede}</p>` : ''}
     </header>`;
-// two separate actions: the walkthrough (a button) and the case study (a link)
-const actions = (slug, cls) => `<div class="${cls}">${demoButton(slug)}${caseLink(slug, 'Case study')}<span class="demo-status" data-demo-status role="status"></span></div>`;
+// confirmed contribution and status, labelled; nothing for projects without them
+const facts = (slug) => {
+  const p = P[slug], rows = [];
+  if (p.role) rows.push(['My contribution', p.role]);
+  if (p.status) rows.push(['Status', `<span class="status-dot${p.status[0] === 'scheduled' ? ' status-dot--scheduled' : ''}">${p.status[1]}</span>`]);   // scheduled: a ring; live or completed: filled
+  return rows.length ? `<dl class="project__facts">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : '';
+};
+// the same two actions everywhere: the case study first, then the walkthrough
+const actions = (slug, cls) => `<div class="${cls}"><a class="act-case" href="work/${slug}/">View case study<span class="visually-hidden">: ${P[slug].title}</span> <span class="arrow" aria-hidden="true">→</span></a>${demoButton(slug)}<span class="demo-status" data-demo-status role="status"></span></div>`;
 const moreItem = (slug) => `        <li class="more__item">
-          <div class="more__head">
-            <h4 class="more__name">${P[slug].title}</h4>
-            <p class="more__meta">${P[slug].live ? '<span class="status-dot">Live in production</span>' : P[slug].kicker}</p>
-          </div>
+          <p class="project__cat">${P[slug].kicker}</p>
+          <h4 class="more__name">${P[slug].title}</h4>
           <p class="more__desc">${P[slug].summary}</p>
+          ${facts(slug)}
           ${actions(slug, 'more__actions')}
         </li>`;
 const tile = (slug) => `      <article class="project">
-        <div class="project__mini" aria-hidden="true">
+        <div class="project__mini mini" aria-hidden="true">
           ${MINI[slug]}
           <span class="project__tag">Illustration</span>
         </div>
         <div class="project__body">
-          <p class="kicker">${P[slug].kicker}</p>
+          <p class="project__cat">${P[slug].kicker}</p>
           <h3 class="project__title">${P[slug].title}</h3>
-${P[slug].status ? `          <p class="project__status"><span class="status-dot status-dot--scheduled">${P[slug].status}</span></p>\n` : ''}          <p class="project__summary">${P[slug].summary}</p>
+          <p class="project__summary">${P[slug].summary}</p>
+          ${facts(slug)}
           ${actions(slug, 'project__actions')}
         </div>
       </article>`;
@@ -545,8 +570,6 @@ ${MORE.map(moreItem).join('\n')}
           <button class="music__btn js-only" type="button" data-music>${I.play}${I.pause}<span class="music__label">Play</span><span class="visually-hidden"> Papercut by Linkin Park (instrumental)</span></button>
           <p class="music__status" id="music-status" role="status"></p>
         </div>
-
-        <p class="tools"><b>Tools I use:</b> SQL, Python, Snowflake, Databricks, Azure Data Factory, JavaScript, React, Angular, Git and Jira.</p>
       </div>
     </div>
   </div>
@@ -559,26 +582,46 @@ ${MORE.map(moreItem).join('\n')}
     <ol class="rows">
       <li class="row row--now">
         <p class="row__when">Oct 2025 – now</p>
-        <div>
+        <div class="row__body">
           <h3 class="row__title">GET – Data and AI Engineer</h3>
           <p class="row__org">Tata Technologies · Pune</p>
-          <p class="row__note">Developed the Enterprise Knowledge Portal end to end, from the functional specification through UAT. Also data engineering and migration, other AI-powered applications, and AI agents and automation for engineering workflows.</p>
+          <p class="row__lede">Working across data engineering, Generative AI, enterprise applications and cloud data platforms to build practical data and AI solutions.</p>
+          <ul class="row__list">
+            <li>Owned the full build of the Enterprise Knowledge Portal, from the functional specification through UAT. Production deployment is scheduled.</li>
+            <li>Built Business Sheet end to end, turning manual Excel reporting into generated, customisable charts with a chatbot that explains the metrics. Production deployment is scheduled.</li>
+            <li>Contributed to a completed enterprise migration from Microsoft SQL Server to Snowflake, including dashboards and their underlying data sources.</li>
+            <li>Developed the original proof of concept for AI Resume Matching, now live in production.</li>
+            <li>Building AI-powered applications, including enterprise chatbots, knowledge platforms and intelligent document solutions, and full-stack applications that connect data, AI, backend logic and user-facing experiences.</li>
+            <li>Exploring and applying AI agents and automation to improve engineering workflows and productivity.</li>
+          </ul>
         </div>
       </li>
       <li class="row">
         <p class="row__when">Dec 2023 – Jan 2024</p>
-        <div>
+        <div class="row__body">
           <h3 class="row__title">Training Internship – Data Analytics</h3>
           <p class="row__org">Vertisystem · Indore</p>
-          <p class="row__note">SQL analysis across databases, web scraping and analytical reports.</p>
+          <p class="row__lede">Hands-on data analytics training, from SQL analysis to data collection and reporting.</p>
+          <ul class="row__list">
+            <li>Worked on data analytics use cases and SQL-based analysis.</li>
+            <li>Developed and executed SQL queries across databases.</li>
+            <li>Worked on web scraping and data collection.</li>
+            <li>Created analytical reports and documentation.</li>
+          </ul>
         </div>
       </li>
       <li class="row">
         <p class="row__when">Jun – Jul 2023</p>
-        <div>
+        <div class="row__body">
           <h3 class="row__title">Software Developer Intern / L1</h3>
           <p class="row__org">Swap Infotech · Indore</p>
-          <p class="row__note">Live AngularJS web projects, testing and client documentation in an Agile team.</p>
+          <p class="row__lede">Front-end development on live web projects, in an Agile team.</p>
+          <ul class="row__list">
+            <li>Contributed to live web projects using AngularJS, HTML, CSS and JavaScript.</li>
+            <li>Worked in an Agile environment using Jira.</li>
+            <li>Debugged and tested web applications.</li>
+            <li>Created client-facing documentation.</li>
+          </ul>
         </div>
       </li>
     </ol>
@@ -631,19 +674,50 @@ ${MORE.map(moreItem).join('\n')}
     <div class="lab__grid">
       <article class="exp">
         <h3 class="exp__title">Bug Detailer</h3>
-        <dl class="exp__flow">
-          <div><dt>Input</dt><dd>A screenshot and a short description of the issue</dd></div>
-          <div><dt>Process</dt><dd>An AI agent interprets the two together</dd></div>
-          <div><dt>Output</dt><dd>A structured, detailed bug report</dd></div>
-        </dl>
+        <p class="exp__what">An AI agent reads a screenshot and a short description of an issue together, and writes a structured, detailed bug report.</p>
+        <figure class="exp__sample">
+          <div class="exp__io">
+            <div class="exp__side">
+              <p class="exp__k">Input · screenshot and description</p>
+              <div class="exp__shot" aria-hidden="true"><span class="exp__shot-bar"></span><span class="exp__shot-field"></span><span class="exp__shot-field"></span><span class="exp__shot-btn">Save</span></div>
+              <p class="exp__quote">“Save does nothing on the profile page.”</p>
+            </div>
+            <div class="exp__side">
+              <p class="exp__k">Output · bug report</p>
+              <dl class="exp__report">
+                <div><dt>Title</dt><dd>Profile changes aren’t saved</dd></div>
+                <div><dt>Steps</dt><dd>Open Profile, change the name, select Save</dd></div>
+                <div><dt>Expected</dt><dd>The change is saved</dd></div>
+                <div><dt>Actual</dt><dd>Nothing happens</dd></div>
+              </dl>
+            </div>
+          </div>
+          <figcaption class="exp__note">A sample input and output, for illustration. Not a live tool.</figcaption>
+        </figure>
       </article>
       <article class="exp">
         <h3 class="exp__title">Web App Builder</h3>
-        <dl class="exp__flow">
-          <div><dt>Input</dt><dd>Existing application code and the logic it should follow</dd></div>
-          <div><dt>Process</dt><dd>An AI agent works out how the code is built, then adapts it to that logic</dd></div>
-          <div><dt>Output</dt><dd>Updated code. It assists development rather than building software on its own.</dd></div>
-        </dl>
+        <p class="exp__what">An AI agent works out how existing code is built, then adapts it to the logic it should follow. It assists development rather than building software on its own.</p>
+        <figure class="exp__sample">
+          <div class="exp__io">
+            <div class="exp__side">
+              <p class="exp__k">Input · code and the logic to follow</p>
+              <pre class="exp__code"><code>function total(items) {
+  return items.reduce((s, i) =&gt; s + i.price, 0);
+}</code></pre>
+              <p class="exp__quote">“Members get 10% off.”</p>
+            </div>
+            <div class="exp__side">
+              <p class="exp__k">Output · proposed changes</p>
+              <pre class="exp__code"><code><del>- function total(items) {</del>
+<ins>+ function total(items, isMember) {</ins>
+<ins>+   const s = items.reduce((t, i) =&gt; t + i.price, 0);</ins>
+<ins>+   return isMember ? s * 0.9 : s;</ins></code></pre>
+              <p class="exp__quote">For a developer to review and apply.</p>
+            </div>
+          </div>
+          <figcaption class="exp__note">A sample input and output, for illustration. Not a live tool.</figcaption>
+        </figure>
       </article>
     </div>
     <p class="lab__note"><b>Built by me, with AI.</b> I built both tools myself, with AI as my co-developer at every step.</p>
@@ -676,32 +750,59 @@ ${footer({ links: false })}
 </html>
 `;
 
-/* ---------- case studies ---------- */
+/* ---------- case studies ----------
+   Overview (the header), problem, my contribution where confirmed, a visual
+   explanation, outcome and status, a short invitation to the walkthrough, then
+   two cards to another project. */
+// previous / next: whole cards are single links; at either end, "All projects" keeps two cards
+const navCard = ({ href, rel, dir, back, title, desc, mini }) => `        <a class="nav-card${back ? ' nav-card--back' : ''}" href="${href}"${rel ? ` rel="${rel}"` : ''}>
+          <span class="nav-card__mini mini" aria-hidden="true">${mini}</span>
+          <span class="nav-card__body">
+            <span class="nav-card__dir">${back ? '<span class="arrow" aria-hidden="true">←</span> ' : ''}${dir}${back ? '' : ' <span class="arrow" aria-hidden="true">→</span>'}</span>
+            <span class="nav-card__title">${title}</span>
+            <span class="nav-card__desc">${desc}</span>
+          </span>
+        </a>`;
+const ALL = { href: '../../#work', title: 'All projects', desc: 'Every project on one page, with its walkthrough.', mini: MINI.all };
+const caseNav = (prev, next) => `      <nav class="case-next" aria-labelledby="next-label">
+        <p class="case-next__label" id="next-label">Explore another project</p>
+        <div class="case-next__grid">
+${prev ? navCard({ href: `../${prev}/`, rel: 'prev', dir: 'Previous project', back: true, title: P[prev].title, desc: P[prev].summary, mini: MINI[prev] })
+       : navCard({ ...ALL, dir: 'Overview', back: true })}
+${next ? navCard({ href: `../${next}/`, rel: 'next', dir: 'Next project', title: P[next].title, desc: P[next].summary, mini: MINI[next] })
+       : navCard({ ...ALL, dir: 'Overview' })}
+        </div>
+      </nav>`;
 const casePage = (slug) => {
   const p = P[slug], d = DEMOS[slug];
   const i = ORDER.indexOf(slug);
   const prev = ORDER[i - 1], next = ORDER[i + 1];
   const base = '../../';
   const sid = (h) => `${slug}-${h.toLowerCase().replace(/[^a-z]+/g, '-').replace(/-$/, '')}`;
-  const sec = (h, body) => `      <section class="case-sec" aria-labelledby="${sid(h)}">
+  const sec = (h, body, mod = '') => `      <section class="case-sec${mod}" aria-labelledby="${sid(h)}">
         <h2 class="case-sec__h" id="${sid(h)}">${h}</h2>
         <div class="case-sec__body">
             ${body}
         </div>
       </section>`;
+  const walk = `<div class="walk">
+          ${preview(slug)}
+          <div class="walk__text">
+            <p class="walk__lede">${p.walk}</p>
+            <p class="walk__meta"><span>${Math.round(d.duration / 1000)} seconds</span><span>Silent</span><span>Pause, replay or choose a step</span></p>
+            <details class="walk__alt">
+              <summary>Read the walkthrough as text</summary>
+              ${steps(d.scenes.map((x) => [x.title, x.text]))}
+            </details>
+          </div>
+        </div>`;
   const sections = [
-    sec('Business problem', p.problem),
-    p.contribution ? sec('My contribution', p.contribution.text + (p.contribution.bullets.length ? `
-            <ul class="ticks">
-${p.contribution.bullets.map((b) => `              <li>${b}</li>`).join('\n')}
-            </ul>` : '')) : '',
-    p.scope ? sec(p.scope[0], p.scope[1]) : '',
-    sec(p.built[0], p.built[1]),
-    p.result ? sec(p.result[0], p.result[1]) : '',
-    sec('Demonstration', `<p>A ${Math.round(d.duration / 1000)}-second illustrative walkthrough of the workflow, using sample data. It plays silently and you can pause or replay it at any time.</p>
-            ${steps(d.scenes.map((s) => [s.title, s.text]))}
-            <p class="case-demo">${demoButton(slug).replace('class="demo-btn js-only"', 'class="demo-btn demo-btn--primary js-only"')}<span class="demo-status" data-demo-status role="status"></span></p>`),
+    sec('The problem', p.problem),
+    p.contribution ? sec('My contribution', p.contribution) : '',
+    sec(p.explain[0], p.explain[1], ' case-sec--wide'),
+    p.outcome ? sec(p.outcome[0], p.outcome[1]) : '',
     p.tech ? sec('Technologies', `<ul class="tags">${p.tech.map((t) => `<li>${t}</li>`).join('')}</ul>`) : '',
+    sec('Walkthrough', walk, ' case-sec--wide case-sec--walk'),
   ].filter(Boolean).join('\n');
   return `${head({
     base,
@@ -711,6 +812,7 @@ ${p.contribution.bullets.map((b) => `              <li>${b}</li>`).join('\n')}
     ogType: 'article',
     ogTitle: `${p.title} — Gaurang Ashava`,
     ogDescription: p.lede,
+    extra: `<script src="${base}assets/explain.js?v=${V}" defer></script>\n`,
   })}
 <body>
 ${navBar({ home: false, base })}
@@ -718,7 +820,7 @@ ${navBar({ home: false, base })}
 <main id="main">
   <article class="case" aria-labelledby="case-title">
     <header class="case-head container" id="top">
-      <p class="case-head__back"><a href="${base}#work"><span class="arrow" aria-hidden="true">←</span> All work</a></p>
+      <p class="case-head__back"><a href="${base}#work"><span class="arrow" aria-hidden="true">←</span> All projects</a></p>
       <p class="kicker">${p.kicker}</p>
       <h1 class="case-head__title" id="case-title">${p.title}</h1>
       <p class="case-head__lede">${p.lede}</p>
@@ -727,17 +829,10 @@ ${p.facts.map(([k, v]) => `        <div><dt>${k}</dt><dd>${v}</dd></div>`).join(
       </dl>
     </header>
 
-    <div class="container case-visual">
-        ${preview(slug)}
-    </div>
-
     <div class="container">
 ${sections}
 
-      <nav class="case-next" aria-label="More projects">
-${prev ? `        <a href="../${prev}/" rel="prev"><span>Previous project</span><b>${P[prev].title}</b></a>` : ''}
-${next ? `        <a href="../${next}/" rel="next"><span>Next project</span><b>${P[next].title}</b></a>` : `        <a href="${base}#work" rel="next"><span>That’s all of them</span><b>Back to all work</b></a>`}
-      </nav>
+${caseNav(prev, next)}
     </div>
   </article>
 </main>

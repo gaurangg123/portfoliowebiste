@@ -36,8 +36,9 @@
   d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
 })(document, document.documentElement);
 </script>
-<link rel="stylesheet" href="../../portfolio.css?v=15" />
-<script src="../../portfolio.js?v=15" defer></script>
+<link rel="stylesheet" href="../../portfolio.css?v=16" />
+<script src="../../portfolio.js?v=16" defer></script>
+<script src="../../assets/explain.js?v=16" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -67,19 +68,74 @@
 <main id="main">
   <article class="case" aria-labelledby="case-title">
     <header class="case-head container" id="top">
-      <p class="case-head__back"><a href="../../#work"><span class="arrow" aria-hidden="true">←</span> All work</a></p>
-      <p class="kicker">Generative AI · Document intelligence</p>
+      <p class="case-head__back"><a href="../../#work"><span class="arrow" aria-hidden="true">←</span> All projects</a></p>
+      <p class="kicker">Document intelligence</p>
       <h1 class="case-head__title" id="case-title">AI Legal Contract Intelligence</h1>
       <p class="case-head__lede">An AI-powered application for legal teams to analyze and track uploaded contracts and extract important contractual information.</p>
       <dl class="facts">
-        <div><dt>Where</dt><dd>Tata Technologies</dd></div>
         <div><dt>For</dt><dd>Legal teams</dd></div>
         <div><dt>Type</dt><dd>Generative AI application</dd></div>
       </dl>
     </header>
 
-    <div class="container case-visual">
-        <figure class="case-visual__figure demo-preview">
+    <div class="container">
+      <section class="case-sec" aria-labelledby="contract-intelligence-the-problem">
+        <h2 class="case-sec__h" id="contract-intelligence-the-problem">The problem</h2>
+        <div class="case-sec__body">
+            <p>Legal teams need to identify and review the clauses, obligations and important information in each contract, and keep track of their contracts.</p>
+        </div>
+      </section>
+      <section class="case-sec case-sec--wide" aria-labelledby="contract-intelligence-how-it-works">
+        <h2 class="case-sec__h" id="contract-intelligence-how-it-works">How it works</h2>
+        <div class="case-sec__body">
+            <div class="xp xp--ci" data-xp="pick">
+          <p class="xp__lede">A fictional contract excerpt beside the information drawn from it. Select an item to see where it comes from in the text.</p>
+          <p class="ann__legend" aria-hidden="true"><span class="ann__key">Key detail</span><span class="ann__ob">Obligation</span><span class="ann__cl">Clause</span></p>
+          <div class="ann">
+            <div class="ann__doc">
+              <p class="ann__file">sample-services-agreement.pdf · fictional</p>
+              <p class="ann__title">Master services agreement</p>
+              <p>This agreement is between <mark class="ann__key" data-key="parties">Sample Client Pvt. Ltd.</mark> and <mark class="ann__key" data-key="parties">Sample Supplier Ltd.</mark>, effective <mark class="ann__key" data-key="effective">1 April 2025</mark>.</p>
+              <p class="ann__cl" data-key="c7"><b>7. Term.</b> This agreement runs for <mark class="ann__key" data-key="term">24 months</mark>.</p>
+              <p class="ann__cl" data-key="c9"><b>9. Reporting.</b> <mark class="ann__ob" data-key="report">The Supplier shall deliver a monthly service report.</mark></p>
+              <p class="ann__cl" data-key="c12"><b>12. Termination.</b> Either party may terminate with 60 days’ written notice.</p>
+            </div>
+            <div class="ann__out">
+              <p class="ann__h">Extracted information</p>
+              <p class="ann__gh"><span class="ann__key">Key details</span></p>
+              <ul class="ann__list">
+                <li><button type="button" data-pick="parties"><span>Parties</span><b>Sample Client Pvt. Ltd. · Sample Supplier Ltd.</b></button></li>
+                <li><button type="button" data-pick="effective"><span>Effective</span><b>1 April 2025</b></button></li>
+                <li><button type="button" data-pick="term"><span>Term</span><b>24 months</b></button></li>
+              </ul>
+              <p class="ann__gh"><span class="ann__cl">Clauses</span></p>
+              <ul class="ann__list ann__list--row">
+                <li><button type="button" data-pick="c7"><b>7 · Term</b></button></li>
+                <li><button type="button" data-pick="c9"><b>9 · Reporting</b></button></li>
+                <li><button type="button" data-pick="c12"><b>12 · Termination</b></button></li>
+              </ul>
+              <p class="ann__gh"><span class="ann__ob">Obligations</span></p>
+              <ul class="ann__list">
+                <li><button type="button" data-pick="report"><span>Supplier</span><b>Deliver a monthly service report</b></button></li>
+              </ul>
+              <p class="ann__track"><b>Tracked</b> in the application · term 1 April 2025 to 31 March 2027</p>
+              <p class="ann__review"><b>For human review.</b> The summary supports the legal team’s review. It doesn’t give legal advice or make legal decisions.</p>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+      <section class="case-sec" aria-labelledby="contract-intelligence-outcome">
+        <h2 class="case-sec__h" id="contract-intelligence-outcome">Outcome</h2>
+        <div class="case-sec__body">
+            <p>Legal teams get each contract’s clauses, obligations and key information as a structured summary to review, and their contracts are tracked in the application.</p>
+        </div>
+      </section>
+      <section class="case-sec case-sec--wide case-sec--walk" aria-labelledby="contract-intelligence-walkthrough">
+        <h2 class="case-sec__h" id="contract-intelligence-walkthrough">Walkthrough</h2>
+        <div class="case-sec__body">
+            <div class="walk">
+          <figure class="walk__figure demo-preview">
           <div class="demo-preview__frame">
           <div class="ill ill--contract" aria-hidden="true">
             <div class="ill__canvas">
@@ -104,7 +160,7 @@
                   <p class="ct__list">Term · Reporting · Termination</p>
                   <p class="ct__h">Obligations</p>
                   <p class="ct__ob">Monthly service report · Supplier</p>
-                  <p class="ct__track ct__extra">Tracked · review before Apr 2027</p>
+                  <p class="ct__track ct__extra">Tracked · term ends 31 Mar 2027</p>
                 </div>
               </div>
               </div>
@@ -114,50 +170,67 @@
           </div>
           <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
         </figure>
-    </div>
-
-    <div class="container">
-      <section class="case-sec" aria-labelledby="contract-intelligence-business-problem">
-        <h2 class="case-sec__h" id="contract-intelligence-business-problem">Business problem</h2>
-        <div class="case-sec__body">
-            <p>Legal teams need to identify and review the clauses, obligations and important information in each contract, and keep track of their contracts.</p>
-        </div>
-      </section>
-      <section class="case-sec" aria-labelledby="contract-intelligence-how-the-solution-works">
-        <h2 class="case-sec__h" id="contract-intelligence-how-the-solution-works">How the solution works</h2>
-        <div class="case-sec__body">
-            <ol class="steps">
-              <li><span><b>Upload</b><span>A contract is uploaded to the application.</span></span></li>
-              <li><span><b>Analyze</b><span>The application analyzes it with generative AI.</span></span></li>
-              <li><span><b>Extract</b><span>It identifies clauses and extracts obligations and other key information.</span></span></li>
-              <li><span><b>Track</b><span>Contracts are tracked in the application.</span></span></li>
-            </ol>
-            <p class="muted">It supports human review: it organizes contract information for the legal team, and doesn’t give legal advice or make legal decisions.</p>
-        </div>
-      </section>
-      <section class="case-sec" aria-labelledby="contract-intelligence-result">
-        <h2 class="case-sec__h" id="contract-intelligence-result">Result</h2>
-        <div class="case-sec__body">
-            <p>Legal teams get each contract’s clauses, obligations and key information as a structured summary to review, and their contracts are tracked in the application.</p>
-        </div>
-      </section>
-      <section class="case-sec" aria-labelledby="contract-intelligence-demonstration">
-        <h2 class="case-sec__h" id="contract-intelligence-demonstration">Demonstration</h2>
-        <div class="case-sec__body">
-            <p>A 14-second illustrative walkthrough of the workflow, using sample data. It plays silently and you can pause or replay it at any time.</p>
-            <ol class="steps">
+          <div class="walk__text">
+            <p class="walk__lede">It shows a fictional contract being analyzed, with its clauses, obligations and key details highlighted and summarized for review.</p>
+            <p class="walk__meta"><span>14 seconds</span><span>Silent</span><span>Pause, replay or choose a step</span></p>
+            <details class="walk__alt">
+              <summary>Read the walkthrough as text</summary>
+              <ol class="steps">
               <li><span><b>A sample contract</b><span>A fictional services agreement is uploaded for analysis.</span></span></li>
               <li><span><b>Clauses and obligations</b><span>Example clauses, obligations and key details are highlighted in the text.</span></span></li>
               <li><span><b>Structured summary</b><span>The extracted information is organized into a structured summary.</span></span></li>
               <li><span><b>Human review</b><span>The legal team reviews the summary and makes the decisions. The application doesn’t give legal advice.</span></span></li>
             </ol>
-            <p class="case-demo"><button class="demo-btn demo-btn--primary js-only" type="button" data-demo="contract-intelligence" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: AI Legal Contract Intelligence</span></button><span class="demo-status" data-demo-status role="status"></span></p>
+            </details>
+          </div>
+        </div>
         </div>
       </section>
 
-      <nav class="case-next" aria-label="More projects">
-        <a href="../business-sheet/" rel="prev"><span>Previous project</span><b>Business Sheet</b></a>
-        <a href="../resume-matching/" rel="next"><span>Next project</span><b>AI Resume Matching</b></a>
+      <nav class="case-next" aria-labelledby="next-label">
+        <p class="case-next__label" id="next-label">Explore another project</p>
+        <div class="case-next__grid">
+        <a class="nav-card nav-card--back" href="../business-sheet/" rel="prev">
+          <span class="nav-card__mini mini" aria-hidden="true"><svg viewBox="0 0 320 90" focusable="false">
+            <rect class="m-win" x="14" y="12" width="292" height="100" rx="8"/>
+            <circle class="m-dot" cx="26" cy="22" r="2.5"/><circle class="m-dot" cx="34" cy="22" r="2.5"/><circle class="m-dot" cx="42" cy="22" r="2.5"/>
+            <path class="m-line" d="M14 32.5h292"/>
+            <rect class="m-field" x="24" y="38" width="46" height="11" rx="5.5"/>
+            <rect class="m-field" x="76" y="38" width="46" height="11" rx="5.5"/>
+            <rect class="m-field" x="128" y="38" width="62" height="11" rx="5.5"/>
+            <rect class="m-btn" x="244" y="38" width="54" height="11" rx="5.5"/>
+            <path class="m-line" d="M14 55.5h292"/>
+            <path class="m-pane" d="M14.5 56h82v34h-82z"/>
+            <rect class="m-ink" x="22" y="62" width="28" height="3" rx="1.5"/><rect class="m-ink" x="62" y="62" width="22" height="3" rx="1.5"/><rect class="m-soft" x="22" y="69" width="28" height="3" rx="1.5"/><rect class="m-soft" x="62" y="69" width="22" height="3" rx="1.5"/><rect class="m-soft" x="22" y="76" width="28" height="3" rx="1.5"/><rect class="m-soft" x="62" y="76" width="22" height="3" rx="1.5"/><rect class="m-soft" x="22" y="83" width="28" height="3" rx="1.5"/><rect class="m-soft" x="62" y="83" width="22" height="3" rx="1.5"/>
+            <path class="m-line" d="M96.5 56v34"/>
+            <rect class="m-bar m-bar--key" x="110" y="75.4" width="10" height="12.6" rx="1.5"/><rect class="m-bar" x="125.6" y="74.2" width="10" height="13.8" rx="1.5"/><rect class="m-bar" x="141.2" y="74.6" width="10" height="13.4" rx="1.5"/><rect class="m-bar" x="156.8" y="73.0" width="10" height="15.0" rx="1.5"/><rect class="m-bar" x="172.4" y="72.0" width="10" height="16.0" rx="1.5"/><rect class="m-bar" x="188" y="72.4" width="10" height="15.6" rx="1.5"/><rect class="m-bar" x="203.6" y="70.7" width="10" height="17.3" rx="1.5"/><rect class="m-bar" x="219.2" y="69.1" width="10" height="18.9" rx="1.5"/><rect class="m-bar" x="234.8" y="69.9" width="10" height="18.1" rx="1.5"/><rect class="m-bar" x="250.4" y="66.7" width="10" height="21.3" rx="1.5"/><rect class="m-bar" x="266" y="64.4" width="10" height="23.6" rx="1.5"/><rect class="m-bar m-bar--key" x="281.6" y="62.0" width="10" height="26.0" rx="1.5"/>
+            </svg></span>
+          <span class="nav-card__body">
+            <span class="nav-card__dir"><span class="arrow" aria-hidden="true">←</span> Previous project</span>
+            <span class="nav-card__title">Business Sheet</span>
+            <span class="nav-card__desc">Turns manual Excel reporting into customisable charts and comparisons, with a chatbot that helps users understand the metrics.</span>
+          </span>
+        </a>
+        <a class="nav-card" href="../resume-matching/" rel="next">
+          <span class="nav-card__mini mini" aria-hidden="true"><svg viewBox="0 0 320 90" focusable="false">
+            <rect class="m-win" x="14" y="12" width="292" height="100" rx="8"/>
+            <circle class="m-dot" cx="26" cy="22" r="2.5"/><circle class="m-dot" cx="34" cy="22" r="2.5"/><circle class="m-dot" cx="42" cy="22" r="2.5"/>
+            <path class="m-line" d="M14 32.5h292"/>
+            <rect class="m-ink" x="26" y="39" width="58" height="5" rx="2.5"/>
+            <rect class="m-soft" x="26" y="50" width="64" height="4" rx="2"/><rect class="m-key" x="112" y="48.5" width="30" height="7" rx="3.5"/><rect class="m-soft" x="26" y="60" width="56" height="4" rx="2"/><rect class="m-key" x="112" y="58.5" width="30" height="7" rx="3.5"/><rect class="m-soft" x="26" y="70" width="72" height="4" rx="2"/><rect class="m-key" x="112" y="68.5" width="30" height="7" rx="3.5"/><rect class="m-soft" x="26" y="80" width="60" height="4" rx="2"/><rect class="m-field" x="112" y="78.5" width="30" height="7" rx="3.5"/>
+            <path class="m-dash" d="M146 52h26"/><path class="m-dash" d="M146 62h26"/><path class="m-dash" d="M146 72h26"/><path class="m-dash" d="M146 82h26"/>
+            <path class="m-pane" d="M176.5 33h129v57h-129z"/>
+            <path class="m-line" d="M176.5 33v57"/>
+            <rect class="m-ink" x="186" y="39" width="52" height="5" rx="2.5"/>
+            <circle class="m-ok" cx="191" cy="52" r="3.2"/><rect class="m-soft" x="199" y="50" width="78" height="4" rx="2"/><circle class="m-ok" cx="191" cy="62" r="3.2"/><rect class="m-soft" x="199" y="60" width="70" height="4" rx="2"/><circle class="m-ok" cx="191" cy="72" r="3.2"/><rect class="m-soft" x="199" y="70" width="62" height="4" rx="2"/><circle class="m-part" cx="191" cy="82" r="3.2"/><rect class="m-soft" x="199" y="80" width="84" height="4" rx="2"/>
+            </svg></span>
+          <span class="nav-card__body">
+            <span class="nav-card__dir">Next project <span class="arrow" aria-hidden="true">→</span></span>
+            <span class="nav-card__title">AI Resume Matching</span>
+            <span class="nav-card__desc">Evaluates candidate profiles against role requirements.</span>
+          </span>
+        </a>
+        </div>
       </nav>
     </div>
   </article>
