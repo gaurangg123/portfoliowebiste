@@ -204,7 +204,7 @@
   var demoTriggers = document.querySelectorAll('[data-demo]');
   if (demoTriggers.length) {
     var siteRoot = new URL('.', (document.currentScript && document.currentScript.src) || location.href).href;
-    var DEMO_V = '15';
+    var DEMO_V = '16';
     var demoLoad = null;
     var addAsset = function (tag, attrs) {
       return new Promise(function (resolve, reject) {
@@ -279,6 +279,12 @@
   if (audio && playBtns.length) {
     var card = document.querySelector('[data-music-card]');
     var mini = document.querySelector('[data-music-mini]');
+    /* the record only turns while it can be seen */
+    if (card && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        card.classList.toggle('is-offscreen', !entries[entries.length - 1].isIntersecting);
+      }).observe(card);
+    }
     var status = document.getElementById('music-status');
     var VOL = 0.7, START = 129;
     var state = 'idle';                       /* idle | loading | playing — mirrors the element */

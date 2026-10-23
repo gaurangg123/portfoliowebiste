@@ -10,6 +10,9 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 
 /* ---------- dialog ---------- */
 .wt {
+  --wt-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --wt-move: 320ms;     /* the step indicator travelling */
+  --wt-tint: 180ms;     /* fills, borders and text colour */
   width: min(1000px, calc(100vw - 32px));
   max-width: none;
   max-height: calc(100vh - 32px);
@@ -41,7 +44,22 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 .wt__close svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
 @media (hover: hover) { .wt__close:hover { border-color: var(--text); } }
 
-.wt__caption { display: grid; gap: 2px; min-height: 4.6em; }
+.wt__vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* captions: every step's caption sits in the same grid cell, so the tallest one
+   sets the height and the stage and controls never move. The outgoing caption
+   leaves upwards (or downwards when going back) as the new one arrives. */
+.wt__caption { display: grid; }
+.wt__cap {
+  grid-area: 1 / 1; display: grid; align-content: start; gap: 2px;
+  opacity: 0; transform: translateY(6px); visibility: hidden;
+  transition: opacity 180ms var(--wt-ease), transform 180ms var(--wt-ease), visibility 0s linear 180ms;
+}
+.wt__cap.is-past { transform: translateY(-6px); }
+.wt__cap.is-on {
+  opacity: 1; transform: none; visibility: visible;
+  transition: opacity 220ms var(--wt-ease) 60ms, transform 220ms var(--wt-ease) 60ms, visibility 0s;
+}
 .wt__step { color: var(--accent); font: 500 0.8125rem/1.5 var(--font-mono); }
 .wt__scene { font-weight: 600; }
 .wt__text { color: var(--text-2); font-size: 0.9375rem; line-height: 1.5; }
@@ -72,18 +90,64 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 .wt__prev, .wt__next { display: none; }
 .wt.is-steps .wt__play, .wt.is-steps .wt__replay, .wt.is-steps .wt__bar, .wt.is-steps .wt__time { display: none; }
 .wt.is-steps .wt__prev, .wt.is-steps .wt__next { display: inline-flex; }
-.wt.is-video .wt__caption, .wt.is-video .wt__controls, .wt.is-video .wt__chapters { display: none; }
+.wt.is-video .wt__caption, .wt.is-video .wt__controls, .wt.is-video .wt__nav { display: none; }
 
-.wt__chapters { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+/* steps: the numbered buttons never move; one shared indicator travels between
+   them (a row highlight beside the stage, a red circle in the phone strip), and a
+   thin ring around the current number fills with that step's progress */
+.wt__nav { position: relative; }
+.wt__chapters { position: relative; z-index: 1; display: flex; list-style: none; margin: 0; padding: 0; }
 .wt__chapters button {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px 0 6px;
-  border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--text-2);
-  font: 400 0.875rem/1.2 var(--font-sans); cursor: pointer;
+  position: relative; display: flex; align-items: center; gap: 10px;
+  border: 0; border-radius: 12px; background: transparent; color: var(--text-2);
+  font: 400 0.875rem/1.25 var(--font-sans); text-align: left; cursor: pointer;
+  transition: color var(--wt-tint) ease;
 }
-.wt__num { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--surface-2); color: var(--text); font: 600 0.75rem/1 var(--font-mono); }
-.wt__chapters button[aria-current] { border-color: var(--accent); color: var(--text); }
-.wt__chapters button[aria-current] .wt__num { background: var(--btn); color: #FFFFFF; }
-@media (hover: hover) { .wt__chapters button:hover { border-color: var(--line-2); color: var(--text); } }
+.wt__num {
+  position: relative; display: grid; place-items: center; flex: none; width: 28px; height: 28px;
+  border: 1.5px solid var(--line-2); border-radius: 50%; background: var(--surface); color: var(--text-2);
+  font: 600 0.75rem/1 var(--font-mono);
+  transition: background-color var(--wt-tint) ease, border-color var(--wt-tint) ease, color var(--wt-tint) ease;
+}
+.wt__num b { position: relative; font-weight: 600; }
+.wt__ring { position: absolute; inset: -6px; width: calc(100% + 12px); max-width: none; height: calc(100% + 12px); transform: rotate(-90deg); opacity: 0; pointer-events: none; transition: opacity var(--wt-tint) ease; }
+.wt__ring circle { fill: none; stroke-width: 2; }
+.wt__track { stroke: var(--line); }
+.wt__arc { stroke: var(--accent); stroke-dasharray: 100; stroke-dashoffset: 100; stroke-linecap: round; }
+.wt__chapters button[aria-current] { color: var(--text); font-weight: 600; }
+.wt__chapters button[aria-current] .wt__ring { opacity: 1; }
+.wt.is-steps .wt__ring { display: none; }
+.wt__chapters button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (hover: hover) {
+  .wt__chapters button:not([aria-current]):hover { color: var(--text); }
+  .wt__chapters button:not([aria-current]):hover .wt__num { border-color: var(--text-2); }
+}
+.wt__ind {
+  position: absolute; left: 0; top: 0; z-index: 0; width: 0; height: 0; opacity: 0; pointer-events: none;
+  transition: transform var(--wt-move) var(--wt-ease), width var(--wt-move) var(--wt-ease), height var(--wt-move) var(--wt-ease);
+}
+.wt__ind.is-on { opacity: 1; }
+.wt__ind.is-instant { transition: none; }
+/* phones and tablets: a compact strip of numbers; the caption above names the step */
+@media (max-width: 899.98px) {
+  .wt__nav { overflow-x: auto; scrollbar-width: none; margin: -4px; padding: 4px; }
+  .wt__nav::-webkit-scrollbar { display: none; }
+  .wt__chapters {
+    width: 100%; min-width: calc(var(--n, 6) * 44px);
+    max-width: calc(var(--n, 6) * 44px + (var(--n, 6) - 1) * 14px);
+    justify-content: space-between;
+  }
+  .wt__chapters button { justify-content: center; width: 44px; height: 44px; padding: 0; border-radius: 50%; }
+  .wt__chap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .wt__num { width: 34px; height: 34px; font-size: 0.8125rem; }
+  .wt__ring { inset: -5px; width: calc(100% + 10px); height: calc(100% + 10px); }
+  /* the number turns white as the red circle arrives under it */
+  .wt__chapters button[aria-current] .wt__num {
+    border-color: transparent; background: transparent; color: #FFFFFF;
+    transition: background-color var(--wt-tint) ease, border-color var(--wt-tint) ease 100ms, color var(--wt-tint) ease 140ms;
+  }
+  .wt__ind { border-radius: 50%; background: var(--btn); }
+}
 .wt__foot { margin: 0; }
 .wt__case { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--accent); font-weight: 500; text-decoration: none; }
 @media (hover: hover) { .wt__case:hover { text-decoration: underline; } }
@@ -91,11 +155,9 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 @media (max-width: 640px) {
   .wt { width: calc(100vw - 16px); border-radius: 18px; max-height: calc(100vh - 16px); max-height: calc(100dvh - 16px); }
   .wt__panel { max-height: calc(100vh - 18px); max-height: calc(100dvh - 18px); }
-  .wt__chap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .wt__chapters button { padding: 0 6px; }
   .wt__panel { gap: 10px; }
   .wt__note { font-size: 0.75rem; }
-  .wt__caption { display: flex; flex-wrap: wrap; align-items: baseline; align-content: start; column-gap: 10px; min-height: 5.4em; }
+  .wt__cap { display: flex; flex-wrap: wrap; align-items: baseline; align-content: start; column-gap: 10px; }
   .wt__text { flex-basis: 100%; }
   .wt__time { margin-left: auto; }
   .wt__bar { flex-basis: 100%; order: 3; }
@@ -119,14 +181,18 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
   .wt__head { grid-area: head; }
   .wt__stage { grid-area: stage; align-self: start; }
   .wt__caption { grid-area: caption; }
-  .wt__chapters { grid-area: chapters; align-self: end; flex-direction: column; flex-wrap: nowrap; gap: 6px; }
-  .wt__chapters button { width: 100%; min-height: 38px; text-align: left; }
+  .wt__nav { grid-area: chapters; align-self: end; }
+  .wt__chapters { flex-direction: column; gap: 4px; }
+  .wt__chapters button { width: 100%; min-height: 44px; padding: 6px 12px 6px 8px; }
+  .wt__chapters button[aria-current] .wt__num { background: var(--btn); border-color: var(--btn); color: #FFFFFF; }
+  .wt__ind { border-radius: 12px; background: var(--mark-pink); box-shadow: inset 3px 0 0 var(--accent); }
   .wt__controls { grid-area: controls; position: static; margin: 0; padding: 0; }
   .wt__foot { grid-area: foot; align-self: center; }
   .wt.is-video .wt__panel { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; grid-template-areas: "head" "stage" "foot"; }
 }
 
 /* ---------- stage ---------- */
+.wt-instant, .wt-instant *, .wt-instant *::before, .wt-instant *::after { transition: none !important; animation: none !important; }
 .wt__stage {
   position: relative; aspect-ratio: 16 / 10; container-type: inline-size;
   overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: var(--bg);
@@ -174,15 +240,35 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
    cross-fades between views (data-scene). Step 6 is an overview of the platform. */
 .wt-kp__win { position: absolute; inset: 9% 4.5% 7%; display: flex; flex-direction: column; }
 .wt-kp__body { flex: 1; display: grid; grid-template-columns: 21% 1fr; min-height: 0; }
-.wt-kp__nav { display: grid; align-content: start; gap: 0.3em; padding: 1em 0.7em; border-right: 1px solid var(--line); background: var(--bg); }
-.wt-kp__nav li { padding: 0.55em 0.75em; border-radius: 0.55em; color: var(--text-2); transition: background-color 0.4s ease, color 0.4s ease; }
-[data-scene="1"] .n1, [data-scene="2"] .n2, [data-scene="3"] .n3, [data-scene="4"] .n4, [data-scene="5"] .n5 { background: var(--mark-pink); color: var(--text); font-weight: 600; }
-.wt-kp__views { display: grid; min-height: 0; }
+.wt-kp__nav { position: relative; display: grid; align-content: start; gap: 0.3em; padding: 1em 0.7em; border-right: 1px solid var(--line); background: var(--bg); }
+/* one highlight glides down the sidebar to the feature in use */
+.wt-kp__nav::before {
+  content: ""; position: absolute; left: 0.7em; right: 0.7em; top: 1em; height: 2.5em; border-radius: 0.55em; background: var(--mark-pink);
+  box-shadow: inset 0.2em 0 0 #BB2436;
+  transform: translateY(calc(var(--kp-at, 0) * 2.8em)); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-scene="2"] .wt-kp__nav { --kp-at: 1; }
+[data-scene="3"] .wt-kp__nav { --kp-at: 2; }
+[data-scene="4"] .wt-kp__nav { --kp-at: 3; }
+[data-scene="5"] .wt-kp__nav, [data-scene="6"] .wt-kp__nav { --kp-at: 4; }
+.wt-kp__nav li { position: relative; padding: 0.55em 0.75em; line-height: 1.4; color: var(--text-2); transition: color 0.3s ease 0.2s; }
+[data-scene="1"] .n1, [data-scene="2"] .n2, [data-scene="3"] .n3, [data-scene="4"] .n4, [data-scene="5"] .n5 { color: var(--text); font-weight: 600; }
+.wt-kp__views { display: grid; min-height: 0; overflow: hidden; }
+/* the previous view slides out to the left as the next slides in from the right,
+   and the new view's parts settle in one after another */
 .wt-kp__view {
   grid-area: 1 / 1; display: flex; flex-direction: column; gap: 0.85em; min-height: 0; padding: 1.2em 1.4em;
-  opacity: 0; transform: translateY(0.6em); transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  opacity: 0; transform: translateX(2.2em);
+  transition: opacity 0.4s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
-[data-scene="1"] .v1, [data-scene="2"] .v2, [data-scene="3"] .v3, [data-scene="4"] .v4, [data-scene="5"] .v5 { opacity: 1; transform: none; transition-delay: 0.3s; }
+.is-s2 .v1, .is-s3 .v2, .is-s4 .v3, .is-s5 .v4, .is-s6 .v5 { transform: translateX(-2.2em); }
+[data-scene="1"] .v1, [data-scene="2"] .v2, [data-scene="3"] .v3, [data-scene="4"] .v4, [data-scene="5"] .v5 { opacity: 1; transform: none; transition-delay: 0.16s; }
+.wt-kp__view > :not(.wt-kp__reply) { opacity: 0; transform: translateY(0.6em); transition: opacity 0.4s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+[data-scene="1"] .v1 > :not(.wt-kp__reply), [data-scene="2"] .v2 > :not(.wt-kp__reply), [data-scene="3"] .v3 > :not(.wt-kp__reply),
+[data-scene="4"] .v4 > :not(.wt-kp__reply), [data-scene="5"] .v5 > :not(.wt-kp__reply) { opacity: 1; transform: none; }
+[data-scene] .wt-kp__view > :nth-child(1) { transition-delay: 0.3s; }
+[data-scene] .wt-kp__view > :nth-child(2) { transition-delay: 0.42s; }
+[data-scene] .wt-kp__view > :nth-child(3) { transition-delay: 0.54s; }
 .wt-kp__h { display: flex; align-items: baseline; gap: 0.7em; font-weight: 600; font-size: 1.08em; }
 .wt-kp__h span { color: var(--text-2); font: 600 0.7em/1 var(--font-mono); }
 
@@ -261,12 +347,17 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 }
 .wt-kp__tiles li.is-ai { border-color: #BB2436; box-shadow: inset 0 0 0 1px #BB2436; }
 .is-s6 .wt-kp__tiles li { opacity: 1; transform: none; }
-.wt-kp__tiles li:nth-child(2) { transition-delay: 0.1s; }
-.wt-kp__tiles li:nth-child(3) { transition-delay: 0.2s; }
-.wt-kp__tiles li:nth-child(4) { transition-delay: 0.3s; }
-.wt-kp__tiles li:nth-child(5) { transition-delay: 0.4s; }
-.wt-kp__tiles li:nth-child(6) { transition-delay: 0.5s; }
-.wt-kp__roles { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5em; padding: 0.8em; border-radius: 0.9em; background: var(--surface-2); }
+/* the portal window steps back before the overview arrives, so the two never overlap */
+.is-s6 .wt-kp__win { transform: scale(0.94); transition-duration: 0.35s; }
+.is-s6 .wt-kp__map { transition-delay: 0.3s; }
+.wt-kp__tiles li:nth-child(1) { transition-delay: 0.35s; }
+.wt-kp__tiles li:nth-child(2) { transition-delay: 0.43s; }
+.wt-kp__tiles li:nth-child(3) { transition-delay: 0.51s; }
+.wt-kp__tiles li:nth-child(4) { transition-delay: 0.59s; }
+.wt-kp__tiles li:nth-child(5) { transition-delay: 0.67s; }
+.wt-kp__tiles li:nth-child(6) { transition-delay: 0.75s; }
+.wt-kp__roles { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5em; padding: 0.8em; border-radius: 0.9em; background: var(--surface-2); opacity: 0; transition: opacity 0.4s ease 0.85s; }
+.is-s6 .wt-kp__roles { opacity: 1; }
 .wt-kp__roles b { margin-right: 0.4em; }
 .wt-kp__roles span { padding: 0.25em 0.7em; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: 0.92em; }
 @media (max-width: 640px) {
@@ -291,7 +382,7 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 .is-s2 .wt-dm__flow::after { transform: scaleX(0.2); }
 .is-s3 .wt-dm__flow::after { transform: scaleX(0.6); }
 .is-s4 .wt-dm__flow::after { transform: scaleX(1); }
-.wt-dm__flow > li { position: relative; z-index: 1; display: grid; justify-items: center; text-align: center; gap: 0.3em; padding: 0 0.3em; }
+.wt-dm__flow > li { --k: 0; position: relative; z-index: 1; display: grid; justify-items: center; text-align: center; gap: 0.3em; padding: 0 0.3em; }
 .wt-dm__node b, .wt-dm__stage b { font-weight: 600; }
 .wt-dm__node small { color: var(--text-2); font-size: 0.82em; }
 .wt-dm__node::before, .wt-dm__stage::before {
@@ -342,6 +433,11 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 }
 .wt-dm__infra::before { content: ""; width: 0.55em; height: 0.55em; border-radius: 0.15em; background: var(--text-2); }
 .is-s6 .wt-dm__flow > li::before { border-color: #BB2436; }
+/* step 6: one ripple runs along the whole flow, from the source to Snowflake */
+.is-s6 .wt-dm__flow > li::before { animation: wt-dm-pass 0.6s ease calc(var(--k) * 0.13s + 0.25s); }
+.wt-dm__flow > li:nth-child(2) { --k: 1; } .wt-dm__flow > li:nth-child(3) { --k: 2; } .wt-dm__flow > li:nth-child(4) { --k: 3; }
+.wt-dm__flow > li:nth-child(5) { --k: 4; } .wt-dm__flow > li:nth-child(6) { --k: 5; }
+@keyframes wt-dm-pass { 45% { transform: scale(1.14); box-shadow: 0 0 0 0.35em var(--mark-pink); } }
 /* step 5: dashboards and their data sources, migrated alongside the data (no tool named) */
 .wt-dm__scope { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.6em 1.1em; }
 .wt-dm__scope-h { color: var(--text-2); font: 600 0.82em/1.2 var(--font-mono); }
@@ -349,10 +445,11 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 .wt-dm__scope li {
   display: flex; align-items: center; gap: 0.65em; padding: 0.55em 0.95em 0.55em 0.65em;
   border: 1px solid var(--line-2); border-radius: 0.8em; background: var(--surface);
-  transform: translateX(-2.5em); transition: transform 1.2s cubic-bezier(0.45, 0, 0.2, 1) 0.4s, border-color 0.4s ease 1.4s;
+  opacity: 0; transform: translateX(-0.8em);
+  transition: opacity 0.5s ease 0.35s, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.35s, border-color 0.4s ease 1.2s;
 }
-.wt-dm__scope li + li { transition-delay: 0.6s, 1.6s; }
-.is-s5 .wt-dm__scope li { transform: none; border-color: #BB2436; }
+.wt-dm__scope li + li { transition-delay: 0.6s, 0.6s, 1.45s; }
+.is-s5 .wt-dm__scope li { opacity: 1; transform: none; border-color: #BB2436; }
 .is-s6 .wt-dm__scope li { border-color: var(--line-2); }
 .wt-dm__scope li > i { width: 2em; height: 2em; flex: none; border-radius: 0.5em; background: var(--bg) center / 62% no-repeat; }
 .wt-dm__scope .wt-dm__dash > i { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23BB2436' stroke-width='1.6' stroke-linejoin='round'%3E%3Crect x='3.5' y='4' width='17' height='16' rx='2'/%3E%3Cpath d='M7.5 16v-3M11 16V9.5M14.5 16v-5M18 16V8'/%3E%3C/svg%3E"); }
@@ -406,8 +503,11 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 .wt-ci__sum { display: grid; gap: 0.6em; padding: 1.1em 1.2em; border: 1px solid var(--line); border-radius: 0.9em; background: var(--surface); transform: translateX(1.2em); }
 .wt-ci__h { font: 600 0.82em/1.2 var(--font-mono); color: var(--text-2); }
 .wt-ci__sum dl { display: grid; gap: 0.4em; }
-.wt-ci__sum dl div { display: grid; grid-template-columns: 6.2em 1fr; gap: 0.6em; padding-bottom: 0.4em; border-bottom: 1px solid var(--line); opacity: 0; transition: opacity 0.4s ease 0.45s; }
-.is-s3 .wt-ci__sum dl div { opacity: 1; }
+.wt-ci__sum dl div {
+  display: grid; grid-template-columns: 6.2em 1fr; gap: 0.6em; padding-bottom: 0.4em; border-bottom: 1px solid var(--line);
+  opacity: 0; transform: translateX(-0.8em); transition: opacity 0.4s ease 0.45s, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.45s;
+}
+.is-s3 .wt-ci__sum dl div { opacity: 1; transform: none; }
 .wt-ci__sum dl div:nth-child(2) { transition-delay: 0.7s; }
 .wt-ci__sum dl div:nth-child(3) { transition-delay: 0.95s; }
 .wt-ci__sum dl div:nth-child(4) { transition-delay: 1.2s; }
@@ -450,6 +550,18 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 .is-s3 .wt-rm__card li::before { transform: translateY(-50%) scale(1); }
 .is-s3 .wt-rm__card li.is-part::before { background: var(--text-2); }
 .wt-rm__table { display: grid; align-content: center; gap: 0.1em; padding: 0 6%; }
+/* step 4: the two cards give way first, then the comparison arrives row by row */
+.is-s4 .wt-rm__pair { transform: scale(0.96); transition-duration: 0.3s; }
+.wt-rm__table.wt-in { opacity: 1; transform: none; }
+.wt-rm__table > * { opacity: 0; transform: translateY(0.5em); transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.is-s4 .wt-rm__table > * { opacity: 1; transform: none; }
+.wt-rm__table > :nth-child(1) { transition-delay: 0.2s; }
+.wt-rm__table > :nth-child(2) { transition-delay: 0.27s; }
+.wt-rm__table > :nth-child(3) { transition-delay: 0.36s; }
+.wt-rm__table > :nth-child(4) { transition-delay: 0.45s; }
+.wt-rm__table > :nth-child(5) { transition-delay: 0.54s; }
+.wt-rm__table > :nth-child(6) { transition-delay: 0.63s; }
+.wt-rm__table > :nth-child(7) { transition-delay: 0.8s; }
 .wt-rm__table .wt-rm__h { margin-bottom: 0.6em; }
 .wt-rm__row { display: grid; grid-template-columns: 1.1fr 1.6fr 0.9fr; gap: 1em; padding: 0.65em 0.2em; border-bottom: 1px solid var(--line); align-items: center; }
 .wt-rm__row--h { color: var(--text-2); font: 600 0.8em/1.2 var(--font-mono); border-bottom-color: var(--line-2); }
@@ -500,7 +612,7 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 /* the sheet starts centred, then makes room for the chart */
 .wt-bs__sheet { grid-column: 1; align-self: start; display: grid; gap: 0.5em; padding: 0.8em; background: var(--surface); translate: calc(55.3% + 0.6em) 0; }
 .is-s3 .wt-bs__sheet { translate: 0 0; transition-delay: 0s; }
-.is-s6 .wt-bs__sheet { opacity: 0; transform: translateY(-0.4em); }
+.is-s6 .wt-bs__sheet { opacity: 0; transform: translateX(-1.6em); transition-duration: 0.35s; }
 .wt-bs__file { display: flex; align-items: center; gap: 0.5em; color: var(--text-2); font: 600 0.8em/1.2 var(--font-mono); }
 .wt-bs__file::before { content: ""; width: 0.85em; height: 1.05em; border-radius: 0.15em; background: #2E7A4A; }
 .wt-bs__sheet table { width: 100%; border-collapse: collapse; font: 0.8em/1.25 var(--font-mono); font-variant-numeric: tabular-nums; }
@@ -533,8 +645,8 @@ html.wt-open { overflow: hidden; scrollbar-gutter: stable; }
 .is-s5 .wt-bs__few .is-edge span { opacity: 1; transition-delay: 1.7s; }
 .wt-bs__axis { display: flex; justify-content: space-between; color: var(--text-2); font: 0.78em/1.2 var(--font-mono); }
 
-.wt-bs__chat { position: relative; z-index: 1; grid-column: 1; display: flex; flex-direction: column; gap: 0.6em; padding: 0.9em; background: var(--bg); opacity: 0; transform: translateY(0.6em); transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1); }
-.is-s6 .wt-bs__chat { opacity: 1; transform: none; transition-delay: 0.45s; }
+.wt-bs__chat { position: relative; z-index: 1; grid-column: 1; display: flex; flex-direction: column; gap: 0.6em; padding: 0.9em; background: var(--bg); opacity: 0; transform: translateX(1em); transition: opacity 0.45s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1); }
+.is-s6 .wt-bs__chat { opacity: 1; transform: none; transition-delay: 0.3s; }
 .wt-bs__reply { opacity: 0; transform: translateY(0.5em); transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .is-s6 .wt-bs__reply { opacity: 1; transform: none; transition-delay: 1.5s; }
 .wt-bs__reply b { font-weight: 600; }

@@ -169,7 +169,7 @@
             '</dl>' +
             '<div class="wt-ci__review wt-in in-4">' +
               '<p><b>Ready for legal review</b></p>' +
-              '<p>Reviewed and decided by the legal team · Tracked: review before Apr 2027</p>' +
+              '<p>Reviewed and decided by the legal team · Tracked: term ends 31 Mar 2027</p>' +
             '</div>' +
           '</div>' +
         '</div>'
