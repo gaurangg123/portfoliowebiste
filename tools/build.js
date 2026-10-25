@@ -12,7 +12,7 @@ const XP = require('./explain.js');
 
 const REPO = path.resolve(__dirname, '..');
 const SITE = 'https://gaurangg123.github.io/portfoliowebiste/';
-const V = '16';                                   // cache-busting for css/js
+const V = '17';                                   // cache-busting for css/js
 const EMAIL = 'gaurangashava@gmail.com';
 const GITHUB = 'https://github.com/gaurangg123';
 const LINKEDIN = 'https://www.linkedin.com/in/gaurang-ashava/';
@@ -350,9 +350,9 @@ ${items.map(([b, t]) => `              <li><span><b>${b}</b><span>${t}</span></s
 const P = {
   'knowledge-portal': {
     kicker: 'Knowledge platform',
-    role: 'Owned the full build, from functional spec to UAT',
+    role: 'Owned the build, spec to UAT',
     status: ['scheduled', 'Production deployment scheduled'],
-    summary: 'An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards.',
+    summary: 'One platform for knowledge discovery, requests, an AI chatbot, approvals and leaderboards.',
     lede: 'An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards. I owned its build, from the functional specification through UAT.',
     description: 'Enterprise Knowledge Portal, developed end to end by Gaurang Ashava: knowledge discovery, knowledge requests, an AI chatbot, an approval queue and leaderboards, with sharing and role-based access. Production deployment is scheduled.',
     facts: [['My contribution', 'Owned the full build, from functional spec to UAT'], ['Status', '<span class="status-dot status-dot--scheduled">Production deployment scheduled</span>']],
@@ -370,7 +370,7 @@ const P = {
     kicker: 'Enterprise analytics',
     role: 'Owned the full build',
     status: ['scheduled', 'Production deployment scheduled'],
-    summary: 'Turns manual Excel reporting into customisable charts and comparisons, with a chatbot that helps users understand the metrics.',
+    summary: 'Turns manual Excel reporting into customisable charts and comparisons, with a metrics chatbot.',
     lede: 'Automates the manual Excel work behind organization and line-of-business reporting: meaningful charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that explains the metrics. I built it end to end, from chart generation to the metrics chatbot.',
     description: 'Business Sheet, built end to end by Gaurang Ashava: turns manual Excel reporting into customisable charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that helps users understand the tracked metrics. Production deployment is scheduled.',
     facts: [['My contribution', 'Owned the full build'], ['Status', '<span class="status-dot status-dot--scheduled">Production deployment scheduled</span>'], ['Compares', 'FY2014 to the current FY']],
@@ -390,7 +390,7 @@ const P = {
     facts: [['For', 'Legal teams'], ['Type', 'Generative AI application']],
     visual: ILL.contract,
     problem: `<p>Legal teams need to identify and review the clauses, obligations and important information in each contract, and keep track of their contracts.</p>`,
-    contribution: null,
+    contribution: `<p>I developed an AI-powered application that helps legal teams analyze and track uploaded contracts. It extracts clauses, obligations and other key information to support their review.</p>`,
     explain: ['How it works', XP.ciDoc()],
     outcome: ['Outcome', `<p>Legal teams get each contract’s clauses, obligations and key information as a structured summary to review, and their contracts are tracked in the application.</p>`],
     walk: 'It shows a fictional contract being analyzed, with its clauses, obligations and key details highlighted and summarized for review.',
@@ -416,7 +416,7 @@ const P = {
     kicker: 'Data engineering',
     role: 'Contributor to a team initiative',
     status: ['done', 'Completed'],
-    summary: 'Migrated data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.',
+    summary: 'Migrated data, dashboards and their underlying data sources from SQL Server to Snowflake.',
     lede: 'A major enterprise initiative to move different types of data from traditional Microsoft SQL Server environments into a Snowflake data warehouse. The initiative also involved migrating dashboards and their underlying data sources. The migration is complete.',
     description: 'Enterprise Data Migration: moving different types of data from Microsoft SQL Server into Snowflake through extract, transform, validate and load stages, and migrating dashboards and their underlying data sources. A completed team initiative Gaurang Ashava contributed to.',
     facts: [['My contribution', 'Contributor to a team initiative'], ['Status', '<span class="status-dot">Completed</span>'], ['From → to', 'SQL Server → Snowflake']],
@@ -587,13 +587,19 @@ ${MORE.map(moreItem).join('\n')}
           <p class="row__org">Tata Technologies · Pune</p>
           <p class="row__lede">Working across data engineering, Generative AI, enterprise applications and cloud data platforms to build practical data and AI solutions.</p>
           <ul class="row__list">
-            <li>Owned the full build of the Enterprise Knowledge Portal, from the functional specification through UAT. Production deployment is scheduled.</li>
-            <li>Built Business Sheet end to end, turning manual Excel reporting into generated, customisable charts with a chatbot that explains the metrics. Production deployment is scheduled.</li>
-            <li>Contributed to a completed enterprise migration from Microsoft SQL Server to Snowflake, including dashboards and their underlying data sources.</li>
-            <li>Developed the original proof of concept for AI Resume Matching, now live in production.</li>
-            <li>Building AI-powered applications, including enterprise chatbots, knowledge platforms and intelligent document solutions, and full-stack applications that connect data, AI, backend logic and user-facing experiences.</li>
-            <li>Exploring and applying AI agents and automation to improve engineering workflows and productivity.</li>
+            <li>Owned the Knowledge Portal build, from the supplied FSD through UAT.</li>
+            <li>Built Business Sheet end to end; contributed to a Snowflake migration.</li>
+            <li>Developed the original Resume Matching POC; the solution is now live.</li>
           </ul>
+          <details class="row__more">
+            <summary>More responsibilities<span class="visually-hidden"> at Tata Technologies</span></summary>
+            <ul class="row__list">
+              <li>Production deployment is scheduled for both the Enterprise Knowledge Portal and Business Sheet.</li>
+              <li>The completed migration, a team initiative, moved data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.</li>
+              <li>Building AI-powered applications, including enterprise chatbots, knowledge platforms and intelligent document solutions, and full-stack applications that connect data, AI, backend logic and user-facing experiences.</li>
+              <li>Exploring and applying AI agents and automation to improve engineering workflows and productivity.</li>
+            </ul>
+          </details>
         </div>
       </li>
       <li class="row">
@@ -601,13 +607,18 @@ ${MORE.map(moreItem).join('\n')}
         <div class="row__body">
           <h3 class="row__title">Training Internship – Data Analytics</h3>
           <p class="row__org">Vertisystem · Indore</p>
-          <p class="row__lede">Hands-on data analytics training, from SQL analysis to data collection and reporting.</p>
+          <p class="row__lede">Data analytics training: SQL analysis, data collection and reporting.</p>
           <ul class="row__list">
-            <li>Worked on data analytics use cases and SQL-based analysis.</li>
             <li>Developed and executed SQL queries across databases.</li>
-            <li>Worked on web scraping and data collection.</li>
             <li>Created analytical reports and documentation.</li>
           </ul>
+          <details class="row__more">
+            <summary>More responsibilities<span class="visually-hidden"> at Vertisystem</span></summary>
+            <ul class="row__list">
+              <li>Worked on data analytics use cases and SQL-based analysis.</li>
+              <li>Worked on web scraping and data collection.</li>
+            </ul>
+          </details>
         </div>
       </li>
       <li class="row">
@@ -618,10 +629,15 @@ ${MORE.map(moreItem).join('\n')}
           <p class="row__lede">Front-end development on live web projects, in an Agile team.</p>
           <ul class="row__list">
             <li>Contributed to live web projects using AngularJS, HTML, CSS and JavaScript.</li>
-            <li>Worked in an Agile environment using Jira.</li>
             <li>Debugged and tested web applications.</li>
-            <li>Created client-facing documentation.</li>
           </ul>
+          <details class="row__more">
+            <summary>More responsibilities<span class="visually-hidden"> at Swap Infotech</span></summary>
+            <ul class="row__list">
+              <li>Worked in an Agile environment using Jira.</li>
+              <li>Created client-facing documentation.</li>
+            </ul>
+          </details>
         </div>
       </li>
     </ol>

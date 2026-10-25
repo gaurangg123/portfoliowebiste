@@ -39,8 +39,8 @@
   d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
 })(document, document.documentElement);
 </script>
-<link rel="stylesheet" href="portfolio.css?v=16" />
-<script src="portfolio.js?v=16" defer></script>
+<link rel="stylesheet" href="portfolio.css?v=17" />
+<script src="portfolio.js?v=17" defer></script>
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Gaurang Ashava","jobTitle":"Data & AI Engineer","url":"https://gaurangg123.github.io/portfoliowebiste/","email":"mailto:gaurangashava@gmail.com","image":"https://gaurangg123.github.io/portfoliowebiste/assets/gaurang.jpg","address":{"@type":"PostalAddress","addressLocality":"Pune","addressCountry":"IN"},"worksFor":{"@type":"Organization","name":"Tata Technologies"},"alumniOf":{"@type":"CollegeOrUniversity","name":"SRM Institute of Science and Technology"},"sameAs":["https://www.linkedin.com/in/gaurang-ashava/","https://github.com/gaurangg123"]}
@@ -155,8 +155,8 @@
         <div class="project__body">
           <p class="project__cat">Knowledge platform</p>
           <h3 class="project__title">Enterprise Knowledge Portal</h3>
-          <p class="project__summary">An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards.</p>
-          <dl class="project__facts"><div><dt>My contribution</dt><dd>Owned the full build, from functional spec to UAT</dd></div><div><dt>Status</dt><dd><span class="status-dot status-dot--scheduled">Production deployment scheduled</span></dd></div></dl>
+          <p class="project__summary">One platform for knowledge discovery, requests, an AI chatbot, approvals and leaderboards.</p>
+          <dl class="project__facts"><div><dt>My contribution</dt><dd>Owned the build, spec to UAT</dd></div><div><dt>Status</dt><dd><span class="status-dot status-dot--scheduled">Production deployment scheduled</span></dd></div></dl>
           <div class="project__actions"><a class="act-case" href="work/knowledge-portal/">View case study<span class="visually-hidden">: Enterprise Knowledge Portal</span> <span class="arrow" aria-hidden="true">→</span></a><button class="demo-btn js-only" type="button" data-demo="knowledge-portal" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Enterprise Knowledge Portal</span></button><span class="demo-status" data-demo-status role="status"></span></div>
         </div>
       </article>
@@ -182,7 +182,7 @@
         <div class="project__body">
           <p class="project__cat">Enterprise analytics</p>
           <h3 class="project__title">Business Sheet</h3>
-          <p class="project__summary">Turns manual Excel reporting into customisable charts and comparisons, with a chatbot that helps users understand the metrics.</p>
+          <p class="project__summary">Turns manual Excel reporting into customisable charts and comparisons, with a metrics chatbot.</p>
           <dl class="project__facts"><div><dt>My contribution</dt><dd>Owned the full build</dd></div><div><dt>Status</dt><dd><span class="status-dot status-dot--scheduled">Production deployment scheduled</span></dd></div></dl>
           <div class="project__actions"><a class="act-case" href="work/business-sheet/">View case study<span class="visually-hidden">: Business Sheet</span> <span class="arrow" aria-hidden="true">→</span></a><button class="demo-btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Business Sheet</span></button><span class="demo-status" data-demo-status role="status"></span></div>
         </div>
@@ -230,7 +230,7 @@
         <li class="more__item">
           <p class="project__cat">Data engineering</p>
           <h4 class="more__name">Enterprise Data Migration</h4>
-          <p class="more__desc">Migrated data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.</p>
+          <p class="more__desc">Migrated data, dashboards and their underlying data sources from SQL Server to Snowflake.</p>
           <dl class="project__facts"><div><dt>My contribution</dt><dd>Contributor to a team initiative</dd></div><div><dt>Status</dt><dd><span class="status-dot">Completed</span></dd></div></dl>
           <div class="more__actions"><a class="act-case" href="work/data-migration/">View case study<span class="visually-hidden">: Enterprise Data Migration</span> <span class="arrow" aria-hidden="true">→</span></a><button class="demo-btn js-only" type="button" data-demo="data-migration" aria-haspopup="dialog"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Enterprise Data Migration</span></button><span class="demo-status" data-demo-status role="status"></span></div>
         </li>
@@ -290,13 +290,19 @@
           <p class="row__org">Tata Technologies · Pune</p>
           <p class="row__lede">Working across data engineering, Generative AI, enterprise applications and cloud data platforms to build practical data and AI solutions.</p>
           <ul class="row__list">
-            <li>Owned the full build of the Enterprise Knowledge Portal, from the functional specification through UAT. Production deployment is scheduled.</li>
-            <li>Built Business Sheet end to end, turning manual Excel reporting into generated, customisable charts with a chatbot that explains the metrics. Production deployment is scheduled.</li>
-            <li>Contributed to a completed enterprise migration from Microsoft SQL Server to Snowflake, including dashboards and their underlying data sources.</li>
-            <li>Developed the original proof of concept for AI Resume Matching, now live in production.</li>
-            <li>Building AI-powered applications, including enterprise chatbots, knowledge platforms and intelligent document solutions, and full-stack applications that connect data, AI, backend logic and user-facing experiences.</li>
-            <li>Exploring and applying AI agents and automation to improve engineering workflows and productivity.</li>
+            <li>Owned the Knowledge Portal build, from the supplied FSD through UAT.</li>
+            <li>Built Business Sheet end to end; contributed to a Snowflake migration.</li>
+            <li>Developed the original Resume Matching POC; the solution is now live.</li>
           </ul>
+          <details class="row__more">
+            <summary>More responsibilities<span class="visually-hidden"> at Tata Technologies</span></summary>
+            <ul class="row__list">
+              <li>Production deployment is scheduled for both the Enterprise Knowledge Portal and Business Sheet.</li>
+              <li>The completed migration, a team initiative, moved data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.</li>
+              <li>Building AI-powered applications, including enterprise chatbots, knowledge platforms and intelligent document solutions, and full-stack applications that connect data, AI, backend logic and user-facing experiences.</li>
+              <li>Exploring and applying AI agents and automation to improve engineering workflows and productivity.</li>
+            </ul>
+          </details>
         </div>
       </li>
       <li class="row">
@@ -304,13 +310,18 @@
         <div class="row__body">
           <h3 class="row__title">Training Internship – Data Analytics</h3>
           <p class="row__org">Vertisystem · Indore</p>
-          <p class="row__lede">Hands-on data analytics training, from SQL analysis to data collection and reporting.</p>
+          <p class="row__lede">Data analytics training: SQL analysis, data collection and reporting.</p>
           <ul class="row__list">
-            <li>Worked on data analytics use cases and SQL-based analysis.</li>
             <li>Developed and executed SQL queries across databases.</li>
-            <li>Worked on web scraping and data collection.</li>
             <li>Created analytical reports and documentation.</li>
           </ul>
+          <details class="row__more">
+            <summary>More responsibilities<span class="visually-hidden"> at Vertisystem</span></summary>
+            <ul class="row__list">
+              <li>Worked on data analytics use cases and SQL-based analysis.</li>
+              <li>Worked on web scraping and data collection.</li>
+            </ul>
+          </details>
         </div>
       </li>
       <li class="row">
@@ -321,10 +332,15 @@
           <p class="row__lede">Front-end development on live web projects, in an Agile team.</p>
           <ul class="row__list">
             <li>Contributed to live web projects using AngularJS, HTML, CSS and JavaScript.</li>
-            <li>Worked in an Agile environment using Jira.</li>
             <li>Debugged and tested web applications.</li>
-            <li>Created client-facing documentation.</li>
           </ul>
+          <details class="row__more">
+            <summary>More responsibilities<span class="visually-hidden"> at Swap Infotech</span></summary>
+            <ul class="row__list">
+              <li>Worked in an Agile environment using Jira.</li>
+              <li>Created client-facing documentation.</li>
+            </ul>
+          </details>
         </div>
       </li>
     </ol>
