@@ -694,6 +694,8 @@ html:not(.js) .music { grid-template-columns: auto 1fr; }
 .row__list li { position: relative; padding-left: 18px; }
 .row__list li::before { content: ""; position: absolute; left: 3px; top: calc(0.8em - 3px); width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 .row--now .row__list { color: var(--text); }
+.row__more { max-width: 42em; font-size: var(--fs-small); }
+.row__more .row__list { margin-top: 0; padding-bottom: 6px; }
 
 /* ---------- Education ---------- */
 .edu { display: grid; gap: 6px; }
@@ -800,7 +802,10 @@ html:not(.js) .music { grid-template-columns: auto 1fr; }
 .walk__meta { display: flex; flex-wrap: wrap; gap: 4px 0; color: var(--text-2); font: 500 var(--fs-mono)/1.6 var(--font-mono); }
 .walk__meta span + span::before { content: "·"; margin: 0 10px; }
 .walk__alt { border-top: 1px solid var(--line); }
-.walk__alt summary { display: flex; align-items: center; gap: 8px; min-height: 44px; color: var(--accent); font-weight: 500; cursor: pointer; }
+.walk__alt summary, .row__more summary { display: flex; align-items: center; gap: 8px; min-height: 44px; color: var(--accent); font-weight: 500; cursor: pointer; }
+/* a plain open/closed sign; the summary already announces its state */
+.walk__alt summary::after, .row__more summary::after { content: "+"; content: "+" / ""; font-weight: 400; }
+.walk__alt[open] summary::after, .row__more[open] summary::after { content: "−"; content: "−" / ""; }
 .walk__alt[open] summary { margin-bottom: var(--s2); }
 
 .case-sec { display: grid; gap: var(--s3) var(--s7); padding-block: clamp(28px, 3.5vw, 44px); border-top: 1px solid var(--line); }
