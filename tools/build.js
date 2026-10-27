@@ -369,16 +369,17 @@ const P = {
   'business-sheet': {
     kicker: 'Enterprise analytics',
     role: 'Owned the full build',
-    status: ['scheduled', 'Production deployment scheduled'],
+    status: ['uat', 'In UAT'],
     summary: 'Turns manual Excel reporting into customisable charts and comparisons, with a metrics chatbot.',
     lede: 'Automates the manual Excel work behind organization and line-of-business reporting: meaningful charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that explains the metrics. I built it end to end, from chart generation to the metrics chatbot.',
-    description: 'Business Sheet, built end to end by Gaurang Ashava: turns manual Excel reporting into customisable charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that helps users understand the tracked metrics. Production deployment is scheduled.',
-    facts: [['My contribution', 'Owned the full build'], ['Status', '<span class="status-dot status-dot--scheduled">Production deployment scheduled</span>'], ['Compares', 'FY2014 to the current FY']],
+    description: 'Business Sheet, built end to end by Gaurang Ashava: turns manual Excel reporting into customisable charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that helps users understand the tracked metrics. Currently undergoing user acceptance testing (UAT).',
+    facts: [['My contribution', 'Owned the full build'], ['Status', '<span class="status-dot status-dot--scheduled">In UAT</span>'], ['Compares', 'FY2014 to the current FY']],
     visual: ILL.sheet,
     problem: `<p>Preparing and comparing information from Excel required manual work, making it cumbersome to turn the data into useful views.</p>`,
-    contribution: `<p>I built Business Sheet end to end: the selections, chart generation and customisation, and the chatbot that explains the metrics. Production deployment is scheduled.</p>`,
+    contribution: `<p>I built Business Sheet end to end: the selections, chart generation and customisation, and the chatbot that explains the metrics. It is currently undergoing user acceptance testing (UAT).</p>`,
     explain: ['How it works', XP.bsSheet()],
-    outcome: ['Outcome and current status', `<p>Users can generate and customise useful views through button-driven actions instead of repeatedly assembling them manually in Excel. Production deployment is scheduled.</p>`],
+    outcome: ['Outcome and current status', `<p>Users can generate and customise useful views through button-driven actions instead of repeatedly assembling them manually in Excel.</p>
+        <p>Built end to end and currently undergoing user acceptance testing (UAT).</p>`],
     walk: 'It shows sample Excel data becoming a chart, a changed selection and a chatbot explanation of a metric.',
     tech: null,
   },
@@ -458,7 +459,7 @@ const panelHead = (num, id, title, lede = '') => `<header class="panel__head">
 const facts = (slug) => {
   const p = P[slug], rows = [];
   if (p.role) rows.push(['My contribution', p.role]);
-  if (p.status) rows.push(['Status', `<span class="status-dot${p.status[0] === 'scheduled' ? ' status-dot--scheduled' : ''}">${p.status[1]}</span>`]);   // scheduled: a ring; live or completed: filled
+  if (p.status) rows.push(['Status', `<span class="status-dot${p.status[0] === 'scheduled' || p.status[0] === 'uat' ? ' status-dot--scheduled' : ''}">${p.status[1]}</span>`]);   // scheduled or in UAT: a ring; live or completed: filled
   return rows.length ? `<dl class="project__facts">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : '';
 };
 // the same two actions everywhere: the case study first, then the walkthrough
@@ -495,7 +496,7 @@ const home = `${head({
   legacy: true,
   extra: `
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Person","name":"Gaurang Ashava","jobTitle":"Data & AI Engineer","url":"${SITE}","email":"mailto:${EMAIL}","image":"${SITE}assets/gaurang.jpg","address":{"@type":"PostalAddress","addressLocality":"Pune","addressCountry":"IN"},"worksFor":{"@type":"Organization","name":"Tata Technologies"},"alumniOf":{"@type":"CollegeOrUniversity","name":"SRM Institute of Science and Technology"},"sameAs":["${LINKEDIN}","${GITHUB}"]}
+{"@context":"https://schema.org","@type":"Person","name":"Gaurang Ashava","jobTitle":"GET – Data and AI Engineer","url":"${SITE}","email":"mailto:${EMAIL}","image":"${SITE}assets/gaurang.jpg","address":{"@type":"PostalAddress","addressLocality":"Pune","addressCountry":"IN"},"worksFor":{"@type":"Organization","name":"Tata Technologies"},"alumniOf":{"@type":"CollegeOrUniversity","name":"SRM Institute of Science and Technology"},"sameAs":["${LINKEDIN}","${GITHUB}"]}
 </script>
 `,
 })}
@@ -556,7 +557,7 @@ ${MORE.map(moreItem).join('\n')}
       <div class="about__body">
         ${panelHead('02', 'about-title', 'About')}
         <div class="about__intro">
-          <p>I’m Gaurang, a Data &amp; AI Engineer at Tata Technologies in Pune. I joined in October 2025 after a B.Tech in computer science with a specialization in big data analytics.</p>
+          <p>I’m Gaurang, GET – Data and AI Engineer at Tata Technologies in Pune. I joined in October 2025 after a B.Tech in computer science with a specialization in big data analytics.</p>
           <p>I work across data engineering and applied AI, and I like taking an idea from data, to AI, to an application people use. Next, I want to go deeper into agentic coding, managing AI agents and tailoring LLMs to business use cases.</p>
           <p class="about__links"><a class="link-more" href="${RESUME}" target="_blank" rel="noopener noreferrer">View resume<span class="visually-hidden"> (opens in a new tab)</span> <span class="arrow" aria-hidden="true">↗</span></a></p>
         </div>
@@ -594,7 +595,8 @@ ${MORE.map(moreItem).join('\n')}
           <details class="row__more">
             <summary>More responsibilities<span class="visually-hidden"> at Tata Technologies</span></summary>
             <ul class="row__list">
-              <li>Production deployment is scheduled for both the Enterprise Knowledge Portal and Business Sheet.</li>
+              <li>Enterprise Knowledge Portal: production deployment is scheduled.</li>
+              <li>Business Sheet: built end to end and currently undergoing user acceptance testing (UAT).</li>
               <li>The completed migration, a team initiative, moved data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.</li>
               <li>Building AI-powered applications, including enterprise chatbots, knowledge platforms and intelligent document solutions, and full-stack applications that connect data, AI, backend logic and user-facing experiences.</li>
               <li>Exploring and applying AI agents and automation to improve engineering workflows and productivity.</li>

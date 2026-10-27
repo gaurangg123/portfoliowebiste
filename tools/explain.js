@@ -111,7 +111,7 @@ const bsSheet = () => {
             <li><span class="flow4__ico">${ICON.tune}</span><b>Customise the view</b><small>Button-driven changes, such as the selections</small></li>
           </ol>
           <div class="bsx">
-            <p class="xp__tag">Illustrative example · sample data, not the production application</p>
+            <p class="xp__tag">Illustrative example · sample data, not the real application</p>
             <div class="bsx__controls js-only">
               <p class="bsx__fixed"><span>Organisation</span><b>Org A</b></p>
               <div class="bsx__group" role="group" aria-labelledby="bsx-lob"><span id="bsx-lob">Line of business</span>${Object.keys(SERIES).map((k) => `<button type="button" data-lob="${k}" aria-pressed="${k === lob}">${k}</button>`).join('')}</div>
