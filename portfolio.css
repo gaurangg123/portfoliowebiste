@@ -934,24 +934,19 @@ html:not(.js) .map__panel + .map__panel { border-top: 1px solid var(--line); }
 .pv__list--board i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--surface-2); font: 600 0.6875rem/1 var(--font-mono); font-style: normal; }
 .pv__list--board li:first-child i { background: #BB2436; color: #FFFFFF; }
 
-/* Knowledge Portal: my part as a delivery timeline; the scheduled stage is a hollow ring */
+/* Knowledge Portal: my part as a delivery timeline, three stages in order */
 .tl__label { margin-top: var(--s4); font-family: var(--font-mono); font-size: var(--fs-mono); color: var(--text-2); }
 .tl { list-style: none; display: grid; margin-top: var(--s2); }
-.tl__item { position: relative; display: grid; gap: 2px; padding: 0 0 18px 32px; }
+.tl__item { position: relative; display: grid; align-content: start; gap: 2px; padding: 0 0 18px 32px; }
 .tl__item::before { content: ""; position: absolute; left: 8px; top: 20px; bottom: -2px; width: 2px; background: var(--accent); }
-.tl__item:nth-child(3)::before { background: repeating-linear-gradient(var(--accent) 0 4px, transparent 4px 8px); }
 .tl__item:last-child::before { display: none; }
 .tl__dot { position: absolute; left: 0; top: 1px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); }
-.tl__item--next .tl__dot { background: var(--surface); box-shadow: inset 0 0 0 2px var(--accent), inset 0 0 0 5px var(--surface), inset 0 0 0 6px var(--accent); }
 .tl__item b { font-size: 0.9375rem; font-weight: 600; }
 .tl__item small { color: var(--text-2); font-size: 0.8125rem; line-height: 1.4; }
-.tl__state { justify-self: start; margin-top: 4px; padding: 0 8px; border-radius: 999px; background: var(--surface-2); color: var(--text-2); font: 500 0.6875rem/1.7 var(--font-mono); }
-.tl__item--next .tl__state { background: transparent; color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 @media (min-width: 640px) {
-  .tl { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tl { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .tl__item { padding: 30px 14px 0 0; }
   .tl__item::before { left: 20px; right: 2px; top: 8px; bottom: auto; width: auto; height: 2px; }
-  .tl__item:nth-child(3)::before { background: repeating-linear-gradient(90deg, var(--accent) 0 5px, transparent 5px 10px); }
   .tl__dot { top: 0; }
 }
 

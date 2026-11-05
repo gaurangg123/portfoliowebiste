@@ -72,13 +72,12 @@ ${CAPS.map(([id, name, , text, pv]) => `            <section class="map__panel" 
           </div>
         </div>`;
 
-// my part, as a delivery timeline: three completed stages, then the scheduled one
+// my part, in order: the supplied specification, the implementation, then business feedback
 const kpTimeline = () => `<p class="tl__label">Delivery timeline</p>
             <ol class="tl">
-              <li class="tl__item"><span class="tl__dot" aria-hidden="true"></span><b>Supplied FSD</b><small>The starting point: the functional specification document</small><span class="tl__state">Completed</span></li>
-              <li class="tl__item"><span class="tl__dot" aria-hidden="true"></span><b>Development</b><small>The application, developed end to end</small><span class="tl__state">Completed</span></li>
-              <li class="tl__item"><span class="tl__dot" aria-hidden="true"></span><b>Business feedback during UAT</b><small>Incorporated into the application</small><span class="tl__state">Completed</span></li>
-              <li class="tl__item tl__item--next"><span class="tl__dot" aria-hidden="true"></span><b>Production deployment</b><small>Not yet live</small><span class="tl__state">Scheduled</span></li>
+              <li class="tl__item"><span class="tl__dot" aria-hidden="true"></span><b>Supplied specification</b><small>The starting point: the functional specification document</small></li>
+              <li class="tl__item"><span class="tl__dot" aria-hidden="true"></span><b>Implementation</b><small>The application, developed end to end</small></li>
+              <li class="tl__item"><span class="tl__dot" aria-hidden="true"></span><b>Business feedback</b><small>Incorporated into the application</small></li>
             </ol>`;
 
 /* ---------- Business Sheet: from spreadsheet to generated, customisable charts ---------- */
