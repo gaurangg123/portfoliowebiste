@@ -12,7 +12,7 @@ const XP = require('./explain.js');
 
 const REPO = path.resolve(__dirname, '..');
 const SITE = 'https://gaurangg123.github.io/portfoliowebiste/';
-const V = '17';                                   // cache-busting for css/js
+const V = '18';                                   // cache-busting for css/js
 const EMAIL = 'gaurangashava@gmail.com';
 const GITHUB = 'https://github.com/gaurangg123';
 const LINKEDIN = 'https://www.linkedin.com/in/gaurang-ashava/';
@@ -350,36 +350,33 @@ ${items.map(([b, t]) => `              <li><span><b>${b}</b><span>${t}</span></s
 const P = {
   'knowledge-portal': {
     kicker: 'Knowledge platform',
-    role: 'Owned the build, spec to UAT',
-    status: ['scheduled', 'Production deployment scheduled'],
+    role: 'Owned the build, from specification to implementation',
     summary: 'One platform for knowledge discovery, requests, an AI chatbot, approvals and leaderboards.',
-    lede: 'An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards. I owned its build, from the functional specification through UAT.',
-    description: 'Enterprise Knowledge Portal, developed end to end by Gaurang Ashava: knowledge discovery, knowledge requests, an AI chatbot, an approval queue and leaderboards, with sharing and role-based access. Production deployment is scheduled.',
-    facts: [['My contribution', 'Owned the full build, from functional spec to UAT'], ['Status', '<span class="status-dot status-dot--scheduled">Production deployment scheduled</span>']],
+    lede: 'An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows, and leaderboards. I owned its build, from the functional specification to implementation, incorporating business feedback.',
+    description: 'Enterprise Knowledge Portal, developed end to end by Gaurang Ashava: knowledge discovery, knowledge requests, an AI chatbot, an approval queue and leaderboards, with sharing and role-based access.',
+    facts: [['My contribution', 'Owned the build, from specification to implementation']],
     visual: ILL.kp,
     problem: `<p>Make organizational knowledge easier to discover and use through a shared platform with role-based access. It serves four roles: Viewer, User, Admin and Champion.</p>`,
-    contribution: `<p>I developed the Enterprise Knowledge Portal end to end, starting from the supplied functional specification document. I implemented the application and incorporated business feedback during UAT. Production deployment is scheduled.</p>
+    contribution: `<p>I developed the Enterprise Knowledge Portal end to end, starting from the supplied functional specification document. I implemented the application and incorporated business feedback.</p>
             ${XP.kpTimeline()}`,
     explain: ['How it works', `${XP.kpMap()}
         <p class="xp__foot">The chatbot is one capability of the platform, not the whole product.</p>`],
-    outcome: ['Outcome and current status', `<p>The application brings these knowledge workflows into one place and has been refined through business feedback during UAT. Production deployment is scheduled.</p>`],
+    outcome: ['Outcome', `<p>The application brings these knowledge workflows into one place and has been refined through business feedback.</p>`],
     walk: 'It follows a sample user through discovery, a knowledge request, the approval queue, the chatbot and a leaderboard.',
     tech: null,
   },
   'business-sheet': {
     kicker: 'Enterprise analytics',
     role: 'Owned the full build',
-    status: ['uat', 'In UAT'],
     summary: 'Turns manual Excel reporting into customisable charts and comparisons, with a metrics chatbot.',
     lede: 'Automates the manual Excel work behind organization and line-of-business reporting: meaningful charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that explains the metrics. I built it end to end, from chart generation to the metrics chatbot.',
-    description: 'Business Sheet, built end to end by Gaurang Ashava: turns manual Excel reporting into customisable charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that helps users understand the tracked metrics. Currently undergoing user acceptance testing (UAT).',
-    facts: [['My contribution', 'Owned the full build'], ['Status', '<span class="status-dot status-dot--scheduled">In UAT</span>'], ['Compares', 'FY2014 to the current FY']],
+    description: 'Business Sheet, built end to end by Gaurang Ashava: turns manual Excel reporting into customisable charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that helps users understand the tracked metrics.',
+    facts: [['My contribution', 'Owned the full build'], ['Compares', 'FY2014 to the current FY']],
     visual: ILL.sheet,
     problem: `<p>Preparing and comparing information from Excel required manual work, making it cumbersome to turn the data into useful views.</p>`,
-    contribution: `<p>I built Business Sheet end to end: the selections, chart generation and customisation, and the chatbot that explains the metrics. It is currently undergoing user acceptance testing (UAT).</p>`,
+    contribution: `<p>I built Business Sheet end to end, from the manual Excel reporting it replaces to customisable charts and the chatbot that explains the metrics.</p>`,
     explain: ['How it works', XP.bsSheet()],
-    outcome: ['Outcome and current status', `<p>Users can generate and customise useful views through button-driven actions instead of repeatedly assembling them manually in Excel.</p>
-        <p>Built end to end and currently undergoing user acceptance testing (UAT).</p>`],
+    outcome: ['Outcome', `<p>Users can generate and customise useful views through button-driven actions instead of repeatedly assembling them manually in Excel.</p>`],
     walk: 'It shows sample Excel data becoming a chart, a changed selection and a chatbot explanation of a metric.',
     tech: null,
   },
@@ -459,7 +456,7 @@ const panelHead = (num, id, title, lede = '') => `<header class="panel__head">
 const facts = (slug) => {
   const p = P[slug], rows = [];
   if (p.role) rows.push(['My contribution', p.role]);
-  if (p.status) rows.push(['Status', `<span class="status-dot${p.status[0] === 'scheduled' || p.status[0] === 'uat' ? ' status-dot--scheduled' : ''}">${p.status[1]}</span>`]);   // scheduled or in UAT: a ring; live or completed: filled
+  if (p.status) rows.push(['Status', `<span class="status-dot${p.status[0] === 'scheduled' ? ' status-dot--scheduled' : ''}">${p.status[1]}</span>`]);   // scheduled: a ring; live or completed: filled
   return rows.length ? `<dl class="project__facts">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : '';
 };
 // the same two actions everywhere: the case study first, then the walkthrough
@@ -588,15 +585,14 @@ ${MORE.map(moreItem).join('\n')}
           <p class="row__org">Tata Technologies · Pune</p>
           <p class="row__lede">Working across data engineering, Generative AI, enterprise applications and cloud data platforms to build practical data and AI solutions.</p>
           <ul class="row__list">
-            <li>Owned the Knowledge Portal build, from the supplied FSD through UAT.</li>
+            <li>Owned the Knowledge Portal build, from the supplied specification to implementation, incorporating business feedback.</li>
             <li>Built Business Sheet end to end; contributed to a Snowflake migration.</li>
             <li>Developed the original Resume Matching POC; the solution is now live.</li>
           </ul>
           <details class="row__more">
             <summary>More responsibilities<span class="visually-hidden"> at Tata Technologies</span></summary>
             <ul class="row__list">
-              <li>Enterprise Knowledge Portal: production deployment is scheduled.</li>
-              <li>Business Sheet: built end to end and currently undergoing user acceptance testing (UAT).</li>
+              <li>Business Sheet: built end to end, turning manual Excel reporting into customisable charts with a chatbot that explains the metrics.</li>
               <li>The completed migration, a team initiative, moved data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.</li>
               <li>Building AI-powered applications, including enterprise chatbots, knowledge platforms and intelligent document solutions, and full-stack applications that connect data, AI, backend logic and user-facing experiences.</li>
               <li>Exploring and applying AI agents and automation to improve engineering workflows and productivity.</li>
