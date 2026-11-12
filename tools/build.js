@@ -12,7 +12,7 @@ const XP = require('./explain.js');
 
 const REPO = path.resolve(__dirname, '..');
 const SITE = 'https://gaurangg123.github.io/portfoliowebiste/';
-const V = '19';                                   // cache-busting for css/js
+const V = '20';                                   // cache-busting for css/js
 const EMAIL = 'gaurangashava@gmail.com';
 const GITHUB = 'https://github.com/gaurangg123';
 const LINKEDIN = 'https://www.linkedin.com/in/gaurang-ashava/';

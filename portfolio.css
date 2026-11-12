@@ -257,9 +257,10 @@ html:not(.js) .js-only { display: none !important; }
 /* ---------- Section panels ----------
    Each homepage section is its own pane: its own surface and a hairline where it begins.
    On a desktop at least 1024 × 700, a pane is at least as tall as the viewport under the
-   header, with its content centred; longer sections simply grow. Smaller or shorter
-   windows and enlarged text use natural height. Nothing is clipped, nothing scrolls
-   inside a pane, and scrolling stays the browser's own. */
+   header, with its content centred; longer sections simply grow. Education and
+   Certifications are short, so they keep their natural height and share a screen.
+   Smaller or shorter windows and enlarged text use natural height. Nothing is clipped,
+   nothing scrolls inside a pane, and scrolling stays the browser's own. */
 .panel { position: relative; padding-block: var(--section); background: var(--panel-bg); border-top: 1px solid var(--p-edge); }
 .panel--intro { --panel-bg: var(--p-intro); border-top: 0; }
 .panel--work { --panel-bg: var(--p-work); }
@@ -275,6 +276,7 @@ html:not(.js) .js-only { display: none !important; }
     min-height: calc(100vh - var(--nav-h)); min-height: calc(100svh - var(--nav-h));
   }
   .panel--contact { min-height: calc(100vh - var(--nav-h) - var(--footer-h)); min-height: calc(100svh - var(--nav-h) - var(--footer-h)); }
+  .panel--education, .panel--certs { min-height: 0; }
 }
 .panel__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s2) var(--s4); margin-bottom: clamp(20px, calc(var(--section) * 0.4), 28px); max-width: 44rem; }
 .panel__num { display: flex; align-items: center; gap: 10px; color: var(--accent); font: 500 var(--fs-mono)/1 var(--font-mono); letter-spacing: 0.06em; }
