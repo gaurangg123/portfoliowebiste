@@ -12,7 +12,7 @@ const XP = require('./explain.js');
 
 const REPO = path.resolve(__dirname, '..');
 const SITE = 'https://gaurangg123.github.io/portfoliowebiste/';
-const V = '18';                                   // cache-busting for css/js
+const V = '19';                                   // cache-busting for css/js
 const EMAIL = 'gaurangashava@gmail.com';
 const GITHUB = 'https://github.com/gaurangg123';
 const LINKEDIN = 'https://www.linkedin.com/in/gaurang-ashava/';
@@ -463,7 +463,7 @@ const facts = (slug) => {
 const actions = (slug, cls) => `<div class="${cls}"><a class="act-case" href="work/${slug}/">View case study<span class="visually-hidden">: ${P[slug].title}</span> <span class="arrow" aria-hidden="true">→</span></a>${demoButton(slug)}<span class="demo-status" data-demo-status role="status"></span></div>`;
 const moreItem = (slug) => `        <li class="more__item">
           <p class="project__cat">${P[slug].kicker}</p>
-          <h4 class="more__name">${P[slug].title}</h4>
+          <h4 class="more__name" data-vt="${slug}">${P[slug].title}</h4>
           <p class="more__desc">${P[slug].summary}</p>
           ${facts(slug)}
           ${actions(slug, 'more__actions')}
@@ -475,7 +475,7 @@ const tile = (slug) => `      <article class="project">
         </div>
         <div class="project__body">
           <p class="project__cat">${P[slug].kicker}</p>
-          <h3 class="project__title">${P[slug].title}</h3>
+          <h3 class="project__title" data-vt="${slug}">${P[slug].title}</h3>
           <p class="project__summary">${P[slug].summary}</p>
           ${facts(slug)}
           ${actions(slug, 'project__actions')}
@@ -769,11 +769,11 @@ ${footer({ links: false })}
    explanation, outcome and status, a short invitation to the walkthrough, then
    two cards to another project. */
 // previous / next: whole cards are single links; at either end, "All projects" keeps two cards
-const navCard = ({ href, rel, dir, back, title, desc, mini }) => `        <a class="nav-card${back ? ' nav-card--back' : ''}" href="${href}"${rel ? ` rel="${rel}"` : ''}>
+const navCard = ({ href, rel, dir, back, title, desc, mini, vt }) => `        <a class="nav-card${back ? ' nav-card--back' : ''}" href="${href}"${rel ? ` rel="${rel}"` : ''}>
           <span class="nav-card__mini mini" aria-hidden="true">${mini}</span>
           <span class="nav-card__body">
             <span class="nav-card__dir">${back ? '<span class="arrow" aria-hidden="true">←</span> ' : ''}${dir}${back ? '' : ' <span class="arrow" aria-hidden="true">→</span>'}</span>
-            <span class="nav-card__title">${title}</span>
+            <span class="nav-card__title"${vt ? ` data-vt="${vt}"` : ''}>${title}</span>
             <span class="nav-card__desc">${desc}</span>
           </span>
         </a>`;
@@ -781,9 +781,9 @@ const ALL = { href: '../../#work', title: 'All projects', desc: 'Every project o
 const caseNav = (prev, next) => `      <nav class="case-next" aria-labelledby="next-label">
         <p class="case-next__label" id="next-label">Explore another project</p>
         <div class="case-next__grid">
-${prev ? navCard({ href: `../${prev}/`, rel: 'prev', dir: 'Previous project', back: true, title: P[prev].title, desc: P[prev].summary, mini: MINI[prev] })
+${prev ? navCard({ href: `../${prev}/`, rel: 'prev', dir: 'Previous project', back: true, title: P[prev].title, desc: P[prev].summary, mini: MINI[prev], vt: prev })
        : navCard({ ...ALL, dir: 'Overview', back: true })}
-${next ? navCard({ href: `../${next}/`, rel: 'next', dir: 'Next project', title: P[next].title, desc: P[next].summary, mini: MINI[next] })
+${next ? navCard({ href: `../${next}/`, rel: 'next', dir: 'Next project', title: P[next].title, desc: P[next].summary, mini: MINI[next], vt: next })
        : navCard({ ...ALL, dir: 'Overview' })}
         </div>
       </nav>`;
@@ -836,7 +836,7 @@ ${navBar({ home: false, base })}
     <header class="case-head container" id="top">
       <p class="case-head__back"><a href="${base}#work"><span class="arrow" aria-hidden="true">←</span> All projects</a></p>
       <p class="kicker">${p.kicker}</p>
-      <h1 class="case-head__title" id="case-title">${p.title}</h1>
+      <h1 class="case-head__title" id="case-title" data-vt="${slug}">${p.title}</h1>
       <p class="case-head__lede">${p.lede}</p>
       <dl class="facts">
 ${p.facts.map(([k, v]) => `        <div><dt>${k}</dt><dd>${v}</dd></div>`).join('\n')}

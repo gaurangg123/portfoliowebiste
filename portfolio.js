@@ -1,7 +1,7 @@
 /* ============================================================
    Gaurang Ashava — portfolio
    theme · nav · current section · keeping your place on resize ·
-   record rotation fallback ·
+   record rotation fallback · sections settling in ·
    copy email · Papercut (plays only when Play is pressed)
    No dependencies. The pages work without this file; it only adds behaviour.
    ============================================================ */
@@ -195,6 +195,33 @@
     else window.addEventListener('resize', measure, { passive: true });
     onChange(reduceMotion, turn);
     measure();
+  }
+
+  /* ---------- sections settle in as they are first scrolled to ----------
+     Only what starts below the screen is held back, and only once; whatever is
+     already in view stays put. Items that arrive together follow one another. */
+  if ('IntersectionObserver' in window && !reduceMotion.matches) {
+    var settle = new IntersectionObserver(function (entries) {
+      var k = 0;
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        settle.unobserve(el);
+        el.style.transitionDelay = (Math.min(k++, 5) * 70) + 'ms';
+        el.classList.add('is-in');
+        el.addEventListener('transitionend', function done(ev) {
+          if (ev.target !== el || ev.propertyName !== 'transform') return;
+          el.removeEventListener('transitionend', done);
+          el.classList.remove('reveal', 'is-in');
+          el.style.transitionDelay = '';
+        });
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    each(document.querySelectorAll('.panel__head, .work__grid > .project, .more__item, .about__photo, .about__body, .rows > .row, .edu, .certs > .cert, .lab__grid > .exp, .lab__note, .contact__email, .contact__links, .case-sec, .case-next'), function (el) {
+      if (el.getBoundingClientRect().top < window.innerHeight || el.parentElement.closest('.reveal')) return;
+      el.classList.add('reveal');
+      settle.observe(el);
+    });
   }
 
   /* ---------- project walkthroughs ----------

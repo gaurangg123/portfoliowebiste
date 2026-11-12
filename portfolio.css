@@ -718,10 +718,10 @@ html:not(.js) .music { grid-template-columns: auto 1fr; }
 /* ---------- Experiments ---------- */
 .lab__grid { display: grid; gap: var(--s5); }
 @media (min-width: 900px) { .lab__grid { grid-template-columns: 1fr 1fr; } }
-.exp { display: grid; gap: var(--s3); align-content: start; padding: clamp(20px, 2.6vw, 28px); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.exp { display: grid; grid-template-rows: auto auto 1fr; gap: var(--s3); padding: clamp(20px, 2.6vw, 28px); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
 .exp__title { font-size: var(--fs-h3); }
 .exp__what { color: var(--text-2); }
-.exp__sample { display: grid; gap: var(--s2); }
+.exp__sample { display: grid; grid-template-rows: 1fr auto; gap: var(--s2); }
 .exp__io { display: grid; gap: 10px; }
 @media (min-width: 640px) { .exp__io { grid-template-columns: 1fr 1fr; } }
 .exp__side { display: grid; align-content: start; gap: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); font-size: 0.875rem; line-height: 1.45; }
@@ -782,7 +782,7 @@ html:not(.js) .music { grid-template-columns: auto 1fr; }
 .case-head__back a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--text-2); text-decoration: none; font-size: var(--fs-small); font-weight: 500; }
 @media (hover: hover) { .case-head__back a:hover { color: var(--text); } .case-head__back a:hover .arrow { transform: translateX(-3px); } }
 .case-head .kicker { margin-bottom: var(--s3); }
-.case-head__title { font-size: var(--fs-h1); letter-spacing: -0.028em; line-height: 1.05; max-width: 16em; }
+.case-head__title { width: fit-content; font-size: var(--fs-h1); letter-spacing: -0.028em; line-height: 1.05; max-width: 16em; }
 .case-head__lede { margin-top: var(--s4); max-width: 36em; font-size: var(--fs-lede); line-height: 1.5; color: var(--text-2); }
 .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 0 var(--s6); margin-top: clamp(28px, 3.5vw, 40px); border-top: 1px solid var(--line); }
 .facts div { padding: var(--s4) 0; border-bottom: 1px solid var(--line); display: grid; gap: 2px; }
@@ -842,7 +842,7 @@ html:not(.js) .music { grid-template-columns: auto 1fr; }
 .nav-card__body { display: grid; gap: 2px; padding: 2px 8px 6px; }
 .nav-card__dir { display: inline-flex; align-items: center; gap: 6px; color: var(--text-2); font-size: var(--fs-small); }
 .nav-card__dir .arrow { color: var(--accent); transition: transform var(--t-fast) var(--ease); }
-.nav-card__title { font-size: 1.1875rem; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
+.nav-card__title { justify-self: start; font-size: 1.1875rem; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
 .nav-card__desc { color: var(--text-2); font-size: var(--fs-small); line-height: 1.5; }
 .nav-card:focus-visible { border-radius: var(--r-lg); }
 .nav-card:focus-visible .nav-card__dir .arrow { transform: translateX(4px); }
@@ -1113,10 +1113,41 @@ html:not(.js) .map__panel + .map__panel { border-top: 1px solid var(--line); }
 @keyframes xp-trace { 40% { border-color: #BB2436; box-shadow: 0 0 0 6px var(--mark-pink); } }
 @media (prefers-reduced-motion: reduce) { .mflow__actions { display: none; } }
 
+/* ---------- Moving between pages ----------
+   Where the browser supports it, one page cross-fades into the next, the header
+   holds still and a project's name travels between its card and its case study.
+   Elsewhere the next page simply loads. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-group(*) { animation-duration: 340ms; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  ::view-transition-old(root) { animation-duration: 160ms; }
+  ::view-transition-new(root) { animation-duration: 280ms; }
+  .site-nav { view-transition-name: site-nav; }
+  [data-vt] { view-transition-class: project-name; }
+  [data-vt="knowledge-portal"] { view-transition-name: name-knowledge-portal; }
+  [data-vt="business-sheet"] { view-transition-name: name-business-sheet; }
+  [data-vt="contract-intelligence"] { view-transition-name: name-contract-intelligence; }
+  [data-vt="resume-matching"] { view-transition-name: name-resume-matching; }
+  [data-vt="data-migration"] { view-transition-name: name-data-migration; }
+  /* the name keeps its proportions while it changes size */
+  ::view-transition-old(.project-name), ::view-transition-new(.project-name) { width: auto; height: 100%; }
+  /* names with nowhere to travel leave and arrive with the rest of their page */
+  ::view-transition-old(.project-name):only-child { animation-duration: 160ms; }
+  ::view-transition-new(.project-name):only-child { animation-duration: 280ms; }
+}
+
+/* ---------- Sections settle in as they are first scrolled to (portfolio.js) ----------
+   Only what starts below the screen is held back, once. Without the script, or
+   with reduced motion, everything is simply there. */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 480ms ease, transform 640ms cubic-bezier(0.22, 1, 0.36, 1); }
+.reveal.is-in { opacity: 1; transform: none; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+  .reveal { opacity: 1; transform: none; }
 }
 @media print {
+  .reveal { opacity: 1; transform: none; }
   .site-nav, .music, .music-mini, .copy-btn, .skip { display: none !important; }
   .contact, .site-footer { background: none; color: inherit; }
   .project, .ill { break-inside: avoid; }
