@@ -1,0 +1,128 @@
+/* ============================================================
+   DataForge — design tokens
+   One dark palette. Text pairs are contrast-checked (WCAG AA):
+     --text      #F8FAFC on --bg-0 19.6:1 · on --card 16.9:1
+     --text-2    #94A3B8 on --bg-0  7.7:1 · on --card  6.6:1 · on --elev 6.0:1
+     --cyan      #38BDF8 on --bg-0  9.5:1   (links, focus, primary button fill)
+     --violet-tx #A78BFA on --bg-0  7.1:1   (#8B5CF6 is 4.3:1, so it marks shapes, never small text)
+     --green     #34D399 on --bg-0 10.6:1
+     --amber     #FBBF24 on --bg-0 12.0:1
+     --on-accent #05070D on --cyan  9.5:1
+   Breakpoints (media queries can't read custom properties, so they are listed here
+   and used as literals): 480 · 640 · 900 · 1100 · 1440 px.
+   ============================================================ */
+
+@font-face {
+  font-family: 'Space Grotesk'; font-style: normal; font-weight: 500 700; font-display: swap;
+  src: url('../fonts/space-grotesk-latin-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap;
+  src: url('../fonts/inter-latin-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 600; font-display: swap;
+  src: url('../fonts/jetbrains-mono-latin-var.woff2') format('woff2');
+}
+
+:root {
+  color-scheme: dark;
+
+  /* ---------- colour ---------- */
+  --bg-0: #05070D;          /* page */
+  --bg-1: #0A1020;          /* alternate sections */
+  --card: #101827;          /* cards */
+  --elev: #151F30;          /* raised surfaces, inputs */
+  --cyan: #38BDF8;          /* primary accent */
+  --violet: #8B5CF6;        /* secondary accent: shapes and glows */
+  --violet-tx: #A78BFA;     /* secondary accent as text */
+  --green: #34D399;         /* success / live */
+  --amber: #FBBF24;         /* analytics domain only */
+  --text: #F8FAFC;
+  --text-2: #94A3B8;
+  --border: rgba(148, 163, 184, 0.15);
+  --border-2: rgba(148, 163, 184, 0.28);
+  --on-accent: #05070D;
+  --focus: #38BDF8;
+
+  /* per-domain tones, set on an element with data-tone */
+  --tone: var(--cyan);
+  --tone-tx: var(--cyan);
+  --tone-soft: rgba(56, 189, 248, 0.12);
+
+  /* ---------- typography ---------- */
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --fs-display: clamp(3.25rem, 1.1rem + 9.2vw, 9.5rem);    /* hero name: 52 → 152 */
+  --fs-h1: clamp(2.5rem, 1.4rem + 4.4vw, 5rem);            /* case-study titles: 40 → 80 */
+  --fs-h2: clamp(2.125rem, 1.35rem + 3.1vw, 4rem);         /* section titles: 34 → 64 */
+  --fs-h3: clamp(1.25rem, 1.08rem + 0.7vw, 1.75rem);       /* 20 → 28 */
+  --fs-h4: clamp(1.0625rem, 1.01rem + 0.25vw, 1.25rem);    /* 17 → 20 */
+  --fs-lede: clamp(1.125rem, 1.02rem + 0.45vw, 1.4375rem); /* 18 → 23 */
+  --fs-body: clamp(1rem, 0.97rem + 0.12vw, 1.0625rem);     /* 16 → 17 */
+  --fs-small: 0.875rem;                                    /* 14 */
+  --fs-label: 0.75rem;                                     /* 12, mono, uppercase */
+  --lh-tight: 1.02;
+  --lh-head: 1.12;
+  --lh-body: 1.65;
+  --track-label: 0.14em;
+  --track-head: -0.035em;
+
+  /* ---------- space (4px base) ---------- */
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px; --s5: 24px;
+  --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 128px;
+  --gutter: clamp(16px, 4.5vw, 48px);
+  --maxw: 80rem;                      /* 1280px */
+  --section-y: clamp(72px, 8.5vw, 128px);
+  --nav-h: 72px;
+
+  /* ---------- shape ---------- */
+  --r-xs: 6px; --r-sm: 10px; --r-md: 16px; --r-lg: 24px; --r-xl: 32px; --r-pill: 999px;
+  --stroke: 1px solid var(--border);
+
+  /* ---------- light and depth ---------- */
+  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 32px -18px rgba(0, 0, 0, 0.7);
+  --shadow-2: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 30px 70px -30px rgba(0, 0, 0, 0.85);
+  --glow-cyan: 0 0 0 1px rgba(56, 189, 248, 0.35), 0 10px 40px -12px rgba(56, 189, 248, 0.45);
+  --grad-brand: linear-gradient(100deg, #38BDF8 0%, #818CF8 55%, #A78BFA 100%);
+  --grad-surface: linear-gradient(180deg, rgba(21, 31, 48, 0.9), rgba(16, 24, 39, 0.9));
+  --grad-hair: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), rgba(139, 92, 246, 0.5), transparent);
+  --glass: rgba(10, 16, 32, 0.72);
+
+  /* ---------- motion ---------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast: 160ms;
+  --t-mid: 280ms;
+  --t-slow: 560ms;
+  --t-reveal: 720ms;
+
+  /* ---------- compatibility: names used by the walkthrough player and the
+     case-study visuals (assets/walkthroughs/*, src/styles/case-visuals.css) ---------- */
+  --bg: var(--bg-0);
+  --surface: var(--card);
+  --surface-2: var(--elev);
+  --line: var(--border);
+  --line-2: var(--border-2);
+  --accent: var(--cyan);
+  --accent-fill: #38BDF8;
+  --accent-fill-2: #0EA5E9;
+  --ok-fill: #059669;
+  --info-fill: #2563EB;
+  --file-pdf: #DC2626;
+  --btn: #38BDF8;
+  --btn-hover: #7DD3FC;
+  --mark-key: rgba(56, 189, 248, 0.2);
+  --mark-pink: rgba(139, 92, 246, 0.26);
+  --ink: #0A1020;
+  --ink-text: #F8FAFC;
+  --fs-mono: 0.8125rem;
+  --ease: var(--ease-out);
+}
+
+[data-tone="cyan"]   { --tone: #38BDF8; --tone-tx: #38BDF8; --tone-soft: rgba(56, 189, 248, 0.12); }
+[data-tone="violet"] { --tone: #8B5CF6; --tone-tx: #A78BFA; --tone-soft: rgba(139, 92, 246, 0.14); }
+[data-tone="green"]  { --tone: #34D399; --tone-tx: #34D399; --tone-soft: rgba(52, 211, 153, 0.12); }
+[data-tone="amber"]  { --tone: #FBBF24; --tone-tx: #FBBF24; --tone-soft: rgba(251, 191, 36, 0.12); }

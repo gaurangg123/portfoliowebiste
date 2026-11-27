@@ -1,0 +1,48 @@
+/* ---------- motion ----------
+   Everything that moves is gated twice: by the visitor's reduced-motion setting,
+   and by the hero's "Pause motion" control (html.motion-off). Continuous loops run
+   only while their section is on screen (.is-visible, set by src/scripts/reveal.js). */
+
+/* sections settle in the first time they are scrolled to (only below the first screen) */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .reveal { opacity: 0; transform: translateY(24px); }
+  html.js .reveal.is-in {
+    opacity: 1; transform: none;
+    transition: opacity 640ms ease, transform var(--t-reveal) var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  html:not(.motion-off) .hero__caret { animation: caret 1.05s steps(1, end) infinite; }
+  html:not(.motion-off) .hero__scroll-line::after { animation: scroll-cue 2.2s var(--ease-in-out) infinite; }
+
+  /* page to page: the project name travels from its card into the case-study title */
+  @view-transition { navigation: auto; }
+  ::view-transition-group(*) { animation-duration: 380ms; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  ::view-transition-old(root) { animation-duration: 180ms; }
+  ::view-transition-new(root) { animation-duration: 300ms; }
+  .nav { view-transition-name: site-nav; }
+  [data-vt] { view-transition-class: project-name; }
+  [data-vt="knowledge-portal"] { view-transition-name: name-knowledge-portal; }
+  [data-vt="business-sheet"] { view-transition-name: name-business-sheet; }
+  [data-vt="contract-intelligence"] { view-transition-name: name-contract-intelligence; }
+  [data-vt="resume-matching"] { view-transition-name: name-resume-matching; }
+  [data-vt="data-migration"] { view-transition-name: name-data-migration; }
+  ::view-transition-old(.project-name), ::view-transition-new(.project-name) { width: auto; height: 100%; }
+}
+@keyframes caret { 50% { opacity: 0; } }
+@keyframes scroll-cue { 0% { top: -40%; } 100% { top: 100%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- print: the content, on paper ---------- */
+@media print {
+  :root { --bg-0: #FFFFFF; --text: #000000; --text-2: #333333; --card: #FFFFFF; --border: #CCCCCC; }
+  body { background: #FFFFFF; color: #000000; }
+  body::before, .nav, .hero__art, .hero__scrim, .hero__scroll, .to-top, .term__under, .term__line, .contact__panel, .missions__bar, .demo-btn, .audio { display: none !important; }
+  .section, .hero { min-height: 0; padding-block: 24px; }
+  .hero__name, .sec-head__title em, .hero__sub, .contact__title em { color: #000000 !important; background: none !important; }
+  a { color: #000000; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}

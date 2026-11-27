@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Business Sheet — Gaurang Ashava</title>
+<title>Business Sheet — Gaurang Ashava | DataForge</title>
 <meta name="description" content="Business Sheet, built end to end by Gaurang Ashava: turns manual Excel reporting into customisable charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that helps users understand the tracked metrics." />
 <meta name="author" content="Gaurang Ashava" />
-<meta name="color-scheme" content="light dark" />
-<meta name="theme-color" id="themeColor" content="#F6F4EE" />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#05070D" />
 <link rel="canonical" href="https://gaurangg123.github.io/portfoliowebiste/work/business-sheet/" />
-
+<meta property="og:site_name" content="DataForge — Gaurang Ashava" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://gaurangg123.github.io/portfoliowebiste/work/business-sheet/" />
 <meta property="og:title" content="Business Sheet — Gaurang Ashava" />
@@ -17,84 +17,144 @@
 <meta property="og:image" content="https://gaurangg123.github.io/portfoliowebiste/assets/og.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Gaurang Ashava — Data systems. AI applications. Built to be used." />
+<meta property="og:image:alt" content="DataForge — Gaurang Ashava, Engineering Intelligence: data engineering, AI and automation." />
+<meta property="og:locale" content="en_IN" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Business Sheet — Gaurang Ashava" />
 <meta name="twitter:description" content="Automates the manual Excel work behind organization and line-of-business reporting: meaningful charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that explains the metrics. I built it end to end, from chart generation to the metrics chatbot." />
 <meta name="twitter:image" content="https://gaurangg123.github.io/portfoliowebiste/assets/og.jpg" />
-
-<link rel="icon" href="../../assets/favicon-32.png" sizes="32x32" type="image/png" />
-<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png" />
-
+<meta name="twitter:image:alt" content="DataForge — Gaurang Ashava, Engineering Intelligence." />
+<link rel="icon" href="../../assets/icons/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="../../assets/icons/favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png" />
+<link rel="preload" href="../../assets/fonts/space-grotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="../../assets/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin />
 <script>
-(function (d, r) {
+(function (r) {
   r.className += ' js';
-  var t = null;
-  try { t = localStorage.getItem('theme'); } catch (e) {}
-  if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  r.setAttribute('data-theme', t);
-  d.getElementById('themeColor').setAttribute('content', t === 'dark' ? '#1A1918' : '#F6F4EE');
-})(document, document.documentElement);
+  try { if (localStorage.getItem('df-motion') === 'off') r.className += ' motion-off'; } catch (e) {}
+  // page transitions are decorative: when one is cut short, its promises settle quietly
+  var q = function () {};
+  ['pageswap', 'pagereveal'].forEach(function (t) {
+    addEventListener(t, function (e) {
+      var v = e.viewTransition;
+      if (v) { v.ready.catch(q); v.updateCallbackDone.catch(q); v.finished.catch(q); }
+    });
+  });
+})(document.documentElement);
 </script>
-<link rel="stylesheet" href="../../portfolio.css?v=20" />
-<script src="../../portfolio.js?v=20" defer></script>
-<script src="../../assets/explain.js?v=20" defer></script>
+<link rel="stylesheet" href="../../assets/css/dataforge.css?v=d3ea5ab66b" />
+<script src="../../assets/js/dataforge.js?v=82c74a34d2" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CreativeWork","name":"Business Sheet","headline":"Business Sheet","description":"Business Sheet, built end to end by Gaurang Ashava: turns manual Excel reporting into customisable charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that helps users understand the tracked metrics.","url":"https://gaurangg123.github.io/portfoliowebiste/work/business-sheet/","image":"https://gaurangg123.github.io/portfoliowebiste/assets/projects/business-sheet-1600.webp","author":{"@type":"Person","name":"Gaurang Ashava","url":"https://gaurangg123.github.io/portfoliowebiste/"},"isPartOf":{"@type":"WebSite","@id":"https://gaurangg123.github.io/portfoliowebiste/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gaurangg123.github.io/portfoliowebiste/"},{"@type":"ListItem","position":2,"name":"Projects","item":"https://gaurangg123.github.io/portfoliowebiste/#projects"},{"@type":"ListItem","position":3,"name":"Business Sheet","item":"https://gaurangg123.github.io/portfoliowebiste/work/business-sheet/"}]}]}</script>
 </head>
-<body>
+<body class="page-case">
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="site-nav" data-nav>
-  <div class="container nav">
-    <a class="brand" href="../../"><svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12.5" cy="12.8" r="10.6" fill="#6E1020"/><circle cx="12" cy="12" r="10.6" fill="#BB2436"/><path d="M12 4.2a7.8 7.8 0 0 1 7.6 6" fill="none" stroke="#F5B3AB" stroke-width="2"/><circle cx="12" cy="12" r="3.8" fill="#FFFEFA"/></svg><span class="brand__name">Gaurang Ashava</span></a>
-    <button class="icon-btn nav__menu-btn js-only" type="button" data-menu-btn aria-expanded="false" aria-controls="nav-panel">Menu</button>
-    <div class="nav__panel" id="nav-panel">
-      <nav aria-label="Main">
-        <ul class="nav__links">
-          <li><a href="../../#work">Work</a></li>
-          <li><a href="../../#about">About</a></li>
-          <li><a href="../../#experience">Experience</a></li>
-          <li class="nav__extra"><a href="../../#education">Education</a></li>
-          <li class="nav__extra"><a href="../../#certifications">Certifications</a></li>
-          <li class="nav__extra"><a href="../../#experiments">Experiments</a></li>
-          <li><a href="../../#contact">Contact</a></li>
-          <li><a href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume<span class="visually-hidden"> (opens in a new tab)</span> <span class="nav__ext" aria-hidden="true">↗</span></a></li>
-        </ul>
-      </nav>
-      <button class="icon-btn theme-btn js-only" type="button" data-theme-toggle><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span class="theme-btn__txt">Switch to dark theme</span></button>
+<header class="nav" data-nav>
+  <div class="nav__bar">
+    <a class="nav__brand" href="../../"><svg class="logomark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+  <defs><linearGradient id="nav-lm-g" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#38BDF8"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs>
+  <path d="M16 2.6 27.6 9.3v13.4L16 29.4 4.4 22.7V9.3z" fill="#0A1020" stroke="url(#nav-lm-g)" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M16 9.5v6.5m0 0-5.6 3.3M16 16l5.6 3.3" stroke="url(#nav-lm-g)" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="16" cy="9.2" r="2.2" fill="#38BDF8"/><circle cx="10.2" cy="19.6" r="2.2" fill="#818CF8"/><circle cx="21.8" cy="19.6" r="2.2" fill="#A78BFA"/><circle cx="16" cy="16" r="1.7" fill="#F8FAFC"/>
+</svg><span class="nav__word" aria-hidden="true">DataForge</span><span class="visually-hidden">DataForge, Gaurang Ashava: home</span></a>
+    <nav class="nav__primary" aria-label="Main">
+      <ul class="nav__links">
+        <li><a href="../../#about" data-spy="about">About</a></li>
+        <li><a href="../../#expertise" data-spy="expertise">Expertise</a></li>
+        <li><a href="../../#projects" data-spy="projects">Projects</a></li>
+        <li><a href="../../#experience" data-spy="experience">Experience</a></li>
+        <li><a href="../../#contact" data-spy="contact">Contact</a></li>
+      </ul>
+      <span class="nav__ink" aria-hidden="true"></span>
+    </nav>
+    <div class="nav__end">
+      <a class="btn nav__cta" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8M16 17H8M10 9H8"/></svg><span>Resume</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+      <button class="nav__menu-btn js-only" type="button" data-menu-btn aria-expanded="false" aria-controls="nav-sheet"><svg class="ico i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10"/></svg><svg class="ico i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg><span class="nav__menu-txt">Menu</span></button>
+    </div>
+  </div>
+  <div class="nav__sheet" id="nav-sheet" data-sheet>
+    <nav aria-label="All sections">
+      <ol class="nav__sheet-links">
+        <li><a href="../../#about" data-spy="about"><span class="nav__num" aria-hidden="true">02</span>About</a></li>
+        <li><a href="../../#expertise" data-spy="expertise"><span class="nav__num" aria-hidden="true">03</span>Expertise</a></li>
+        <li><a href="../../#projects" data-spy="projects"><span class="nav__num" aria-hidden="true">04</span>Projects</a></li>
+        <li><a href="../../#experience" data-spy="experience"><span class="nav__num" aria-hidden="true">05</span>Experience</a></li>
+        <li><a href="../../#education" data-spy="education"><span class="nav__num" aria-hidden="true">06</span>Education</a></li>
+        <li><a href="../../#architecture" data-spy="architecture"><span class="nav__num" aria-hidden="true">07</span>Architecture</a></li>
+        <li><a href="../../#terminal" data-spy="terminal"><span class="nav__num" aria-hidden="true">08</span>Terminal</a></li>
+        <li><a href="../../#contact" data-spy="contact"><span class="nav__num" aria-hidden="true">09</span>Contact</a></li>
+      </ol>
+    </nav>
+    <div class="nav__sheet-foot">
+      <a class="btn btn--primary" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg><span>Download Resume</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+      <div class="nav__social">
+        <a class="icon-link" href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg><span class="visually-hidden">GitHub</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+        <a class="icon-link" href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><span class="visually-hidden">LinkedIn</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+        <a class="icon-link" href="mailto:gaurangashava@gmail.com"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span class="visually-hidden">Email</span></a>
+      </div>
     </div>
   </div>
 </header>
 
 <main id="main">
-  <article class="case" aria-labelledby="case-title">
-    <header class="case-head container" id="top">
-      <p class="case-head__back"><a href="../../#work"><span class="arrow" aria-hidden="true">←</span> All projects</a></p>
-      <p class="kicker">Enterprise analytics</p>
-      <h1 class="case-head__title" id="case-title" data-vt="business-sheet">Business Sheet</h1>
-      <p class="case-head__lede">Automates the manual Excel work behind organization and line-of-business reporting: meaningful charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that explains the metrics. I built it end to end, from chart generation to the metrics chatbot.</p>
-      <dl class="facts">
-        <div><dt>My contribution</dt><dd>Owned the full build</dd></div>
-        <div><dt>Compares</dt><dd>FY2014 to the current FY</dd></div>
-      </dl>
+  <article class="cs" aria-labelledby="cs-title">
+    <header class="cs-head" id="top">
+      <div class="container cs-head__grid">
+        <div class="cs-head__text">
+          <p class="cs-head__back"><a href="../../#projects"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>All missions</a></p>
+          <p class="mission__meta"><span class="mission__code">M-02</span><span>Company project</span><span aria-hidden="true">·</span><span>Enterprise analytics</span></p>
+          <h1 class="cs-head__title" id="cs-title" data-vt="business-sheet">Business Sheet</h1>
+          <p class="cs-head__lede">Automates the manual Excel work behind organization and line-of-business reporting: meaningful charts and financial-year comparisons, from FY2014 to the current financial year, with a chatbot that explains the metrics. I built it end to end, from chart generation to the metrics chatbot.</p>
+          <ul class="mission__cats" aria-label="Categories"><li data-tone="amber">Analytics</li><li data-tone="green">Automation</li><li data-tone="violet">AI / ML</li><li data-tone="cyan">Software Development</li></ul>
+        </div>
+        <figure class="cs-head__cover">
+          <img src="../../assets/projects/business-sheet-1600.webp" srcset="../../assets/projects/business-sheet-800.webp 800w, ../../assets/projects/business-sheet-1600.webp 1600w" sizes="(min-width: 1100px) 560px, calc(100vw - 32px)" width="1600" height="1000" alt="" fetchpriority="high" decoding="async" />
+          <figcaption class="figure-note">Original illustration · not a screenshot</figcaption>
+        </figure>
+      </div>
+      <div class="container">
+        <dl class="cs-facts">
+          <div><dt>My contribution</dt><dd>Owned the full build</dd></div>
+          <div><dt>Status</dt><dd><span class="placeholder">No public status</span></dd></div>
+          <div><dt>Compares</dt><dd>FY2014 to the current FY</dd></div>
+          <div><dt>Categories</dt><dd>Analytics · Automation · AI / ML · Software Development</dd></div>
+        </dl>
+      </div>
     </header>
 
-    <div class="container">
-      <section class="case-sec" aria-labelledby="business-sheet-the-problem">
-        <h2 class="case-sec__h" id="business-sheet-the-problem">The problem</h2>
-        <div class="case-sec__body">
-            <p>Preparing and comparing information from Excel required manual work, making it cumbersome to turn the data into useful views.</p>
+    <div class="container cs-layout">
+      <nav class="cs-toc" aria-label="On this page">
+        <p class="label">Mission log</p>
+        <ol>
+          <li><a href="#business-sheet-problem" data-spy="business-sheet-problem">The problem</a></li>
+          <li><a href="#business-sheet-approach" data-spy="business-sheet-approach">Technical approach</a></li>
+          <li><a href="#business-sheet-diagram" data-spy="business-sheet-diagram">From spreadsheet to chart</a></li>
+          <li><a href="#business-sheet-contribution" data-spy="business-sheet-contribution">My contribution</a></li>
+          <li><a href="#business-sheet-tech" data-spy="business-sheet-tech">Technologies</a></li>
+          <li><a href="#business-sheet-results" data-spy="business-sheet-results">Results and status</a></li>
+          <li><a href="#business-sheet-walkthrough" data-spy="business-sheet-walkthrough">Walkthrough</a></li>
+          <li><a href="#business-sheet-links" data-spy="business-sheet-links">Repository and demo</a></li>
+        </ol>
+      </nav>
+      <div class="cs-main">
+      <section class="cs-sec" aria-labelledby="business-sheet-problem" data-reveal>
+        <h2 class="cs-sec__h" id="business-sheet-problem"><span class="cs-sec__n" aria-hidden="true">01</span>The problem</h2>
+        <div class="cs-sec__body">
+          <p>Preparing and comparing information from Excel required manual work, making it cumbersome to turn the data into useful views.</p>
         </div>
       </section>
-      <section class="case-sec" aria-labelledby="business-sheet-my-contribution">
-        <h2 class="case-sec__h" id="business-sheet-my-contribution">My contribution</h2>
-        <div class="case-sec__body">
-            <p>I built Business Sheet end to end, from the manual Excel reporting it replaces to customisable charts and the chatbot that explains the metrics.</p>
+      <section class="cs-sec" aria-labelledby="business-sheet-approach" data-reveal>
+        <h2 class="cs-sec__h" id="business-sheet-approach"><span class="cs-sec__n" aria-hidden="true">02</span>Technical approach</h2>
+        <div class="cs-sec__body">
+          <p>Excel data by organization, line of business and financial year becomes charts with one action. Users customise the view with button-driven selections, and a chatbot explains the metrics behind each chart.</p>
         </div>
       </section>
-      <section class="case-sec case-sec--wide" aria-labelledby="business-sheet-how-it-works">
-        <h2 class="case-sec__h" id="business-sheet-how-it-works">How it works</h2>
-        <div class="case-sec__body">
-            <div class="xp xp--bs" data-xp="sheet" data-fy='["FY2014","FY2015","FY2016","FY2017","FY2018","FY2019","FY2020","FY2021","FY2022","FY2023","FY2024","Current FY"]' data-series='{"LOB 1":[40,43,45,44,50,52,56,58,61,63,66,70],"LOB 2":[64,70,68,76,81,79,88,96,92,108,120,132]}'>
+      <section class="cs-sec cs-sec--wide" aria-labelledby="business-sheet-diagram" data-reveal>
+        <h2 class="cs-sec__h" id="business-sheet-diagram"><span class="cs-sec__n" aria-hidden="true">03</span>From spreadsheet to chart</h2>
+        <div class="cs-sec__body">
+          <p class="cs-note"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="1.6"/><circle cx="20" cy="6" r="1.6"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="18" r="1.6"/><path d="m5.4 7 4.1 3.2M18.6 7l-4.1 3.2M5.4 17l4.1-3.2M18.6 17l-4.1-3.2"/></svg>Functional view drawn from the documented capabilities, with sample content. It is not a system architecture diagram.</p>
+          <div class="xp xp--bs" data-xp="sheet" data-fy='["FY2014","FY2015","FY2016","FY2017","FY2018","FY2019","FY2020","FY2021","FY2022","FY2023","FY2024","Current FY"]' data-series='{"LOB 1":[40,43,45,44,50,52,56,58,61,63,66,70],"LOB 2":[64,70,68,76,81,79,88,96,92,108,120,132]}'>
           <ol class="flow4">
             <li><span class="flow4__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16M4 14h16M10 4v16"/></svg></span><b>Excel data</b><small>Figures by organisation, line of business and financial year</small></li>
             <li><span class="flow4__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M4 12h6M4 17h8"/><circle cx="17" cy="7" r="2.2"/><circle cx="13" cy="12" r="2.2"/><circle cx="15" cy="17" r="2.2"/></svg></span><b>Select</b><small>Organisation, line of business and financial years</small></li>
@@ -129,19 +189,35 @@
         </div>
         </div>
       </section>
-      <section class="case-sec" aria-labelledby="business-sheet-outcome">
-        <h2 class="case-sec__h" id="business-sheet-outcome">Outcome</h2>
-        <div class="case-sec__body">
-            <p>Users can generate and customise useful views through button-driven actions instead of repeatedly assembling them manually in Excel.</p>
+      <section class="cs-sec" aria-labelledby="business-sheet-contribution" data-reveal>
+        <h2 class="cs-sec__h" id="business-sheet-contribution"><span class="cs-sec__n" aria-hidden="true">04</span>My contribution</h2>
+        <div class="cs-sec__body">
+          <p>I built Business Sheet end to end, from the manual Excel reporting it replaces to customisable charts and the chatbot that explains the metrics.</p>
         </div>
       </section>
-      <section class="case-sec case-sec--wide case-sec--walk" aria-labelledby="business-sheet-walkthrough">
-        <h2 class="case-sec__h" id="business-sheet-walkthrough">Walkthrough</h2>
-        <div class="case-sec__body">
-            <div class="walk">
-          <figure class="walk__figure demo-preview">
-          <div class="demo-preview__frame">
-          <div class="ill ill--sheet" aria-hidden="true">
+      <section class="cs-sec" aria-labelledby="business-sheet-tech" data-reveal>
+        <h2 class="cs-sec__h" id="business-sheet-tech"><span class="cs-sec__n" aria-hidden="true">05</span>Technologies</h2>
+        <div class="cs-sec__body">
+          <p><span class="placeholder">Stack details not yet published</span></p><p class="cs-muted">Technologies are listed only once confirmed.</p>
+        </div>
+      </section>
+      <section class="cs-sec" aria-labelledby="business-sheet-results" data-reveal>
+        <h2 class="cs-sec__h" id="business-sheet-results"><span class="cs-sec__n" aria-hidden="true">06</span>Results and status</h2>
+        <div class="cs-sec__body">
+          <p>Users can generate and customise useful views through button-driven actions instead of repeatedly assembling them manually in Excel.</p>
+          <dl class="cs-results">
+            <div><dt>Status</dt><dd><span class="placeholder">No public status</span></dd></div>
+            <div><dt>Metrics</dt><dd><span class="placeholder">No published metrics</span></dd></div>
+          </dl>
+        </div>
+      </section>
+      <section class="cs-sec cs-sec--wide" aria-labelledby="business-sheet-walkthrough" data-reveal>
+        <h2 class="cs-sec__h" id="business-sheet-walkthrough"><span class="cs-sec__n" aria-hidden="true">07</span>Walkthrough</h2>
+        <div class="cs-sec__body">
+          <div class="walk">
+            <figure class="walk__figure demo-preview">
+              <div class="demo-preview__frame">
+              <div class="ill ill--sheet" aria-hidden="true">
             <div class="ill__canvas">
               <div class="ui">
                 <div class="ui__bar"><span class="ui__dots"><i></i><i></i><i></i></span><span class="ui__name">Business Sheet</span><span class="ui__meta">Sample data</span></div>
@@ -173,95 +249,90 @@
               </div>
             </div>
           </div>
-            <button class="demo-preview__btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.4 1.7v8.6L10.4 6z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Business Sheet (21 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:21</span></span></button>
-          </div>
-          <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
-        </figure>
-          <div class="walk__text">
-            <p class="walk__lede">It shows sample Excel data becoming a chart, a changed selection and a chatbot explanation of a metric.</p>
-            <p class="walk__meta"><span>21 seconds</span><span>Silent</span><span>Pause, replay or choose a step</span></p>
-            <details class="walk__alt">
-              <summary>Read the walkthrough as text</summary>
+                <button class="demo-preview__btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><span class="demo-preview__bar"><span class="demo-preview__cta"><svg class="ico" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z"/></svg><span>Watch walkthrough</span></span><span class="visually-hidden">: Business Sheet (21 seconds)</span><span class="demo-preview__len" aria-hidden="true">0:21</span></span></button>
+              </div>
+              <figcaption class="figure-note"><span class="js-only">Illustrative walkthrough · sample data</span><span class="nojs-only">Illustrative interface · sample content</span><span class="demo-status" data-demo-status role="status"></span></figcaption>
+            </figure>
+            <div class="walk__text">
+              <p class="walk__lede">It shows sample Excel data becoming a chart, a changed selection and a chatbot explanation of a metric.</p>
+              <ul class="walk__meta"><li>21 seconds</li><li>Silent</li><li>Pause, replay or choose a step</li></ul>
+              <details class="walk__alt">
+                <summary>Read the walkthrough as text</summary>
               <ol class="steps">
-              <li><span><b>Excel data</b><span>The starting point: sample financial-year data in an Excel-style sheet, which used to be turned into views by hand.</span></span></li>
-              <li><span><b>Choose what to compare</b><span>An organization, a line of business and a financial-year range are selected (sample selections).</span></span></li>
-              <li><span><b>Generate charts</b><span>One button turns the selected data into a chart, instead of building it manually in Excel.</span></span></li>
-              <li><span><b>Compare across years</b><span>The chart compares sample revenue from FY2014 to the current FY: 64 at the start, 132 now.</span></span></li>
-              <li><span><b>Change a selection</b><span>Changing a selection, here the first financial year, updates the chart.</span></span></li>
-              <li><span><b>Ask about a metric</b><span>The chatbot explains a metric using the figures in the chart (sample answer).</span></span></li>
-            </ol>
-            </details>
+                <li><b>Excel data</b><span>The starting point: sample financial-year data in an Excel-style sheet, which used to be turned into views by hand.</span></li>
+                <li><b>Choose what to compare</b><span>An organization, a line of business and a financial-year range are selected (sample selections).</span></li>
+                <li><b>Generate charts</b><span>One button turns the selected data into a chart, instead of building it manually in Excel.</span></li>
+                <li><b>Compare across years</b><span>The chart compares sample revenue from FY2014 to the current FY: 64 at the start, 132 now.</span></li>
+                <li><b>Change a selection</b><span>Changing a selection, here the first financial year, updates the chart.</span></li>
+                <li><b>Ask about a metric</b><span>The chatbot explains a metric using the figures in the chart (sample answer).</span></li>
+              </ol>
+              </details>
+            </div>
           </div>
-        </div>
         </div>
       </section>
-
-      <nav class="case-next" aria-labelledby="next-label">
-        <p class="case-next__label" id="next-label">Explore another project</p>
-        <div class="case-next__grid">
-        <a class="nav-card nav-card--back" href="../knowledge-portal/" rel="prev">
-          <span class="nav-card__mini mini" aria-hidden="true"><svg viewBox="0 0 320 90" focusable="false">
-            <rect class="m-win" x="14" y="12" width="292" height="100" rx="8"/>
-            <circle class="m-dot" cx="26" cy="22" r="2.5"/><circle class="m-dot" cx="34" cy="22" r="2.5"/><circle class="m-dot" cx="42" cy="22" r="2.5"/>
-            <path class="m-line" d="M14 32.5h292"/>
-            <path class="m-pane" d="M14.5 33h55v57h-55z"/>
-            <rect class="m-on" x="20" y="38" width="44" height="9" rx="4.5"/>
-            <rect class="m-soft" x="25" y="52" width="30" height="4" rx="2"/><rect class="m-soft" x="25" y="61" width="34" height="4" rx="2"/><rect class="m-soft" x="25" y="70" width="28" height="4" rx="2"/><rect class="m-soft" x="25" y="79" width="36" height="4" rx="2"/>
-            <path class="m-line" d="M69.5 33v57"/>
-            <rect class="m-field" x="80" y="39" width="124" height="10" rx="5"/>
-            <rect class="m-file m-file--1" x="80" y="55" width="9" height="10" rx="1.5"/><rect class="m-ink" x="95" y="55.5" width="74" height="4" rx="2"/><rect class="m-soft" x="95" y="61.5" width="42" height="3" rx="1.5"/><rect class="m-file m-file--2" x="80" y="67" width="9" height="10" rx="1.5"/><rect class="m-ink" x="95" y="67.5" width="62" height="4" rx="2"/><rect class="m-soft" x="95" y="73.5" width="50" height="3" rx="1.5"/><rect class="m-file m-file--3" x="80" y="79" width="9" height="10" rx="1.5"/><rect class="m-ink" x="95" y="79.5" width="68" height="4" rx="2"/><rect class="m-soft" x="95" y="85.5" width="36" height="3" rx="1.5"/>
-            <path class="m-pane" d="M214.5 33h91v57h-91z"/>
-            <path class="m-line" d="M214.5 33v57"/>
-            <rect class="m-me" x="246" y="40" width="52" height="11" rx="5.5"/>
-            <rect class="m-bot" x="222" y="57" width="68" height="18" rx="6"/>
-            <rect class="m-soft" x="228" y="64.5" width="44" height="3" rx="1.5"/>
-            </svg></span>
-          <span class="nav-card__body">
-            <span class="nav-card__dir"><span class="arrow" aria-hidden="true">←</span> Previous project</span>
-            <span class="nav-card__title" data-vt="knowledge-portal">Enterprise Knowledge Portal</span>
-            <span class="nav-card__desc">One platform for knowledge discovery, requests, an AI chatbot, approvals and leaderboards.</span>
-          </span>
-        </a>
-        <a class="nav-card" href="../contract-intelligence/" rel="next">
-          <span class="nav-card__mini mini" aria-hidden="true"><svg viewBox="0 0 320 90" focusable="false">
-            <rect class="m-win" x="14" y="12" width="292" height="100" rx="8"/>
-            <circle class="m-dot" cx="26" cy="22" r="2.5"/><circle class="m-dot" cx="34" cy="22" r="2.5"/><circle class="m-dot" cx="42" cy="22" r="2.5"/>
-            <path class="m-line" d="M14 32.5h292"/>
-            <rect class="m-ink" x="26" y="39" width="92" height="5" rx="2.5"/>
-            <rect class="m-key" x="64" y="47.5" width="54" height="9" rx="2"/>
-            <rect class="m-oblig" x="24" y="65.5" width="122" height="9" rx="2"/>
-            <rect class="m-soft" x="26" y="50" width="150" height="4" rx="2"/><rect class="m-soft" x="26" y="59" width="162" height="4" rx="2"/><rect class="m-soft" x="26" y="68" width="140" height="4" rx="2"/><rect class="m-soft" x="26" y="77" width="156" height="4" rx="2"/><rect class="m-soft" x="26" y="86" width="118" height="4" rx="2"/>
-            <path class="m-clause" d="M26 83h110"/>
-            <path class="m-pane" d="M206.5 33h99v57h-99z"/>
-            <path class="m-line" d="M206.5 33v57"/>
-            <rect class="m-ink" x="216" y="39" width="48" height="5" rx="2.5"/>
-            <rect class="m-soft" x="216" y="50" width="26" height="4" rx="2"/><rect class="m-ink" x="262" y="50" width="32" height="4" rx="2"/><rect class="m-soft" x="216" y="60" width="30" height="4" rx="2"/><rect class="m-ink" x="258" y="60" width="36" height="4" rx="2"/><rect class="m-soft" x="216" y="70" width="22" height="4" rx="2"/><rect class="m-ink" x="266" y="70" width="28" height="4" rx="2"/>
-            <rect class="m-oblig" x="214" y="79" width="78" height="9" rx="3"/>
-            </svg></span>
-          <span class="nav-card__body">
-            <span class="nav-card__dir">Next project <span class="arrow" aria-hidden="true">→</span></span>
-            <span class="nav-card__title" data-vt="contract-intelligence">AI Legal Contract Intelligence</span>
-            <span class="nav-card__desc">Helps legal teams analyze and track uploaded contracts, extracting clauses, obligations and key information.</span>
-          </span>
-        </a>
+      <section class="cs-sec" aria-labelledby="business-sheet-links" data-reveal>
+        <h2 class="cs-sec__h" id="business-sheet-links"><span class="cs-sec__n" aria-hidden="true">08</span>Repository and demo</h2>
+        <div class="cs-sec__body">
+          <ul class="cs-links">
+            <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span><b>Repository</b>Not public: company project</span></li>
+            <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span><b>Live demo</b>Not public: company project</span></li>
+            <li><svg class="ico" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z"/></svg><span><b>Illustrative walkthrough</b><button class="link-btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog">Watch the 21-second walkthrough</button><span class="nojs-only">Described above, as text</span></span></li>
+          </ul>
         </div>
-      </nav>
+      </section>
+      </div>
     </div>
+
+    <nav class="container cs-next" aria-label="More missions">
+      <a class="cs-next__card" href="../knowledge-portal/" rel="prev"><span class="label">Previous mission</span><span class="cs-next__title" data-vt="knowledge-portal">Enterprise Knowledge Portal</span><span class="cs-next__desc">One platform for knowledge discovery, requests, an AI chatbot, approvals and leaderboards.</span><img src="../../assets/projects/knowledge-portal-800.webp" width="1600" height="1000" alt="" loading="lazy" decoding="async" /></a>
+      <a class="cs-next__card" href="../contract-intelligence/" rel="next"><span class="label">Next mission</span><span class="cs-next__title" data-vt="contract-intelligence">AI Legal Contract Intelligence</span><span class="cs-next__desc">Helps legal teams analyze and track uploaded contracts, extracting clauses, obligations and key information.</span><img src="../../assets/projects/contract-intelligence-800.webp" width="1600" height="1000" alt="" loading="lazy" decoding="async" /></a>
+    </nav>
   </article>
 </main>
 
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer">
-      <p>© <span data-year>2026</span> Gaurang Ashava · Pune, India</p>
-      <ul class="footer__links">
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a class="footer__mark" href="../../"><svg class="logomark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+  <defs><linearGradient id="foot-lm-g" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#38BDF8"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs>
+  <path d="M16 2.6 27.6 9.3v13.4L16 29.4 4.4 22.7V9.3z" fill="#0A1020" stroke="url(#foot-lm-g)" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M16 9.5v6.5m0 0-5.6 3.3M16 16l5.6 3.3" stroke="url(#foot-lm-g)" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="16" cy="9.2" r="2.2" fill="#38BDF8"/><circle cx="10.2" cy="19.6" r="2.2" fill="#818CF8"/><circle cx="21.8" cy="19.6" r="2.2" fill="#A78BFA"/><circle cx="16" cy="16" r="1.7" fill="#F8FAFC"/>
+</svg><span>DataForge</span><span class="visually-hidden">: home</span></a>
+      <p class="footer__line">Engineering Intelligence. Designed and built by Gaurang Ashava.</p>
+    </div>
+    <nav class="footer__nav" aria-label="Footer">
+      <p class="label">Sections</p>
+      <ul>
+        <li><a href="../../#about">About</a></li>
+        <li><a href="../../#expertise">Expertise</a></li>
+        <li><a href="../../#projects">Projects</a></li>
+        <li><a href="../../#experience">Experience</a></li>
+        <li><a href="../../#education">Education</a></li>
+        <li><a href="../../#architecture">Architecture</a></li>
+        <li><a href="../../#terminal">Terminal</a></li>
+        <li><a href="../../#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="footer__nav">
+      <p class="label">Connect</p>
+      <ul>
         <li><a href="mailto:gaurangashava@gmail.com">Email</a></li>
-        <li><a href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li>
         <li><a href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-        <li><a href="#top">Back to top</a></li>
+        <li><a href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        <li><a href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume<span class="visually-hidden"> (opens in a new tab)</span></a></li>
       </ul>
     </div>
   </div>
+  <div class="container footer__base">
+    <p>© <span data-year>2026</span> Gaurang Ashava · Pune, India</p>
+    <a class="link-arrow" href="#top">Back to top <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></a>
+  </div>
 </footer>
+<a class="to-top js-only" href="#top" data-to-top aria-label="Back to top" hidden>
+  <svg class="to-top__ring" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="24" cy="24" r="22" pathLength="100"/><circle class="to-top__fill" cx="24" cy="24" r="22" pathLength="100"/></svg>
+  <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+</a>
 </body>
 </html>

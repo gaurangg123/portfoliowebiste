@@ -1,0 +1,33 @@
+{
+  "name": "dataforge-portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "description": "DataForge — Engineering Intelligence. The portfolio of Gaurang Ashava, generated as static HTML for GitHub Pages.",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node tools/build.js",
+    "dev": "node tools/build.js && node tools/serve.js 4173 --watch",
+    "preview": "node tools/serve.js 4173",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "validate:html": "html-validate index.html 404.html \"work/*/index.html\"",
+    "test:unit": "node --test \"qa/unit/*.test.js\"",
+    "test:e2e": "playwright test -c qa/playwright.config.ts --trace off",
+    "test": "npm run test:unit && npm run test:e2e",
+    "assets": "node tools/render-assets.js && node tools/package-assets.js",
+    "check": "npm run build && npm run lint && npm run typecheck && npm run validate:html && npm run test"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.1",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "22.20.7",
+    "eslint": "10.15.0",
+    "globals": "17.14.0",
+    "html-validate": "9.7.2",
+    "typescript": "5.9.3"
+  }
+}

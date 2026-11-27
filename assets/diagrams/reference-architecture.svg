@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 620" width="1700" height="620" role="img">
+  <title>Reference data architecture: Data Sources → Data Ingestion → Data Processing → Data Warehouse → AI / ML Layer → Automation → Analytics &amp; BI</title>
+  <rect width="1700" height="620" fill="#0A1020"/>
+  <defs><pattern id="g" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="rgba(148,163,184,0.07)"/></pattern></defs>
+  <rect width="1700" height="620" fill="url(#g)"/>
+  <text x="60" y="110" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="600" fill="#94A3B8" letter-spacing="3">DATAFORGE · REFERENCE ARCHITECTURE</text>
+  <text x="60" y="166" font-family="'Space Grotesk', sans-serif" font-size="44" font-weight="700" fill="#F8FAFC">From raw data to decisions</text>
+  <g>
+      <rect x="60" y="230" width="200" height="220" rx="24" fill="#101827" stroke="rgba(148,163,184,0.35)" stroke-width="2"/>
+      <text x="82" y="270" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#38BDF8" letter-spacing="2">01</text>
+      <g transform="translate(82 292) scale(1.6)" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></g>
+      <text x="82" y="380" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="700" fill="#F8FAFC">Sources</text>
+      <text x="82" y="416" font-family="'JetBrains Mono', monospace" font-size="13" fill="#94A3B8">Microsoft SQL Server · E</text>
+    </g><path d="M264 340h18" stroke="#38BDF8" stroke-width="2.5"/><path d="M276 334l6 6-6 6" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+<g>
+      <rect x="286" y="230" width="200" height="220" rx="24" fill="#101827" stroke="rgba(148,163,184,0.35)" stroke-width="2"/>
+      <text x="308" y="270" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#38BDF8" letter-spacing="2">02</text>
+      <g transform="translate(308 292) scale(1.6)" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="m8 9 4 4 4-4"/><path d="M3 15h4l2 3h6l2-3h4v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g>
+      <text x="308" y="380" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="700" fill="#F8FAFC">Ingestion</text>
+      <text x="308" y="416" font-family="'JetBrains Mono', monospace" font-size="13" fill="#94A3B8">Azure Data Factory · Pyt</text>
+    </g><path d="M490 340h18" stroke="#38BDF8" stroke-width="2.5"/><path d="M502 334l6 6-6 6" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+<g>
+      <rect x="512" y="230" width="200" height="220" rx="24" fill="#101827" stroke="rgba(148,163,184,0.35)" stroke-width="2"/>
+      <text x="534" y="270" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#38BDF8" letter-spacing="2">03</text>
+      <g transform="translate(534 292) scale(1.6)" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></g>
+      <text x="534" y="380" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="700" fill="#F8FAFC">Processing</text>
+      <text x="534" y="416" font-family="'JetBrains Mono', monospace" font-size="13" fill="#94A3B8">Apache Spark · Databrick</text>
+    </g><path d="M716 340h18" stroke="#38BDF8" stroke-width="2.5"/><path d="M728 334l6 6-6 6" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+<g>
+      <rect x="738" y="230" width="200" height="220" rx="24" fill="#101827" stroke="#38BDF8" stroke-width="2"/>
+      <text x="760" y="270" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#38BDF8" letter-spacing="2">04</text>
+      <g transform="translate(760 292) scale(1.6)" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></g>
+      <text x="760" y="380" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="700" fill="#F8FAFC">Warehouse</text>
+      <text x="760" y="416" font-family="'JetBrains Mono', monospace" font-size="13" fill="#94A3B8">Snowflake · Data Modelin</text>
+    </g><path d="M942 340h18" stroke="#38BDF8" stroke-width="2.5"/><path d="M954 334l6 6-6 6" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+<g>
+      <rect x="964" y="230" width="200" height="220" rx="24" fill="#101827" stroke="rgba(148,163,184,0.35)" stroke-width="2"/>
+      <text x="986" y="270" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#38BDF8" letter-spacing="2">05</text>
+      <g transform="translate(986 292) scale(1.6)" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="1.6"/><circle cx="20" cy="6" r="1.6"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="18" r="1.6"/><path d="m5.4 7 4.1 3.2M18.6 7l-4.1 3.2M5.4 17l4.1-3.2M18.6 17l-4.1-3.2"/></g>
+      <text x="986" y="380" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="700" fill="#F8FAFC">AI / ML</text>
+      <text x="986" y="416" font-family="'JetBrains Mono', monospace" font-size="13" fill="#94A3B8">Large Language Models · </text>
+    </g><path d="M1168 340h18" stroke="#38BDF8" stroke-width="2.5"/><path d="M1180 334l6 6-6 6" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+<g>
+      <rect x="1190" y="230" width="200" height="220" rx="24" fill="#101827" stroke="rgba(148,163,184,0.35)" stroke-width="2"/>
+      <text x="1212" y="270" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#38BDF8" letter-spacing="2">06</text>
+      <g transform="translate(1212 292) scale(1.6)" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4.5a3 3 0 0 1 3 3V14"/><path d="m15 11.5 2.5 2.5 2.5-2.5"/></g>
+      <text x="1212" y="380" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="700" fill="#F8FAFC">Automation</text>
+      <text x="1212" y="416" font-family="'JetBrains Mono', monospace" font-size="13" fill="#94A3B8">Workflow Automation · AI</text>
+    </g><path d="M1394 340h18" stroke="#38BDF8" stroke-width="2.5"/><path d="M1406 334l6 6-6 6" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+<g>
+      <rect x="1416" y="230" width="200" height="220" rx="24" fill="#101827" stroke="rgba(148,163,184,0.35)" stroke-width="2"/>
+      <text x="1438" y="270" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#38BDF8" letter-spacing="2">07</text>
+      <g transform="translate(1438 292) scale(1.6)" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16v-4M11 16V8M15 16v-6M19 16V5"/></g>
+      <text x="1438" y="380" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="700" fill="#F8FAFC">Analytics</text>
+      <text x="1438" y="416" font-family="'JetBrains Mono', monospace" font-size="13" fill="#94A3B8">Power BI · Tableau</text>
+    </g>
+  <text x="60" y="540" font-family="'Inter', sans-serif" font-size="18" fill="#94A3B8">A reference model of how the domains I work in connect, not the architecture of any single project.</text>
+</svg>

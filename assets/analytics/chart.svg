@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="440" class="motif motif--chart" viewBox="0 0 400 220" role="img"><title>chart motif</title>
+  <style>
+    svg{--tone:#FBBF24;background:#0A1020}
+    *{fill:none;stroke:#94A3B8;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+    .m-src ellipse,.m-src path,.m-rack rect,.m-rack-top,.m-rack-side,.m-box,.m-kpi rect{fill:#151F30;stroke:rgba(148,163,184,.45)}
+    .m-soft{stroke:rgba(148,163,184,.3)} .m-pipes path,.m-grid path{stroke:rgba(148,163,184,.25)} .m-axis{stroke:rgba(148,163,184,.5)}
+    .m-flow path,.m-run path{stroke:var(--tone);stroke-width:2.4;stroke-dasharray:6 14}
+    .m-node{fill:#101827;stroke:var(--tone);stroke-width:2} .m-glyph{stroke:var(--tone);stroke-width:2}
+    .m-led,.m-pt{fill:var(--tone);stroke:none} .m-layer circle{fill:#101827;stroke:var(--tone);stroke-width:2}
+    .m-edges path{stroke:var(--tone);stroke-opacity:.28;stroke-width:1} .m-token{fill:var(--tone);fill-opacity:.55;stroke:none}
+    .m-bar{fill:var(--tone);fill-opacity:.35;stroke:none} .m-bar--key{fill-opacity:1} .m-line{stroke:var(--tone);stroke-width:2.4}
+    .m-end{stroke:var(--tone)} .m-tick{stroke:var(--tone)}
+    text{fill:#94A3B8;stroke:none;font:600 10px 'JetBrains Mono',monospace;letter-spacing:.12em} .m-glyph-t{fill:var(--tone);stroke:none;font:700 16px 'Space Grotesk',sans-serif}
+  </style>
+    <g class="m-grid"><path d="M44 56H372"/><path d="M44 96H372"/><path d="M44 136H372"/></g>
+    <path class="m-axis" d="M44 28V176H372"/>
+    <rect class="m-bar" style="--d:0s" x="62" y="138" width="16" height="38" rx="3"/><rect class="m-bar" style="--d:0.06s" x="92" y="126" width="16" height="50" rx="3"/><rect class="m-bar" style="--d:0.12s" x="122" y="130" width="16" height="46" rx="3"/><rect class="m-bar" style="--d:0.18s" x="152" y="114" width="16" height="62" rx="3"/><rect class="m-bar" style="--d:0.24s" x="182" y="104" width="16" height="72" rx="3"/><rect class="m-bar" style="--d:0.3s" x="212" y="108" width="16" height="68" rx="3"/><rect class="m-bar" style="--d:0.36s" x="242" y="90" width="16" height="86" rx="3"/><rect class="m-bar" style="--d:0.42s" x="272" y="78" width="16" height="98" rx="3"/><rect class="m-bar" style="--d:0.48s" x="302" y="84" width="16" height="92" rx="3"/><rect class="m-bar m-bar--key" style="--d:0.54s" x="332" y="60" width="16" height="116" rx="3"/>
+    <path class="m-line" pathLength="100" d="M70 124L100 112L130 116L160 100L190 90L220 94L250 76L280 64L310 70L340 46"/>
+    <circle class="m-pt" style="--d:0.5s" cx="70" cy="124" r="3.5"/><circle class="m-pt" style="--d:0.6799999999999999s" cx="160" cy="100" r="3.5"/><circle class="m-pt" style="--d:0.86s" cx="250" cy="76" r="3.5"/><circle class="m-pt" style="--d:1.04s" cx="340" cy="46" r="3.5"/>
+    <g class="m-kpi"><rect x="62" y="22" width="92" height="28" rx="8"/><path class="m-glyph" d="M74 41l6-7 6 7"/><text class="m-label m-label--kpi" x="94" y="40">FY vs FY</text></g>
+    <text class="m-label" x="62" y="200">FY2014</text>
+    <text class="m-label" x="360" y="200" text-anchor="end">CURRENT FY</text>
+  </svg>
