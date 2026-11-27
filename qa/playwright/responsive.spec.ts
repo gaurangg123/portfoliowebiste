@@ -22,7 +22,7 @@ for (const [name, width, height] of VIEWPORTS) {
           const off: string[] = [];
           document.querySelectorAll('main *, footer *, .nav__bar *').forEach((el) => {
             const s = getComputedStyle(el);
-            if (s.display === 'none' || s.visibility === 'hidden' || s.clipPath === 'inset(50%)' || el.closest('[hidden], svg, canvas, .hero__art, .term__body, .nf__log, .visually-hidden, .nav__sheet')) return;
+            if (s.display === 'none' || s.visibility === 'hidden' || s.clipPath === 'inset(50%)' || el.closest('[hidden], svg, canvas, .hero__art, .contact__signal, .px__stage, .nf__log, .visually-hidden, .nav__sheet')) return;
             const r = el.getBoundingClientRect();
             if (r.width && (r.right > vw + 1 || r.left < -1)) off.push(`${el.tagName.toLowerCase()}.${String((el as HTMLElement).className).split(' ')[0]} ${Math.round(r.left)}–${Math.round(r.right)}`);
           });
@@ -39,7 +39,7 @@ for (const [name, width, height] of VIEWPORTS) {
 
     test('navigation suits the width', async ({ page }) => {
       await page.goto('./');
-      if (width >= 900) {
+      if (width >= 1024) {
         await expect(page.locator('.nav__links')).toBeVisible();
         await expect(page.locator('[data-menu-btn]')).toBeHidden();
       } else {
@@ -58,7 +58,7 @@ for (const [name, width, height] of VIEWPORTS) {
       const distorted = await page.locator('img').evaluateAll((list) => list.filter((i) => {
         const img = i as HTMLImageElement;
         if (!img.naturalWidth || !img.clientWidth) return false;
-        if (getComputedStyle(img).objectFit === 'cover') return false;   // cropped, never stretched
+        if (['cover', 'contain'].includes(getComputedStyle(img).objectFit)) return false;   // cropped or letterboxed, never stretched
         return Math.abs(img.clientWidth / img.clientHeight - img.naturalWidth / img.naturalHeight) > 0.02;
       }).map((i) => (i as HTMLImageElement).src));
       expect(distorted).toEqual([]);

@@ -80,10 +80,59 @@ test('walkthroughs are never presented as recordings and never autoplay', () => 
   assert.match(built('index.html'), /<audio id="papercut" data-src="[^"]+" preload="none"><\/audio>/, 'Papercut is not requested until Play');
 });
 
-test('there is no contact form without a working back end', () => {
-  const html = built('index.html');
-  const forms = [...html.matchAll(/<form\b[^>]*>/g)].map((m) => m[0]);
-  assert.deepEqual(forms.length, 1);
-  assert.match(forms[0], /data-term-form/, 'the only form is the terminal prompt');
-  assert.doesNotMatch(html, /<form[^>]+action=/);
+test('there is no form at all (no working submission back end exists)', () => {
+  for (const page of pages) assert.doesNotMatch(built(page), /<form\b/, page);
+});
+
+test('the terminal is gone, and nothing still invites visitors to query it', () => {
+  for (const page of pages) {
+    const html = built(page);
+    assert.doesNotMatch(html, /query the engineer|data-term|id="terminal"|href="[^"]*#terminal"/i, page);
+  }
+  assert.ok(!site.sections.some(([id]) => id === 'terminal'));
+});
+
+test('no link or fragment points at #top', () => {
+  for (const page of pages) assert.doesNotMatch(built(page), /href="[^"]*#top"|id="top"/, page);
+});
+
+test('the four disciplines list exactly the approved tools', () => {
+  assert.deepEqual(Object.fromEntries(domains.map((d) => [d.id, d.tech])), {
+    data: ['Snowflake', 'Databricks', 'Python', 'SQL', 'ETL / ELT', 'Data Pipelines', 'Data Warehousing'],
+    ai: ['Machine Learning', 'Generative AI', 'Large Language Models', 'Retrieval-Augmented Generation', 'AI Agents', 'Model Evaluation'],
+    automation: ['Workflow Automation', 'API Integrations', 'Intelligent Assistants', 'Process Automation'],
+    analytics: ['Power BI', 'Tableau', 'DAX', 'Business Intelligence', 'Data Storytelling'],
+  });
+});
+
+test('the architecture uses the agreed description and only supported technologies', () => {
+  const arch = require('../../src/data/architecture.js');
+  assert.equal(arch.note, 'An illustrative view of how data engineering, AI and automation can work together to transform raw information into actionable insights.');
+  assert.equal(arch.stages.length, 7);
+  const tech = arch.stages.flatMap((s) => s.tech);
+  for (const t of ['Spark', 'Kafka', 'Airflow', 'Kubernetes', 'dbt', 'Prompt Engineering', 'Data Modeling']) assert.ok(!tech.includes(t), t);
+});
+
+test('the engineering workflow: five stages, the agreed lines, documented examples only', () => {
+  const wf = require('../../src/data/workflow.js');
+  assert.equal(wf.stages.length, 5);
+  assert.deepEqual(wf.stages.map((s) => s.name), ['Understand the problem', 'Design the system', 'Build & engineer', 'Test & validate', 'Deploy & improve']);
+  const lines = [
+    'Understand business requirements, data sources, constraints and desired outcomes',
+    'Plan the architecture, technology stack, data flow and implementation strategy',
+    'Develop data pipelines, applications, AI capabilities and automation workflows',
+    'Validate functionality, data quality, performance, accuracy and reliability',
+    'Deploy the solution, monitor its performance and continuously improve it',
+  ];
+  wf.stages.forEach((s, i) => assert.ok(s.what.startsWith(lines[i]), s.key));
+  assert.match(wf.note, /not every activity applies to every project/i);
+  const slugs = PROJECTS.map((p) => p.slug);
+  const allowed = new Set([...domains.flatMap((d) => d.tech), 'SQL', 'Python', 'Requirement documents', 'Snowflake', 'ETL/ELT', 'ETL / ELT', 'Data Pipelines', 'Data Warehousing',
+    'Databricks', 'Generative AI', 'LLMs', 'RAG', 'AI Agents', 'Model Evaluation', 'Testing and debugging', 'Stakeholder feedback', 'Iterative releases', 'Documentation']);
+  for (const s of wf.stages) {
+    for (const t of s.tools) assert.ok(allowed.has(t), `${s.key}: ${t}`);
+    const [, link] = s.example;
+    assert.ok(slugs.some((slug) => link.includes(slug)), `${s.key}: example links a documented project`);
+  }
+  assert.doesNotMatch(JSON.stringify(wf), /\d+(\.\d+)?\s?%/, 'no percentage claims');
 });

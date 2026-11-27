@@ -2,15 +2,16 @@
 // It is deliberately generic. "uses" link a stage to documented project work, and
 // never claim that a project was built on this exact architecture.
 module.exports = {
-  note: 'A reference model of how the domains I work in connect, not the architecture of any single project.',
+  note: 'An illustrative view of how data engineering, AI and automation can work together to transform raw information into actionable insights.',
+  disclaimer: 'It is a reference model, not the architecture of any single project.',
   stages: [
     {
       id: 'sources',
       name: 'Data Sources',
-      short: 'Sources',
-      icon: 'sources',
+      icon: 'sources', scene: 'sources', tone: 'cyan',
       does: 'Where data originates: operational databases, spreadsheets, documents and application APIs. Each source has its own shape, schedule and quality.',
-      tech: ['Microsoft SQL Server', 'Excel workbooks', 'Documents & PDFs', 'REST APIs'],
+      short: 'Databases, spreadsheets, documents',
+      tech: ['Microsoft SQL Server', 'Excel workbooks', 'Documents & PDFs', 'APIs'],
       uses: [
         ['SQL Server environments as the migration source', 'work/data-migration/'],
         ['Excel reporting data behind Business Sheet', 'work/business-sheet/'],
@@ -20,10 +21,10 @@ module.exports = {
     {
       id: 'ingestion',
       name: 'Data Ingestion',
-      short: 'Ingestion',
-      icon: 'ingest',
+      icon: 'ingest', scene: 'ingest', tone: 'blue',
       does: 'Brings data from the sources into the platform, in batches or on demand, keeping track of what arrived and when.',
-      tech: ['Azure Data Factory', 'Python', 'API integrations', 'File uploads'],
+      short: 'Bringing data in',
+      tech: ['Azure Data Factory', 'Python', 'API Integrations', 'File uploads'],
       uses: [
         ['Extraction from SQL Server, with Azure Data Factory as supporting infrastructure', 'work/data-migration/'],
       ],
@@ -31,10 +32,10 @@ module.exports = {
     {
       id: 'processing',
       name: 'Data Processing',
-      short: 'Processing',
-      icon: 'process',
+      icon: 'process', scene: 'process', tone: 'blue',
       does: 'Cleans, transforms and validates data so that what reaches the warehouse is consistent and can be trusted.',
-      tech: ['Apache Spark', 'Databricks', 'Python', 'SQL', 'ETL / ELT'],
+      short: 'Clean, transform, validate',
+      tech: ['Databricks', 'Python', 'SQL', 'ETL / ELT'],
       uses: [
         ['Transform and validate stages before loading', 'work/data-migration/'],
       ],
@@ -42,10 +43,10 @@ module.exports = {
     {
       id: 'warehouse',
       name: 'Data Warehouse',
-      short: 'Warehouse',
-      icon: 'warehouse',
+      icon: 'warehouse', scene: 'warehouse', tone: 'cyan',
       does: 'Central, modelled storage that analytics and AI read from: one governed place instead of many copies.',
-      tech: ['Snowflake', 'Data Modeling', 'Data Warehousing'],
+      short: 'One governed store',
+      tech: ['Snowflake', 'Data Warehousing', 'Data Pipelines'],
       uses: [
         ['Snowflake as the migration’s cloud data warehouse', 'work/data-migration/'],
       ],
@@ -53,10 +54,10 @@ module.exports = {
     {
       id: 'ai',
       name: 'AI / ML Layer',
-      short: 'AI / ML',
-      icon: 'ai',
+      icon: 'ai', scene: 'ai', tone: 'violet',
       does: 'Models that read, compare, extract and answer: language models with retrieval, agents and evaluation, kept reviewable by people.',
-      tech: ['Large Language Models', 'Retrieval-Augmented Generation', 'Machine Learning', 'Prompt Engineering', 'Model Evaluation'],
+      short: 'Read, match, extract, answer',
+      tech: ['Large Language Models', 'Retrieval-Augmented Generation', 'Machine Learning', 'AI Agents', 'Model Evaluation'],
       uses: [
         ['Clause, obligation and key-detail extraction', 'work/contract-intelligence/'],
         ['Candidate profiles compared with role requirements', 'work/resume-matching/'],
@@ -66,9 +67,9 @@ module.exports = {
     {
       id: 'automation',
       name: 'Automation',
-      short: 'Automation',
-      icon: 'automation',
+      icon: 'automation', scene: 'automation', tone: 'green',
       does: 'Workflows, integrations and agents that act on the results, so people review outcomes instead of repeating steps.',
+      short: 'Act on the results',
       tech: ['Workflow Automation', 'AI Agents', 'API Integrations', 'Process Automation'],
       uses: [
         ['Requests routed through an approval queue', 'work/knowledge-portal/'],
@@ -79,10 +80,10 @@ module.exports = {
     {
       id: 'bi',
       name: 'Analytics & BI',
-      short: 'Analytics',
-      icon: 'bi',
+      icon: 'bi', scene: 'bi', tone: 'amber',
       does: 'Dashboards, comparisons and explanations that turn the processed data into decisions.',
-      tech: ['Power BI', 'Tableau', 'DAX', 'Dashboard Development', 'Data Storytelling'],
+      short: 'Decisions and insight',
+      tech: ['Power BI', 'Tableau', 'DAX', 'Business Intelligence', 'Data Storytelling'],
       uses: [
         ['Financial-year comparisons with a metrics chatbot', 'work/business-sheet/'],
         ['Dashboards migrated with their underlying data sources', 'work/data-migration/'],

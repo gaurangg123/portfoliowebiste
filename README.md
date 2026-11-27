@@ -4,7 +4,7 @@ The portfolio of **Gaurang Ashava**, GET – Data and AI Engineer at Tata Techno
 
 - **Live:** https://gaurangg123.github.io/portfoliowebiste/
 - **What it covers:** the engineering domains I work across, the enterprise applications and experiments I've built, my experience and education.
-- **Interactive pieces:** a reference data architecture and a working (simulated) terminal.
+- **Interactive pieces:** an engineering-workflow journey, a reference data architecture, a project explorer, and a light/dark theme.
 
 It is a static site: Node generates the HTML from `src/`, and GitHub Pages serves the files as they are. There is no runtime framework and no runtime dependency. Every page reads fully without JavaScript; scripts only add behaviour.
 
@@ -47,7 +47,7 @@ The preview behaves like GitHub Pages:
 | `npm run lint` | ESLint over the sources and tools |
 | `npm run typecheck` | TypeScript type-check of the browser scripts and tests |
 | `npm run validate:html` | html-validate on every generated page |
-| `npm run test:unit` | Terminal logic and content guardrails (`qa/unit/`) |
+| `npm run test:unit` | Content guardrails and theme contrast (`qa/unit/`) |
 | `npm run test:e2e` | Playwright functional, accessibility and responsive tests (`qa/playwright/`) |
 | `npm run check` | All of the above, in order |
 | `npm run assets` | Re-render the artwork and rebuild `deliverables/dataforge-assets.zip` |
@@ -71,12 +71,12 @@ The site lives under the `/portfoliowebiste/` subpath:
 
 ```
 src/
-  data/         content only: site.js · projects.js · experience.js · education.js · domains.js · architecture.js · terminal.js
-  components/   templates: head · navigation · hero · about · expertise (+ motifs) · projects · experience · education ·
-                architecture · terminal · contact · footer · case-study · explain · illustrations · icons · ui
-  styles/       tokens · base · one file per section · case-visuals · motion
-  scripts/      core · nav · motion-pref · hero-lattice · titles · clock · reveal · expertise · filters · career ·
-                architecture · terminal-core · terminal · walkthrough-loader · explain · copy · papercut · legacy
+  data/         content only: site.js · projects.js · experience.js · education.js · domains.js · workflow.js · architecture.js
+  components/   templates: head · navigation · hero · about · expertise (+ motifs) · projects · experience · workflow ·
+                architecture · education · contact · footer · stepper · scenes · case-study · explain · illustrations · icons · ui
+  styles/       tokens · base · stepper · one file per section · case-visuals · motion
+  scripts/      core · theme · nav · motion-pref · hero-lattice · titles · clock · reveal · stepper · expertise · projects ·
+                walkthrough-loader · explain · copy · papercut · legacy
 tools/          build.js · serve.js · render-assets.js · package-assets.js · art/ (cover and diagram drawings)
 assets/         css/ js/ (generated) · fonts/ · hero/ · data-engineering/ · ai-ml/ · automation/ · analytics/ ·
                 projects/ · diagrams/ · backgrounds/ · icons/ · profile/ · audio/ · walkthroughs/ (illustrative player)
@@ -104,16 +104,21 @@ All content is in `src/data/`. Edit it there, then run `npm run build`.
 - `achievements` are always shown.
 - `more` sits behind "More responsibilities".
 
-**Education and certifications:** edit `src/data/education.js`. A new certification appears on the homepage and in the terminal.
+**Education and certifications:** edit `src/data/education.js`. A new certification appears on the homepage.
 
-**Domains and the architecture diagram:** edit `src/data/domains.js` and `src/data/architecture.js`. The `uses` entries link stages to documented work.
+**Disciplines, workflow and architecture:** edit `src/data/domains.js`, `src/data/workflow.js` and `src/data/architecture.js`.
+
+- All three render through one component, the stepper (`src/components/stepper.js`): a horizontal journey (workflow, architecture) or a list beside a stage (disciplines) on wide screens, and a vertical timeline on small screens and without JavaScript.
+- Discipline tool lists are fixed by a unit test; change them there too.
+- Each workflow stage's example must link a documented case study. The workflow describes an approach, not a claim that every activity happened on every project.
+- The architecture `uses` entries link stages to documented work; it is a reference model, not one project's architecture.
+- Illustrations for stages are inline SVG in `src/components/scenes.js` and follow the theme.
 
 **Links:** edit `src/data/site.js`. The résumé must stay the Google Drive *viewing* URL, unchanged. A unit test checks this.
 
-**The terminal:** it answers from the same data, through `src/data/terminal.js`. To add a command:
+**Sections and navigation:** the order and the menu come from `sections` in `src/data/site.js`; `tools/build.js` assembles the page in that order.
 
-1. Add it in `src/scripts/terminal-core.js`.
-2. Add a test in `qa/unit/terminal.test.js`.
+**Theme:** colours are tokens in `src/styles/tokens.css`, with a `:root[data-theme="light"]` block for the light theme. Dark is the default; the visitor's choice is stored in `localStorage` (`df-theme`) and applied before the first paint. `qa/unit/contrast.test.js` checks text contrast for both themes from the tokens.
 
 **Content rules** are enforced by `qa/unit/content.test.js`. There must be no invented:
 
@@ -125,9 +130,10 @@ All content is in `src/data/`. Edit it there, then run `npm run build`.
 ## Accessibility and motion
 
 - Semantic landmarks, one `h1` per page, a skip link, and visible focus everywhere.
-- The architecture diagram follows the ARIA tabs pattern.
-- The terminal output is a live log; typed text is never parsed as HTML.
-- `prefers-reduced-motion` is honoured: still lattice, no reveals, no loops.
+- The workflow, architecture and disciplines are single-open accordions: each stage is a heading with a button (`aria-expanded`); arrow keys, Home and End move between stages.
+- The project explorer's filters are toggle buttons and the result count is announced.
+- The wordmark, the floating button and the footer link return to the top without adding `#top` to the address; an old `#top` address is cleaned on load. Section and case-study fragments are kept, and Back returns to the section you left.
+- `prefers-reduced-motion` is honoured: still lattice, instant scrolling, no reveals, no loops.
 - The hero's **Pause motion** control stops every continuous animation and is remembered.
 - Continuous animations run only while on screen. The lattice pauses in background tabs and uses fewer nodes on low-power devices.
 - Walkthroughs never autoplay. Papercut plays only when Play is pressed, and its file isn't requested before that.

@@ -1,5 +1,9 @@
 # DataForge — initial audit and implementation plan
 
+> **Later change:** in the refinement round, the simulated terminal described below was removed and replaced by the
+> "Inside my engineering workflow" section, and a light theme was added. See `README.md` and `qa/reports/` for the
+> current structure. This document is kept as the record of the first redesign.
+
 Audit of `gaurangg123/portfoliowebiste` taken before the redesign, on branch
 `claude/portfolio-redesign-842oy7` at `b0c316c` (same tree as `main` at `c8d0fa5`, PR #20).
 

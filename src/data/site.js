@@ -1,4 +1,4 @@
-// Identity, links and navigation. Every page and the terminal read from here.
+// Identity, links and navigation. Every page reads from here.
 // Links are used exactly as given: the résumé is a Google Drive *viewing* URL and
 // must stay one (no forced-download conversion).
 module.exports = {
@@ -28,9 +28,9 @@ module.exports = {
     ['expertise', 'Expertise', true],
     ['projects', 'Projects', true],
     ['experience', 'Experience', true],
-    ['education', 'Education', false],
+    ['workflow', 'Workflow', true],
     ['architecture', 'Architecture', false],
-    ['terminal', 'Terminal', false],
+    ['education', 'Education', false],
     ['contact', 'Contact', true],
   ],
 };

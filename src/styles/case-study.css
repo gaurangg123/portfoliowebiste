@@ -8,7 +8,8 @@
 @media (hover: hover) { .cs-head__back a:hover { color: var(--text); } .cs-head__back a:hover .ico { transform: translateX(-3px); } }
 .cs-head__title { width: fit-content; margin-top: 14px; font-size: var(--fs-h1); line-height: 1.02; letter-spacing: var(--track-head); }
 .cs-head__lede { max-width: 40rem; margin-top: 20px; color: var(--text-2); font-size: var(--fs-lede); line-height: 1.55; }
-.cs-head .mission__cats { margin-top: 22px; }
+.cs-head .px__cats { margin-top: 22px; }
+.cs-head .px__meta { margin-bottom: 14px; }
 .cs-head__cover img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--bg-1); box-shadow: var(--shadow-2); }
 .cs-head__cover .figure-note { margin-top: 10px; }
 .cs-facts {
@@ -49,7 +50,7 @@
 .cs-links span { display: grid; gap: 2px; }
 .cs-links b { color: var(--text); }
 .link-btn { min-height: 32px; padding: 0; border: 0; background: none; color: var(--cyan); font-weight: 600; text-align: left; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
-@media (hover: hover) { .link-btn:hover { color: #7DD3FC; } }
+@media (hover: hover) { .link-btn:hover { color: var(--cyan-hover); } }
 
 /* walkthrough: the preview is the action; the text version is one click away */
 .walk { display: grid; gap: 24px; }
@@ -71,12 +72,12 @@
   transition: border-color var(--t-mid) ease, transform var(--t-mid) var(--ease-out);
 }
 .cs-next__card img { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; opacity: 0.16; transition: opacity var(--t-mid) ease, transform 700ms var(--ease-out); }
-.cs-next__card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, var(--card) 30%, rgba(16, 24, 39, 0.4)); }
+.cs-next__card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, var(--card) 30%, color-mix(in srgb, var(--card) 40%, transparent)); }
 .cs-next__title { width: fit-content; font: 600 var(--fs-h3) / 1.15 var(--font-display); letter-spacing: -0.02em; }
 .cs-next__desc { max-width: 30rem; color: var(--text-2); font-size: var(--fs-small); }
-.cs-next__all { position: absolute; right: 18px; bottom: -6px; z-index: -1; font: 700 7rem / 1 var(--font-display); color: rgba(148, 163, 184, 0.08); }
+.cs-next__all { position: absolute; right: 18px; bottom: -6px; z-index: -1; font: 700 7rem / 1 var(--font-display); color: var(--tint); }
 @media (hover: hover) {
-  .cs-next__card:hover { color: var(--text); border-color: rgba(56, 189, 248, 0.45); }
+  .cs-next__card:hover { color: var(--text); border-color: var(--accent-line); }
   .cs-next__card:hover img { opacity: 0.32; transform: scale(1.03); }
 }
 
@@ -85,4 +86,7 @@
 .nf__title { font-size: var(--fs-h1); line-height: 1.02; letter-spacing: var(--track-head); }
 .nf__title em { font-style: normal; background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .nf__lede { max-width: 36rem; color: var(--text-2); font-size: var(--fs-lede); }
-.nf__log { max-width: 100%; padding: 16px 20px; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-md); background: #060A14; color: var(--text); font: 0.875rem / 1.8 var(--font-mono); }
+.nf__log { max-width: 100%; padding: 16px 20px; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--code-bg); color: var(--text); font: 0.875rem / 1.8 var(--font-mono); }
+.nf .t-k { color: var(--cyan); }
+.nf .t-warn { color: var(--amber); }
+.nf .t-dim { color: var(--text-2); }

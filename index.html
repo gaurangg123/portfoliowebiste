@@ -6,7 +6,7 @@
 <title>Gaurang Ashava — Data &amp; AI Engineer | DataForge</title>
 <meta name="description" content="Gaurang Ashava is a Data &amp; AI Engineer in Pune building data pipelines, AI applications and automated workflows at Tata Technologies. Projects, experience and an interactive data architecture." />
 <meta name="author" content="Gaurang Ashava" />
-<meta name="color-scheme" content="dark" />
+<meta name="color-scheme" content="dark light" />
 <meta name="theme-color" content="#05070D" />
 <link rel="canonical" href="https://gaurangg123.github.io/portfoliowebiste/" />
 <meta property="og:site_name" content="DataForge — Gaurang Ashava" />
@@ -34,7 +34,13 @@
   var m = location.hash.match(/^#\/trk-0([1-5])$/);
   if (m) { location.replace('work/' + ['knowledge-portal', 'business-sheet', 'contract-intelligence', 'resume-matching', 'data-migration'][m[1] - 1] + '/'); return; }
   r.className += ' js';
-  try { if (localStorage.getItem('df-motion') === 'off') r.className += ' motion-off'; } catch (e) {}
+  var t = 'dark';
+  try {
+    if (localStorage.getItem('df-motion') === 'off') r.className += ' motion-off';
+    if (localStorage.getItem('df-theme') === 'light') t = 'light';
+  } catch (e) {}
+  r.setAttribute('data-theme', t);
+  if (t === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F5F7FB');
   // page transitions are decorative: when one is cut short, its promises settle quietly
   var q = function () {};
   ['pageswap', 'pagereveal'].forEach(function (t) {
@@ -45,8 +51,8 @@
   });
 })(document.documentElement);
 </script>
-<link rel="stylesheet" href="assets/css/dataforge.css?v=d3ea5ab66b" />
-<script src="assets/js/dataforge.js?v=82c74a34d2" defer></script>
+<link rel="stylesheet" href="assets/css/dataforge.css?v=294a622b5f" />
+<script src="assets/js/dataforge.js?v=f6d569e5f9" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://gaurangg123.github.io/portfoliowebiste/#person","name":"Gaurang Ashava","jobTitle":"GET – Data and AI Engineer","url":"https://gaurangg123.github.io/portfoliowebiste/","email":"mailto:gaurangashava@gmail.com","image":"https://gaurangg123.github.io/portfoliowebiste/assets/profile/gaurang.jpg","address":{"@type":"PostalAddress","addressLocality":"Pune","addressCountry":"IN"},"worksFor":{"@type":"Organization","name":"Tata Technologies"},"alumniOf":{"@type":"CollegeOrUniversity","name":"SRM Institute of Science and Technology"},"hasCredential":[{"@type":"EducationalOccupationalCredential","name":"Snowflake foundational badges"},{"@type":"EducationalOccupationalCredential","name":"Snowflake Ascent"}],"knowsAbout":["Data Engineering","AI & Machine Learning","Intelligent Automation","Analytics & Visualization"],"sameAs":["https://www.linkedin.com/in/gaurang-ashava/","https://github.com/gaurangg123"]},{"@type":"WebSite","@id":"https://gaurangg123.github.io/portfoliowebiste/#website","url":"https://gaurangg123.github.io/portfoliowebiste/","name":"DataForge — Gaurang Ashava","inLanguage":"en-IN","author":{"@id":"https://gaurangg123.github.io/portfoliowebiste/#person"}}]}</script>
 </head>
 <body class="page-home">
@@ -54,7 +60,7 @@
 
 <header class="nav" data-nav>
   <div class="nav__bar">
-    <a class="nav__brand" href="#top"><svg class="logomark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+    <a class="nav__brand" href="./" data-home-link><svg class="logomark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
   <defs><linearGradient id="nav-lm-g" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#38BDF8"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs>
   <path d="M16 2.6 27.6 9.3v13.4L16 29.4 4.4 22.7V9.3z" fill="#0A1020" stroke="url(#nav-lm-g)" stroke-width="2.2" stroke-linejoin="round"/>
   <path d="M16 9.5v6.5m0 0-5.6 3.3M16 16l5.6 3.3" stroke="url(#nav-lm-g)" stroke-width="1.8" stroke-linecap="round"/>
@@ -66,12 +72,14 @@
         <li><a href="#expertise" data-spy="expertise">Expertise</a></li>
         <li><a href="#projects" data-spy="projects">Projects</a></li>
         <li><a href="#experience" data-spy="experience">Experience</a></li>
+        <li><a href="#workflow" data-spy="workflow">Workflow</a></li>
         <li><a href="#contact" data-spy="contact">Contact</a></li>
       </ul>
       <span class="nav__ink" aria-hidden="true"></span>
     </nav>
     <div class="nav__end">
       <button class="nav__music js-only" type="button" data-music-mini aria-label="Pause Papercut (instrumental)" hidden><svg class="ico i-play" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z"/></svg><svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" focusable="false"><path d="M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z"/></svg><span class="nav__music-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
+      <button class="icon-link theme-btn js-only" type="button" data-theme-toggle aria-pressed="false"><svg class="ico i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="ico i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg><span class="visually-hidden" data-theme-label>Switch to light theme</span></button>
       <a class="btn nav__cta" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8M16 17H8M10 9H8"/></svg><span>Resume</span><span class="visually-hidden"> (opens in a new tab)</span></a>
       <button class="nav__menu-btn js-only" type="button" data-menu-btn aria-expanded="false" aria-controls="nav-sheet"><svg class="ico i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10"/></svg><svg class="ico i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg><span class="nav__menu-txt">Menu</span></button>
     </div>
@@ -83,9 +91,9 @@
         <li><a href="#expertise" data-spy="expertise"><span class="nav__num" aria-hidden="true">03</span>Expertise</a></li>
         <li><a href="#projects" data-spy="projects"><span class="nav__num" aria-hidden="true">04</span>Projects</a></li>
         <li><a href="#experience" data-spy="experience"><span class="nav__num" aria-hidden="true">05</span>Experience</a></li>
-        <li><a href="#education" data-spy="education"><span class="nav__num" aria-hidden="true">06</span>Education</a></li>
+        <li><a href="#workflow" data-spy="workflow"><span class="nav__num" aria-hidden="true">06</span>Workflow</a></li>
         <li><a href="#architecture" data-spy="architecture"><span class="nav__num" aria-hidden="true">07</span>Architecture</a></li>
-        <li><a href="#terminal" data-spy="terminal"><span class="nav__num" aria-hidden="true">08</span>Terminal</a></li>
+        <li><a href="#education" data-spy="education"><span class="nav__num" aria-hidden="true">08</span>Education</a></li>
         <li><a href="#contact" data-spy="contact"><span class="nav__num" aria-hidden="true">09</span>Contact</a></li>
       </ol>
     </nav>
@@ -101,7 +109,7 @@
 </header>
 
 <main id="main">
-<section class="hero" id="top" aria-labelledby="hero-title">
+<section class="hero" id="home" aria-labelledby="hero-title">
   <div class="hero__art" aria-hidden="true">
     <canvas class="hero__canvas" data-lattice></canvas>
   </div>
@@ -114,7 +122,7 @@
       <li class="js-only"><button class="chip hero__motion" type="button" data-motion-toggle aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12h3l3-8 4 16 3-8h7"/></svg><span data-motion-label>Pause motion</span></button></li>
     </ul>
 
-    <p class="hero__kicker"><span>01</span> // System initialization<span class="hero__kicker-brand"> · DataForge</span></p>
+    <p class="hero__kicker"><span>01</span><span aria-hidden="true"> // </span><span class="hero__kicker-role">Data &amp; AI Engineer</span><span class="hero__kicker-brand"> · DataForge</span></p>
     <h1 class="hero__title" id="hero-title">
       <span class="hero__name"><span>Gaurang</span> <span>Ashava.</span></span>
       <span class="hero__sub">Engineering Intelligence.</span>
@@ -156,51 +164,26 @@
     </header>
     <div class="about__grid">
       <figure class="about__photo" data-reveal>
+        <span class="about__plate" aria-hidden="true"></span>
         <div class="about__frame">
           <picture>
-            <source type="image/webp" srcset="assets/profile/gaurang-480.webp 480w, assets/profile/gaurang-800.webp 800w, assets/profile/gaurang-1200.webp 1200w" sizes="(min-width: 1100px) 440px, (min-width: 640px) 44vw, calc(100vw - 32px)" />
+            <source type="image/webp" srcset="assets/profile/gaurang-480.webp 480w, assets/profile/gaurang-800.webp 800w, assets/profile/gaurang-1200.webp 1200w" sizes="(min-width: 1024px) 420px, (min-width: 640px) 60vw, calc(100vw - 32px)" />
             <img src="assets/profile/gaurang.jpg" width="900" height="1200" alt="Gaurang Ashava sitting on a grassy hillside, with wind turbines on the ridge behind him" loading="lazy" decoding="async" />
           </picture>
           <span class="about__corner about__corner--tl" aria-hidden="true"></span><span class="about__corner about__corner--br" aria-hidden="true"></span>
         </div>
-        <figcaption class="about__cap"><span>IMG_01 · Operator</span><span>Pune, India</span></figcaption>
+        <figcaption class="about__id">
+          <span class="about__id-k">GET – Data and AI Engineer</span>
+          <span class="about__id-v">Tata Technologies · Pune, India</span>
+        </figcaption>
       </figure>
 
       <div class="about__story">
         <p class="about__lead" data-reveal>I’m Gaurang, GET – Data and AI Engineer at Tata Technologies in Pune. I joined in October 2025 after a B.Tech in Computer Science Engineering with a specialization in Big Data Analytics.</p>
         <p data-reveal>My path runs from software, to data, to AI: front-end work on live web projects, SQL analysis and reporting in a data-analytics internship, and now data engineering and applied AI on enterprise applications.</p>
         <blockquote class="about__quote" data-reveal><p>I like taking an idea from data, to AI, to an application people use.</p></blockquote>
-
-        <ol class="about__chapters" aria-label="Path so far">
-          <li class="about__chapter" data-reveal style="--i:0">
-            <p class="about__when">2021 – 2025</p>
-            <h3 class="about__chapter-name">Foundation</h3>
-            <p>B.Tech in Computer Science Engineering at SRM Institute of Science &amp; Technology, specializing in Big Data Analytics.</p>
-          </li>
-          <li class="about__chapter" data-reveal style="--i:1">
-            <p class="about__when">2023</p>
-            <h3 class="about__chapter-name">Software</h3>
-            <p>Front-end development on live web projects at Swap Infotech, in an Agile team.</p>
-          </li>
-          <li class="about__chapter" data-reveal style="--i:2">
-            <p class="about__when">2023 – 2024</p>
-            <h3 class="about__chapter-name">Data</h3>
-            <p>SQL analysis, data collection and reporting in a data-analytics internship at Vertisystem.</p>
-          </li>
-          <li class="about__chapter" data-reveal style="--i:3">
-            <p class="about__when">Oct 2025 – now</p>
-            <h3 class="about__chapter-name">Data &amp; AI</h3>
-            <p>Data engineering and applied AI at Tata Technologies: knowledge platforms, analytics automation, document intelligence and a Snowflake migration.</p>
-          </li>
-          <li class="about__chapter" data-reveal style="--i:4">
-            <p class="about__when">Next</p>
-            <h3 class="about__chapter-name">Agents</h3>
-            <p>Going deeper into agentic coding, managing AI agents and tailoring LLMs to business use cases.</p>
-          </li>
-        </ol>
-
         <div class="about__foot" data-reveal>
-          <a class="link-arrow" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Read my resume <svg class="ico i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
+          <a class="btn" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Read my resume <svg class="ico i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
           <div class="audio" data-music-card>
             <div class="audio__disc" aria-hidden="true"><i></i></div>
             <div class="audio__meta">
@@ -213,19 +196,64 @@
         </div>
       </div>
     </div>
+
+    <ol class="path" aria-label="Path so far">
+      <li class="path__step" data-reveal style="--i:0">
+        <span class="path__node" aria-hidden="true"></span>
+        <p class="path__when">2021 – 2025</p>
+        <h3 class="path__name">Foundation</h3>
+        <p class="path__text">B.Tech in Computer Science Engineering at SRM Institute of Science &amp; Technology, specializing in Big Data Analytics.</p>
+      </li>
+      <li class="path__step" data-reveal style="--i:1">
+        <span class="path__node" aria-hidden="true"></span>
+        <p class="path__when">2023</p>
+        <h3 class="path__name">Software</h3>
+        <p class="path__text">Front-end development on live web projects at Swap Infotech, in an Agile team.</p>
+      </li>
+      <li class="path__step" data-reveal style="--i:2">
+        <span class="path__node" aria-hidden="true"></span>
+        <p class="path__when">2023 – 2024</p>
+        <h3 class="path__name">Data</h3>
+        <p class="path__text">SQL analysis, data collection and reporting in a data-analytics internship at Vertisystem.</p>
+      </li>
+      <li class="path__step" data-reveal style="--i:3">
+        <span class="path__node" aria-hidden="true"></span>
+        <p class="path__when">Oct 2025 – now</p>
+        <h3 class="path__name">Data &amp; AI</h3>
+        <p class="path__text">Data engineering and applied AI at Tata Technologies: knowledge platforms, analytics automation, document intelligence and a Snowflake migration.</p>
+      </li>
+      <li class="path__step" data-reveal style="--i:4">
+        <span class="path__node" aria-hidden="true"></span>
+        <p class="path__when">Next</p>
+        <h3 class="path__name">Agents</h3>
+        <p class="path__text">Going deeper into agentic coding, managing AI agents and tailoring LLMs to business use cases.</p>
+      </li>
+    </ol>
   </div>
 </section>
 
-<section class="section section--alt expertise" id="expertise" aria-labelledby="expertise-title">
+<section class="section section--band expertise" id="expertise" aria-labelledby="expertise-title">
   <div class="container">
-    <header class="sec-head" data-reveal>
-      <p class="sec-head__label"><b>03</b><span aria-hidden="true">//</span><span>Engineering domains</span></p>
-      <h2 class="sec-head__title" id="expertise-title">Four domains, <em>one system.</em></h2>
-      <p class="sec-head__lede">Data moves through pipelines, models reason over it, automation acts on it and analytics explains it. These are the domains I work across, and the tools I use in each.</p>
+    <header class="sec-head sec-head--split" data-reveal>
+      <p class="sec-head__label"><b>03</b><span aria-hidden="true">//</span><span>Engineering disciplines</span></p>
+      <h2 class="sec-head__title" id="expertise-title">Four disciplines, <em>one system.</em></h2>
+      <p class="sec-head__lede">Data moves through pipelines, models reason over it, automation acts on it and analytics explains it. Select a discipline to see what it involves and where I’ve applied it.</p>
     </header>
-    <div class="domains">
-      <article class="domain domain--data" data-tone="cyan" data-domain data-reveal style="--i:0" aria-labelledby="dom-data">
-        <div class="domain__art"><svg class="motif motif--pipeline" viewBox="0 0 400 220" aria-hidden="true" focusable="false">
+    <div data-reveal>
+      <div class="stepper stepper--side" data-stepper data-label="Engineering disciplines" style="--n:4">
+      <div class="stepper__track" aria-hidden="true"><span class="stepper__fill"></span><span class="stepper__pulse"></span></div>
+      <div class="stepper__step" style="--c:1" data-tone="cyan">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="disc-tab-data" aria-controls="disc-panel-data" aria-expanded="true">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span>
+            <span class="stepper__num">D-01</span>
+            <span class="stepper__name">Data Engineering</span>
+            <span class="stepper__short">Pipelines · warehouses · ETL</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="disc-panel-data">
+          <div class="disc" data-domain>
+            <div class="disc__art"><svg class="motif motif--pipeline" viewBox="0 0 400 220" aria-hidden="true" focusable="false">
     <g class="m-src"><path d="M26 39v22a22 7 0 0 0 44 0v-22"/><ellipse cx="48" cy="39" rx="22" ry="7"/><path class="m-soft" d="M26 50a22 7 0 0 0 44 0"/></g><g class="m-src"><path d="M26 99v22a22 7 0 0 0 44 0v-22"/><ellipse cx="48" cy="99" rx="22" ry="7"/><path class="m-soft" d="M26 110a22 7 0 0 0 44 0"/></g><g class="m-src"><path d="M26 159v22a22 7 0 0 0 44 0v-22"/><ellipse cx="48" cy="159" rx="22" ry="7"/><path class="m-soft" d="M26 170a22 7 0 0 0 44 0"/></g>
     <g class="m-pipes"><path d="M72 50 C128 50 136 110 176 110"/><path d="M72 110 C128 110 136 110 176 110"/><path d="M72 170 C128 170 136 110 176 110"/><path d="M224 110H290"/></g>
     <g class="m-flow"><path style="--d:0s" d="M72 50 C128 50 136 110 176 110"/><path style="--d:0.25s" d="M72 110 C128 110 136 110 176 110"/><path style="--d:0.5s" d="M72 170 C128 170 136 110 176 110"/><path style="--d:0.6s" d="M224 110H290"/></g>
@@ -241,32 +269,60 @@
     <text class="m-label" x="48" y="206" text-anchor="middle">SOURCES</text>
     <text class="m-label" x="200" y="152" text-anchor="middle">TRANSFORM</text>
     <text class="m-label" x="329" y="206" text-anchor="middle">WAREHOUSE</text>
-  </svg></div>
-        <div class="domain__body">
-          <p class="domain__code"><span>D-01</span><span class="domain__bar" aria-hidden="true"></span></p>
-          <h3 class="domain__name" id="dom-data">Data Engineering</h3>
-          <p class="domain__line">Moving data reliably from source systems into warehouses, and modelling it so analytics and AI can trust it.</p>
-          <p class="domain__applied"><span class="label">Applied</span> Contributed to a completed SQL Server → Snowflake migration, covering data, dashboards and their data sources. <a class="domain__link" href="work/data-migration/">See the project<span class="visually-hidden">: Data Engineering</span> <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p>
-          <ul class="tags"><li class="tag tag--tone">Snowflake</li><li class="tag tag--tone">Databricks</li><li class="tag tag--tone">Apache Spark</li><li class="tag tag--tone">Python</li><li class="tag tag--tone">SQL</li><li class="tag tag--tone">ETL / ELT</li><li class="tag tag--tone">Data Modeling</li><li class="tag tag--tone">Data Pipelines</li><li class="tag tag--tone">Data Warehousing</li></ul>
+  </svg><span class="disc__code">D-01</span></div>
+            <div class="disc__body">
+              <p class="disc__line">Moving data reliably from source systems into warehouses, and shaping it so analytics and AI can trust it.</p>
+              <div class="disc__cols">
+                <div><p class="label">What it involves</p><ul class="disc__list"><li>Extracting data from operational systems</li><li>Transforming and validating it on the way</li><li>Loading it into a governed warehouse</li></ul></div>
+                <div><p class="label">Where I’ve applied it</p><p class="disc__applied">Contributed to a completed SQL Server → Snowflake migration, covering data, dashboards and their data sources. <a href="work/data-migration/">See the project<span class="visually-hidden">: Data Engineering</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p></div>
+              </div>
+              <p class="label disc__tools-h">Tools</p>
+              <ul class="tags"><li class="tag tag--tone">Snowflake</li><li class="tag tag--tone">Databricks</li><li class="tag tag--tone">Python</li><li class="tag tag--tone">SQL</li><li class="tag tag--tone">ETL / ELT</li><li class="tag tag--tone">Data Pipelines</li><li class="tag tag--tone">Data Warehousing</li></ul>
+            </div>
+          </div>
         </div>
-      </article>
-      <article class="domain domain--ai" data-tone="violet" data-domain data-reveal style="--i:1" aria-labelledby="dom-ai">
-        <div class="domain__art"><svg class="motif motif--neural" viewBox="0 0 400 220" aria-hidden="true" focusable="false">
+      </div>
+      <div class="stepper__step" style="--c:2" data-tone="violet">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="disc-tab-ai" aria-controls="disc-panel-ai" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="1.6"/><circle cx="20" cy="6" r="1.6"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="18" r="1.6"/><path d="m5.4 7 4.1 3.2M18.6 7l-4.1 3.2M5.4 17l4.1-3.2M18.6 17l-4.1-3.2"/></svg></span>
+            <span class="stepper__num">D-02</span>
+            <span class="stepper__name">AI &amp; Machine Learning</span>
+            <span class="stepper__short">LLMs · RAG · agents</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="disc-panel-ai">
+          <div class="disc" data-domain>
+            <div class="disc__art"><svg class="motif motif--neural" viewBox="0 0 400 220" aria-hidden="true" focusable="false">
     <g class="m-edges" style="--d:0s"><path d="M56 74L146 38"/><path d="M56 74L146 74"/><path d="M56 74L146 110"/><path d="M56 74L146 146"/><path d="M56 74L146 182"/><path d="M56 110L146 38"/><path d="M56 110L146 74"/><path d="M56 110L146 110"/><path d="M56 110L146 146"/><path d="M56 110L146 182"/><path d="M56 146L146 38"/><path d="M56 146L146 74"/><path d="M56 146L146 110"/><path d="M56 146L146 146"/><path d="M56 146L146 182"/></g><g class="m-edges" style="--d:0.35s"><path d="M146 38L246 38"/><path d="M146 38L246 74"/><path d="M146 38L246 110"/><path d="M146 38L246 146"/><path d="M146 38L246 182"/><path d="M146 74L246 38"/><path d="M146 74L246 74"/><path d="M146 74L246 110"/><path d="M146 74L246 146"/><path d="M146 74L246 182"/><path d="M146 110L246 38"/><path d="M146 110L246 74"/><path d="M146 110L246 110"/><path d="M146 110L246 146"/><path d="M146 110L246 182"/><path d="M146 146L246 38"/><path d="M146 146L246 74"/><path d="M146 146L246 110"/><path d="M146 146L246 146"/><path d="M146 146L246 182"/><path d="M146 182L246 38"/><path d="M146 182L246 74"/><path d="M146 182L246 110"/><path d="M146 182L246 146"/><path d="M146 182L246 182"/></g><g class="m-edges" style="--d:0.7s"><path d="M246 38L336 92"/><path d="M246 38L336 128"/><path d="M246 74L336 92"/><path d="M246 74L336 128"/><path d="M246 110L336 92"/><path d="M246 110L336 128"/><path d="M246 146L336 92"/><path d="M246 146L336 128"/><path d="M246 182L336 92"/><path d="M246 182L336 128"/></g><g class="m-layer" style="--d:0s"><circle cx="56" cy="74" r="9"/><circle cx="56" cy="110" r="9"/><circle cx="56" cy="146" r="9"/></g><g class="m-layer" style="--d:0.35s"><circle cx="146" cy="38" r="7"/><circle cx="146" cy="74" r="7"/><circle cx="146" cy="110" r="7"/><circle cx="146" cy="146" r="7"/><circle cx="146" cy="182" r="7"/></g><g class="m-layer" style="--d:0.7s"><circle cx="246" cy="38" r="7"/><circle cx="246" cy="74" r="7"/><circle cx="246" cy="110" r="7"/><circle cx="246" cy="146" r="7"/><circle cx="246" cy="182" r="7"/></g><g class="m-layer" style="--d:1.0499999999999998s"><circle cx="336" cy="92" r="9"/><circle cx="336" cy="128" r="9"/></g><rect class="m-token" style="--d:1.4s" x="360" y="78" width="30" height="12" rx="3"/><rect class="m-token" style="--d:1.5799999999999998s" x="360" y="102" width="22" height="12" rx="3"/><rect class="m-token" style="--d:1.7599999999999998s" x="360" y="126" width="26" height="12" rx="3"/>
     <text class="m-label" x="56" y="206" text-anchor="middle">INPUT</text>
     <text class="m-label" x="196" y="206" text-anchor="middle">HIDDEN LAYERS</text>
     <text class="m-label" x="356" y="206" text-anchor="middle">TOKENS</text>
-  </svg></div>
-        <div class="domain__body">
-          <p class="domain__code"><span>D-02</span><span class="domain__bar" aria-hidden="true"></span></p>
-          <h3 class="domain__name" id="dom-ai">AI &amp; Machine Learning</h3>
-          <p class="domain__line">Building applications on language models that read, match, extract and answer, with people kept in the loop.</p>
-          <p class="domain__applied"><span class="label">Applied</span> A knowledge-portal chatbot, contract clause and obligation extraction, and the Resume Matching proof of concept, now live. <a class="domain__link" href="#projects">See the projects<span class="visually-hidden">: AI &amp; Machine Learning</span> <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p>
-          <ul class="tags"><li class="tag tag--tone">Machine Learning</li><li class="tag tag--tone">Generative AI</li><li class="tag tag--tone">Large Language Models</li><li class="tag tag--tone">Retrieval-Augmented Generation</li><li class="tag tag--tone">AI Agents</li><li class="tag tag--tone">Prompt Engineering</li><li class="tag tag--tone">Model Evaluation</li><li class="tag tag--tone">Python</li></ul>
+  </svg><span class="disc__code">D-02</span></div>
+            <div class="disc__body">
+              <p class="disc__line">Building applications on language models that read, match, extract and answer, with people kept in the loop.</p>
+              <div class="disc__cols">
+                <div><p class="label">What it involves</p><ul class="disc__list"><li>Chatbots that answer from organisational knowledge</li><li>Extracting structured information from documents</li><li>Comparing profiles against requirements</li></ul></div>
+                <div><p class="label">Where I’ve applied it</p><p class="disc__applied">A knowledge-portal chatbot, contract clause and obligation extraction, and the Resume Matching proof of concept, now live. <a href="#projects">See the projects<span class="visually-hidden">: AI &amp; Machine Learning</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p></div>
+              </div>
+              <p class="label disc__tools-h">Tools</p>
+              <ul class="tags"><li class="tag tag--tone">Machine Learning</li><li class="tag tag--tone">Generative AI</li><li class="tag tag--tone">Large Language Models</li><li class="tag tag--tone">Retrieval-Augmented Generation</li><li class="tag tag--tone">AI Agents</li><li class="tag tag--tone">Model Evaluation</li></ul>
+            </div>
+          </div>
         </div>
-      </article>
-      <article class="domain domain--automation" data-tone="green" data-domain data-reveal style="--i:2" aria-labelledby="dom-automation">
-        <div class="domain__art"><svg class="motif motif--workflow" viewBox="0 0 400 220" aria-hidden="true" focusable="false">
+      </div>
+      <div class="stepper__step" style="--c:3" data-tone="green">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="disc-tab-automation" aria-controls="disc-panel-automation" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4.5a3 3 0 0 1 3 3V14"/><path d="m15 11.5 2.5 2.5 2.5-2.5"/></svg></span>
+            <span class="stepper__num">D-03</span>
+            <span class="stepper__name">Intelligent Automation</span>
+            <span class="stepper__short">Workflows · APIs · assistants</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="disc-panel-automation">
+          <div class="disc" data-domain>
+            <div class="disc__art"><svg class="motif motif--workflow" viewBox="0 0 400 220" aria-hidden="true" focusable="false">
     <g class="m-pipes"><path d="M92 110H124"/><path d="M176 110H216"/><path d="M240 86V57H298"/><path d="M240 134V163H298"/></g>
     <g class="m-run"><path pathLength="100" style="--d:0s" d="M92 110H124"/><path pathLength="100" style="--d:0.45s" d="M176 110H216"/><path pathLength="100" style="--d:0.95s" d="M240 86V57H298"/><path pathLength="100" style="--d:0.95s" d="M240 134V163H298"/></g>
     <rect class="m-box" x="20" y="92" width="72" height="36" rx="10"/>
@@ -284,17 +340,31 @@
     <text class="m-label" x="240" y="156" text-anchor="middle">DECIDE</text>
     <text class="m-label" x="352" y="61" text-anchor="middle">ACT</text>
     <text class="m-label" x="352" y="167" text-anchor="middle">NOTIFY</text>
-  </svg></div>
-        <div class="domain__body">
-          <p class="domain__code"><span>D-03</span><span class="domain__bar" aria-hidden="true"></span></p>
-          <h3 class="domain__name" id="dom-automation">Intelligent Automation</h3>
-          <p class="domain__line">Replacing repetitive, manual steps with workflows, integrations and AI agents that hand the result back to a person.</p>
-          <p class="domain__applied"><span class="label">Applied</span> Business Sheet automates manual Excel reporting; two AI-agent experiments write bug reports and adapt code. <a class="domain__link" href="work/business-sheet/">See the project<span class="visually-hidden">: Intelligent Automation</span> <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p>
-          <ul class="tags"><li class="tag tag--tone">Workflow Automation</li><li class="tag tag--tone">AI-powered Workflows</li><li class="tag tag--tone">API Integrations</li><li class="tag tag--tone">Process Automation</li><li class="tag tag--tone">Intelligent Assistants</li><li class="tag tag--tone">System Integrations</li></ul>
+  </svg><span class="disc__code">D-03</span></div>
+            <div class="disc__body">
+              <p class="disc__line">Replacing repetitive, manual steps with workflows, integrations and AI agents that hand the result back to a person.</p>
+              <div class="disc__cols">
+                <div><p class="label">What it involves</p><ul class="disc__list"><li>Turning manual, repeated steps into one action</li><li>Connecting systems through APIs</li><li>Assistants that draft work for a person to review</li></ul></div>
+                <div><p class="label">Where I’ve applied it</p><p class="disc__applied">Business Sheet automates manual Excel reporting; two AI-agent experiments write bug reports and adapt code. <a href="work/business-sheet/">See the project<span class="visually-hidden">: Intelligent Automation</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p></div>
+              </div>
+              <p class="label disc__tools-h">Tools</p>
+              <ul class="tags"><li class="tag tag--tone">Workflow Automation</li><li class="tag tag--tone">API Integrations</li><li class="tag tag--tone">Intelligent Assistants</li><li class="tag tag--tone">Process Automation</li></ul>
+            </div>
+          </div>
         </div>
-      </article>
-      <article class="domain domain--analytics" data-tone="amber" data-domain data-reveal style="--i:3" aria-labelledby="dom-analytics">
-        <div class="domain__art"><svg class="motif motif--chart" viewBox="0 0 400 220" aria-hidden="true" focusable="false">
+      </div>
+      <div class="stepper__step" style="--c:4" data-tone="amber">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="disc-tab-analytics" aria-controls="disc-panel-analytics" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 3v18h18"/><path d="M7 16v-4M11 16V8M15 16v-6M19 16V5"/></svg></span>
+            <span class="stepper__num">D-04</span>
+            <span class="stepper__name">Analytics &amp; Visualization</span>
+            <span class="stepper__short">BI · dashboards · storytelling</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="disc-panel-analytics">
+          <div class="disc" data-domain>
+            <div class="disc__art"><svg class="motif motif--chart" viewBox="0 0 400 220" aria-hidden="true" focusable="false">
     <g class="m-grid"><path d="M44 56H372"/><path d="M44 96H372"/><path d="M44 136H372"/></g>
     <path class="m-axis" d="M44 28V176H372"/>
     <rect class="m-bar" style="--d:0s" x="62" y="138" width="16" height="38" rx="3"/><rect class="m-bar" style="--d:0.06s" x="92" y="126" width="16" height="50" rx="3"/><rect class="m-bar" style="--d:0.12s" x="122" y="130" width="16" height="46" rx="3"/><rect class="m-bar" style="--d:0.18s" x="152" y="114" width="16" height="62" rx="3"/><rect class="m-bar" style="--d:0.24s" x="182" y="104" width="16" height="72" rx="3"/><rect class="m-bar" style="--d:0.3s" x="212" y="108" width="16" height="68" rx="3"/><rect class="m-bar" style="--d:0.36s" x="242" y="90" width="16" height="86" rx="3"/><rect class="m-bar" style="--d:0.42s" x="272" y="78" width="16" height="98" rx="3"/><rect class="m-bar" style="--d:0.48s" x="302" y="84" width="16" height="92" rx="3"/><rect class="m-bar m-bar--key" style="--d:0.54s" x="332" y="60" width="16" height="116" rx="3"/>
@@ -303,339 +373,701 @@
     <g class="m-kpi"><rect x="62" y="22" width="92" height="28" rx="8"/><path class="m-glyph" d="M74 41l6-7 6 7"/><text class="m-label m-label--kpi" x="94" y="40">FY vs FY</text></g>
     <text class="m-label" x="62" y="200">FY2014</text>
     <text class="m-label" x="360" y="200" text-anchor="end">CURRENT FY</text>
-  </svg></div>
-        <div class="domain__body">
-          <p class="domain__code"><span>D-04</span><span class="domain__bar" aria-hidden="true"></span></p>
-          <h3 class="domain__name" id="dom-analytics">Analytics &amp; Visualization</h3>
-          <p class="domain__line">Turning data into charts, dashboards and comparisons that make a decision easier to take.</p>
-          <p class="domain__applied"><span class="label">Applied</span> Financial-year comparisons in Business Sheet, migrated dashboards, and SQL reporting during a data-analytics internship. <a class="domain__link" href="work/business-sheet/">See the project<span class="visually-hidden">: Analytics &amp; Visualization</span> <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p>
-          <ul class="tags"><li class="tag tag--tone">Power BI</li><li class="tag tag--tone">Tableau</li><li class="tag tag--tone">DAX</li><li class="tag tag--tone">Business Intelligence</li><li class="tag tag--tone">Dashboard Development</li><li class="tag tag--tone">Data Storytelling</li></ul>
+  </svg><span class="disc__code">D-04</span></div>
+            <div class="disc__body">
+              <p class="disc__line">Turning data into charts, dashboards and comparisons that make a decision easier to take.</p>
+              <div class="disc__cols">
+                <div><p class="label">What it involves</p><ul class="disc__list"><li>Choosing the view that answers the question</li><li>Comparisons across periods and segments</li><li>Explaining what a metric means</li></ul></div>
+                <div><p class="label">Where I’ve applied it</p><p class="disc__applied">Financial-year comparisons in Business Sheet, migrated dashboards, and SQL reporting during a data-analytics internship. <a href="work/business-sheet/">See the project<span class="visually-hidden">: Analytics &amp; Visualization</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p></div>
+              </div>
+              <p class="label disc__tools-h">Tools</p>
+              <ul class="tags"><li class="tag tag--tone">Power BI</li><li class="tag tag--tone">Tableau</li><li class="tag tag--tone">DAX</li><li class="tag tag--tone">Business Intelligence</li><li class="tag tag--tone">Data Storytelling</li></ul>
+            </div>
+          </div>
         </div>
-      </article>
+      </div>
+    </div>
     </div>
   </div>
 </section>
 
 <section class="section missions" id="projects" aria-labelledby="projects-title">
   <div class="container">
-    <header class="sec-head" data-reveal>
+    <header class="sec-head sec-head--split" data-reveal>
       <p class="sec-head__label"><b>04</b><span aria-hidden="true">//</span><span>Engineering missions</span></p>
       <h2 class="sec-head__title" id="projects-title">Systems built for <em>real work.</em></h2>
       <p class="sec-head__lede">Five enterprise applications from my work at Tata Technologies, and two AI-agent experiments. Company projects are shown with original illustrations and sample data; their code and live systems aren’t public.</p>
     </header>
-    <div class="missions__bar js-only">
-      <div class="filters" role="group" aria-label="Filter projects by category" data-filters>
-        <button type="button" aria-pressed="true" data-filter="all">All<span class="filters__n">7</span></button>
-        <button type="button" aria-pressed="false" data-filter="data" data-tone="cyan">Data Engineering<span class="filters__n">1</span></button>
-        <button type="button" aria-pressed="false" data-filter="ai" data-tone="violet">AI / ML<span class="filters__n">6</span></button>
-        <button type="button" aria-pressed="false" data-filter="automation" data-tone="green">Automation<span class="filters__n">3</span></button>
-        <button type="button" aria-pressed="false" data-filter="analytics" data-tone="amber">Analytics<span class="filters__n">2</span></button>
-        <button type="button" aria-pressed="false" data-filter="software" data-tone="cyan">Software Development<span class="filters__n">4</span></button>
+    <div class="px" data-explorer>
+      <div class="px__bar js-only">
+        <div class="filters" role="group" aria-label="Filter projects by category" data-filters>
+          <button type="button" aria-pressed="true" data-filter="all">All<span class="filters__n">7</span></button>
+          <button type="button" aria-pressed="false" data-filter="data" data-tone="cyan">Data Engineering<span class="filters__n">1</span></button>
+          <button type="button" aria-pressed="false" data-filter="ai" data-tone="violet">AI / ML<span class="filters__n">6</span></button>
+          <button type="button" aria-pressed="false" data-filter="automation" data-tone="green">Automation<span class="filters__n">3</span></button>
+          <button type="button" aria-pressed="false" data-filter="analytics" data-tone="amber">Analytics<span class="filters__n">2</span></button>
+          <button type="button" aria-pressed="false" data-filter="software" data-tone="blue">Software Development<span class="filters__n">4</span></button>
+        </div>
+        <p class="px__count" role="status" data-filter-status>Showing all 7 projects</p>
       </div>
-      <p class="missions__count" role="status" data-filter-status>Showing all 7 projects</p>
-    </div>
-    <ul class="missions__grid" data-missions>
-      <li class="mission is-lead" data-cats="ai software" data-mission>
-        <article class="mission__card" aria-labelledby="m-knowledge-portal">
-          <div class="mission__media">
-            <img src="assets/projects/knowledge-portal-800.webp" srcset="assets/projects/knowledge-portal-800.webp 800w, assets/projects/knowledge-portal-1600.webp 1600w" sizes="(min-width: 1100px) 760px, (min-width: 640px) calc(100vw - 96px), calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
-            <span class="mission__tag">Illustration</span>
+      <div class="px__layout">
+        <ol class="px__index js-only" aria-label="Projects">
+          <li data-cats="ai software" data-tone="cyan"><button class="px__item" type="button" data-show="knowledge-portal" aria-controls="px-knowledge-portal" aria-pressed="true"><span class="px__item-code">M-01</span><span class="px__item-name">Enterprise Knowledge Portal</span><span class="px__item-kicker">Knowledge platform</span></button></li>
+          <li data-cats="analytics automation ai software" data-tone="amber"><button class="px__item" type="button" data-show="business-sheet" aria-controls="px-business-sheet" aria-pressed="false"><span class="px__item-code">M-02</span><span class="px__item-name">Business Sheet</span><span class="px__item-kicker">Enterprise analytics</span></button></li>
+          <li data-cats="ai software" data-tone="violet"><button class="px__item" type="button" data-show="contract-intelligence" aria-controls="px-contract-intelligence" aria-pressed="false"><span class="px__item-code">M-03</span><span class="px__item-name">AI Legal Contract Intelligence</span><span class="px__item-kicker">Document intelligence</span></button></li>
+          <li data-cats="ai" data-tone="green"><button class="px__item" type="button" data-show="resume-matching" aria-controls="px-resume-matching" aria-pressed="false"><span class="px__item-code">M-04</span><span class="px__item-name">AI Resume Matching</span><span class="px__item-kicker">Recruitment AI · <span class="px__item-status">Live in production</span></span></button></li>
+          <li data-cats="data analytics" data-tone="blue"><button class="px__item" type="button" data-show="data-migration" aria-controls="px-data-migration" aria-pressed="false"><span class="px__item-code">M-05</span><span class="px__item-name">Enterprise Data Migration</span><span class="px__item-kicker">Data engineering · <span class="px__item-status">Completed</span></span></button></li>
+          <li data-cats="ai automation" data-tone="green"><button class="px__item" type="button" data-show="bug-detailer" aria-controls="px-bug-detailer" aria-pressed="false"><span class="px__item-code">X-01</span><span class="px__item-name">Bug Detailer</span><span class="px__item-kicker">AI agent</span></button></li>
+          <li data-cats="ai automation software" data-tone="violet"><button class="px__item" type="button" data-show="web-app-builder" aria-controls="px-web-app-builder" aria-pressed="false"><span class="px__item-code">X-02</span><span class="px__item-name">Web App Builder</span><span class="px__item-kicker">AI agent</span></button></li>
+        </ol>
+        <div class="px__stage" data-missions>
+        <article class="px__card is-active" id="px-knowledge-portal" data-mission data-cats="ai software" data-tone="cyan" aria-labelledby="m-knowledge-portal">
+          <div class="px__media">
+            <img src="assets/projects/knowledge-portal-800.webp" srcset="assets/projects/knowledge-portal-800.webp 800w, assets/projects/knowledge-portal-1600.webp 1600w" sizes="(min-width: 1024px) 860px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
+            <span class="px__tag">Illustration</span>
           </div>
-          <div class="mission__body">
-            <p class="mission__meta"><span class="mission__code">M-01</span><span>Company project</span><span aria-hidden="true">·</span><span>Knowledge platform</span></p>
-            <h3 class="mission__title" id="m-knowledge-portal" data-vt="knowledge-portal"><a href="work/knowledge-portal/">Enterprise Knowledge Portal</a></h3>
-            <p class="mission__summary">One platform for knowledge discovery, requests, an AI chatbot, approvals and leaderboards.</p>
-            <dl class="mission__facts"><div><dt>My contribution</dt><dd>Owned the build, from specification to implementation</dd></div></dl>
-            <ul class="mission__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li><li data-tone="cyan">Software Development</li></ul>
-            <div class="mission__actions">
-              <a class="link-arrow mission__go" href="work/knowledge-portal/" tabindex="-1" aria-hidden="true">Case study <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          <div class="px__body">
+            <p class="px__meta"><span class="px__code">M-01</span><span>Company project</span><span aria-hidden="true">·</span><span>Knowledge platform</span></p>
+            <h3 class="px__title" id="m-knowledge-portal" data-vt="knowledge-portal"><a href="work/knowledge-portal/">Enterprise Knowledge Portal</a></h3>
+            <p class="px__summary">One platform for knowledge discovery, requests, an AI chatbot, approvals and leaderboards.</p>
+            <dl class="px__facts"><div class="px__fact px__fact--problem"><dt>Problem</dt><dd>Make organizational knowledge easier to discover and use through a shared platform with role-based access. It serves four roles: Viewer, User, Admin and Champion.</dd></div><div class="px__fact px__fact--built"><dt>What I built</dt><dd>I developed the Enterprise Knowledge Portal end to end, starting from the supplied functional specification document. I implemented the application and incorporated business feedback.</dd></div><div class="px__fact px__fact--how"><dt>How it works</dt><dd>The portal brings six capabilities into one application: discovery and search, knowledge requests, an approval queue, an AI chatbot, leaderboards, and sharing with role-based access. People use whichever they need, in any order.</dd></div><div class="px__fact px__fact--results"><dt>Results</dt><dd>The application brings these knowledge workflows into one place and has been refined through business feedback.</dd></div></dl>
+            <div class="px__tech"><span class="placeholder">Stack details not yet published</span><ul class="px__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li><li data-tone="blue">Software Development</li></ul></div>
+            <div class="px__actions">
+              <a class="btn btn--primary px__go" href="work/knowledge-portal/">Read the case study<span class="visually-hidden">: Enterprise Knowledge Portal</span> <svg class="ico i-move" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
               <button class="demo-btn js-only" type="button" data-demo="knowledge-portal" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Enterprise Knowledge Portal</span></button>
               <span class="demo-status" data-demo-status role="status"></span>
             </div>
           </div>
         </article>
-      </li>
-      <li class="mission" data-cats="analytics automation ai software" data-mission>
-        <article class="mission__card" aria-labelledby="m-business-sheet">
-          <div class="mission__media">
-            <img src="assets/projects/business-sheet-800.webp" srcset="assets/projects/business-sheet-800.webp 800w, assets/projects/business-sheet-1600.webp 1600w" sizes="(min-width: 1100px) 400px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
-            <span class="mission__tag">Illustration</span>
+        <article class="px__card" id="px-business-sheet" data-mission data-cats="analytics automation ai software" data-tone="amber" aria-labelledby="m-business-sheet">
+          <div class="px__media">
+            <img src="assets/projects/business-sheet-800.webp" srcset="assets/projects/business-sheet-800.webp 800w, assets/projects/business-sheet-1600.webp 1600w" sizes="(min-width: 1024px) 860px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
+            <span class="px__tag">Illustration</span>
           </div>
-          <div class="mission__body">
-            <p class="mission__meta"><span class="mission__code">M-02</span><span>Company project</span><span aria-hidden="true">·</span><span>Enterprise analytics</span></p>
-            <h3 class="mission__title" id="m-business-sheet" data-vt="business-sheet"><a href="work/business-sheet/">Business Sheet</a></h3>
-            <p class="mission__summary">Turns manual Excel reporting into customisable charts and comparisons, with a metrics chatbot.</p>
-            <dl class="mission__facts"><div><dt>My contribution</dt><dd>Owned the full build</dd></div></dl>
-            <ul class="mission__cats" aria-label="Categories"><li data-tone="amber">Analytics</li><li data-tone="green">Automation</li><li data-tone="violet">AI / ML</li><li data-tone="cyan">Software Development</li></ul>
-            <div class="mission__actions">
-              <a class="link-arrow mission__go" href="work/business-sheet/" tabindex="-1" aria-hidden="true">Case study <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          <div class="px__body">
+            <p class="px__meta"><span class="px__code">M-02</span><span>Company project</span><span aria-hidden="true">·</span><span>Enterprise analytics</span></p>
+            <h3 class="px__title" id="m-business-sheet" data-vt="business-sheet"><a href="work/business-sheet/">Business Sheet</a></h3>
+            <p class="px__summary">Turns manual Excel reporting into customisable charts and comparisons, with a metrics chatbot.</p>
+            <dl class="px__facts"><div class="px__fact px__fact--problem"><dt>Problem</dt><dd>Preparing and comparing information from Excel required manual work, making it cumbersome to turn the data into useful views.</dd></div><div class="px__fact px__fact--built"><dt>What I built</dt><dd>I built Business Sheet end to end, from the manual Excel reporting it replaces to customisable charts and the chatbot that explains the metrics.</dd></div><div class="px__fact px__fact--how"><dt>How it works</dt><dd>Excel data by organization, line of business and financial year becomes charts with one action. Users customise the view with button-driven selections, and a chatbot explains the metrics behind each chart.</dd></div><div class="px__fact px__fact--results"><dt>Results</dt><dd>Users can generate and customise useful views through button-driven actions instead of repeatedly assembling them manually in Excel.</dd></div></dl>
+            <div class="px__tech"><span class="placeholder">Stack details not yet published</span><ul class="px__cats" aria-label="Categories"><li data-tone="amber">Analytics</li><li data-tone="green">Automation</li><li data-tone="violet">AI / ML</li><li data-tone="blue">Software Development</li></ul></div>
+            <div class="px__actions">
+              <a class="btn btn--primary px__go" href="work/business-sheet/">Read the case study<span class="visually-hidden">: Business Sheet</span> <svg class="ico i-move" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
               <button class="demo-btn js-only" type="button" data-demo="business-sheet" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Business Sheet</span></button>
               <span class="demo-status" data-demo-status role="status"></span>
             </div>
           </div>
         </article>
-      </li>
-      <li class="mission" data-cats="ai software" data-mission>
-        <article class="mission__card" aria-labelledby="m-contract-intelligence">
-          <div class="mission__media">
-            <img src="assets/projects/contract-intelligence-800.webp" srcset="assets/projects/contract-intelligence-800.webp 800w, assets/projects/contract-intelligence-1600.webp 1600w" sizes="(min-width: 1100px) 400px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
-            <span class="mission__tag">Illustration</span>
+        <article class="px__card" id="px-contract-intelligence" data-mission data-cats="ai software" data-tone="violet" aria-labelledby="m-contract-intelligence">
+          <div class="px__media">
+            <img src="assets/projects/contract-intelligence-800.webp" srcset="assets/projects/contract-intelligence-800.webp 800w, assets/projects/contract-intelligence-1600.webp 1600w" sizes="(min-width: 1024px) 860px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
+            <span class="px__tag">Illustration</span>
           </div>
-          <div class="mission__body">
-            <p class="mission__meta"><span class="mission__code">M-03</span><span>Company project</span><span aria-hidden="true">·</span><span>Document intelligence</span></p>
-            <h3 class="mission__title" id="m-contract-intelligence" data-vt="contract-intelligence"><a href="work/contract-intelligence/">AI Legal Contract Intelligence</a></h3>
-            <p class="mission__summary">Helps legal teams analyze and track uploaded contracts, extracting clauses, obligations and key information.</p>
-            <dl class="mission__facts"><div><dt>My contribution</dt><dd>Developed the application</dd></div></dl>
-            <ul class="mission__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li><li data-tone="cyan">Software Development</li></ul>
-            <div class="mission__actions">
-              <a class="link-arrow mission__go" href="work/contract-intelligence/" tabindex="-1" aria-hidden="true">Case study <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          <div class="px__body">
+            <p class="px__meta"><span class="px__code">M-03</span><span>Company project</span><span aria-hidden="true">·</span><span>Document intelligence</span></p>
+            <h3 class="px__title" id="m-contract-intelligence" data-vt="contract-intelligence"><a href="work/contract-intelligence/">AI Legal Contract Intelligence</a></h3>
+            <p class="px__summary">Helps legal teams analyze and track uploaded contracts, extracting clauses, obligations and key information.</p>
+            <dl class="px__facts"><div class="px__fact px__fact--problem"><dt>Problem</dt><dd>Legal teams need to identify and review the clauses, obligations and important information in each contract, and keep track of their contracts.</dd></div><div class="px__fact px__fact--built"><dt>What I built</dt><dd>I developed an AI-powered application that helps legal teams analyze and track uploaded contracts. It extracts clauses, obligations and other key information to support their review.</dd></div><div class="px__fact px__fact--how"><dt>How it works</dt><dd>A contract is uploaded and analyzed: its clauses, obligations and key details are extracted into a structured summary for the legal team to review, and the contract is tracked in the application.</dd></div><div class="px__fact px__fact--results"><dt>Results</dt><dd>Legal teams get each contract’s clauses, obligations and key information as a structured summary to review, and their contracts are tracked in the application.</dd></div></dl>
+            <div class="px__tech"><span class="placeholder">Stack details not yet published</span><ul class="px__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li><li data-tone="blue">Software Development</li></ul></div>
+            <div class="px__actions">
+              <a class="btn btn--primary px__go" href="work/contract-intelligence/">Read the case study<span class="visually-hidden">: AI Legal Contract Intelligence</span> <svg class="ico i-move" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
               <button class="demo-btn js-only" type="button" data-demo="contract-intelligence" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: AI Legal Contract Intelligence</span></button>
               <span class="demo-status" data-demo-status role="status"></span>
             </div>
           </div>
         </article>
-      </li>
-      <li class="mission" data-cats="ai" data-mission>
-        <article class="mission__card" aria-labelledby="m-resume-matching">
-          <div class="mission__media">
-            <img src="assets/projects/resume-matching-800.webp" srcset="assets/projects/resume-matching-800.webp 800w, assets/projects/resume-matching-1600.webp 1600w" sizes="(min-width: 1100px) 400px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
-            <span class="mission__tag">Illustration</span>
+        <article class="px__card" id="px-resume-matching" data-mission data-cats="ai" data-tone="green" aria-labelledby="m-resume-matching">
+          <div class="px__media">
+            <img src="assets/projects/resume-matching-800.webp" srcset="assets/projects/resume-matching-800.webp 800w, assets/projects/resume-matching-1600.webp 1600w" sizes="(min-width: 1024px) 860px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
+            <span class="px__tag">Illustration</span>
           </div>
-          <div class="mission__body">
-            <p class="mission__meta"><span class="mission__code">M-04</span><span>Company project</span><span aria-hidden="true">·</span><span>Recruitment AI</span></p>
-            <h3 class="mission__title" id="m-resume-matching" data-vt="resume-matching"><a href="work/resume-matching/">AI Resume Matching</a></h3>
-            <p class="mission__summary">Evaluates candidate profiles against role requirements.</p>
-            <dl class="mission__facts"><div><dt>My contribution</dt><dd>Original proof of concept</dd></div><div><dt>Status</dt><dd><span class="status">Live in production</span></dd></div></dl>
-            <ul class="mission__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li></ul>
-            <div class="mission__actions">
-              <a class="link-arrow mission__go" href="work/resume-matching/" tabindex="-1" aria-hidden="true">Case study <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          <div class="px__body">
+            <p class="px__meta"><span class="px__code">M-04</span><span>Company project</span><span aria-hidden="true">·</span><span>Recruitment AI</span></p>
+            <h3 class="px__title" id="m-resume-matching" data-vt="resume-matching"><a href="work/resume-matching/">AI Resume Matching</a></h3>
+            <p class="px__summary">Evaluates candidate profiles against role requirements.</p>
+            <dl class="px__facts"><div class="px__fact px__fact--problem"><dt>Problem</dt><dd>Recruiters need to compare each candidate’s profile with what a role requires.</dd></div><div class="px__fact px__fact--built"><dt>What I built</dt><dd>I developed the original proof of concept for this solution. The solution has since gone live in production.</dd></div><div class="px__fact px__fact--how"><dt>How it works</dt><dd>Each requirement of a role is set beside the evidence in a candidate’s profile, on skills and experience, so the recruiter can review the alignment. People make the decision.</dd></div><div class="px__fact px__fact--results"><dt>Results</dt><dd><span class="status">Live in production</span> Candidate profiles are compared with role requirements on skills and experience, supporting the people who make the decision. The solution is live in production.</dd></div></dl>
+            <div class="px__tech"><span class="placeholder">Stack details not yet published</span><ul class="px__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li></ul></div>
+            <div class="px__actions">
+              <a class="btn btn--primary px__go" href="work/resume-matching/">Read the case study<span class="visually-hidden">: AI Resume Matching</span> <svg class="ico i-move" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
               <button class="demo-btn js-only" type="button" data-demo="resume-matching" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: AI Resume Matching</span></button>
               <span class="demo-status" data-demo-status role="status"></span>
             </div>
           </div>
         </article>
-      </li>
-      <li class="mission" data-cats="data analytics" data-mission>
-        <article class="mission__card" aria-labelledby="m-data-migration">
-          <div class="mission__media">
-            <img src="assets/projects/data-migration-800.webp" srcset="assets/projects/data-migration-800.webp 800w, assets/projects/data-migration-1600.webp 1600w" sizes="(min-width: 1100px) 400px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
-            <span class="mission__tag">Illustration</span>
+        <article class="px__card" id="px-data-migration" data-mission data-cats="data analytics" data-tone="blue" aria-labelledby="m-data-migration">
+          <div class="px__media">
+            <img src="assets/projects/data-migration-800.webp" srcset="assets/projects/data-migration-800.webp 800w, assets/projects/data-migration-1600.webp 1600w" sizes="(min-width: 1024px) 860px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
+            <span class="px__tag">Illustration</span>
           </div>
-          <div class="mission__body">
-            <p class="mission__meta"><span class="mission__code">M-05</span><span>Company project</span><span aria-hidden="true">·</span><span>Data engineering</span></p>
-            <h3 class="mission__title" id="m-data-migration" data-vt="data-migration"><a href="work/data-migration/">Enterprise Data Migration</a></h3>
-            <p class="mission__summary">Migrated data, dashboards and their underlying data sources from SQL Server to Snowflake.</p>
-            <dl class="mission__facts"><div><dt>My contribution</dt><dd>Contributor to a team initiative</dd></div><div><dt>Status</dt><dd><span class="status">Completed</span></dd></div></dl>
-            <ul class="mission__cats" aria-label="Categories"><li data-tone="cyan">Data Engineering</li><li data-tone="amber">Analytics</li></ul>
-            <div class="mission__actions">
-              <a class="link-arrow mission__go" href="work/data-migration/" tabindex="-1" aria-hidden="true">Case study <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          <div class="px__body">
+            <p class="px__meta"><span class="px__code">M-05</span><span>Company project</span><span aria-hidden="true">·</span><span>Data engineering</span></p>
+            <h3 class="px__title" id="m-data-migration" data-vt="data-migration"><a href="work/data-migration/">Enterprise Data Migration</a></h3>
+            <p class="px__summary">Migrated data, dashboards and their underlying data sources from SQL Server to Snowflake.</p>
+            <dl class="px__facts"><div class="px__fact px__fact--problem"><dt>Problem</dt><dd>Different types of enterprise data held in traditional Microsoft SQL Server environments needed to move into a cloud data warehouse, Snowflake.</dd></div><div class="px__fact px__fact--built"><dt>What I built</dt><dd>This was a team initiative, and I was one of its contributors.</dd></div><div class="px__fact px__fact--how"><dt>How it works</dt><dd>Data moves from the SQL Server sources through extract, transform, validate and load stages into Snowflake, with Azure Data Factory as supporting infrastructure. Validation is its own stage, so problems surface before data reaches the warehouse. Dashboards and their underlying data sources were migrated too.</dd></div><div class="px__fact px__fact--results"><dt>Results</dt><dd><span class="status">Completed</span> The migration is complete. Data moved from traditional Microsoft SQL Server environments into Snowflake, and the initiative also covered dashboards and their underlying data sources.</dd></div></dl>
+            <div class="px__tech"><ul class="tags"><li class="tag">Microsoft SQL Server</li><li class="tag">Snowflake</li><li class="tag">Azure Data Factory</li><li class="tag">ETL</li><li class="tag">Data integration</li><li class="tag">Data transformation</li><li class="tag">Data quality</li></ul><ul class="px__cats" aria-label="Categories"><li data-tone="cyan">Data Engineering</li><li data-tone="amber">Analytics</li></ul></div>
+            <div class="px__actions">
+              <a class="btn btn--primary px__go" href="work/data-migration/">Read the case study<span class="visually-hidden">: Enterprise Data Migration</span> <svg class="ico i-move" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
               <button class="demo-btn js-only" type="button" data-demo="data-migration" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z"/></svg><span>Watch walkthrough</span><span class="visually-hidden">: Enterprise Data Migration</span></button>
               <span class="demo-status" data-demo-status role="status"></span>
             </div>
           </div>
         </article>
-      </li>
-      <li class="mission" data-cats="ai automation" data-mission>
-        <article class="mission__card" aria-labelledby="m-bug-detailer">
-          <div class="mission__media">
-            <img src="assets/projects/bug-detailer-800.webp" srcset="assets/projects/bug-detailer-800.webp 800w, assets/projects/bug-detailer-1600.webp 1600w" sizes="(min-width: 1100px) 400px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
-            <span class="mission__tag">Illustration</span>
+        <article class="px__card" id="px-bug-detailer" data-mission data-cats="ai automation" data-tone="green" aria-labelledby="m-bug-detailer">
+          <div class="px__media">
+            <img src="assets/projects/bug-detailer-800.webp" srcset="assets/projects/bug-detailer-800.webp 800w, assets/projects/bug-detailer-1600.webp 1600w" sizes="(min-width: 1024px) 860px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
+            <span class="px__tag">Illustration</span>
           </div>
-          <div class="mission__body">
-            <p class="mission__meta"><span class="mission__code">X-01</span><span>Experiment</span><span aria-hidden="true">·</span><span>AI agent</span></p>
-            <h3 class="mission__title" id="m-bug-detailer">Bug Detailer</h3>
-            <p class="mission__summary">An AI agent reads a screenshot and a short description of an issue together, and writes a structured, detailed bug report.</p>
-            <dl class="mission__facts"><div><dt>My contribution</dt><dd>Built it myself, with AI as co-developer</dd></div></dl>
-            <ul class="mission__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li><li data-tone="green">Automation</li></ul>
-            <details class="mission__sample">
+          <div class="px__body">
+            <p class="px__meta"><span class="px__code">X-01</span><span>Experiment</span><span aria-hidden="true">·</span><span>AI agent</span></p>
+            <h3 class="px__title" id="m-bug-detailer">Bug Detailer</h3>
+            <p class="px__summary">An AI agent reads a screenshot and a short description of an issue together, and writes a structured, detailed bug report.</p>
+            <dl class="px__facts"><div class="px__fact px__fact--built"><dt>What I built</dt><dd>Built it myself, with AI as my co-developer at every step.</dd></div><div class="px__fact px__fact--how"><dt>How it works</dt><dd>In: a screenshot and a short description of an issue. Out: a structured bug report with title, steps, expected and actual result.</dd></div><div class="px__fact px__fact--results"><dt>Status</dt><dd>An experiment, shown with a sample input and output. Not a live tool.</dd></div></dl>
+            <div class="px__tech"><ul class="px__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li><li data-tone="green">Automation</li></ul></div>
+            <details class="disclosure px__sample">
               <summary>See a sample input and output<span class="visually-hidden">: Bug Detailer</span></summary>
               <figure class="exp__sample">
-            <div class="exp__io">
-              <div class="exp__side">
-                <p class="exp__k">Input · screenshot and description</p>
-                <div class="exp__shot" aria-hidden="true"><span class="exp__shot-bar"></span><span class="exp__shot-field"></span><span class="exp__shot-field"></span><span class="exp__shot-btn">Save</span></div>
-                <p class="exp__quote">“Save does nothing on the profile page.”</p>
+              <div class="exp__io">
+                <div class="exp__side">
+                  <p class="exp__k">Input · screenshot and description</p>
+                  <div class="exp__shot" aria-hidden="true"><span class="exp__shot-bar"></span><span class="exp__shot-field"></span><span class="exp__shot-field"></span><span class="exp__shot-btn">Save</span></div>
+                  <p class="exp__quote">“Save does nothing on the profile page.”</p>
+                </div>
+                <div class="exp__side">
+                  <p class="exp__k">Output · bug report</p>
+                  <dl class="exp__report">
+                    <div><dt>Title</dt><dd>Profile changes aren’t saved</dd></div>
+                    <div><dt>Steps</dt><dd>Open Profile, change the name, select Save</dd></div>
+                    <div><dt>Expected</dt><dd>The change is saved</dd></div>
+                    <div><dt>Actual</dt><dd>Nothing happens</dd></div>
+                  </dl>
+                </div>
               </div>
-              <div class="exp__side">
-                <p class="exp__k">Output · bug report</p>
-                <dl class="exp__report">
-                  <div><dt>Title</dt><dd>Profile changes aren’t saved</dd></div>
-                  <div><dt>Steps</dt><dd>Open Profile, change the name, select Save</dd></div>
-                  <div><dt>Expected</dt><dd>The change is saved</dd></div>
-                  <div><dt>Actual</dt><dd>Nothing happens</dd></div>
-                </dl>
-              </div>
-            </div>
-                <figcaption class="exp__note">A sample input and output, for illustration. Not a live tool. Built by me, with AI as my co-developer.</figcaption>
+                <figcaption class="exp__note">A sample input and output, for illustration. Not a live tool.</figcaption>
               </figure>
             </details>
           </div>
         </article>
-      </li>
-      <li class="mission" data-cats="ai automation software" data-mission>
-        <article class="mission__card" aria-labelledby="m-web-app-builder">
-          <div class="mission__media">
-            <img src="assets/projects/web-app-builder-800.webp" srcset="assets/projects/web-app-builder-800.webp 800w, assets/projects/web-app-builder-1600.webp 1600w" sizes="(min-width: 1100px) 400px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
-            <span class="mission__tag">Illustration</span>
+        <article class="px__card" id="px-web-app-builder" data-mission data-cats="ai automation software" data-tone="violet" aria-labelledby="m-web-app-builder">
+          <div class="px__media">
+            <img src="assets/projects/web-app-builder-800.webp" srcset="assets/projects/web-app-builder-800.webp 800w, assets/projects/web-app-builder-1600.webp 1600w" sizes="(min-width: 1024px) 860px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
+            <span class="px__tag">Illustration</span>
           </div>
-          <div class="mission__body">
-            <p class="mission__meta"><span class="mission__code">X-02</span><span>Experiment</span><span aria-hidden="true">·</span><span>AI agent</span></p>
-            <h3 class="mission__title" id="m-web-app-builder">Web App Builder</h3>
-            <p class="mission__summary">An AI agent works out how existing code is built, then adapts it to the logic it should follow. It assists development rather than building software on its own.</p>
-            <dl class="mission__facts"><div><dt>My contribution</dt><dd>Built it myself, with AI as co-developer</dd></div></dl>
-            <ul class="mission__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li><li data-tone="green">Automation</li><li data-tone="cyan">Software Development</li></ul>
-            <details class="mission__sample">
+          <div class="px__body">
+            <p class="px__meta"><span class="px__code">X-02</span><span>Experiment</span><span aria-hidden="true">·</span><span>AI agent</span></p>
+            <h3 class="px__title" id="m-web-app-builder">Web App Builder</h3>
+            <p class="px__summary">An AI agent works out how existing code is built, then adapts it to the logic it should follow. It assists development rather than building software on its own.</p>
+            <dl class="px__facts"><div class="px__fact px__fact--built"><dt>What I built</dt><dd>Built it myself, with AI as my co-developer at every step.</dd></div><div class="px__fact px__fact--how"><dt>How it works</dt><dd>In: existing code and the logic it should follow. Out: proposed changes, for a developer to review and apply.</dd></div><div class="px__fact px__fact--results"><dt>Status</dt><dd>An experiment, shown with a sample input and output. Not a live tool.</dd></div></dl>
+            <div class="px__tech"><ul class="px__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li><li data-tone="green">Automation</li><li data-tone="blue">Software Development</li></ul></div>
+            <details class="disclosure px__sample">
               <summary>See a sample input and output<span class="visually-hidden">: Web App Builder</span></summary>
               <figure class="exp__sample">
-            <div class="exp__io">
-              <div class="exp__side">
-                <p class="exp__k">Input · code and the logic to follow</p>
-                <pre class="exp__code"><code>function total(items) {
+              <div class="exp__io">
+                <div class="exp__side">
+                  <p class="exp__k">Input · code and the logic to follow</p>
+                  <pre class="exp__code"><code>function total(items) {
   return items.reduce((s, i) =&gt; s + i.price, 0);
 }</code></pre>
-                <p class="exp__quote">“Members get 10% off.”</p>
-              </div>
-              <div class="exp__side">
-                <p class="exp__k">Output · proposed changes</p>
-                <pre class="exp__code"><code><del>- function total(items) {</del>
+                  <p class="exp__quote">“Members get 10% off.”</p>
+                </div>
+                <div class="exp__side">
+                  <p class="exp__k">Output · proposed changes</p>
+                  <pre class="exp__code"><code><del>- function total(items) {</del>
 <ins>+ function total(items, isMember) {</ins>
 <ins>+   const s = items.reduce((t, i) =&gt; t + i.price, 0);</ins>
 <ins>+   return isMember ? s * 0.9 : s;</ins></code></pre>
-                <p class="exp__quote">For a developer to review and apply.</p>
+                  <p class="exp__quote">For a developer to review and apply.</p>
+                </div>
               </div>
-            </div>
-                <figcaption class="exp__note">A sample input and output, for illustration. Not a live tool. Built by me, with AI as my co-developer.</figcaption>
+                <figcaption class="exp__note">A sample input and output, for illustration. Not a live tool.</figcaption>
               </figure>
             </details>
           </div>
         </article>
-      </li>
-    </ul>
-  </div>
-</section>
-
-<section class="section section--alt career" id="experience" aria-labelledby="experience-title">
-  <div class="container">
-    <header class="sec-head" data-reveal>
-      <p class="sec-head__label"><b>05</b><span aria-hidden="true">//</span><span>Professional experience</span></p>
-      <h2 class="sec-head__title" id="experience-title">Where I’ve been <em>building.</em></h2>
-    </header>
-    <div class="career__wrap">
-      <span class="career__rail" aria-hidden="true"><span class="career__fill" data-career-fill></span></span>
-      <ol class="career__list" data-career>
-      <li class="career__item is-now" data-reveal style="--i:0">
-        <div class="career__when">
-          <p class="career__dates"><time datetime="2025-10">Oct 2025 – Present</time></p>
-          <p class="chip career__now"><span class="dot"></span>Current role</p>
         </div>
-        <span class="career__node" aria-hidden="true"></span>
-        <article class="career__card" aria-labelledby="role-tata">
-          <header class="career__head">
-            <h3 class="career__role" id="role-tata">GET – Data and AI Engineer</h3>
-            <p class="career__org">Tata Technologies <span aria-hidden="true">·</span> Pune</p>
-          </header>
-          <p class="career__desc">Working across data engineering, Generative AI, enterprise applications and cloud data platforms to build practical data and AI solutions.</p>
-          <p class="label career__k">Verified achievements</p>
-          <ul class="career__points">
-            <li>Owned the Knowledge Portal build, from the supplied specification to implementation, incorporating business feedback.</li>
-            <li>Built Business Sheet end to end, turning manual Excel reporting into customisable charts with a chatbot that explains the metrics.</li>
-            <li>Developed the original Resume Matching proof of concept; the solution is now live in production.</li>
-          </ul>
-          <details class="career__more">
-            <summary>More responsibilities<span class="visually-hidden"> at Tata Technologies</span></summary>
-            <ul class="career__points">
-              <li>Contributed to a completed team initiative that moved data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.</li>
-              <li>Building AI-powered applications, including enterprise chatbots, knowledge platforms and intelligent document solutions, and full-stack applications that connect data, AI, backend logic and user-facing experiences.</li>
-              <li>Exploring and applying AI agents and automation to improve engineering workflows and productivity.</li>
-            </ul>
-          </details>
-          <div class="career__tech"><p class="label">Technologies</p><ul class="tags"><li class="tag">Snowflake</li><li class="tag">Microsoft SQL Server</li><li class="tag">Azure Data Factory</li><li class="tag">Generative AI</li><li class="tag">AI chatbots</li><li class="tag">AI agents</li></ul></div>
-        </article>
-      </li>
-      <li class="career__item" data-reveal style="--i:1">
-        <div class="career__when">
-          <p class="career__dates"><time datetime="2023-12">Dec 2023 – Jan 2024</time></p>
-          
+        <div class="px__nav js-only" data-px-nav>
+          <button class="px__step" type="button" data-px-prev><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span class="visually-hidden">Previous project</span></button>
+          <p class="px__pos" aria-hidden="true"><b data-px-pos>01</b><span>/</span><span data-px-total>07</span></p>
+          <span class="px__rail" aria-hidden="true"><i data-px-rail></i></span>
+          <button class="px__step" type="button" data-px-next><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="visually-hidden">Next project</span></button>
         </div>
-        <span class="career__node" aria-hidden="true"></span>
-        <article class="career__card" aria-labelledby="role-vertisystem">
-          <header class="career__head">
-            <h3 class="career__role" id="role-vertisystem">Training Internship – Data Analytics</h3>
-            <p class="career__org">Vertisystem <span aria-hidden="true">·</span> Indore</p>
-          </header>
-          <p class="career__desc">Data analytics training: SQL analysis, data collection and reporting.</p>
-          <p class="label career__k">Highlights</p>
-          <ul class="career__points">
-            <li>Developed and executed SQL queries across databases.</li>
-            <li>Created analytical reports and documentation.</li>
-          </ul>
-          <details class="career__more">
-            <summary>More responsibilities<span class="visually-hidden"> at Vertisystem</span></summary>
-            <ul class="career__points">
-              <li>Worked on data analytics use cases and SQL-based analysis.</li>
-              <li>Worked on web scraping and data collection.</li>
-            </ul>
-          </details>
-          <div class="career__tech"><p class="label">Technologies</p><ul class="tags"><li class="tag">SQL</li><li class="tag">Web scraping</li><li class="tag">Reporting</li></ul></div>
-        </article>
-      </li>
-      <li class="career__item" data-reveal style="--i:2">
-        <div class="career__when">
-          <p class="career__dates"><time datetime="2023-06">Jun – Jul 2023</time></p>
-          
-        </div>
-        <span class="career__node" aria-hidden="true"></span>
-        <article class="career__card" aria-labelledby="role-swap">
-          <header class="career__head">
-            <h3 class="career__role" id="role-swap">Software Developer Intern / L1</h3>
-            <p class="career__org">Swap Infotech <span aria-hidden="true">·</span> Indore</p>
-          </header>
-          <p class="career__desc">Front-end development on live web projects, in an Agile team.</p>
-          <p class="label career__k">Highlights</p>
-          <ul class="career__points">
-            <li>Contributed to live web projects using AngularJS, HTML, CSS and JavaScript.</li>
-            <li>Debugged and tested web applications.</li>
-          </ul>
-          <details class="career__more">
-            <summary>More responsibilities<span class="visually-hidden"> at Swap Infotech</span></summary>
-            <ul class="career__points">
-              <li>Worked in an Agile environment using Jira.</li>
-              <li>Created client-facing documentation.</li>
-            </ul>
-          </details>
-          <div class="career__tech"><p class="label">Technologies</p><ul class="tags"><li class="tag">AngularJS</li><li class="tag">JavaScript</li><li class="tag">HTML</li><li class="tag">CSS</li><li class="tag">Jira</li><li class="tag">Agile</li></ul></div>
-        </article>
-      </li>
-      </ol>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section edu" id="education" aria-labelledby="education-title">
+<section class="section career" id="experience" aria-labelledby="experience-title">
   <div class="container">
-    <header class="sec-head" data-reveal>
-      <p class="sec-head__label"><b>06</b><span aria-hidden="true">//</span><span>Education &amp; certifications</span></p>
+    <header class="sec-head sec-head--split" data-reveal>
+      <p class="sec-head__label"><b>05</b><span aria-hidden="true">//</span><span>Professional experience</span></p>
+      <h2 class="sec-head__title" id="experience-title">Where I’ve been <em>building.</em></h2>
+      <p class="sec-head__lede">From software and data internships during a B.Tech at SRM Institute of Science &amp; Technology, to data and AI engineering at Tata Technologies.</p>
+    </header>
+    <figure class="track" data-reveal aria-label="Career track, 2021 to now">
+      <div class="track__axis" aria-hidden="true"><span style="--x:0%">2021</span><span style="--x:16.666666666666664%">2022</span><span style="--x:33.33333333333333%">2023</span><span style="--x:50%">2024</span><span style="--x:66.66666666666666%">2025</span><span style="--x:83.33333333333334%">2026</span></div>
+      <ol class="track__bars">
+        <li class="track__bar track__bar--edu" style="--from:8.33%;--to:73.61%"><span class="track__label"><b>B.Tech, Computer Science Engineering</b> 2021 – 2025</span></li>
+        <li class="track__bar track__bar--intern" style="--from:40.28%;--to:43.06%"><span class="track__label"><b>Swap Infotech</b> Jun – Jul 2023</span></li>
+        <li class="track__bar track__bar--intern" style="--from:48.61%;--to:51.39%"><span class="track__label"><b>Vertisystem</b> Dec 2023 – Jan 2024</span></li>
+        <li class="track__bar track__bar--now" style="--from:79.17%;--to:98.61%"><span class="track__label"><b>Tata Technologies</b> Oct 2025 – Present</span></li>
+      </ol>
+    </figure>
+    <div class="roles">
+      <article class="role role--now" data-reveal style="--i:0" aria-labelledby="role-tata">
+        <header class="role__head">
+          <p class="role__when"><time datetime="2025-10">Oct 2025 – Present</time><span class="chip role__now"><span class="dot"></span>Current role</span></p>
+          <h3 class="role__title" id="role-tata">GET – Data and AI Engineer</h3>
+          <p class="role__org">Tata Technologies <span aria-hidden="true">·</span> Pune</p>
+        </header>
+        <div class="role__grid">
+          <div class="role__main">
+            <p class="role__desc">Working across data engineering, Generative AI, enterprise applications and cloud data platforms to build practical data and AI solutions.</p>
+            <p class="label role__k">Verified achievements</p>
+            <ul class="role__points">
+              <li>Owned the Knowledge Portal build, from the supplied specification to implementation, incorporating business feedback.</li>
+              <li>Built Business Sheet end to end, turning manual Excel reporting into customisable charts with a chatbot that explains the metrics.</li>
+              <li>Developed the original Resume Matching proof of concept; the solution is now live in production.</li>
+            </ul>
+          </div>
+          <div class="role__side">
+            <details class="disclosure role__more" open>
+              <summary>Responsibilities<span class="visually-hidden"> at Tata Technologies</span></summary>
+              <ul class="role__points role__points--more">
+                <li>Contributed to a completed team initiative that moved data from Microsoft SQL Server to Snowflake, along with dashboards and their underlying data sources.</li>
+                <li>Building AI-powered applications, including enterprise chatbots, knowledge platforms and intelligent document solutions, and full-stack applications that connect data, AI, backend logic and user-facing experiences.</li>
+                <li>Exploring and applying AI agents and automation to improve engineering workflows and productivity.</li>
+              </ul>
+            </details>
+            <div class="role__tech"><p class="label">Technologies</p><ul class="tags"><li class="tag">Snowflake</li><li class="tag">Microsoft SQL Server</li><li class="tag">Azure Data Factory</li><li class="tag">Generative AI</li><li class="tag">AI chatbots</li><li class="tag">AI agents</li></ul></div>
+          </div>
+        </div>
+      </article>
+      <article class="role" data-reveal style="--i:1" aria-labelledby="role-vertisystem">
+        <header class="role__head">
+          <p class="role__when"><time datetime="2023-12">Dec 2023 – Jan 2024</time></p>
+          <h3 class="role__title" id="role-vertisystem">Training Internship – Data Analytics</h3>
+          <p class="role__org">Vertisystem <span aria-hidden="true">·</span> Indore</p>
+        </header>
+        <div class="role__grid">
+          <div class="role__main">
+            <p class="role__desc">Data analytics training: SQL analysis, data collection and reporting.</p>
+            <p class="label role__k">Highlights</p>
+            <ul class="role__points">
+              <li>Developed and executed SQL queries across databases.</li>
+              <li>Created analytical reports and documentation.</li>
+            </ul>
+          </div>
+          <div class="role__side">
+            <details class="disclosure role__more">
+              <summary>More responsibilities<span class="visually-hidden"> at Vertisystem</span></summary>
+              <ul class="role__points role__points--more">
+                <li>Worked on data analytics use cases and SQL-based analysis.</li>
+                <li>Worked on web scraping and data collection.</li>
+              </ul>
+            </details>
+            <div class="role__tech"><p class="label">Technologies</p><ul class="tags"><li class="tag">SQL</li><li class="tag">Web scraping</li><li class="tag">Reporting</li></ul></div>
+          </div>
+        </div>
+      </article>
+      <article class="role" data-reveal style="--i:2" aria-labelledby="role-swap">
+        <header class="role__head">
+          <p class="role__when"><time datetime="2023-06">Jun – Jul 2023</time></p>
+          <h3 class="role__title" id="role-swap">Software Developer Intern / L1</h3>
+          <p class="role__org">Swap Infotech <span aria-hidden="true">·</span> Indore</p>
+        </header>
+        <div class="role__grid">
+          <div class="role__main">
+            <p class="role__desc">Front-end development on live web projects, in an Agile team.</p>
+            <p class="label role__k">Highlights</p>
+            <ul class="role__points">
+              <li>Contributed to live web projects using AngularJS, HTML, CSS and JavaScript.</li>
+              <li>Debugged and tested web applications.</li>
+            </ul>
+          </div>
+          <div class="role__side">
+            <details class="disclosure role__more">
+              <summary>More responsibilities<span class="visually-hidden"> at Swap Infotech</span></summary>
+              <ul class="role__points role__points--more">
+                <li>Worked in an Agile environment using Jira.</li>
+                <li>Created client-facing documentation.</li>
+              </ul>
+            </details>
+            <div class="role__tech"><p class="label">Technologies</p><ul class="tags"><li class="tag">AngularJS</li><li class="tag">JavaScript</li><li class="tag">HTML</li><li class="tag">CSS</li><li class="tag">Jira</li><li class="tag">Agile</li></ul></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section workflow" id="workflow" aria-labelledby="workflow-title">
+  <div class="container">
+    <header class="sec-head sec-head--split" data-reveal>
+      <p class="sec-head__label"><b>06</b><span aria-hidden="true">//</span><span>How I work</span></p>
+      <h2 class="sec-head__title" id="workflow-title">Inside my engineering <em>workflow.</em></h2>
+      <p class="sec-head__lede">From a business question to a solution people use, in five stages. Select a stage to see what happens there. This is how I approach engineering work. The examples point to documented projects; not every activity applies to every project.</p>
+    </header>
+    <div class="stepper stepper--journey" data-stepper data-label="Engineering workflow stages" style="--n:5">
+      <div class="stepper__track" aria-hidden="true"><span class="stepper__fill"></span><span class="stepper__pulse"></span></div>
+      <div class="stepper__step" style="--c:1" data-tone="cyan">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="wf-tab-understand" aria-controls="wf-panel-understand" aria-expanded="true">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/><path d="M8 10.5h5M10.5 8v5"/></svg></span>
+            <span class="stepper__num">01</span>
+            <span class="stepper__name">Understand the problem</span>
+            <span class="stepper__short">Requirements, data, constraints, outcomes</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="wf-panel-understand">
+          <div class="wf-panel">
+            <div class="wf-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><g class="sc-box"><path d="M34 34h34l12 12v46h-46z"/></g><path class="sc-soft" d="M42 50h28"/><path class="sc-soft" d="M42 60h22"/><path class="sc-soft" d="M42 70h30"/><path class="sc-soft" d="M42 80h18"/><g class="sc-box"><path d="M145 44v30a17 5.666666666666667 0 0 0 34 0v-30"/><ellipse cx="162" cy="44" rx="17" ry="5.666666666666667"/></g><path class="sc-soft" d="M145 74h34M145 64h34"/>
+    <circle class="sc-tone sc-draw" cx="92" cy="76" r="26"/><path class="sc-tone sc-draw" d="m111 95 22 22"/>
+    <path class="sc-tone" d="M82 76h20M92 66v20"/>
+    <g class="sc-chip"><rect x="170" y="98" width="56" height="26" rx="13"/><text x="198" y="115" text-anchor="middle">goal</text></g></svg><p class="wf-panel__step">Stage 01 of 05</p></div>
+            <div class="wf-panel__main">
+              <p class="wf-panel__what">Understand business requirements, data sources, constraints and desired outcomes, before choosing any technology.</p>
+              <div class="wf-panel__cols">
+                <div><p class="label">What I do here</p><ul class="wf-list"><li>Clarify who will use the solution, and what decision or task it should support</li><li>Read the requirements or specification closely</li><li>Look at the data that exists, where it lives and how reliable it is</li><li>Agree what a good outcome looks like</li></ul></div>
+                <div><p class="label">Tools &amp; techniques</p><ul class="tags"><li class="tag tag--tone">SQL</li><li class="tag tag--tone">Python</li><li class="tag tag--tone">Requirement documents</li></ul>
+                  <p class="label wf-panel__ex-h">In practice</p><p class="wf-panel__ex">The Knowledge Portal began from a supplied functional specification, which set out its roles and capabilities. <a href="work/knowledge-portal/">See the project<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper__step" style="--c:2" data-tone="violet">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="wf-tab-design" aria-controls="wf-panel-design" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="8.5" y="14" width="7" height="7" rx="1.5"/><path d="M6.5 10v2h11v-2M12 12v2"/></svg></span>
+            <span class="stepper__num">02</span>
+            <span class="stepper__name">Design the system</span>
+            <span class="stepper__short">Architecture, stack, data flow, plan</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="wf-panel-design">
+          <div class="wf-panel">
+            <div class="wf-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><path class="sc-grid" d="M20 30h200M20 60h200M20 90h200M20 120h200M50 15v120M100 15v120M150 15v120M200 15v120"/>
+    <rect class="sc-tone-fill" x="22" y="58" width="52" height="34" rx="8"/><rect class="sc-tone-fill" x="166" y="26" width="52" height="34" rx="8"/><rect class="sc-tone-fill" x="166" y="92" width="52" height="34" rx="8"/>
+    <rect class="sc-box" x="96" y="58" width="48" height="34" rx="17"/>
+    <path class="sc-tone sc-draw" d="M74 75h22M144 75c12 0 10-32 22-32M144 75c12 0 10 34 22 34"/>
+    <circle class="sc-dot" cx="120" cy="75" r="5"/></svg><p class="wf-panel__step">Stage 02 of 05</p></div>
+            <div class="wf-panel__main">
+              <p class="wf-panel__what">Plan the architecture, technology stack, data flow and implementation strategy, so the build has a clear shape.</p>
+              <div class="wf-panel__cols">
+                <div><p class="label">What I do here</p><ul class="wf-list"><li>Map how data moves from its source to the people who use it</li><li>Decide where data is stored and how it is shaped</li><li>Split the work into stages that can each be checked</li><li>Plan where people review what AI produces</li></ul></div>
+                <div><p class="label">Tools &amp; techniques</p><ul class="tags"><li class="tag tag--tone">Snowflake</li><li class="tag tag--tone">ETL / ELT</li><li class="tag tag--tone">Data Pipelines</li><li class="tag tag--tone">Data Warehousing</li></ul>
+                  <p class="label wf-panel__ex-h">In practice</p><p class="wf-panel__ex">In the Data Migration initiative, validation is its own stage between transforming and loading, so problems surface before data reaches Snowflake. <a href="work/data-migration/">See the project<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper__step" style="--c:3" data-tone="blue">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="wf-tab-build" aria-controls="wf-panel-build" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18-6-6 6-6"/><path d="m15 6 6 6-6 6"/><path d="m13.5 4-3 16"/></svg></span>
+            <span class="stepper__num">03</span>
+            <span class="stepper__name">Build &amp; engineer</span>
+            <span class="stepper__short">Pipelines, applications, AI, automation</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="wf-panel-build">
+          <div class="wf-panel">
+            <div class="wf-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><rect class="sc-box" x="18" y="22" width="128" height="104" rx="10"/><path class="sc-soft" d="M18 40h128"/>
+    <path class="sc-soft" d="M32 56h60"/><path class="sc-soft" d="M44 70h72"/><path class="sc-tone sc-draw" d="M44 84h50"/><path class="sc-soft" d="M56 98h44"/><path class="sc-soft" d="M32 112h30"/>
+    <g class="sc-gear"><circle class="sc-tone" cx="186" cy="74" r="22"/><circle class="sc-tone" cx="186" cy="74" r="8"/>
+    <path class="sc-tone" d="M208.0 74.0L216.0 74.0"/><path class="sc-tone" d="M201.6 89.6L207.2 95.2"/><path class="sc-tone" d="M186.0 96.0L186.0 104.0"/><path class="sc-tone" d="M170.4 89.6L164.8 95.2"/><path class="sc-tone" d="M164.0 74.0L156.0 74.0"/><path class="sc-tone" d="M170.4 58.4L164.8 52.8"/><path class="sc-tone" d="M186.0 52.0L186.0 44.0"/><path class="sc-tone" d="M201.6 58.4L207.2 52.8"/></g></svg><p class="wf-panel__step">Stage 03 of 05</p></div>
+            <div class="wf-panel__main">
+              <p class="wf-panel__what">Develop data pipelines, applications, AI capabilities and automation workflows that people can actually use.</p>
+              <div class="wf-panel__cols">
+                <div><p class="label">What I do here</p><ul class="wf-list"><li>Build pipelines and transformations</li><li>Develop the application and its interface</li><li>Add AI capabilities such as chatbots, extraction or matching</li><li>Automate steps that used to be repeated by hand</li></ul></div>
+                <div><p class="label">Tools &amp; techniques</p><ul class="tags"><li class="tag tag--tone">Python</li><li class="tag tag--tone">SQL</li><li class="tag tag--tone">Snowflake</li><li class="tag tag--tone">Databricks</li><li class="tag tag--tone">Generative AI</li><li class="tag tag--tone">LLMs</li><li class="tag tag--tone">RAG</li><li class="tag tag--tone">AI Agents</li></ul>
+                  <p class="label wf-panel__ex-h">In practice</p><p class="wf-panel__ex">Business Sheet was built end to end: from chart generation that replaces manual Excel work to the chatbot that explains the metrics. <a href="work/business-sheet/">See the project<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper__step" style="--c:4" data-tone="green">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="wf-tab-validate" aria-controls="wf-panel-validate" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12 2.3 2.3 4.4-4.6"/></svg></span>
+            <span class="stepper__num">04</span>
+            <span class="stepper__name">Test &amp; validate</span>
+            <span class="stepper__short">Function, data quality, accuracy, reliability</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="wf-panel-validate">
+          <div class="wf-panel">
+            <div class="wf-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><rect class="sc-box" x="22" y="18" width="120" height="114" rx="10"/>
+    <rect class="sc-tone-fill" x="36" y="35" width="18" height="18" rx="5"/><path class="sc-tone sc-draw" d="M40 44l4 4 7-8"/><path class="sc-soft" d="M64 44h60"/><rect class="sc-tone-fill" x="36" y="65" width="18" height="18" rx="5"/><path class="sc-tone sc-draw" d="M40 74l4 4 7-8"/><path class="sc-soft" d="M64 74h48"/><rect class="sc-tone-fill" x="36" y="95" width="18" height="18" rx="5"/><path class="sc-tone sc-draw" d="M40 104l4 4 7-8"/><path class="sc-soft" d="M64 104h54"/>
+    <path class="sc-tone-fill sc-draw" d="M190 30 160 42v22c0 18 13 33 30 38 17-5 30-20 30-38V42z"/><path class="sc-tone" d="m178 66 9 9 16-17"/></svg><p class="wf-panel__step">Stage 04 of 05</p></div>
+            <div class="wf-panel__main">
+              <p class="wf-panel__what">Validate functionality, data quality, performance, accuracy and reliability, and keep people in the loop where AI is involved.</p>
+              <div class="wf-panel__cols">
+                <div><p class="label">What I do here</p><ul class="wf-list"><li>Test features and fix defects</li><li>Check data quality before it is loaded or shown</li><li>Evaluate AI output and keep a human review step</li><li>Confirm the solution meets the requirements</li></ul></div>
+                <div><p class="label">Tools &amp; techniques</p><ul class="tags"><li class="tag tag--tone">SQL</li><li class="tag tag--tone">Model Evaluation</li><li class="tag tag--tone">Testing and debugging</li></ul>
+                  <p class="label wf-panel__ex-h">In practice</p><p class="wf-panel__ex">Contract Intelligence presents extracted clauses and obligations as a summary for the legal team to review: it supports their decisions rather than making them. <a href="work/contract-intelligence/">See the project<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper__step" style="--c:5" data-tone="amber">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="wf-tab-deploy" aria-controls="wf-panel-deploy" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>
+            <span class="stepper__num">05</span>
+            <span class="stepper__name">Deploy &amp; improve</span>
+            <span class="stepper__short">Release, observe, refine</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="wf-panel-deploy">
+          <div class="wf-panel">
+            <div class="wf-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><path class="sc-soft" d="M20 128h200"/>
+    <rect class="sc-box" x="28" y="104" width="16" height="24" rx="3"/><rect class="sc-box" x="54" y="88" width="16" height="40" rx="3"/><rect class="sc-box" x="80" y="72" width="16" height="56" rx="3"/><rect class="sc-box" x="106" y="56" width="16" height="72" rx="3"/><rect class="sc-tone-fill" x="132" y="40" width="16" height="88" rx="3"/>
+    <path class="sc-tone sc-draw" d="M188 104a34 34 0 1 1 26-38"/><path class="sc-tone" d="m214 54 0 13-13-2"/>
+    <circle class="sc-dot" cx="188" cy="70" r="6"/><text class="sc-t" x="188" y="122" text-anchor="middle">iterate</text></svg><p class="wf-panel__step">Stage 05 of 05</p></div>
+            <div class="wf-panel__main">
+              <p class="wf-panel__what">Deploy the solution, monitor its performance and continuously improve it.</p>
+              <div class="wf-panel__cols">
+                <div><p class="label">What I do here</p><ul class="wf-list"><li>Release to the people who will use it</li><li>Collect feedback and questions</li><li>Refine the solution in small iterations</li><li>Document it so others can run it</li></ul></div>
+                <div><p class="label">Tools &amp; techniques</p><ul class="tags"><li class="tag tag--tone">Stakeholder feedback</li><li class="tag tag--tone">Iterative releases</li><li class="tag tag--tone">Documentation</li></ul>
+                  <p class="label wf-panel__ex-h">In practice</p><p class="wf-panel__ex">Resume Matching began as my proof of concept and is now live in production; the Knowledge Portal has been refined through business feedback. <a href="work/resume-matching/">See the project<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--band arch" id="architecture" aria-labelledby="architecture-title">
+  <div class="container">
+    <header class="sec-head sec-head--split" data-reveal>
+      <p class="sec-head__label"><b>07</b><span aria-hidden="true">//</span><span>Interactive data architecture</span></p>
+      <h2 class="sec-head__title" id="architecture-title">From raw data to <em>decisions.</em></h2>
+      <p class="sec-head__lede">An illustrative view of how data engineering, AI and automation can work together to transform raw information into actionable insights. It is a reference model, not the architecture of any single project.</p>
+    </header>
+    <div class="arch__frame" data-reveal>
+      <div class="stepper stepper--journey" data-stepper data-label="Architecture stages" style="--n:7">
+      <div class="stepper__track" aria-hidden="true"><span class="stepper__fill"></span><span class="stepper__pulse"></span></div>
+      <div class="stepper__step" style="--c:1" data-tone="cyan">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="arch-tab-sources" aria-controls="arch-panel-sources" aria-expanded="true">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg></span>
+            <span class="stepper__num">01</span>
+            <span class="stepper__name">Data Sources</span>
+            <span class="stepper__short">Databases, spreadsheets, documents</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="arch-panel-sources">
+          <div class="arch-panel">
+            <div class="arch-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><g class="sc-box"><path d="M27 40v30a17 5.666666666666667 0 0 0 34 0v-30"/><ellipse cx="44" cy="40" rx="17" ry="5.666666666666667"/></g><g class="sc-box"><path d="M92 24h30l12 12v40h-42z"/></g><path class="sc-soft" d="M100 40h24"/><path class="sc-soft" d="M100 50h18"/><path class="sc-soft" d="M100 60h26"/><g class="sc-box"><rect x="150" y="28" width="58" height="44" rx="6"/></g><path class="sc-soft" d="M150 42h58M150 56h58M170 28v44M189 28v44"/>
+    <text class="sc-t" x="44" y="100" text-anchor="middle">SQL</text><text class="sc-t" x="113" y="100" text-anchor="middle">DOCS</text><text class="sc-t" x="179" y="100" text-anchor="middle">SHEETS</text>
+    <path class="sc-tone sc-draw" d="M44 112c0 18 76 10 76 24M113 112v24M179 112c0 18-59 10-59 24"/></svg></div>
+            <div class="arch-panel__main">
+              <p class="label arch-panel__step">Stage 01 of 07</p>
+              <p class="arch-panel__does">Where data originates: operational databases, spreadsheets, documents and application APIs. Each source has its own shape, schedule and quality.</p>
+              <div class="arch-panel__cols">
+                <div><p class="label">Technologies</p><ul class="tags"><li class="tag tag--tone">Microsoft SQL Server</li><li class="tag tag--tone">Excel workbooks</li><li class="tag tag--tone">Documents &amp; PDFs</li><li class="tag tag--tone">APIs</li></ul></div>
+                <div><p class="label">Where it shows up</p><ul class="arch-uses"><li><a href="work/data-migration/">SQL Server environments as the migration source</a></li><li><a href="work/business-sheet/">Excel reporting data behind Business Sheet</a></li><li><a href="work/contract-intelligence/">Uploaded contracts in Contract Intelligence</a></li></ul></div>
+                <div><p class="label">Connects</p><p class="arch-links"><span>The starting point: where data comes from</span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>Data Ingestion</b></span></span></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper__step" style="--c:2" data-tone="blue">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="arch-tab-ingestion" aria-controls="arch-panel-ingestion" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v10"/><path d="m8 9 4 4 4-4"/><path d="M3 15h4l2 3h6l2-3h4v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+            <span class="stepper__num">02</span>
+            <span class="stepper__name">Data Ingestion</span>
+            <span class="stepper__short">Bringing data in</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="arch-panel-ingestion">
+          <div class="arch-panel">
+            <div class="arch-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><path class="sc-tone sc-draw" d="M20 30C80 30 90 75 140 75"/><path class="sc-tone sc-draw" d="M20 75C80 75 90 75 140 75"/><path class="sc-tone sc-draw" d="M20 120C80 120 90 75 140 75"/>
+    <path class="sc-tone-fill" d="M140 50h40l20 25-20 25h-40z"/><path class="sc-tone" d="M200 75h22"/>
+    <circle class="sc-dot" cx="20" cy="30" r="5"/><circle class="sc-dot" cx="20" cy="75" r="5"/><circle class="sc-dot" cx="20" cy="120" r="5"/></svg></div>
+            <div class="arch-panel__main">
+              <p class="label arch-panel__step">Stage 02 of 07</p>
+              <p class="arch-panel__does">Brings data from the sources into the platform, in batches or on demand, keeping track of what arrived and when.</p>
+              <div class="arch-panel__cols">
+                <div><p class="label">Technologies</p><ul class="tags"><li class="tag tag--tone">Azure Data Factory</li><li class="tag tag--tone">Python</li><li class="tag tag--tone">API Integrations</li><li class="tag tag--tone">File uploads</li></ul></div>
+                <div><p class="label">Where it shows up</p><ul class="arch-uses"><li><a href="work/data-migration/">Extraction from SQL Server, with Azure Data Factory as supporting infrastructure</a></li></ul></div>
+                <div><p class="label">Connects</p><p class="arch-links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>Data Sources</b></span></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>Data Processing</b></span></span></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper__step" style="--c:3" data-tone="blue">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="arch-tab-processing" aria-controls="arch-panel-processing" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></svg></span>
+            <span class="stepper__num">03</span>
+            <span class="stepper__name">Data Processing</span>
+            <span class="stepper__short">Clean, transform, validate</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="arch-panel-processing">
+          <div class="arch-panel">
+            <div class="arch-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><circle class="sc-box" cx="26" cy="38" r="7"/><circle class="sc-box" cx="40" cy="62" r="7"/><circle class="sc-box" cx="22" cy="84" r="7"/><circle class="sc-box" cx="44" cy="104" r="7"/><circle class="sc-box" cx="30" cy="122" r="7"/>
+    <path class="sc-tone-fill" d="M80 30h80l-28 44v40l-24 10V74z"/>
+    <rect class="sc-tone-fill" x="186" y="48" width="34" height="11" rx="3"/><rect class="sc-tone-fill" x="186" y="64" width="34" height="11" rx="3"/><rect class="sc-tone-fill" x="186" y="80" width="34" height="11" rx="3"/><rect class="sc-tone-fill" x="186" y="96" width="34" height="11" rx="3"/>
+    <path class="sc-tone sc-draw" d="M54 75h22M164 75h18"/></svg></div>
+            <div class="arch-panel__main">
+              <p class="label arch-panel__step">Stage 03 of 07</p>
+              <p class="arch-panel__does">Cleans, transforms and validates data so that what reaches the warehouse is consistent and can be trusted.</p>
+              <div class="arch-panel__cols">
+                <div><p class="label">Technologies</p><ul class="tags"><li class="tag tag--tone">Databricks</li><li class="tag tag--tone">Python</li><li class="tag tag--tone">SQL</li><li class="tag tag--tone">ETL / ELT</li></ul></div>
+                <div><p class="label">Where it shows up</p><ul class="arch-uses"><li><a href="work/data-migration/">Transform and validate stages before loading</a></li></ul></div>
+                <div><p class="label">Connects</p><p class="arch-links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>Data Ingestion</b></span></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>Data Warehouse</b></span></span></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper__step" style="--c:4" data-tone="cyan">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="arch-tab-warehouse" aria-controls="arch-panel-warehouse" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span>
+            <span class="stepper__num">04</span>
+            <span class="stepper__name">Data Warehouse</span>
+            <span class="stepper__short">One governed store</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="arch-panel-warehouse">
+          <div class="arch-panel">
+            <div class="arch-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><path class="sc-tone-fill" d="M120 30l70 22-70 22-70-22z"/><path class="sc-box" d="M120 56l70 22-70 22-70-22z"/><path class="sc-box" d="M120 82l70 22-70 22-70-22z"/>
+    <path class="sc-tone sc-draw" d="M50 52v52l70 22 70-22V52"/></svg></div>
+            <div class="arch-panel__main">
+              <p class="label arch-panel__step">Stage 04 of 07</p>
+              <p class="arch-panel__does">Central, modelled storage that analytics and AI read from: one governed place instead of many copies.</p>
+              <div class="arch-panel__cols">
+                <div><p class="label">Technologies</p><ul class="tags"><li class="tag tag--tone">Snowflake</li><li class="tag tag--tone">Data Warehousing</li><li class="tag tag--tone">Data Pipelines</li></ul></div>
+                <div><p class="label">Where it shows up</p><ul class="arch-uses"><li><a href="work/data-migration/">Snowflake as the migration’s cloud data warehouse</a></li></ul></div>
+                <div><p class="label">Connects</p><p class="arch-links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>Data Processing</b></span></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>AI / ML Layer</b></span></span></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper__step" style="--c:5" data-tone="violet">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="arch-tab-ai" aria-controls="arch-panel-ai" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="1.6"/><circle cx="20" cy="6" r="1.6"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="18" r="1.6"/><path d="m5.4 7 4.1 3.2M18.6 7l-4.1 3.2M5.4 17l4.1-3.2M18.6 17l-4.1-3.2"/></svg></span>
+            <span class="stepper__num">05</span>
+            <span class="stepper__name">AI / ML Layer</span>
+            <span class="stepper__short">Read, match, extract, answer</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="arch-panel-ai">
+          <div class="arch-panel">
+            <div class="arch-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><path class="sc-edge" d="M40 40L120 30"/><path class="sc-edge" d="M40 40L120 60"/><path class="sc-edge" d="M40 40L120 90"/><path class="sc-edge" d="M40 40L120 120"/><path class="sc-edge" d="M40 75L120 30"/><path class="sc-edge" d="M40 75L120 60"/><path class="sc-edge" d="M40 75L120 90"/><path class="sc-edge" d="M40 75L120 120"/><path class="sc-edge" d="M40 110L120 30"/><path class="sc-edge" d="M40 110L120 60"/><path class="sc-edge" d="M40 110L120 90"/><path class="sc-edge" d="M40 110L120 120"/><path class="sc-edge" d="M120 30L200 55"/><path class="sc-edge" d="M120 30L200 95"/><path class="sc-edge" d="M120 60L200 55"/><path class="sc-edge" d="M120 60L200 95"/><path class="sc-edge" d="M120 90L200 55"/><path class="sc-edge" d="M120 90L200 95"/><path class="sc-edge" d="M120 120L200 55"/><path class="sc-edge" d="M120 120L200 95"/><circle class="sc-box" cx="40" cy="40" r="9"/><circle class="sc-box" cx="40" cy="75" r="9"/><circle class="sc-box" cx="40" cy="110" r="9"/><circle class="sc-tone-fill" cx="120" cy="30" r="9"/><circle class="sc-tone-fill" cx="120" cy="60" r="9"/><circle class="sc-tone-fill" cx="120" cy="90" r="9"/><circle class="sc-tone-fill" cx="120" cy="120" r="9"/><circle class="sc-box" cx="200" cy="55" r="9"/><circle class="sc-box" cx="200" cy="95" r="9"/>
+    <path class="sc-tone sc-draw" d="M40 75 120 60 200 55"/></svg></div>
+            <div class="arch-panel__main">
+              <p class="label arch-panel__step">Stage 05 of 07</p>
+              <p class="arch-panel__does">Models that read, compare, extract and answer: language models with retrieval, agents and evaluation, kept reviewable by people.</p>
+              <div class="arch-panel__cols">
+                <div><p class="label">Technologies</p><ul class="tags"><li class="tag tag--tone">Large Language Models</li><li class="tag tag--tone">Retrieval-Augmented Generation</li><li class="tag tag--tone">Machine Learning</li><li class="tag tag--tone">AI Agents</li><li class="tag tag--tone">Model Evaluation</li></ul></div>
+                <div><p class="label">Where it shows up</p><ul class="arch-uses"><li><a href="work/contract-intelligence/">Clause, obligation and key-detail extraction</a></li><li><a href="work/resume-matching/">Candidate profiles compared with role requirements</a></li><li><a href="work/knowledge-portal/">The Knowledge Portal’s AI chatbot</a></li></ul></div>
+                <div><p class="label">Connects</p><p class="arch-links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>Data Warehouse</b></span></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>Automation</b></span></span></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper__step" style="--c:6" data-tone="green">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="arch-tab-automation" aria-controls="arch-panel-automation" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4.5a3 3 0 0 1 3 3V14"/><path d="m15 11.5 2.5 2.5 2.5-2.5"/></svg></span>
+            <span class="stepper__num">06</span>
+            <span class="stepper__name">Automation</span>
+            <span class="stepper__short">Act on the results</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="arch-panel-automation">
+          <div class="arch-panel">
+            <div class="arch-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><rect class="sc-box" x="16" y="58" width="50" height="34" rx="9"/><circle class="sc-tone-fill" cx="120" cy="75" r="22"/><path class="sc-tone" d="M120 63v24M108 75h24"/>
+    <rect class="sc-tone-fill" x="174" y="28" width="50" height="30" rx="9"/><rect class="sc-tone-fill" x="174" y="92" width="50" height="30" rx="9"/>
+    <path class="sc-tone sc-draw" d="M66 75h32M142 75c14 0 16-32 32-32M142 75c14 0 16 32 32 32"/><path class="sc-tone" d="m185 43 5 5 9-9M185 107l5 5 9-9"/></svg></div>
+            <div class="arch-panel__main">
+              <p class="label arch-panel__step">Stage 06 of 07</p>
+              <p class="arch-panel__does">Workflows, integrations and agents that act on the results, so people review outcomes instead of repeating steps.</p>
+              <div class="arch-panel__cols">
+                <div><p class="label">Technologies</p><ul class="tags"><li class="tag tag--tone">Workflow Automation</li><li class="tag tag--tone">AI Agents</li><li class="tag tag--tone">API Integrations</li><li class="tag tag--tone">Process Automation</li></ul></div>
+                <div><p class="label">Where it shows up</p><ul class="arch-uses"><li><a href="work/knowledge-portal/">Requests routed through an approval queue</a></li><li><a href="work/business-sheet/">Charts generated in one action instead of by hand</a></li><li><a href="#projects">AI agents for bug reports and code adaptation</a></li></ul></div>
+                <div><p class="label">Connects</p><p class="arch-links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>AI / ML Layer</b></span></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>Analytics &amp; BI</b></span></span></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper__step" style="--c:7" data-tone="amber">
+        <h3 class="stepper__h">
+          <button class="stepper__node" type="button" id="arch-tab-bi" aria-controls="arch-panel-bi" aria-expanded="false">
+            <span class="stepper__dot" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 3v18h18"/><path d="M7 16v-4M11 16V8M15 16v-6M19 16V5"/></svg></span>
+            <span class="stepper__num">07</span>
+            <span class="stepper__name">Analytics &amp; BI</span>
+            <span class="stepper__short">Decisions and insight</span>
+          </button>
+        </h3>
+        <div class="stepper__panel" id="arch-panel-bi">
+          <div class="arch-panel">
+            <div class="arch-panel__art"><svg class="scene" viewBox="0 0 240 150" aria-hidden="true" focusable="false"><rect class="sc-box" x="16" y="16" width="208" height="118" rx="10"/>
+    <rect class="sc-bar" x="34" y="80" width="13" height="38" rx="2"/><rect class="sc-bar" x="56" y="66" width="13" height="52" rx="2"/><rect class="sc-bar" x="78" y="72" width="13" height="46" rx="2"/><rect class="sc-bar" x="100" y="52" width="13" height="66" rx="2"/><rect class="sc-bar" x="122" y="44" width="13" height="74" rx="2"/><rect class="sc-bar" x="144" y="48" width="13" height="70" rx="2"/><rect class="sc-tone-fill" x="166" y="30" width="13" height="88" rx="2"/>
+    <path class="sc-tone sc-draw" d="M40 74 62 64 84 70 106 50 128 44 150 48 172 30"/>
+    <rect class="sc-chip-r" x="176" y="26" width="38" height="20" rx="6"/></svg></div>
+            <div class="arch-panel__main">
+              <p class="label arch-panel__step">Stage 07 of 07</p>
+              <p class="arch-panel__does">Dashboards, comparisons and explanations that turn the processed data into decisions.</p>
+              <div class="arch-panel__cols">
+                <div><p class="label">Technologies</p><ul class="tags"><li class="tag tag--tone">Power BI</li><li class="tag tag--tone">Tableau</li><li class="tag tag--tone">DAX</li><li class="tag tag--tone">Business Intelligence</li><li class="tag tag--tone">Data Storytelling</li></ul></div>
+                <div><p class="label">Where it shows up</p><ul class="arch-uses"><li><a href="work/business-sheet/">Financial-year comparisons with a metrics chatbot</a></li><li><a href="work/data-migration/">Dashboards migrated with their underlying data sources</a></li></ul></div>
+                <div><p class="label">Connects</p><p class="arch-links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>Automation</b></span></span><span>The end of the flow: decisions and action</span></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--compact edu" id="education" aria-labelledby="education-title">
+  <div class="container">
+    <header class="sec-head sec-head--split" data-reveal>
+      <p class="sec-head__label"><b>08</b><span aria-hidden="true">//</span><span>Education &amp; certifications</span></p>
       <h2 class="sec-head__title" id="education-title">Foundations, <em>on record.</em></h2>
+      <p class="sec-head__lede">A computer science degree with a big-data specialization, and Snowflake training alongside the work.</p>
     </header>
     <div class="edu__grid">
       <article class="edu__degree" data-reveal aria-labelledby="degree-title">
-        <div class="edu__top">
-          <span class="edu__icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21.42 10.92a1 1 0 0 0-.02-1.84l-8.57-3.9a2 2 0 0 0-1.66 0l-8.57 3.9a1 1 0 0 0 0 1.83l8.57 3.9a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></span>
-          <p class="label">Degree · 2021 – 2025</p>
+        <p class="edu__years" aria-hidden="true"><span>2021</span><i>—</i><span>2025</span></p>
+        <div class="edu__body">
+          <div class="edu__top">
+            <span class="edu__icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21.42 10.92a1 1 0 0 0-.02-1.84l-8.57-3.9a2 2 0 0 0-1.66 0l-8.57 3.9a1 1 0 0 0 0 1.83l8.57 3.9a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></span>
+            <p class="label">Degree · 2021 – 2025</p>
+          </div>
+          <h3 class="edu__title" id="degree-title">B.Tech, Computer Science Engineering</h3>
+          <p class="edu__school">SRM Institute of Science &amp; Technology</p>
+          <dl class="edu__facts">
+            <div><dt>Specialization</dt><dd>Big Data Analytics</dd></div>
+            <div><dt>Graduated</dt><dd>2025</dd></div>
+            <div class="edu__cgpa"><dt>CGPA</dt><dd><b>8.68</b> / 10</dd></div>
+          </dl>
+          <div class="edu__meter" aria-hidden="true"><span style="--p:86.8%"></span></div>
         </div>
-        <h3 class="edu__title" id="degree-title">B.Tech, Computer Science Engineering</h3>
-        <p class="edu__school">SRM Institute of Science &amp; Technology</p>
-        <dl class="edu__facts">
-          <div><dt>Specialization</dt><dd>Big Data Analytics</dd></div>
-          <div><dt>Graduated</dt><dd>2025</dd></div>
-          <div class="edu__cgpa"><dt>CGPA</dt><dd><b>8.68</b> / 10</dd></div>
-        </dl>
-        <div class="edu__meter" aria-hidden="true"><span style="--p:86.8%"></span></div>
       </article>
       <div class="edu__certs">
         <h3 class="label edu__certs-h">Certifications</h3>
-        <ul class="edu__list">
+        <ol class="edu__list">
           <li class="cert" data-reveal style="--i:0">
+            <span class="cert__n" aria-hidden="true">01</span>
             <span class="cert__icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/></svg></span>
             <div>
               <h4 class="cert__title">Snowflake foundational badges</h4>
@@ -644,6 +1076,7 @@
             </div>
           </li>
           <li class="cert" data-reveal style="--i:1">
+            <span class="cert__n" aria-hidden="true">02</span>
             <span class="cert__icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/></svg></span>
             <div>
               <h4 class="cert__title">Snowflake Ascent</h4>
@@ -651,165 +1084,14 @@
               <p class="cert__note">Hands-on training in the AI Data Cloud.</p>
             </div>
           </li>
-        </ul>
+        </ol>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="section section--alt arch" id="architecture" aria-labelledby="architecture-title">
-  <div class="container">
-    <header class="sec-head" data-reveal>
-      <p class="sec-head__label"><b>07</b><span aria-hidden="true">//</span><span>Interactive data architecture</span></p>
-      <h2 class="sec-head__title" id="architecture-title">From raw data to <em>decisions.</em></h2>
-      <p class="sec-head__lede">A reference model of how the domains I work in connect, not the architecture of any single project. Select a stage to see what it does, the tools it uses and where it shows up in my work.</p>
-    </header>
-    <div class="arch__wrap" data-arch data-reveal>
-      <ol class="arch__flow" data-arch-flow>
-        <li class="arch__step"><button class="arch__stage" type="button" id="arch-tab-sources" aria-controls="arch-panel-sources" data-i="0"><span class="arch__num">01</span><span class="arch__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg></span><span class="arch__name">Data Sources</span></button></li>
-        <li class="arch__step"><button class="arch__stage" type="button" id="arch-tab-ingestion" aria-controls="arch-panel-ingestion" data-i="1"><span class="arch__num">02</span><span class="arch__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v10"/><path d="m8 9 4 4 4-4"/><path d="M3 15h4l2 3h6l2-3h4v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="arch__name">Data Ingestion</span></button></li>
-        <li class="arch__step"><button class="arch__stage" type="button" id="arch-tab-processing" aria-controls="arch-panel-processing" data-i="2"><span class="arch__num">03</span><span class="arch__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></svg></span><span class="arch__name">Data Processing</span></button></li>
-        <li class="arch__step"><button class="arch__stage" type="button" id="arch-tab-warehouse" aria-controls="arch-panel-warehouse" data-i="3"><span class="arch__num">04</span><span class="arch__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span><span class="arch__name">Data Warehouse</span></button></li>
-        <li class="arch__step"><button class="arch__stage" type="button" id="arch-tab-ai" aria-controls="arch-panel-ai" data-i="4"><span class="arch__num">05</span><span class="arch__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="1.6"/><circle cx="20" cy="6" r="1.6"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="18" r="1.6"/><path d="m5.4 7 4.1 3.2M18.6 7l-4.1 3.2M5.4 17l4.1-3.2M18.6 17l-4.1-3.2"/></svg></span><span class="arch__name">AI / ML Layer</span></button></li>
-        <li class="arch__step"><button class="arch__stage" type="button" id="arch-tab-automation" aria-controls="arch-panel-automation" data-i="5"><span class="arch__num">06</span><span class="arch__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4.5a3 3 0 0 1 3 3V14"/><path d="m15 11.5 2.5 2.5 2.5-2.5"/></svg></span><span class="arch__name">Automation</span></button></li>
-        <li class="arch__step"><button class="arch__stage" type="button" id="arch-tab-bi" aria-controls="arch-panel-bi" data-i="6"><span class="arch__num">07</span><span class="arch__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 3v18h18"/><path d="M7 16v-4M11 16V8M15 16v-6M19 16V5"/></svg></span><span class="arch__name">Analytics &amp; BI</span></button></li>
-      </ol>
-      <div class="arch__panels">
-        <section class="arch__panel" id="arch-panel-sources" aria-labelledby="arch-h-sources" data-arch-panel>
-          <header class="arch__phead">
-            <span class="arch__pico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg></span>
-            <div><p class="label">Stage 01 of 07</p><h3 class="arch__ptitle" id="arch-h-sources">Data Sources</h3></div>
-          </header>
-          <div class="arch__cols">
-            <div class="arch__col arch__col--does"><p class="label">What it does</p><p>Where data originates: operational databases, spreadsheets, documents and application APIs. Each source has its own shape, schedule and quality.</p></div>
-            <div class="arch__col"><p class="label">Technologies</p><ul class="tags"><li class="tag">Microsoft SQL Server</li><li class="tag">Excel workbooks</li><li class="tag">Documents &amp; PDFs</li><li class="tag">REST APIs</li></ul></div>
-            <div class="arch__col"><p class="label">Example use cases</p><ul class="arch__uses"><li><a href="work/data-migration/">SQL Server environments as the migration source</a></li><li><a href="work/business-sheet/">Excel reporting data behind Business Sheet</a></li><li><a href="work/contract-intelligence/">Uploaded contracts in Contract Intelligence</a></li></ul></div>
-            <div class="arch__col"><p class="label">Connects</p><p class="arch__links"><span>The starting point: where data comes from</span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>Data Ingestion</b></span></span></p></div>
-          </div>
-        </section>
-        <section class="arch__panel" id="arch-panel-ingestion" aria-labelledby="arch-h-ingestion" data-arch-panel>
-          <header class="arch__phead">
-            <span class="arch__pico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v10"/><path d="m8 9 4 4 4-4"/><path d="M3 15h4l2 3h6l2-3h4v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
-            <div><p class="label">Stage 02 of 07</p><h3 class="arch__ptitle" id="arch-h-ingestion">Data Ingestion</h3></div>
-          </header>
-          <div class="arch__cols">
-            <div class="arch__col arch__col--does"><p class="label">What it does</p><p>Brings data from the sources into the platform, in batches or on demand, keeping track of what arrived and when.</p></div>
-            <div class="arch__col"><p class="label">Technologies</p><ul class="tags"><li class="tag">Azure Data Factory</li><li class="tag">Python</li><li class="tag">API integrations</li><li class="tag">File uploads</li></ul></div>
-            <div class="arch__col"><p class="label">Example use cases</p><ul class="arch__uses"><li><a href="work/data-migration/">Extraction from SQL Server, with Azure Data Factory as supporting infrastructure</a></li></ul></div>
-            <div class="arch__col"><p class="label">Connects</p><p class="arch__links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>Data Sources</b></span></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>Data Processing</b></span></span></p></div>
-          </div>
-        </section>
-        <section class="arch__panel" id="arch-panel-processing" aria-labelledby="arch-h-processing" data-arch-panel>
-          <header class="arch__phead">
-            <span class="arch__pico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></svg></span>
-            <div><p class="label">Stage 03 of 07</p><h3 class="arch__ptitle" id="arch-h-processing">Data Processing</h3></div>
-          </header>
-          <div class="arch__cols">
-            <div class="arch__col arch__col--does"><p class="label">What it does</p><p>Cleans, transforms and validates data so that what reaches the warehouse is consistent and can be trusted.</p></div>
-            <div class="arch__col"><p class="label">Technologies</p><ul class="tags"><li class="tag">Apache Spark</li><li class="tag">Databricks</li><li class="tag">Python</li><li class="tag">SQL</li><li class="tag">ETL / ELT</li></ul></div>
-            <div class="arch__col"><p class="label">Example use cases</p><ul class="arch__uses"><li><a href="work/data-migration/">Transform and validate stages before loading</a></li></ul></div>
-            <div class="arch__col"><p class="label">Connects</p><p class="arch__links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>Data Ingestion</b></span></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>Data Warehouse</b></span></span></p></div>
-          </div>
-        </section>
-        <section class="arch__panel" id="arch-panel-warehouse" aria-labelledby="arch-h-warehouse" data-arch-panel>
-          <header class="arch__phead">
-            <span class="arch__pico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span>
-            <div><p class="label">Stage 04 of 07</p><h3 class="arch__ptitle" id="arch-h-warehouse">Data Warehouse</h3></div>
-          </header>
-          <div class="arch__cols">
-            <div class="arch__col arch__col--does"><p class="label">What it does</p><p>Central, modelled storage that analytics and AI read from: one governed place instead of many copies.</p></div>
-            <div class="arch__col"><p class="label">Technologies</p><ul class="tags"><li class="tag">Snowflake</li><li class="tag">Data Modeling</li><li class="tag">Data Warehousing</li></ul></div>
-            <div class="arch__col"><p class="label">Example use cases</p><ul class="arch__uses"><li><a href="work/data-migration/">Snowflake as the migration’s cloud data warehouse</a></li></ul></div>
-            <div class="arch__col"><p class="label">Connects</p><p class="arch__links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>Data Processing</b></span></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>AI / ML Layer</b></span></span></p></div>
-          </div>
-        </section>
-        <section class="arch__panel" id="arch-panel-ai" aria-labelledby="arch-h-ai" data-arch-panel>
-          <header class="arch__phead">
-            <span class="arch__pico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="1.6"/><circle cx="20" cy="6" r="1.6"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="18" r="1.6"/><path d="m5.4 7 4.1 3.2M18.6 7l-4.1 3.2M5.4 17l4.1-3.2M18.6 17l-4.1-3.2"/></svg></span>
-            <div><p class="label">Stage 05 of 07</p><h3 class="arch__ptitle" id="arch-h-ai">AI / ML Layer</h3></div>
-          </header>
-          <div class="arch__cols">
-            <div class="arch__col arch__col--does"><p class="label">What it does</p><p>Models that read, compare, extract and answer: language models with retrieval, agents and evaluation, kept reviewable by people.</p></div>
-            <div class="arch__col"><p class="label">Technologies</p><ul class="tags"><li class="tag">Large Language Models</li><li class="tag">Retrieval-Augmented Generation</li><li class="tag">Machine Learning</li><li class="tag">Prompt Engineering</li><li class="tag">Model Evaluation</li></ul></div>
-            <div class="arch__col"><p class="label">Example use cases</p><ul class="arch__uses"><li><a href="work/contract-intelligence/">Clause, obligation and key-detail extraction</a></li><li><a href="work/resume-matching/">Candidate profiles compared with role requirements</a></li><li><a href="work/knowledge-portal/">The Knowledge Portal’s AI chatbot</a></li></ul></div>
-            <div class="arch__col"><p class="label">Connects</p><p class="arch__links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>Data Warehouse</b></span></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>Automation</b></span></span></p></div>
-          </div>
-        </section>
-        <section class="arch__panel" id="arch-panel-automation" aria-labelledby="arch-h-automation" data-arch-panel>
-          <header class="arch__phead">
-            <span class="arch__pico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4.5a3 3 0 0 1 3 3V14"/><path d="m15 11.5 2.5 2.5 2.5-2.5"/></svg></span>
-            <div><p class="label">Stage 06 of 07</p><h3 class="arch__ptitle" id="arch-h-automation">Automation</h3></div>
-          </header>
-          <div class="arch__cols">
-            <div class="arch__col arch__col--does"><p class="label">What it does</p><p>Workflows, integrations and agents that act on the results, so people review outcomes instead of repeating steps.</p></div>
-            <div class="arch__col"><p class="label">Technologies</p><ul class="tags"><li class="tag">Workflow Automation</li><li class="tag">AI Agents</li><li class="tag">API Integrations</li><li class="tag">Process Automation</li></ul></div>
-            <div class="arch__col"><p class="label">Example use cases</p><ul class="arch__uses"><li><a href="work/knowledge-portal/">Requests routed through an approval queue</a></li><li><a href="work/business-sheet/">Charts generated in one action instead of by hand</a></li><li><a href="#projects">AI agents for bug reports and code adaptation</a></li></ul></div>
-            <div class="arch__col"><p class="label">Connects</p><p class="arch__links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>AI / ML Layer</b></span></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Feeds <b>Analytics &amp; BI</b></span></span></p></div>
-          </div>
-        </section>
-        <section class="arch__panel" id="arch-panel-bi" aria-labelledby="arch-h-bi" data-arch-panel>
-          <header class="arch__phead">
-            <span class="arch__pico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 3v18h18"/><path d="M7 16v-4M11 16V8M15 16v-6M19 16V5"/></svg></span>
-            <div><p class="label">Stage 07 of 07</p><h3 class="arch__ptitle" id="arch-h-bi">Analytics &amp; BI</h3></div>
-          </header>
-          <div class="arch__cols">
-            <div class="arch__col arch__col--does"><p class="label">What it does</p><p>Dashboards, comparisons and explanations that turn the processed data into decisions.</p></div>
-            <div class="arch__col"><p class="label">Technologies</p><ul class="tags"><li class="tag">Power BI</li><li class="tag">Tableau</li><li class="tag">DAX</li><li class="tag">Dashboard Development</li><li class="tag">Data Storytelling</li></ul></div>
-            <div class="arch__col"><p class="label">Example use cases</p><ul class="arch__uses"><li><a href="work/business-sheet/">Financial-year comparisons with a metrics chatbot</a></li><li><a href="work/data-migration/">Dashboards migrated with their underlying data sources</a></li></ul></div>
-            <div class="arch__col"><p class="label">Connects</p><p class="arch__links"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg><span>Receives from <b>Automation</b></span></span><span>The end of the flow: decisions and action</span></p></div>
-          </div>
-        </section>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section term-sec" id="terminal" aria-labelledby="terminal-title">
-  <div class="container">
-    <header class="sec-head" data-reveal>
-      <p class="sec-head__label"><b>08</b><span aria-hidden="true">//</span><span>Interactive terminal</span></p>
-      <h2 class="sec-head__title" id="terminal-title">Query the <em>engineer.</em></h2>
-      <p class="sec-head__lede">A working, simulated shell. It answers from this portfolio’s own data: nothing is executed and nothing leaves your browser.</p>
-    </header>
-    <div class="term" data-term data-reveal>
-      <div class="term__bar">
-        <span class="term__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span class="term__title">gaurang@dataforge: ~</span>
-        <span class="term__badge">simulated · read-only</span>
-      </div>
-      <div class="term__body" data-term-body>
-        <div class="term__out" role="log" aria-label="Terminal output" data-term-out>
-          <p class="t-line t-dim">DataForge shell 2.0 · type a command, or pick one below.</p>
-          <p class="t-line t-echo"><span class="t-prompt">gaurang@dataforge:~$</span> <span>whoami</span></p><p class="t-line"><span class="t-accent">gaurang · GET – Data and AI Engineer @ Tata Technologies · Pune, India</span></p><p class="t-line t-echo"><span class="t-prompt">gaurang@dataforge:~$</span> <span>help</span></p><p class="t-line"><span class="t-h">Available commands</span></p><p class="t-line"><span class="t-k">help        </span><span class="t-dim">List the available commands</span></p><p class="t-line"><span class="t-k">about       </span><span class="t-dim">Who I am, in four lines</span></p><p class="t-line"><span class="t-k">skills      </span><span class="t-dim">The four engineering domains and their tools</span></p><p class="t-line"><span class="t-k">projects    </span><span class="t-dim">Engineering missions, with links to case studies</span></p><p class="t-line"><span class="t-k">experience  </span><span class="t-dim">Roles, newest first</span></p><p class="t-line"><span class="t-k">education   </span><span class="t-dim">Degree and certifications</span></p><p class="t-line"><span class="t-k">stack       </span><span class="t-dim">Tools by layer, and what this site is built with</span></p><p class="t-line"><span class="t-k">contact     </span><span class="t-dim">Email, LinkedIn, GitHub and résumé</span></p><p class="t-line"><span class="t-k">whoami      </span><span class="t-dim">One-line identity</span></p><p class="t-line"><span class="t-k">history     </span><span class="t-dim">Commands entered in this session</span></p><p class="t-line"><span class="t-k">clear       </span><span class="t-dim">Clear the screen (or press Ctrl+L)</span></p><p class="t-line"></p><p class="t-line"><span class="t-dim">Tip: </span><span class="t-k">↑ ↓</span><span class="t-dim"> recall commands · </span><span class="t-k">Tab</span><span class="t-dim"> completes a command</span></p>
-          <p class="t-line t-dim nojs-only">Typing commands needs JavaScript; everything here is also on the page.</p>
-        </div>
-        <form class="term__line js-only" data-term-form autocomplete="off">
-          <span class="term__prompt" aria-hidden="true">gaurang@dataforge:~$</span>
-          <input class="term__input" id="term-input" type="text" name="command" aria-label="Terminal command" aria-describedby="term-help" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send" maxlength="80" />
-          <button class="visually-hidden" type="submit" tabindex="-1">Run command</button>
-        </form>
-      </div>
-    </div>
-    <div class="term__under js-only">
-      <p class="term__help" id="term-help">Enter a command. ↑ and ↓ recall earlier commands, Tab completes one, Ctrl+L clears.</p>
-      <div class="term__chips" role="group" aria-label="Run a command">
-        <button type="button" class="term__chip" data-cmd="help">help</button>
-        <button type="button" class="term__chip" data-cmd="about">about</button>
-        <button type="button" class="term__chip" data-cmd="skills">skills</button>
-        <button type="button" class="term__chip" data-cmd="projects">projects</button>
-        <button type="button" class="term__chip" data-cmd="experience">experience</button>
-        <button type="button" class="term__chip" data-cmd="education">education</button>
-        <button type="button" class="term__chip" data-cmd="stack">stack</button>
-        <button type="button" class="term__chip" data-cmd="contact">contact</button>
-        <button type="button" class="term__chip" data-cmd="whoami">whoami</button>
-        <button type="button" class="term__chip" data-cmd="clear">clear</button>
-      </div>
-    </div>
-    <script type="application/json" id="term-data">{"prompt":"gaurang@dataforge:~$","whoami":"gaurang · GET – Data and AI Engineer @ Tata Technologies · Pune, India","about":["Gaurang Ashava: GET – Data and AI Engineer at Tata Technologies, Pune, India.","B.Tech in Computer Science Engineering, specializing in Big Data Analytics.","Works across data engineering and applied AI: from data, to AI, to an application people use.","Next: agentic coding, managing AI agents and tailoring LLMs to business use cases."],"skills":[{"name":"Data Engineering","tech":["Snowflake","Databricks","Apache Spark","Python","SQL","ETL / ELT","Data Modeling","Data Pipelines","Data Warehousing"]},{"name":"AI & Machine Learning","tech":["Machine Learning","Generative AI","Large Language Models","Retrieval-Augmented Generation","AI Agents","Prompt Engineering","Model Evaluation","Python"]},{"name":"Intelligent Automation","tech":["Workflow Automation","AI-powered Workflows","API Integrations","Process Automation","Intelligent Assistants","System Integrations"]},{"name":"Analytics & Visualization","tech":["Power BI","Tableau","DAX","Business Intelligence","Dashboard Development","Data Storytelling"]}],"projects":[{"code":"M-01","title":"Enterprise Knowledge Portal","kicker":"Knowledge platform","role":"Owned the build, from specification to implementation","status":null,"url":"work/knowledge-portal/"},{"code":"M-02","title":"Business Sheet","kicker":"Enterprise analytics","role":"Owned the full build","status":null,"url":"work/business-sheet/"},{"code":"M-03","title":"AI Legal Contract Intelligence","kicker":"Document intelligence","role":"Developed the application","status":null,"url":"work/contract-intelligence/"},{"code":"M-04","title":"AI Resume Matching","kicker":"Recruitment AI","role":"Original proof of concept","status":"Live in production","url":"work/resume-matching/"},{"code":"M-05","title":"Enterprise Data Migration","kicker":"Data engineering","role":"Contributor to a team initiative","status":"Completed","url":"work/data-migration/"},{"code":"X-01","title":"Bug Detailer","kicker":"AI agent","role":"Built it myself, with AI as co-developer","status":null,"url":null},{"code":"X-02","title":"Web App Builder","kicker":"AI agent","role":"Built it myself, with AI as co-developer","status":null,"url":null}],"experience":[{"when":"Oct 2025 – Present","role":"GET – Data and AI Engineer","org":"Tata Technologies","place":"Pune","points":["Owned the Knowledge Portal build, from the supplied specification to implementation, incorporating business feedback.","Built Business Sheet end to end, turning manual Excel reporting into customisable charts with a chatbot that explains the metrics.","Developed the original Resume Matching proof of concept; the solution is now live in production."]},{"when":"Dec 2023 – Jan 2024","role":"Training Internship – Data Analytics","org":"Vertisystem","place":"Indore","points":["Developed and executed SQL queries across databases.","Created analytical reports and documentation."]},{"when":"Jun – Jul 2023","role":"Software Developer Intern / L1","org":"Swap Infotech","place":"Indore","points":["Contributed to live web projects using AngularJS, HTML, CSS and JavaScript.","Debugged and tested web applications."]}],"education":{"degree":"B.Tech, Computer Science Engineering, SRM Institute of Science & Technology","detail":"2021 – 2025 · Big Data Analytics · CGPA 8.68/10","certs":["Snowflake foundational badges","Snowflake Ascent"]},"stack":[["Languages",["Python","SQL","JavaScript"]],["Data",["Snowflake","Databricks","Apache Spark","Microsoft SQL Server","Azure Data Factory"]],["AI",["Large Language Models","Retrieval-Augmented Generation","AI Agents","Prompt Engineering"]],["Analytics",["Power BI","Tableau","DAX"]],["This site",["Static HTML generated with Node.js","Vanilla JavaScript","CSS","GitHub Pages"]]],"contact":{"email":"gaurangashava@gmail.com","linkedin":"https://www.linkedin.com/in/gaurang-ashava/","github":"https://github.com/gaurangg123","resume":"https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing"}}</script>
   </div>
 </section>
 
 <section class="section contact" id="contact" aria-labelledby="contact-title">
+  <div class="contact__signal" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="container contact__grid">
     <div class="contact__main" data-reveal>
       <p class="sec-head__label"><b>09</b><span aria-hidden="true">//</span><span>Establish connection</span></p>
@@ -820,71 +1102,64 @@
         <button class="contact__copy js-only" type="button" data-copy="gaurangashava@gmail.com"><svg class="ico i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2"/></svg><svg class="ico i-done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>Copy email</span></button>
         <span class="contact__copied" role="status" data-copy-status></span>
       </div>
-      <ul class="contact__actions">
-        <li><a class="btn btn--primary" href="mailto:gaurangashava@gmail.com"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Send an email</a></li>
-        <li><a class="btn" href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-        <li><a class="btn" href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-        <li><a class="btn" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Download Resume<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-      </ul>
-    </div>
-    <div class="contact__panel" aria-hidden="true">
-      <div class="contact__rings"><i></i><i></i><i></i><span class="contact__core"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span></div>
-      <div class="contact__log">
-        <p><span class="t-k">$</span> connect --to gaurang</p>
-        <p><span class="t-dim">› resolving channels</span> <span class="t-ok">ok</span></p>
-        <p><span class="t-k">email   </span> gaurangashava@gmail.com</p>
-        <p><span class="t-k">linkedin</span> /in/gaurang-ashava</p>
-        <p><span class="t-k">github  </span> /gaurangg123</p>
-        <p><span class="t-k">status  </span> <span class="t-ok">● listening</span></p>
+      <div class="contact__actions">
+        <a class="btn btn--primary" href="mailto:gaurangashava@gmail.com"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Send an email</a>
+        <a class="btn" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Download Resume<span class="visually-hidden"> (opens in a new tab)</span></a>
       </div>
+    </div>
+    <div class="contact__panel" data-reveal style="--i:1">
+      <p class="label contact__panel-h">Channels</p>
+      <ul class="channels">
+        <li><a class="ch" href="mailto:gaurangashava@gmail.com"><span class="ch__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span><span class="ch__txt"><b>Email</b><span>gaurangashava@gmail.com</span></span><svg class="ico ch__go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></li>
+        <li><a class="ch" href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer"><span class="ch__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span><span class="ch__txt"><b>LinkedIn</b><span>in/gaurang-ashava</span></span><svg class="ico ch__go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        <li><a class="ch" href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer"><span class="ch__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></span><span class="ch__txt"><b>GitHub</b><span>gaurangg123</span></span><svg class="ico ch__go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        <li><a class="ch" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="ch__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8M16 17H8M10 9H8"/></svg></span><span class="ch__txt"><b>Résumé</b><span>View or download (Google Drive)</span></span><svg class="ico ch__go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      </ul>
+      <p class="contact__where"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 10c0 5-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>Pune, India · IST (UTC+5:30)</p>
     </div>
   </div>
 </section>
 </main>
 
 <footer class="footer">
-  <div class="container footer__grid">
+  <div class="container footer__row">
     <div class="footer__brand">
-      <a class="footer__mark" href="#top"><svg class="logomark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <a class="footer__mark" href="./"><svg class="logomark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
   <defs><linearGradient id="foot-lm-g" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#38BDF8"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs>
   <path d="M16 2.6 27.6 9.3v13.4L16 29.4 4.4 22.7V9.3z" fill="#0A1020" stroke="url(#foot-lm-g)" stroke-width="2.2" stroke-linejoin="round"/>
   <path d="M16 9.5v6.5m0 0-5.6 3.3M16 16l5.6 3.3" stroke="url(#foot-lm-g)" stroke-width="1.8" stroke-linecap="round"/>
   <circle cx="16" cy="9.2" r="2.2" fill="#38BDF8"/><circle cx="10.2" cy="19.6" r="2.2" fill="#818CF8"/><circle cx="21.8" cy="19.6" r="2.2" fill="#A78BFA"/><circle cx="16" cy="16" r="1.7" fill="#F8FAFC"/>
 </svg><span>DataForge</span><span class="visually-hidden">: home</span></a>
-      <p class="footer__line">Engineering Intelligence. Designed and built by Gaurang Ashava.</p>
+      <p class="footer__line">Engineering Intelligence · Gaurang Ashava, Pune, India</p>
     </div>
     <nav class="footer__nav" aria-label="Footer">
-      <p class="label">Sections</p>
       <ul>
         <li><a href="#about">About</a></li>
         <li><a href="#expertise">Expertise</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#experience">Experience</a></li>
-        <li><a href="#education">Education</a></li>
+        <li><a href="#workflow">Workflow</a></li>
         <li><a href="#architecture">Architecture</a></li>
-        <li><a href="#terminal">Terminal</a></li>
+        <li><a href="#education">Education</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
-    <div class="footer__nav">
-      <p class="label">Connect</p>
-      <ul>
-        <li><a href="mailto:gaurangashava@gmail.com">Email</a></li>
-        <li><a href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-        <li><a href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-        <li><a href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-      </ul>
-    </div>
+    <ul class="footer__social" aria-label="Profiles">
+      <li><a class="icon-link" href="mailto:gaurangashava@gmail.com"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span class="visually-hidden">Email</span></a></li>
+      <li><a class="icon-link" href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><span class="visually-hidden">LinkedIn</span><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      <li><a class="icon-link" href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg><span class="visually-hidden">GitHub</span><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      <li><a class="icon-link" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8M16 17H8M10 9H8"/></svg><span class="visually-hidden">Resume</span><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+    </ul>
   </div>
   <div class="container footer__base">
-    <p>© <span data-year>2026</span> Gaurang Ashava · Pune, India</p>
-    <a class="link-arrow" href="#top">Back to top <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></a>
+    <p>© <span data-year>2026</span> Gaurang Ashava · Designed and built by me</p>
+    <button class="link-arrow footer__top js-only" type="button" data-to-top-link>Back to top <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button>
   </div>
 </footer>
-<a class="to-top js-only" href="#top" data-to-top aria-label="Back to top" hidden>
+<button class="to-top js-only" type="button" data-to-top aria-label="Back to top">
   <svg class="to-top__ring" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="24" cy="24" r="22" pathLength="100"/><circle class="to-top__fill" cx="24" cy="24" r="22" pathLength="100"/></svg>
   <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
-</a>
+</button>
 
 <!-- Papercut (instrumental): silent until someone presses Play; the file isn't requested before that. -->
 <audio id="papercut" data-src="assets/audio/papercut-instrumental.mp3?v=2" preload="none"></audio>

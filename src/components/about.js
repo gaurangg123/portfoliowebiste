@@ -17,31 +17,26 @@ const about = () => `<section class="section about" id="about" aria-labelledby="
     ${secHead({ num: '02', label: 'About', id: 'about-title', title: 'The engineer behind <em>the systems.</em>' })}
     <div class="about__grid">
       <figure class="about__photo" data-reveal>
+        <span class="about__plate" aria-hidden="true"></span>
         <div class="about__frame">
           <picture>
-            <source type="image/webp" srcset="assets/profile/gaurang-480.webp 480w, assets/profile/gaurang-800.webp 800w, assets/profile/gaurang-1200.webp 1200w" sizes="(min-width: 1100px) 440px, (min-width: 640px) 44vw, calc(100vw - 32px)" />
+            <source type="image/webp" srcset="assets/profile/gaurang-480.webp 480w, assets/profile/gaurang-800.webp 800w, assets/profile/gaurang-1200.webp 1200w" sizes="(min-width: 1024px) 420px, (min-width: 640px) 60vw, calc(100vw - 32px)" />
             <img src="assets/profile/gaurang.jpg" width="900" height="1200" alt="Gaurang Ashava sitting on a grassy hillside, with wind turbines on the ridge behind him" loading="lazy" decoding="async" />
           </picture>
           <span class="about__corner about__corner--tl" aria-hidden="true"></span><span class="about__corner about__corner--br" aria-hidden="true"></span>
         </div>
-        <figcaption class="about__cap"><span>IMG_01 · Operator</span><span>${site.location}</span></figcaption>
+        <figcaption class="about__id">
+          <span class="about__id-k">${site.role}</span>
+          <span class="about__id-v">${site.company} · ${site.location}</span>
+        </figcaption>
       </figure>
 
       <div class="about__story">
         <p class="about__lead" data-reveal>I’m ${site.firstName}, ${site.role} at ${site.company} in Pune. I joined in October 2025 after a B.Tech in Computer Science Engineering with a specialization in Big Data Analytics.</p>
         <p data-reveal>My path runs from software, to data, to AI: front-end work on live web projects, SQL analysis and reporting in a data-analytics internship, and now data engineering and applied AI on enterprise applications.</p>
         <blockquote class="about__quote" data-reveal><p>I like taking an idea from data, to AI, to an application people use.</p></blockquote>
-
-        <ol class="about__chapters" aria-label="Path so far">
-${CHAPTERS.map(([when, name, text], i) => `          <li class="about__chapter" data-reveal style="--i:${i}">
-            <p class="about__when">${when}</p>
-            <h3 class="about__chapter-name">${esc(name)}</h3>
-            <p>${text}</p>
-          </li>`).join('\n')}
-        </ol>
-
         <div class="about__foot" data-reveal>
-          ${ext(site.resume, `Read my resume ${icon('arrowUpRight', 'i-up')}`, 'link-arrow')}
+          ${ext(site.resume, `Read my resume ${icon('arrowUpRight', 'i-up')}`, 'btn')}
           <div class="audio" data-music-card>
             <div class="audio__disc" aria-hidden="true"><i></i></div>
             <div class="audio__meta">
@@ -54,6 +49,15 @@ ${CHAPTERS.map(([when, name, text], i) => `          <li class="about__chapter" 
         </div>
       </div>
     </div>
+
+    <ol class="path" aria-label="Path so far">
+${CHAPTERS.map(([when, name, text], i) => `      <li class="path__step" data-reveal style="--i:${i}">
+        <span class="path__node" aria-hidden="true"></span>
+        <p class="path__when">${when}</p>
+        <h3 class="path__name">${esc(name)}</h3>
+        <p class="path__text">${text}</p>
+      </li>`).join('\n')}
+    </ol>
   </div>
 </section>`;
 

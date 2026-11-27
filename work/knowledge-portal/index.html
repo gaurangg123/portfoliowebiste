@@ -6,7 +6,7 @@
 <title>Enterprise Knowledge Portal — Gaurang Ashava | DataForge</title>
 <meta name="description" content="Enterprise Knowledge Portal, developed end to end by Gaurang Ashava: knowledge discovery, knowledge requests, an AI chatbot, an approval queue and leaderboards, with sharing and role-based access." />
 <meta name="author" content="Gaurang Ashava" />
-<meta name="color-scheme" content="dark" />
+<meta name="color-scheme" content="dark light" />
 <meta name="theme-color" content="#05070D" />
 <link rel="canonical" href="https://gaurangg123.github.io/portfoliowebiste/work/knowledge-portal/" />
 <meta property="og:site_name" content="DataForge — Gaurang Ashava" />
@@ -32,7 +32,13 @@
 <script>
 (function (r) {
   r.className += ' js';
-  try { if (localStorage.getItem('df-motion') === 'off') r.className += ' motion-off'; } catch (e) {}
+  var t = 'dark';
+  try {
+    if (localStorage.getItem('df-motion') === 'off') r.className += ' motion-off';
+    if (localStorage.getItem('df-theme') === 'light') t = 'light';
+  } catch (e) {}
+  r.setAttribute('data-theme', t);
+  if (t === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F5F7FB');
   // page transitions are decorative: when one is cut short, its promises settle quietly
   var q = function () {};
   ['pageswap', 'pagereveal'].forEach(function (t) {
@@ -43,8 +49,8 @@
   });
 })(document.documentElement);
 </script>
-<link rel="stylesheet" href="../../assets/css/dataforge.css?v=d3ea5ab66b" />
-<script src="../../assets/js/dataforge.js?v=82c74a34d2" defer></script>
+<link rel="stylesheet" href="../../assets/css/dataforge.css?v=294a622b5f" />
+<script src="../../assets/js/dataforge.js?v=f6d569e5f9" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CreativeWork","name":"Enterprise Knowledge Portal","headline":"Enterprise Knowledge Portal","description":"Enterprise Knowledge Portal, developed end to end by Gaurang Ashava: knowledge discovery, knowledge requests, an AI chatbot, an approval queue and leaderboards, with sharing and role-based access.","url":"https://gaurangg123.github.io/portfoliowebiste/work/knowledge-portal/","image":"https://gaurangg123.github.io/portfoliowebiste/assets/projects/knowledge-portal-1600.webp","author":{"@type":"Person","name":"Gaurang Ashava","url":"https://gaurangg123.github.io/portfoliowebiste/"},"isPartOf":{"@type":"WebSite","@id":"https://gaurangg123.github.io/portfoliowebiste/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gaurangg123.github.io/portfoliowebiste/"},{"@type":"ListItem","position":2,"name":"Projects","item":"https://gaurangg123.github.io/portfoliowebiste/#projects"},{"@type":"ListItem","position":3,"name":"Enterprise Knowledge Portal","item":"https://gaurangg123.github.io/portfoliowebiste/work/knowledge-portal/"}]}]}</script>
 </head>
 <body class="page-case">
@@ -52,7 +58,7 @@
 
 <header class="nav" data-nav>
   <div class="nav__bar">
-    <a class="nav__brand" href="../../"><svg class="logomark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+    <a class="nav__brand" href="../../" data-home-link><svg class="logomark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
   <defs><linearGradient id="nav-lm-g" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#38BDF8"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs>
   <path d="M16 2.6 27.6 9.3v13.4L16 29.4 4.4 22.7V9.3z" fill="#0A1020" stroke="url(#nav-lm-g)" stroke-width="2.2" stroke-linejoin="round"/>
   <path d="M16 9.5v6.5m0 0-5.6 3.3M16 16l5.6 3.3" stroke="url(#nav-lm-g)" stroke-width="1.8" stroke-linecap="round"/>
@@ -64,11 +70,13 @@
         <li><a href="../../#expertise" data-spy="expertise">Expertise</a></li>
         <li><a href="../../#projects" data-spy="projects">Projects</a></li>
         <li><a href="../../#experience" data-spy="experience">Experience</a></li>
+        <li><a href="../../#workflow" data-spy="workflow">Workflow</a></li>
         <li><a href="../../#contact" data-spy="contact">Contact</a></li>
       </ul>
       <span class="nav__ink" aria-hidden="true"></span>
     </nav>
     <div class="nav__end">
+      <button class="icon-link theme-btn js-only" type="button" data-theme-toggle aria-pressed="false"><svg class="ico i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="ico i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg><span class="visually-hidden" data-theme-label>Switch to light theme</span></button>
       <a class="btn nav__cta" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8M16 17H8M10 9H8"/></svg><span>Resume</span><span class="visually-hidden"> (opens in a new tab)</span></a>
       <button class="nav__menu-btn js-only" type="button" data-menu-btn aria-expanded="false" aria-controls="nav-sheet"><svg class="ico i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10"/></svg><svg class="ico i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg><span class="nav__menu-txt">Menu</span></button>
     </div>
@@ -80,9 +88,9 @@
         <li><a href="../../#expertise" data-spy="expertise"><span class="nav__num" aria-hidden="true">03</span>Expertise</a></li>
         <li><a href="../../#projects" data-spy="projects"><span class="nav__num" aria-hidden="true">04</span>Projects</a></li>
         <li><a href="../../#experience" data-spy="experience"><span class="nav__num" aria-hidden="true">05</span>Experience</a></li>
-        <li><a href="../../#education" data-spy="education"><span class="nav__num" aria-hidden="true">06</span>Education</a></li>
+        <li><a href="../../#workflow" data-spy="workflow"><span class="nav__num" aria-hidden="true">06</span>Workflow</a></li>
         <li><a href="../../#architecture" data-spy="architecture"><span class="nav__num" aria-hidden="true">07</span>Architecture</a></li>
-        <li><a href="../../#terminal" data-spy="terminal"><span class="nav__num" aria-hidden="true">08</span>Terminal</a></li>
+        <li><a href="../../#education" data-spy="education"><span class="nav__num" aria-hidden="true">08</span>Education</a></li>
         <li><a href="../../#contact" data-spy="contact"><span class="nav__num" aria-hidden="true">09</span>Contact</a></li>
       </ol>
     </nav>
@@ -99,14 +107,14 @@
 
 <main id="main">
   <article class="cs" aria-labelledby="cs-title">
-    <header class="cs-head" id="top">
+    <header class="cs-head" id="overview">
       <div class="container cs-head__grid">
         <div class="cs-head__text">
           <p class="cs-head__back"><a href="../../#projects"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>All missions</a></p>
-          <p class="mission__meta"><span class="mission__code">M-01</span><span>Company project</span><span aria-hidden="true">·</span><span>Knowledge platform</span></p>
+          <p class="px__meta"><span class="px__code">M-01</span><span>Company project</span><span aria-hidden="true">·</span><span>Knowledge platform</span></p>
           <h1 class="cs-head__title" id="cs-title" data-vt="knowledge-portal">Enterprise Knowledge Portal</h1>
           <p class="cs-head__lede">An enterprise knowledge platform combining discovery, knowledge requests, an AI chatbot, approval workflows and leaderboards. I owned its build, from the functional specification to implementation, incorporating business feedback.</p>
-          <ul class="mission__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li><li data-tone="cyan">Software Development</li></ul>
+          <ul class="px__cats" aria-label="Categories"><li data-tone="violet">AI / ML</li><li data-tone="blue">Software Development</li></ul>
         </div>
         <figure class="cs-head__cover">
           <img src="../../assets/projects/knowledge-portal-1600.webp" srcset="../../assets/projects/knowledge-portal-800.webp 800w, ../../assets/projects/knowledge-portal-1600.webp 1600w" sizes="(min-width: 1100px) 560px, calc(100vw - 32px)" width="1600" height="1000" alt="" fetchpriority="high" decoding="async" />
@@ -314,7 +322,7 @@
             <div class="walk__text">
               <p class="walk__lede">It follows a sample user through discovery, a knowledge request, the approval queue, the chatbot and a leaderboard.</p>
               <ul class="walk__meta"><li>22 seconds</li><li>Silent</li><li>Pause, replay or choose a step</li></ul>
-              <details class="walk__alt">
+              <details class="disclosure walk__alt">
                 <summary>Read the walkthrough as text</summary>
               <ol class="steps">
                 <li><b>Discover knowledge</b><span>A sample user searches for “onboarding” and browses the catalogue to find documents.</span></li>
@@ -350,7 +358,7 @@
 </main>
 
 <footer class="footer">
-  <div class="container footer__grid">
+  <div class="container footer__row">
     <div class="footer__brand">
       <a class="footer__mark" href="../../"><svg class="logomark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
   <defs><linearGradient id="foot-lm-g" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#38BDF8"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs>
@@ -358,39 +366,35 @@
   <path d="M16 9.5v6.5m0 0-5.6 3.3M16 16l5.6 3.3" stroke="url(#foot-lm-g)" stroke-width="1.8" stroke-linecap="round"/>
   <circle cx="16" cy="9.2" r="2.2" fill="#38BDF8"/><circle cx="10.2" cy="19.6" r="2.2" fill="#818CF8"/><circle cx="21.8" cy="19.6" r="2.2" fill="#A78BFA"/><circle cx="16" cy="16" r="1.7" fill="#F8FAFC"/>
 </svg><span>DataForge</span><span class="visually-hidden">: home</span></a>
-      <p class="footer__line">Engineering Intelligence. Designed and built by Gaurang Ashava.</p>
+      <p class="footer__line">Engineering Intelligence · Gaurang Ashava, Pune, India</p>
     </div>
     <nav class="footer__nav" aria-label="Footer">
-      <p class="label">Sections</p>
       <ul>
         <li><a href="../../#about">About</a></li>
         <li><a href="../../#expertise">Expertise</a></li>
         <li><a href="../../#projects">Projects</a></li>
         <li><a href="../../#experience">Experience</a></li>
-        <li><a href="../../#education">Education</a></li>
+        <li><a href="../../#workflow">Workflow</a></li>
         <li><a href="../../#architecture">Architecture</a></li>
-        <li><a href="../../#terminal">Terminal</a></li>
+        <li><a href="../../#education">Education</a></li>
         <li><a href="../../#contact">Contact</a></li>
       </ul>
     </nav>
-    <div class="footer__nav">
-      <p class="label">Connect</p>
-      <ul>
-        <li><a href="mailto:gaurangashava@gmail.com">Email</a></li>
-        <li><a href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-        <li><a href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-        <li><a href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-      </ul>
-    </div>
+    <ul class="footer__social" aria-label="Profiles">
+      <li><a class="icon-link" href="mailto:gaurangashava@gmail.com"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span class="visually-hidden">Email</span></a></li>
+      <li><a class="icon-link" href="https://www.linkedin.com/in/gaurang-ashava/" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><span class="visually-hidden">LinkedIn</span><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      <li><a class="icon-link" href="https://github.com/gaurangg123" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg><span class="visually-hidden">GitHub</span><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      <li><a class="icon-link" href="https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing" target="_blank" rel="noopener noreferrer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8M16 17H8M10 9H8"/></svg><span class="visually-hidden">Resume</span><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+    </ul>
   </div>
   <div class="container footer__base">
-    <p>© <span data-year>2026</span> Gaurang Ashava · Pune, India</p>
-    <a class="link-arrow" href="#top">Back to top <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></a>
+    <p>© <span data-year>2026</span> Gaurang Ashava · Designed and built by me</p>
+    <button class="link-arrow footer__top js-only" type="button" data-to-top-link>Back to top <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button>
   </div>
 </footer>
-<a class="to-top js-only" href="#top" data-to-top aria-label="Back to top" hidden>
+<button class="to-top js-only" type="button" data-to-top aria-label="Back to top">
   <svg class="to-top__ring" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="24" cy="24" r="22" pathLength="100"/><circle class="to-top__fill" cx="24" cy="24" r="22" pathLength="100"/></svg>
   <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
-</a>
+</button>
 </body>
 </html>

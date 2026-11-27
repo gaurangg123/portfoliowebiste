@@ -2,9 +2,9 @@
 // The 3D lattice is a <canvas> drawn by src/scripts/hero-lattice.js; without
 // JavaScript a still render of the same lattice is shown instead.
 const site = require('../data/site.js');
-const { icon, ext } = require('./ui.js');
+const { icon, ext, esc } = require('./ui.js');
 
-const hero = () => `<section class="hero" id="top" aria-labelledby="hero-title">
+const hero = () => `<section class="hero" id="home" aria-labelledby="hero-title">
   <div class="hero__art" aria-hidden="true">
     <canvas class="hero__canvas" data-lattice></canvas>
   </div>
@@ -17,7 +17,7 @@ const hero = () => `<section class="hero" id="top" aria-labelledby="hero-title">
       <li class="js-only"><button class="chip hero__motion" type="button" data-motion-toggle aria-pressed="false">${icon('motion')}<span data-motion-label>Pause motion</span></button></li>
     </ul>
 
-    <p class="hero__kicker"><span>01</span> // System initialization<span class="hero__kicker-brand"> · ${site.brand}</span></p>
+    <p class="hero__kicker"><span>01</span><span aria-hidden="true"> // </span><span class="hero__kicker-role">${esc(site.headline)}</span><span class="hero__kicker-brand"> · ${site.brand}</span></p>
     <h1 class="hero__title" id="hero-title">
       <span class="hero__name"><span>Gaurang</span> <span>Ashava.</span></span>
       <span class="hero__sub">${site.tagline}.</span>

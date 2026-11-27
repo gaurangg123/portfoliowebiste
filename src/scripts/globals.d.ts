@@ -7,10 +7,10 @@ interface DFApi {
   motionOn(): boolean;
   onMotion(fn: () => void): void;
   watch(el: Element, fn: (on: boolean) => void, margin?: string): void;
+  toTop(home?: boolean): void;
 }
 interface Window {
   DF: DFApi;
-  DFTerminal: any;
   PortfolioDemos: any;
   PortfolioWalkthrough: any;
 }

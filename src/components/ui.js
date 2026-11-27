@@ -9,7 +9,7 @@ const ext = (href, inner, cls = '', extra = '') =>
   `<a${cls ? ` class="${cls}"` : ''} href="${href}" target="_blank" rel="noopener noreferrer"${extra}>${inner}${newTab}</a>`;
 
 // a section heading: "02 // About" in mono, the title, an optional lede
-const secHead = ({ num, label, id, title, lede = '' }) => `<header class="sec-head" data-reveal>
+const secHead = ({ num, label, id, title, lede = '', split = false }) => `<header class="sec-head${split ? ' sec-head--split' : ''}" data-reveal>
       <p class="sec-head__label"><b>${num}</b><span aria-hidden="true">//</span><span>${esc(label)}</span></p>
       <h2 class="sec-head__title" id="${id}">${title}</h2>${lede ? `
       <p class="sec-head__lede">${lede}</p>` : ''}
