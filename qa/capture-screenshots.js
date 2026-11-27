@@ -14,7 +14,7 @@ const VIEWPORTS = [
   ['tablet', '1024x768', 1024, 768], ['tablet', '768x1024', 768, 1024],
   ['mobile', '430x932', 430, 932], ['mobile', '390x844', 390, 844], ['mobile', '375x812', 375, 812], ['mobile', '360x800', 360, 800],
 ];
-const SECTIONS = ['about', 'expertise', 'projects', 'experience', 'workflow', 'architecture', 'education', 'contact'];
+const SECTIONS = ['about', 'expertise', 'projects', 'experience', 'education', 'architecture', 'query', 'contact'];
 const args = process.argv.slice(2);
 const OUT = path.resolve(args[0] || 'qa/screenshots');
 const BASE = (args[1] && !args[1].startsWith('--') ? args[1] : 'http://127.0.0.1:4173/portfoliowebiste/');
@@ -29,7 +29,7 @@ const checks = () => {
   const visible = (el) => { const s = getComputedStyle(el); const r = el.getBoundingClientRect(); return s.clipPath !== 'inset(50%)' && s.visibility !== 'hidden' && s.display !== 'none' && r.width > 0 && r.height > 0 && !el.closest('[hidden], .nav__sheet, .visually-hidden, dialog'); };
   const name = (el) => (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/)[0] : el.tagName.toLowerCase()) + (el.id ? '#' + el.id : '');
   document.querySelectorAll('main *, .nav__bar *, footer *').forEach((el) => {
-    if (!visible(el) || el.closest('.hero__art, svg, canvas, .contact__signal, .px__stage, .exp__code, .nf__log')) return;
+    if (!visible(el) || el.closest('.hero__art, svg, canvas, .contact__signal, .ribbon-wrap, .px__gallery--more, .px__gallery--lab, .approach__steps, .qe__topics ul, .exp__code, .nf__log')) return;
     const r = el.getBoundingClientRect();
     if (r.right > vw + 1 && out.offRight.length < 12) out.offRight.push(name(el) + ' right=' + Math.round(r.right));
   });

@@ -1,82 +1,103 @@
-/* ---------- 01 · hero ---------- */
+/* ---------- 01 · hero: an asymmetric editorial opening ---------- */
 .hero {
   position: relative; isolation: isolate; overflow: clip;
   display: grid; align-items: center; min-height: 100vh; min-height: min(100svh, 1080px);
-  padding: calc(12px + 60px + clamp(28px, 6vh, 64px)) 0 clamp(64px, 9vh, 104px);
+  padding: clamp(28px, 5vh, 52px) 0 clamp(56px, 8vh, 96px);
 }
 .hero__art { position: absolute; inset: 0; z-index: -2; }
 .hero__canvas { width: 100%; height: 100%; opacity: 0; transition: opacity 1.4s ease; }
 .hero__canvas.is-ready { opacity: 1; }
-/* without JavaScript: a still render of the same lattice */
-html:not(.js) .hero__art { background: url("../hero/lattice-poster.webp") 50% 50% / cover no-repeat; }
+html:not(.js) .hero__art { background: url("../hero/lattice-poster.webp") 72% 50% / auto 92% no-repeat; }
 .hero__scrim {
   position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--bg-0) 94%, transparent) 0%, color-mix(in srgb, var(--bg-0) 78%, transparent) 34%, color-mix(in srgb, var(--bg-0) 12%, transparent) 62%, transparent 78%),
-    linear-gradient(0deg, var(--bg-0) 0%, transparent 26%);
+    linear-gradient(90deg, color-mix(in srgb, var(--bg-0) 92%, transparent) 0%, color-mix(in srgb, var(--bg-0) 70%, transparent) 36%, transparent 64%),
+    linear-gradient(0deg, var(--bg-0) 0%, transparent 22%);
 }
-/* small screens: the lattice sits in a band above the text instead of behind it,
-   so the hero is only as tall as its content plus that band */
-@media (max-width: 899.98px) {
-  .hero { align-items: start; min-height: 0; padding-top: calc(64px + clamp(120px, 34vw, 300px)); padding-bottom: 40px; }
-  .hero__scrim { background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--bg-0) 30%, transparent) calc(64px + clamp(80px, 24vw, 220px)), color-mix(in srgb, var(--bg-0) 86%, transparent) calc(64px + clamp(150px, 40vw, 330px)), var(--bg-0) 100%); }
-  html:not(.js) .hero__art { background-position: 70% 0; background-size: auto 46%; }
+/* running text up the left edge */
+.hero__vert { display: none; }
+@media (min-width: 1024px) {
+  .hero__vert {
+    display: flex; align-items: center; gap: 14px; position: absolute; left: 24px; top: 78%;
+    transform: rotate(-90deg); transform-origin: left center; white-space: nowrap;
+    font: 500 0.6875rem / 1 var(--font-mono); letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-2); opacity: 0.8;
+  }
+  .hero__vert i { width: 28px; height: 1px; background: var(--border-2); }
 }
 
-.hero__inner { position: relative; display: grid; justify-items: start; }
-.hero__status { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: clamp(20px, 4vh, 40px); }
-.hero__status .chip {
-  height: 32px; padding: 0 12px; border: 1px solid var(--border); border-radius: var(--r-pill);
-  background: var(--glass); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+.hero__inner { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); }
+.hero__studio { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; margin-bottom: clamp(28px, 6vh, 64px); }
+.hero__studio-name { display: none; }
+@media (min-width: 1024px) {
+  .hero__studio-name { display: flex; align-items: baseline; gap: 14px; font: 500 var(--fs-label) / 1.2 var(--font-mono); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--text-2); }
+  .hero__studio-name b { color: var(--text); font-weight: 600; letter-spacing: 0.22em; }
+  .hero__studio-name span::before { content: "/"; margin-right: 14px; color: var(--cyan); }
 }
+.hero__status { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.hero__status .chip { height: 32px; padding: 0 12px; border: 1px solid var(--border); border-radius: var(--r-pill); background: var(--glass); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 .hero__status .ico { width: 14px; height: 14px; }
 .hero__clock { margin-left: 4px; padding-left: 8px; border-left: 1px solid var(--border-2); color: var(--text); font-variant-numeric: tabular-nums; }
 .hero__motion { gap: 7px; height: 32px; min-width: 44px; transition: color var(--t-fast) ease, border-color var(--t-fast) ease; }
 .hero__motion[aria-pressed="true"] { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 45%, transparent); }
 @media (hover: hover) { .hero__motion:hover { color: var(--text); border-color: var(--border-2); } }
 
-.hero__kicker { margin-bottom: clamp(12px, 2vh, 20px); font: 500 var(--fs-label) / 1.4 var(--font-mono); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--text-2); }
+.hero__kicker { margin-bottom: clamp(10px, 2vh, 18px); font: 500 var(--fs-label) / 1.4 var(--font-mono); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--text-2); }
 .hero__kicker > span:first-child { color: var(--cyan); }
-.hero__kicker-role { color: var(--text); }
 
-.hero__title { display: grid; gap: clamp(10px, 1.6vh, 18px); }
-.hero__name {
-  display: block; font: 700 clamp(3.25rem, min(0.5rem + 13.5vw, 15.5vh), 9.5rem) / 0.88 var(--font-display);
-  letter-spacing: -0.05em; text-transform: uppercase; color: var(--text);
-}
+/* the name: two lines, the second pushed right — an editorial stagger */
+.hero__title { display: grid; gap: clamp(8px, 1.4vh, 16px); }
+.hero__name { display: block; font: 700 clamp(3.25rem, min(0.6rem + 12.6vw, 16vh), 10.5rem) / 0.86 var(--font-display); letter-spacing: -0.055em; text-transform: uppercase; color: var(--text); }
 .hero__name > span { display: block; }
-.hero__name > span:last-child { padding-left: 0.04em; }
+.hero__name > span:last-child { padding-left: 0.9em; }
+.hero__name > span:last-child::before { content: ""; display: inline-block; width: 0.62em; height: 0.06em; margin: 0 0.18em 0.2em -0.82em; vertical-align: middle; background: var(--grad-brand); }
 .hero__sub {
-  justify-self: start; font: 600 clamp(1.5rem, 0.95rem + 2.3vw, 3rem) / 1.08 var(--font-display); letter-spacing: -0.035em;
-  background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent;
+  justify-self: start; font: 600 clamp(1.5rem, 0.95rem + 2.3vw, 3rem) / 1.06 var(--font-display); letter-spacing: -0.035em;
+  background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: 0.04em;
 }
+.hero__role { font: 500 clamp(0.9375rem, 0.85rem + 0.4vw, 1.125rem) / 1.3 var(--font-mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--text); }
+.hero__role::before { content: ">_ "; color: var(--cyan); letter-spacing: 0; }
 
-.hero__roles {
-  display: flex; align-items: center; gap: 10px; min-height: 1.5em; margin-top: clamp(16px, 2.6vh, 26px);
-  font: 500 clamp(1rem, 0.9rem + 0.5vw, 1.25rem) / 1.4 var(--font-mono); color: var(--text);
-}
-.hero__prompt { color: var(--cyan); }
-.hero__caret { display: inline-block; width: 0.58em; height: 1.1em; margin-left: -4px; background: var(--cyan); border-radius: 1px; }
-.hero__intro { max-width: 36rem; margin-top: clamp(14px, 2.2vh, 20px); color: var(--text-2); font-size: var(--fs-lede); line-height: 1.55; }
-
-.hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(24px, 4vh, 36px); }
-.hero__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: clamp(24px, 4vh, 40px); }
+.hero__lower { display: grid; gap: clamp(18px, 3vh, 28px); margin-top: clamp(20px, 3.4vh, 34px); max-width: 38rem; }
+.hero__intro { color: var(--text-2); font-size: var(--fs-lede); line-height: 1.55; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
 .hero__social { list-style: none; display: flex; gap: 10px; }
 .hero__now { color: var(--text-2); font-size: var(--fs-small); }
 .hero__now .label { margin-right: 8px; color: var(--cyan); }
 
-.hero__scroll {
-  position: absolute; left: 50%; bottom: 22px; display: grid; justify-items: center; width: 44px; height: 44px; margin-left: -22px;
-  border-radius: 50%;
+/* an index of what the page holds, set like a table of contents */
+.hero__index { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: clamp(24px, 4vh, 40px); }
+.hero__index a { display: flex; align-items: baseline; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); color: var(--text-2); text-decoration: none; transition: border-color var(--t-fast) ease, color var(--t-fast) ease; }
+.hero__index b { font: 700 clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem) / 1 var(--font-display); letter-spacing: -0.04em; color: var(--text); }
+.hero__index span { font: 500 0.75rem / 1.3 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; }
+@media (hover: hover) { .hero__index a:hover { color: var(--text); border-color: var(--cyan); } }
+/* wide screens: the index stands at the lattice's foot, right-aligned */
+@media (min-width: 1280px) and (min-height: 760px) {
+  .hero__index { position: absolute; right: 0; bottom: 0; flex-direction: column; gap: 10px; text-align: right; }
+  .hero__index a { justify-content: flex-end; min-width: 240px; }
 }
-.hero__scroll-line { position: relative; width: 1px; height: 36px; background: linear-gradient(180deg, transparent, var(--border-2)); overflow: hidden; }
+
+.hero__scroll { position: absolute; left: 50%; bottom: 18px; display: grid; justify-items: center; gap: 6px; min-width: 44px; margin-left: -22px; color: var(--text-2); text-decoration: none; }
+.hero__scroll-txt { font: 500 0.625rem / 1 var(--font-mono); letter-spacing: 0.3em; text-transform: uppercase; }
+.hero__scroll-line { position: relative; width: 1px; height: 32px; background: linear-gradient(180deg, transparent, var(--border-2)); overflow: hidden; }
 .hero__scroll-line::after { content: ""; position: absolute; left: 0; top: -40%; width: 1px; height: 40%; background: var(--cyan); }
 
-@media (max-width: 899.98px) { .hero__scroll { display: none; } }
+/* small screens: the lattice sits in a band above the text, under the masthead */
+@media (max-width: 1023.98px) {
+  .hero { align-items: start; min-height: 0; padding-top: calc(64px + clamp(120px, 32vw, 300px)); padding-bottom: 40px; }
+  .hero__scrim { background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--bg-0) 30%, transparent) calc(64px + clamp(80px, 22vw, 220px)), color-mix(in srgb, var(--bg-0) 88%, transparent) calc(64px + clamp(150px, 38vw, 330px)), var(--bg-0) 100%); }
+  html:not(.js) .hero__art { background-position: 70% 0; background-size: auto 46%; }
+  .hero__studio { margin-bottom: 20px; }
+  .hero__scroll { display: none; }
+}
 @media (max-width: 479.98px) {
   .hero__actions { width: 100%; gap: 10px; }
   .hero__actions .btn { flex: 1 1 auto; padding-inline: 16px; }
   .hero__actions .btn--primary { flex-basis: 100%; }
   .hero__status .chip { height: 30px; padding: 0 10px; }
-  .hero__kicker-brand { display: none; }
+  .hero__name > span:last-child { padding-left: 0.5em; }
+  .hero__name > span:last-child::before { width: 0.36em; margin-left: -0.46em; }
+  .hero__role { letter-spacing: 0.12em; }
 }
+/* the scroll cue only where there is room under the opening */
+@media (max-width: 1279.98px), (max-height: 819.98px) { .hero__scroll { display: none; } }

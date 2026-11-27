@@ -23,7 +23,7 @@ const architecture = () => {
               </div>
             </div>
           </div>`;
-  return `<section class="section section--band arch" id="architecture" aria-labelledby="architecture-title">
+  return `<section class="section section--slant arch" id="architecture" aria-labelledby="architecture-title">
   <div class="container">
     ${secHead({ num: '07', label: 'Interactive data architecture', id: 'architecture-title', title: 'From raw data to <em>decisions.</em>', lede: `${A.note} ${A.disclaimer}`, split: true })}
     <div class="arch__frame" data-reveal>

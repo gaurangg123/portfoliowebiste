@@ -1,40 +1,51 @@
-// 02 · The engineer behind the systems — an editorial introduction.
-// Every line is taken from the verified profile (src/data/*); nothing is added.
+// 02 · The engineer behind the systems — an asymmetric editorial introduction: the portrait
+// set off-grid, the story beside it, where I am now and where I studied, the path so far,
+// and how I approach the work. Every line comes from the verified profile (src/data/*).
 const site = require('../data/site.js');
 const edu = require('../data/education.js');
+const profile = require('../data/profile.js');
+const workflow = require('../data/workflow.js');
+const domains = require('../data/domains.js');
 const { icon, ext, secHead, esc } = require('./ui.js');
 
-const CHAPTERS = [
-  ['2021 – 2025', 'Foundation', `B.Tech in Computer Science Engineering at ${esc(edu.degree.school)}, specializing in ${edu.degree.specialization}.`],
-  ['2023', 'Software', 'Front-end development on live web projects at Swap Infotech, in an Agile team.'],
-  ['2023 – 2024', 'Data', 'SQL analysis, data collection and reporting in a data-analytics internship at Vertisystem.'],
-  ['Oct 2025 – now', 'Data & AI', 'Data engineering and applied AI at Tata Technologies: knowledge platforms, analytics automation, document intelligence and a Snowflake migration.'],
-  ['Next', 'Agents', 'Going deeper into agentic coding, managing AI agents and tailoring LLMs to business use cases.'],
-];
+// a slow ribbon of the tools I work with (from the approved discipline lists), between
+// the opening and the introduction; decorative, so it is hidden from assistive technology
+const ribbon = () => {
+  const words = domains.flatMap((d) => d.tech);
+  const row = (list) => list.map((w) => `<span>${esc(w)}</span><i></i>`).join('');
+  return `<div class="ribbon-wrap" aria-hidden="true"><div class="ribbon">
+  <div class="ribbon__row"><div class="ribbon__track">${row(words)}${row(words)}</div></div>
+</div></div>`;
+};
 
 const about = () => `<section class="section about" id="about" aria-labelledby="about-title">
   <div class="container">
-    ${secHead({ num: '02', label: 'About', id: 'about-title', title: 'The engineer behind <em>the systems.</em>' })}
     <div class="about__grid">
       <figure class="about__photo" data-reveal>
         <span class="about__plate" aria-hidden="true"></span>
         <div class="about__frame">
           <picture>
-            <source type="image/webp" srcset="assets/profile/gaurang-480.webp 480w, assets/profile/gaurang-800.webp 800w, assets/profile/gaurang-1200.webp 1200w" sizes="(min-width: 1024px) 420px, (min-width: 640px) 60vw, calc(100vw - 32px)" />
+            <source type="image/webp" srcset="assets/profile/gaurang-480.webp 480w, assets/profile/gaurang-800.webp 800w, assets/profile/gaurang-1200.webp 1200w" sizes="(min-width: 1024px) 400px, (min-width: 640px) 60vw, calc(100vw - 32px)" />
             <img src="assets/profile/gaurang.jpg" width="900" height="1200" alt="Gaurang Ashava sitting on a grassy hillside, with wind turbines on the ridge behind him" loading="lazy" decoding="async" />
           </picture>
           <span class="about__corner about__corner--tl" aria-hidden="true"></span><span class="about__corner about__corner--br" aria-hidden="true"></span>
         </div>
+        <span class="about__tag" aria-hidden="true">The engineer</span>
         <figcaption class="about__id">
-          <span class="about__id-k">${site.role}</span>
-          <span class="about__id-v">${site.company} · ${site.location}</span>
+          <span class="about__id-k">${site.name}</span>
+          <span class="about__id-v">${site.location} · ${site.timeZone.replace('Asia/Kolkata', 'IST')}</span>
         </figcaption>
       </figure>
 
       <div class="about__story">
+        ${secHead({ num: '02', label: 'About', id: 'about-title', title: 'The engineer behind <em>the systems.</em>' })}
         <p class="about__lead" data-reveal>I’m ${site.firstName}, ${site.role} at ${site.company} in Pune. I joined in October 2025 after a B.Tech in Computer Science Engineering with a specialization in Big Data Analytics.</p>
         <p data-reveal>My path runs from software, to data, to AI: front-end work on live web projects, SQL analysis and reporting in a data-analytics internship, and now data engineering and applied AI on enterprise applications.</p>
-        <blockquote class="about__quote" data-reveal><p>I like taking an idea from data, to AI, to an application people use.</p></blockquote>
+        <blockquote class="about__quote" data-reveal><p>${profile.philosophy}</p></blockquote>
+        <dl class="about__facts" data-reveal>
+          <div><dt>Now</dt><dd><b>${site.role}</b><span>${site.company} · since Oct 2025</span></dd></div>
+          <div><dt>Studied</dt><dd><b>B.Tech, Computer Science Engineering</b><span>${esc(edu.degree.school)} · ${edu.degree.specialization}</span></dd></div>
+        </dl>
         <div class="about__foot" data-reveal>
           ${ext(site.resume, `Read my resume ${icon('arrowUpRight', 'i-up')}`, 'btn')}
           <div class="audio" data-music-card>
@@ -50,15 +61,33 @@ const about = () => `<section class="section about" id="about" aria-labelledby="
       </div>
     </div>
 
-    <ol class="path" aria-label="Path so far">
-${CHAPTERS.map(([when, name, text], i) => `      <li class="path__step" data-reveal style="--i:${i}">
-        <span class="path__node" aria-hidden="true"></span>
-        <p class="path__when">${when}</p>
-        <h3 class="path__name">${esc(name)}</h3>
-        <p class="path__text">${text}</p>
-      </li>`).join('\n')}
-    </ol>
+    <div class="about__journey">
+      <h3 class="label about__h">The path so far</h3>
+      <ol class="path">
+${profile.chapters.map(([when, name, text], i) => `        <li class="path__step" data-reveal style="--i:${i}">
+          <span class="path__node" aria-hidden="true"></span>
+          <p class="path__when">${when}</p>
+          <h4 class="path__name">${esc(name)}</h4>
+          <p class="path__text">${esc(text)}</p>
+        </li>`).join('\n')}
+      </ol>
+    </div>
+
+    <div class="approach" data-reveal>
+      <div class="approach__head">
+        <h3 class="approach__title">How I approach the work</h3>
+        <p class="approach__note">${workflow.note}</p>
+      </div>
+      <ol class="approach__steps">
+${workflow.stages.map((s) => `        <li class="approach__step" data-tone="${s.tone}">
+          <span class="approach__num" aria-hidden="true">${s.num}</span>
+          <h4 class="approach__name">${icon(s.icon)}${esc(s.name)}</h4>
+          <p class="approach__what">${s.what}</p>
+          <a class="approach__ex" href="${s.example[1]}">In practice${icon('arrowRight')}<span class="visually-hidden">: ${esc(s.example[0])}</span></a>
+        </li>`).join('\n')}
+      </ol>
+    </div>
   </div>
 </section>`;
 
-module.exports = { about };
+module.exports = { about, ribbon };

@@ -80,16 +80,21 @@ test('walkthroughs are never presented as recordings and never autoplay', () => 
   assert.match(built('index.html'), /<audio id="papercut" data-src="[^"]+" preload="none"><\/audio>/, 'Papercut is not requested until Play');
 });
 
-test('there is no form at all (no working submission back end exists)', () => {
+test('no contact form: the only form is the Query page\'s question box, which sends nothing', () => {
   for (const page of pages) assert.doesNotMatch(built(page), /<form\b/, page);
+  const q = built('query-engineer/index.html');
+  const forms = [...q.matchAll(/<form\b[^>]*>/g)].map((m) => m[0]);
+  assert.equal(forms.length, 1);
+  assert.match(forms[0], /data-qe-form/);
+  assert.doesNotMatch(forms[0], /action=|method=/);
 });
 
-test('the terminal is gone, and nothing still invites visitors to query it', () => {
-  for (const page of pages) {
-    const html = built(page);
-    assert.doesNotMatch(html, /query the engineer|data-term|id="terminal"|href="[^"]*#terminal"/i, page);
-  }
-  assert.ok(!site.sections.some(([id]) => id === 'terminal'));
+test('the old terminal is gone; Query the Engineer is its own page', () => {
+  for (const page of pages) assert.doesNotMatch(built(page), /data-term|id="terminal"|href="[^"]*#terminal"/i, page);
+  const home = built('index.html');
+  assert.match(home, /href="query-engineer\/"[^>]*>Explore Query the Engineer/);
+  assert.match(built('query-engineer/index.html'), /not an AI chatbot/);
+  assert.match(built('sitemap.xml'), /query-engineer\//);
 });
 
 test('no link or fragment points at #top', () => {

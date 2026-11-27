@@ -1,81 +1,68 @@
-# Functional test report — DataForge (refinement round)
+# Functional test report — DataForge 2.0
 
-The checks below were run on the production build served under `/portfoliowebiste/` by `tools/serve.js`, which mimics GitHub Pages.
+The checks below ran on the production build. It was served under `/portfoliowebiste/` by `tools/serve.js`, which mimics GitHub Pages: folder URLs serve `index.html`, a path without its trailing slash redirects, and missing paths get `404.html`.
 
 **Browser:** Chromium 1243 via Playwright 1.63, in three projects:
 
 - **desktop**: 1440×900
-- **mobile**: Pixel 7 emulation, touch, 412 px
+- **mobile**: Pixel 7 emulation, touch, 412px
 - **responsive**: the nine QA viewports, from 1920×1080 down to 360×800
 
 ## Commands and results
 
 | Command | Result |
 | --- | --- |
-| `npm run build` | **Pass**: 8 pages, CSS and JS bundles, sitemap, robots |
+| `npm run build` | **Pass**: 9 pages (with `query-engineer/`), the shared CSS and JS bundles, the Query page bundle, sitemap, robots |
 | `npm run lint` (ESLint 10) | **Pass**: 0 problems |
 | `npm run typecheck` (TypeScript 5.9, `strict`, `checkJs`) | **Pass**: 0 errors |
-| `npm run validate:html` (html-validate 9) | **Pass**: 0 errors on all 7 HTML pages |
-| `npm run test:unit` (`node:test`) | **Pass**: 15 / 15 |
-| `npm run test:e2e` (Playwright and axe-core) | **Pass**: 88 passed, 0 failed, 3 skipped (run twice in a row, both green) |
+| `npm run validate:html` (html-validate 9) | **Pass**: 0 errors on all 8 HTML pages |
+| `npm run test:unit` (`node:test`) | **Pass**: 22 / 22 |
+| `npm run test:e2e` (Playwright and axe-core) | **Pass**: 109 passed, 0 failed, 4 skipped |
 
-The three skips are by design:
+The four skips are by design:
 
-- The keyboard test runs on desktop only.
+- The keyboard test and the rail-overlap test run on desktop only.
 - The menu test runs on mobile only.
-- The back/forward test uses the desktop navigation bar.
+- The back/forward test uses the desktop rail.
 
-## What changed in the tests
+## The requested checklist
 
-- **Removed:** the terminal tests (`qa/unit/terminal.test.js` and the e2e terminal test).
-- **Added (e2e):**
-  - the engineering workflow: five stages, one open at a time, keyboard, panel content, and every example link resolves;
-  - disciplines with their exact tool lists;
-  - the project explorer: one project on show (desktop), the swipeable row with counter and previous/next (mobile), and filters updating both;
-  - the wordmark, the floating button and the footer link return to the top without `#top`;
-  - an old `#top` address is cleaned on load, and real fragments are kept;
-  - back and forward between sections and the top;
-  - the theme toggle switches, is remembered across reloads and pages;
-  - accessibility (axe) in the light theme;
-  - direct case-study URLs, including a section fragment.
-- **Added (unit):**
-  - no forms anywhere;
-  - no terminal or "query the engineer" text left on any page;
-  - no `#top` links or ids;
-  - the approved discipline tool lists;
-  - the architecture description and supported technologies;
-  - the workflow's five stage lines and documented examples;
-  - text contrast (WCAG AA) for both themes, read from the tokens.
-
-Two problems were found by these tests and fixed in the site, not in the tests:
-
-- **Light-theme amber** text on the alternate band was 4.43:1. The token is now `#A14607`, which passes AA.
-- **Held-back sections:** under load, a fast scroll could carry a section past the screen between frames. It then stayed hidden until scrolled back to. A catch-up sweep in `src/scripts/reveal.js` now shows anything already reached.
-
-## Mandatory checks
-
-| Check | Result | How |
+| Check | Result | How it was tested |
 | --- | --- | --- |
-| Homepage loads | **Pass** | One `h1` with the name and "Engineering Intelligence" in the first screen; no console errors or failed requests across a full scroll (desktop and mobile) |
-| Logo returns to the top without `#top` | **Pass** | Scroll position returns to 0, the address has no fragment, and focus lands on the wordmark |
-| Navigation | **Pass** | Desktop links scroll to their sections and set `aria-current`; the mobile sheet opens, navigates and closes; no link points at a removed section |
-| Mobile menu | **Pass** | Opens, closes with Escape, returns focus, and sets `aria-expanded` |
-| Résumé | **Pass** | Every résumé link is the supplied Drive viewing URL, opens in a new tab with `rel=noopener`, and is never a forced download or an embed. Access permissions on Drive were **not** tested (the host is unreachable from the test environment). |
-| GitHub, LinkedIn, email | **Pass** | `href`s checked against the supplied profiles; email is a `mailto:` |
-| Project filters | **Pass** | Counts update, the index and showcase follow, and the result is announced |
-| Case studies | **Pass** | All five load (200) with every section; next/previous links; the back link returns to `#projects` |
-| Direct project URLs | **Pass** | `/work/<slug>/` loads directly; `#<section>` fragments scroll to their section |
-| 404 | **Pass** | A missing path returns 404 with a link home |
-| Architecture | **Pass** | Seven stages; select by click and keyboard; the agreed description is present |
-| Workflow | **Pass** | Five stages with the agreed lines; keyboard; examples link to real case studies |
-| Contact | **Pass** | Copy email confirms and writes to the clipboard; channels link correctly; no form |
-| Dark/light theme | **Pass** | Toggles, is remembered, is applied before paint on every page, and passes axe in both themes |
-| Images | **Pass** | Every rendered image loads with alt text; project images on hidden cards are lazy and load when shown; every referenced file returns 200 |
-| JavaScript errors | **Pass** | None on the homepage, the case studies or the 404 page |
-| Horizontal overflow | **Pass** | None at any of the nine viewports, on the homepage and two case studies |
-| Walkthrough and Papercut | **Pass** | The walkthrough opens and closes without touching the Papercut player, whose file is never requested |
-| Reduced motion | **Pass** | Nothing is held back; the lattice is a still frame |
+| Right-side navigation works | **Pass** | Rail links scroll to their sections; each name appears on hover and keyboard focus |
+| Active section indicator updates | **Pass** | `aria-current="location"` moves to the section being read; the ink sits on that link to within 3px; the progress line fills |
+| Navigation does not overlap content | **Pass** | Every `.container` on the page ends left of the rail; at all nine viewports, no element runs past the screen edge |
+| Mobile navigation works | **Pass** | The floating button opens the full-screen menu; a link navigates and closes it; Escape closes it and returns focus; Tab stays inside |
+| Logo returns to homepage top | **Pass** | The rail's mark (desktop) and the masthead (mobile) scroll to the top and take focus |
+| No unnecessary `#top` fragment | **Pass** | The address has no fragment after the mark, Home, back-to-top or the footer link; no link on any page points at `#top`; an old `#top` address is cleaned on load |
+| Query the Engineer opens a separate page | **Pass** | From the homepage invitation, the rail, the small-screen menu and the footer, each lands on `/query-engineer/` |
+| Query page refresh works | **Pass** | Reloaded; still answers |
+| Query page direct URL works | **Pass** | `/query-engineer/` returns 200; `/query-engineer` redirects to it, as GitHub Pages does |
+| Suggested questions work | **Pass** | Clicking a topic adds the question and a grounded answer (Snowflake, Tata Technologies, contact) |
+| Question input works | **Pass** | A typed question gets an answer, the box clears, ↑ recalls it, follow-up chips ask the next one. Questions asked while an answer is still arriving are queued, not dropped (a bug the test found). |
+| Answers are grounded in portfolio content | **Pass** | Unit tests: every suggested question matches its topic; links come only from the data; nothing typed is echoed; unknown topics are declined ("Not in this portfolio"); no invented numbers |
+| Project links work | **Pass** | An answer's case-study link opens that case study |
+| Case studies work | **Pass** | All five load (200) with every section and next/previous links; the back link returns to `#projects`; direct URLs and section fragments work |
+| Resume downloads | **Pass (link only)** | Every résumé link is the supplied Google Drive *viewing* URL, opening in a new tab; never a forced download or an embed. Drive's sharing permissions were **not** tested, because Drive is unreachable from the test environment. |
+| Theme toggle works | **Pass** | Switches, is remembered across reloads and pages, and passes axe in both themes, on the homepage and on the Query page |
+| All social links work | **Pass (targets)** | GitHub, LinkedIn and email `href`s match the supplied profiles. The external sites themselves were not opened, because they are unreachable from here. |
+| No broken images | **Pass** | Every rendered image loads with alt text; every referenced image returns 200 |
+| No uncaught browser errors | **Pass** | None on the homepage, the case studies, the Query page or the 404 page, across a full scroll |
+
+## Other checks
+
+| Check | Result |
+| --- | --- |
+| Project filters | **Pass**: the gallery narrows to a category; the lab row hides when no experiment matches; the count is announced |
+| Gallery composition | **Pass**: the lead project shows all four facts; projects are numbered 01–07; wide and narrow cards differ in width on desktop; the rest scroll sideways on phones |
+| Disciplines | **Pass**: four plates with exactly the approved tool lists |
+| How I approach the work | **Pass**: five stages with the agreed lines; every "In practice" link resolves |
+| Architecture | **Pass**: seven stages; select by click and keyboard; the agreed description |
+| Without JavaScript | **Pass**: the Query page shows pre-rendered answers to the eight suggested questions |
+| Old links | **Pass**: `#/trk-0N` opens its case study; `#terminal` opens Query the Engineer |
+| Walkthrough and Papercut | **Pass**: the walkthrough opens and closes without touching the Papercut player, whose file is never requested |
+| Reduced motion | **Pass**: nothing is held back; the lattice is a still frame |
 
 ## Not verified here
 
-- **The live site** on `gaurangg123.github.io`: the host is not reachable from this test environment. The deployment is checked through the GitHub Pages workflow run instead; see the final report.
+- **The live site** on `gaurangg123.github.io`: the host doesn't resolve from this environment, directly or through a fetch agent. Deployment was checked through the GitHub Pages workflow run and by confirming that `main` matches the tested build.

@@ -1,7 +1,6 @@
-// 04 · Engineering missions: a project explorer.
-//   desktop (≥1024px, with JavaScript): an index of every project beside a large showcase
-//   of the selected one (hover previews, click or arrow keys select)
-//   smaller screens and without JavaScript: every project as a full card
+// 04 · Engineering missions: a gallery, not a grid of equal cards. The lead project spans
+// the width with every fact; the others sit in an asymmetric grid (wide and narrow,
+// offset); the two experiments have their own "lab" row. Filters narrow the gallery.
 // Company projects link to their case studies and open the illustrative walkthrough;
 // the experiments show a sample input and output. Unconfirmed facts stay marked as such.
 const { CATEGORIES, PROJECTS } = require('../data/projects.js');
@@ -48,30 +47,37 @@ const SAMPLES = {
               </div>`,
 };
 
-// the four panels each project answers; experiments describe what the agent does instead
-const facts = (p) => {
+// the facts a project answers; the featured project shows all four, the others the essentials
+const facts = (p, full) => {
   const isCase = p.type === 'Company project';
   const rows = isCase
-    ? [['problem', 'Problem', p.problem], ['built', 'What I built', p.contribution], ['how', 'How it works', p.approach], ['results', 'Results', `${p.status ? `<span class="status">${p.status[1]}</span> ` : ''}${p.outcome}`]]
-    : [['built', 'What I built', 'Built it myself, with AI as my co-developer at every step.'], ['how', 'How it works', p.sample === 'bug' ? 'In: a screenshot and a short description of an issue. Out: a structured bug report with title, steps, expected and actual result.' : 'In: existing code and the logic it should follow. Out: proposed changes, for a developer to review and apply.'], ['results', 'Status', 'An experiment, shown with a sample input and output. Not a live tool.']];
+    ? (full
+      ? [['problem', 'Problem', p.problem], ['built', 'What I built', p.contribution], ['how', 'How it works', p.approach], ['results', 'Results', `${p.status ? `<span class="status">${p.status[1]}</span> ` : ''}${p.outcome}`]]
+      : [['built', 'My part', p.role + '.'], ['results', 'Result', `${p.status ? `<span class="status">${p.status[1]}</span> ` : ''}${p.outcome}`]])
+    : [['built', 'What I built', 'Built it myself, with AI as my co-developer at every step.'], ['how', 'How it works', p.sample === 'bug' ? 'In: a screenshot and a short description of an issue. Out: a structured bug report with title, steps, expected and actual result.' : 'In: existing code and the logic it should follow. Out: proposed changes, for a developer to review and apply.']];
   return `<dl class="px__facts">${rows.map(([k, t, v]) => `<div class="px__fact px__fact--${k}"><dt>${t}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
 };
 
+// the composition: the lead project across the full width, then an asymmetric grid
+const SIZE = { 'knowledge-portal': 'feature', 'business-sheet': 'wide', 'contract-intelligence': 'narrow', 'resume-matching': 'narrow', 'data-migration': 'wide', 'bug-detailer': 'lab', 'web-app-builder': 'lab' };
+
 const card = (p, i) => {
   const isCase = p.type === 'Company project';
-  return `        <article class="px__card${i === 0 ? ' is-active' : ''}" id="px-${p.slug}" data-mission data-cats="${p.categories.join(' ')}" data-tone="${IDENTITY[p.slug]}" aria-labelledby="m-${p.slug}">
-          <div class="px__media">
-            <img src="assets/projects/${p.slug}-800.webp" srcset="assets/projects/${p.slug}-800.webp 800w, assets/projects/${p.slug}-1600.webp 1600w" sizes="(min-width: 1024px) 860px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />
-            <span class="px__tag">Illustration</span>
-          </div>
+  const size = SIZE[p.slug] || 'wide';
+  const feature = size === 'feature';
+  const href = isCase ? `work/${p.slug}/` : null;
+  const img = `<img src="assets/projects/${p.slug}-800.webp" srcset="assets/projects/${p.slug}-800.webp 800w, assets/projects/${p.slug}-1600.webp 1600w" sizes="${feature ? '(min-width: 1024px) 760px' : '(min-width: 1024px) 640px'}, (min-width: 640px) 90vw, calc(100vw - 32px)" width="1600" height="1000" alt="" loading="lazy" decoding="async" />`;
+  const media = `<span class="px__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>${img}<span class="px__tag">Illustration</span>`;
+  return `        <article class="px__card px--${size}" id="px-${p.slug}" data-mission data-cats="${p.categories.join(' ')}" data-tone="${IDENTITY[p.slug]}" aria-labelledby="m-${p.slug}">
+          ${href ? `<a class="px__media" href="${href}" tabindex="-1" aria-hidden="true">${media}</a>` : `<div class="px__media">${media}</div>`}
           <div class="px__body">
-            <p class="px__meta"><span class="px__code">${p.code}</span><span>${p.type}</span><span aria-hidden="true">·</span><span>${p.kicker}</span></p>
-            <h3 class="px__title" id="m-${p.slug}"${isCase ? ` data-vt="${p.slug}"` : ''}>${isCase ? `<a href="work/${p.slug}/">${p.title}</a>` : p.title}</h3>
+            <p class="px__meta"><span class="px__code">${p.code}</span><span>${p.type}</span><span aria-hidden="true">·</span><span>${p.kicker}</span>${p.status ? `<span class="px__live"><span class="dot"></span>${p.status[1]}</span>` : ''}</p>
+            <h3 class="px__title" id="m-${p.slug}"${isCase ? ` data-vt="${p.slug}"` : ''}>${isCase ? `<a href="${href}">${p.title}</a>` : p.title}</h3>
             <p class="px__summary">${p.summary}</p>
-            ${facts(p)}
-            <div class="px__tech">${isCase ? (p.tech ? tags(p.tech) : '<span class="placeholder">Stack details not yet published</span>') : ''}<ul class="px__cats" aria-label="Categories">${p.categories.map((c) => `<li data-tone="${TONE[c]}">${CAT[c]}</li>`).join('')}</ul></div>
+            ${facts(p, feature)}
+            <div class="px__tech">${isCase && feature ? (p.tech ? tags(p.tech) : '<span class="placeholder">Stack details not yet published</span>') : ''}${isCase && !feature && p.tech ? tags(p.tech.slice(0, 4)) : ''}<ul class="px__cats" aria-label="Categories">${p.categories.map((c) => `<li data-tone="${TONE[c]}">${CAT[c]}</li>`).join('')}</ul></div>
             ${isCase ? `<div class="px__actions">
-              <a class="btn btn--primary px__go" href="work/${p.slug}/">Read the case study<span class="visually-hidden">: ${p.title}</span> ${icon('arrowRight', 'i-move')}</a>
+              <a class="btn btn--primary px__go" href="${href}">Read the case study<span class="visually-hidden">: ${p.title}</span> ${icon('arrowRight', 'i-move')}</a>
               <button class="demo-btn js-only" type="button" data-demo="${p.slug}" aria-haspopup="dialog">${icon('play')}<span>Watch walkthrough</span><span class="visually-hidden">: ${p.title}</span></button>
               <span class="demo-status" data-demo-status role="status"></span>
             </div>` : `<details class="disclosure px__sample">
@@ -88,6 +94,8 @@ const card = (p, i) => {
 const projects = (titles) => {
   const list = PROJECTS.map((p) => ({ ...p, title: titles[p.slug] }));
   const count = (c) => list.filter((p) => p.categories.includes(c)).length;
+  const company = list.filter((p) => p.type === 'Company project');
+  const lab = list.filter((p) => p.type !== 'Company project');
   return `<section class="section missions" id="projects" aria-labelledby="projects-title">
   <div class="container">
     ${secHead({ num: '04', label: 'Engineering missions', id: 'projects-title', title: 'Systems built for <em>real work.</em>', lede: 'Five enterprise applications from my work at Tata Technologies, and two AI-agent experiments. Company projects are shown with original illustrations and sample data; their code and live systems aren’t public.', split: true })}
@@ -99,18 +107,17 @@ ${CATEGORIES.map(([id, label]) => `          <button type="button" aria-pressed=
         </div>
         <p class="px__count" role="status" data-filter-status>Showing all ${list.length} projects</p>
       </div>
-      <div class="px__layout">
-        <ol class="px__index js-only" aria-label="Projects">
-${list.map((p, i) => `          <li data-cats="${p.categories.join(' ')}" data-tone="${IDENTITY[p.slug]}"><button class="px__item" type="button" data-show="${p.slug}" aria-controls="px-${p.slug}" aria-pressed="${i === 0}"><span class="px__item-code">${p.code}</span><span class="px__item-name">${p.title}</span><span class="px__item-kicker">${p.kicker}${p.status ? ` · <span class="px__item-status">${p.status[1]}</span>` : ''}</span></button></li>`).join('\n')}
-        </ol>
-        <div class="px__stage" data-missions>
-${list.map(card).join('\n')}
-        </div>
-        <div class="px__nav js-only" data-px-nav>
-          <button class="px__step" type="button" data-px-prev>${icon('arrowLeft')}<span class="visually-hidden">Previous project</span></button>
-          <p class="px__pos" aria-hidden="true"><b data-px-pos>01</b><span>/</span><span data-px-total>${String(list.length).padStart(2, '0')}</span></p>
-          <span class="px__rail" aria-hidden="true"><i data-px-rail></i></span>
-          <button class="px__step" type="button" data-px-next>${icon('arrowRight')}<span class="visually-hidden">Next project</span></button>
+      <div class="px__gallery" data-missions>
+${card(company[0], 0)}
+      </div>
+      <p class="px__swipe" aria-hidden="true">Swipe for more ${icon('arrowRight')}</p>
+      <div class="px__gallery px__gallery--more">
+${company.slice(1).map((p, i) => card(p, i + 1)).join('\n')}
+      </div>
+      <div class="px__lab">
+        <p class="px__lab-h"><span class="label">The lab</span><span>AI-agent experiments, built with AI as co-developer</span></p>
+        <div class="px__gallery px__gallery--lab">
+${lab.map((p, i) => card(p, i + company.length)).join('\n')}
         </div>
       </div>
     </div>

@@ -8,8 +8,10 @@ const newTab = '<span class="visually-hidden"> (opens in a new tab)</span>';
 const ext = (href, inner, cls = '', extra = '') =>
   `<a${cls ? ` class="${cls}"` : ''} href="${href}" target="_blank" rel="noopener noreferrer"${extra}>${inner}${newTab}</a>`;
 
-// a section heading: "02 // About" in mono, the title, an optional lede
+// a section heading: a large outlined chapter number behind it, "02 // About" in mono,
+// the title, an optional lede
 const secHead = ({ num, label, id, title, lede = '', split = false }) => `<header class="sec-head${split ? ' sec-head--split' : ''}" data-reveal>
+      <span class="sec-head__num" aria-hidden="true">${num}</span>
       <p class="sec-head__label"><b>${num}</b><span aria-hidden="true">//</span><span>${esc(label)}</span></p>
       <h2 class="sec-head__title" id="${id}">${title}</h2>${lede ? `
       <p class="sec-head__lede">${lede}</p>` : ''}

@@ -12,7 +12,7 @@ for (const [name, width, height] of VIEWPORTS) {
     test.use({ viewport: { width, height } });
 
     test('no horizontal overflow, nothing past the edge, identity in the first screen', async ({ page }) => {
-      for (const path of ['./', './work/knowledge-portal/', './work/business-sheet/']) {
+      for (const path of ['./', './work/knowledge-portal/', './work/business-sheet/', './query-engineer/']) {
         await page.goto(path);
         await page.evaluate(async () => {
           for (let y = 0; y < document.documentElement.scrollHeight; y += innerHeight) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 40)); }
@@ -22,7 +22,7 @@ for (const [name, width, height] of VIEWPORTS) {
           const off: string[] = [];
           document.querySelectorAll('main *, footer *, .nav__bar *').forEach((el) => {
             const s = getComputedStyle(el);
-            if (s.display === 'none' || s.visibility === 'hidden' || s.clipPath === 'inset(50%)' || el.closest('[hidden], svg, canvas, .hero__art, .contact__signal, .px__stage, .nf__log, .visually-hidden, .nav__sheet')) return;
+            if (s.display === 'none' || s.visibility === 'hidden' || s.clipPath === 'inset(50%)' || el.closest('[hidden], svg, canvas, .hero__art, .contact__signal, .px__gallery--more, .px__gallery--lab, .approach__steps, .qe__topics ul, .ribbon-wrap, .nf__log, .visually-hidden, .nav__sheet')) return;
             const r = el.getBoundingClientRect();
             if (r.width && (r.right > vw + 1 || r.left < -1)) off.push(`${el.tagName.toLowerCase()}.${String((el as HTMLElement).className).split(' ')[0]} ${Math.round(r.left)}–${Math.round(r.right)}`);
           });
@@ -40,10 +40,13 @@ for (const [name, width, height] of VIEWPORTS) {
     test('navigation suits the width', async ({ page }) => {
       await page.goto('./');
       if (width >= 1024) {
-        await expect(page.locator('.nav__links')).toBeVisible();
+        await expect(page.locator('.rail')).toBeVisible();
         await expect(page.locator('[data-menu-btn]')).toBeHidden();
+        // the rail fits the screen height with every control reachable
+        const last = await page.locator('.rail__resume').boundingBox();
+        expect(last!.y + last!.height).toBeLessThanOrEqual(height);
       } else {
-        await expect(page.locator('.nav__links')).toBeHidden();
+        await expect(page.locator('.rail')).toBeHidden();
         await expect(page.locator('[data-menu-btn]')).toBeVisible();
         const box = await page.locator('[data-menu-btn]').boundingBox();
         expect(box!.height).toBeGreaterThanOrEqual(44);
