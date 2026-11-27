@@ -14,7 +14,7 @@ const VIEWPORTS = [
   ['tablet', '1024x768', 1024, 768], ['tablet', '768x1024', 768, 1024],
   ['mobile', '430x932', 430, 932], ['mobile', '390x844', 390, 844], ['mobile', '375x812', 375, 812], ['mobile', '360x800', 360, 800],
 ];
-const SECTIONS = ['about', 'expertise', 'projects', 'experience', 'education', 'architecture', 'terminal', 'contact'];
+const SECTIONS = ['about', 'expertise', 'projects', 'experience', 'workflow', 'architecture', 'education', 'contact'];
 const args = process.argv.slice(2);
 const OUT = path.resolve(args[0] || 'qa/screenshots');
 const BASE = (args[1] && !args[1].startsWith('--') ? args[1] : 'http://127.0.0.1:4173/portfoliowebiste/');
@@ -29,17 +29,17 @@ const checks = () => {
   const visible = (el) => { const s = getComputedStyle(el); const r = el.getBoundingClientRect(); return s.clipPath !== 'inset(50%)' && s.visibility !== 'hidden' && s.display !== 'none' && r.width > 0 && r.height > 0 && !el.closest('[hidden], .nav__sheet, .visually-hidden, dialog'); };
   const name = (el) => (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/)[0] : el.tagName.toLowerCase()) + (el.id ? '#' + el.id : '');
   document.querySelectorAll('main *, .nav__bar *, footer *').forEach((el) => {
-    if (!visible(el) || el.closest('.hero__art, svg, canvas, .term__body, .exp__code, .nf__log')) return;
+    if (!visible(el) || el.closest('.hero__art, svg, canvas, .contact__signal, .px__stage, .exp__code, .nf__log')) return;
     const r = el.getBoundingClientRect();
     if (r.right > vw + 1 && out.offRight.length < 12) out.offRight.push(name(el) + ' right=' + Math.round(r.right));
   });
-  document.querySelectorAll('.btn, .tag, .chip, .filters button, .term__chip, .demo-btn, .mission__cats li, .arch__name, .hero__name, .sec-head__title, .contact__title').forEach((el) => {
+  document.querySelectorAll('.btn, .tag, .chip, .filters button, .demo-btn, .px__cats li, .stepper__name, .hero__name, .sec-head__title, .contact__title').forEach((el) => {
     if (!visible(el)) return;
     if (el.scrollWidth > el.clientWidth + 1 && out.clipped.length < 12) out.clipped.push(name(el) + ' ' + el.scrollWidth + '>' + el.clientWidth);
   });
   document.querySelectorAll('img').forEach((img) => { if (img.complete && img.naturalWidth === 0 && visible(img)) out.brokenImg.push(img.currentSrc || img.src); });
   document.querySelectorAll('main a, main button, .nav a, .nav button, footer a').forEach((el) => {
-    if (!visible(el) || el.closest('.term__out, p, li.arch__uses, .cs-links span, .domain__applied')) return;
+    if (!visible(el) || el.closest('p, .arch-uses, .cs-links span')) return;
     const r = el.getBoundingClientRect();
     if ((r.height < 24 || r.width < 24) && out.smallTargets.length < 8) out.smallTargets.push(name(el) + ' ' + Math.round(r.width) + 'x' + Math.round(r.height));
   });

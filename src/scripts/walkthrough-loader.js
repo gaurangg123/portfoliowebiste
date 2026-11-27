@@ -38,7 +38,7 @@
     btn.addEventListener('click', function () {
       if (btn.getAttribute('aria-busy') === 'true') return;
       btn.setAttribute('aria-busy', 'true');
-      var holder = btn.closest('figure, .mission__card, .cs-links li');
+      var holder = btn.closest('figure, .px__card, .cs-links li');
       var note = holder && holder.querySelector('[data-demo-status]');
       load().then(function (player) {
         btn.removeAttribute('aria-busy');

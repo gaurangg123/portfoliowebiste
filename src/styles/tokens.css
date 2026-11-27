@@ -1,15 +1,12 @@
 /* ============================================================
    DataForge — design tokens
-   One dark palette. Text pairs are contrast-checked (WCAG AA):
-     --text      #F8FAFC on --bg-0 19.6:1 · on --card 16.9:1
-     --text-2    #94A3B8 on --bg-0  7.7:1 · on --card  6.6:1 · on --elev 6.0:1
-     --cyan      #38BDF8 on --bg-0  9.5:1   (links, focus, primary button fill)
-     --violet-tx #A78BFA on --bg-0  7.1:1   (#8B5CF6 is 4.3:1, so it marks shapes, never small text)
-     --green     #34D399 on --bg-0 10.6:1
-     --amber     #FBBF24 on --bg-0 12.0:1
-     --on-accent #05070D on --cyan  9.5:1
-   Breakpoints (media queries can't read custom properties, so they are listed here
-   and used as literals): 480 · 640 · 900 · 1100 · 1440 px.
+   Two themes from one set of names. Dark is the default; the visitor can switch,
+   and the choice is remembered (src/scripts/theme.js). Text pairs are contrast-checked
+   (WCAG AA) and verified by qa/unit/contrast.test.js:
+     dark   text #F8FAFC · text-2 #94A3B8 · accent #38BDF8 · violet-tx #A78BFA on #05070D–#151F30
+     light  text #0B1220 · text-2 #475569 · accent #0369A1 · violet-tx #6D28D9 on #FFFFFF–#EDF1F8
+   Breakpoints (media queries can't read custom properties, so they are literals):
+     640 tablet · 1024 desktop · 1440 wide.
    ============================================================ */
 
 @font-face {
@@ -25,71 +22,124 @@
   src: url('../fonts/jetbrains-mono-latin-var.woff2') format('woff2');
 }
 
+/* ---------- dark (default) ---------- */
 :root {
   color-scheme: dark;
-
-  /* ---------- colour ---------- */
   --bg-0: #05070D;          /* page */
-  --bg-1: #0A1020;          /* alternate sections */
-  --card: #101827;          /* cards */
-  --elev: #151F30;          /* raised surfaces, inputs */
-  --cyan: #38BDF8;          /* primary accent */
-  --violet: #8B5CF6;        /* secondary accent: shapes and glows */
-  --violet-tx: #A78BFA;     /* secondary accent as text */
-  --green: #34D399;         /* success / live */
-  --amber: #FBBF24;         /* analytics domain only */
+  --bg-1: #0A1020;          /* alternate bands */
+  --card: #101827;
+  --elev: #151F30;
+  --code-bg: #060A14;
   --text: #F8FAFC;
   --text-2: #94A3B8;
+  --cyan: #38BDF8;          /* the accent: links, focus, primary fills */
+  --cyan-hover: #7DD3FC;
+  --violet: #8B5CF6;        /* shapes and glows */
+  --violet-tx: #A78BFA;     /* violet as text */
+  --green: #34D399;
+  --amber: #FBBF24;
+  --danger: #FCA5A5;
+  --on-accent: #05070D;     /* text on an accent fill */
   --border: rgba(148, 163, 184, 0.15);
   --border-2: rgba(148, 163, 184, 0.28);
-  --on-accent: #05070D;
-  --focus: #38BDF8;
+  --hairline: rgba(148, 163, 184, 0.06);   /* background grids */
+  --tint: rgba(148, 163, 184, 0.07);       /* quiet hover/chip fill */
+  --accent-tint: rgba(56, 189, 248, 0.12);
+  --accent-line: rgba(56, 189, 248, 0.42);
+  --violet-tint: rgba(139, 92, 246, 0.14);
+  --glass: rgba(10, 16, 32, 0.62);
+  --glass-strong: rgba(10, 16, 32, 0.88);
+  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 32px -18px rgba(0, 0, 0, 0.7);
+  --shadow-2: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 30px 70px -30px rgba(0, 0, 0, 0.85);
+  --glow: rgba(56, 189, 248, 0.35);
+  --grad-brand: linear-gradient(100deg, #38BDF8 0%, #818CF8 55%, #A78BFA 100%);
+  --grad-surface: linear-gradient(180deg, #151F30, #101827);
+  --grad-hair: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), rgba(139, 92, 246, 0.5), transparent);
+  --lattice-edge: 148, 184, 230;   /* RGB triplets read by the hero canvas */
+  --lattice-a: 56, 189, 248;
+  --lattice-b: 139, 92, 246;
+  --lattice-c: 52, 211, 153;
+  --lattice-dust: 203, 213, 225;
+  --lattice-blend: lighter;
 
-  /* per-domain tones, set on an element with data-tone */
-  --tone: var(--cyan);
-  --tone-tx: var(--cyan);
-  --tone-soft: rgba(56, 189, 248, 0.12);
+  /* tones for disciplines, projects and stages (set data-tone on an element) */
+  --tone: var(--cyan); --tone-tx: var(--cyan); --tone-soft: var(--accent-tint);
+}
 
+/* ---------- light ---------- */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg-0: #F5F7FB;
+  --bg-1: #EDF1F8;
+  --card: #FFFFFF;
+  --elev: #F1F4F9;
+  --code-bg: #F8FAFC;
+  --text: #0B1220;
+  --text-2: #475569;
+  --cyan: #0369A1;
+  --cyan-hover: #075985;
+  --violet: #7C3AED;
+  --violet-tx: #6D28D9;
+  --green: #047857;
+  --amber: #A14607;
+  --danger: #B91C1C;
+  --on-accent: #FFFFFF;
+  --border: rgba(15, 23, 42, 0.11);
+  --border-2: rgba(15, 23, 42, 0.2);
+  --hairline: rgba(15, 23, 42, 0.05);
+  --tint: rgba(15, 23, 42, 0.04);
+  --accent-tint: rgba(3, 105, 161, 0.08);
+  --accent-line: rgba(3, 105, 161, 0.35);
+  --violet-tint: rgba(124, 58, 237, 0.08);
+  --glass: rgba(255, 255, 255, 0.7);
+  --glass-strong: rgba(255, 255, 255, 0.92);
+  --shadow-1: 0 1px 2px rgba(15, 23, 42, 0.06), 0 12px 30px -18px rgba(15, 23, 42, 0.25);
+  --shadow-2: 0 2px 4px rgba(15, 23, 42, 0.05), 0 30px 60px -30px rgba(15, 23, 42, 0.3);
+  --glow: rgba(3, 105, 161, 0.18);
+  --grad-brand: linear-gradient(100deg, #0369A1 0%, #4F46E5 55%, #6D28D9 100%);
+  --grad-surface: linear-gradient(180deg, #FFFFFF, #F8FAFC);
+  --grad-hair: linear-gradient(90deg, transparent, rgba(3, 105, 161, 0.35), rgba(109, 40, 217, 0.35), transparent);
+  --lattice-edge: 51, 65, 85;
+  --lattice-a: 3, 105, 161;
+  --lattice-b: 109, 40, 217;
+  --lattice-c: 4, 120, 87;
+  --lattice-dust: 100, 116, 139;
+  --lattice-blend: source-over;
+}
+
+:root {
   /* ---------- typography ---------- */
   --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-
-  --fs-display: clamp(3.25rem, 1.1rem + 9.2vw, 9.5rem);    /* hero name: 52 → 152 */
-  --fs-h1: clamp(2.5rem, 1.4rem + 4.4vw, 5rem);            /* case-study titles: 40 → 80 */
-  --fs-h2: clamp(2.125rem, 1.35rem + 3.1vw, 4rem);         /* section titles: 34 → 64 */
-  --fs-h3: clamp(1.25rem, 1.08rem + 0.7vw, 1.75rem);       /* 20 → 28 */
-  --fs-h4: clamp(1.0625rem, 1.01rem + 0.25vw, 1.25rem);    /* 17 → 20 */
-  --fs-lede: clamp(1.125rem, 1.02rem + 0.45vw, 1.4375rem); /* 18 → 23 */
-  --fs-body: clamp(1rem, 0.97rem + 0.12vw, 1.0625rem);     /* 16 → 17 */
-  --fs-small: 0.875rem;                                    /* 14 */
-  --fs-label: 0.75rem;                                     /* 12, mono, uppercase */
-  --lh-tight: 1.02;
-  --lh-head: 1.12;
+  --fs-h1: clamp(2.5rem, 1.4rem + 4.4vw, 5rem);
+  --fs-h2: clamp(2rem, 1.3rem + 2.6vw, 3.5rem);           /* section titles: 32 → 56 */
+  --fs-h3: clamp(1.25rem, 1.08rem + 0.7vw, 1.75rem);
+  --fs-h4: clamp(1.0625rem, 1.01rem + 0.25vw, 1.25rem);
+  --fs-lede: clamp(1.0625rem, 1rem + 0.35vw, 1.3125rem);
+  --fs-body: clamp(1rem, 0.97rem + 0.12vw, 1.0625rem);
+  --fs-small: 0.875rem;
+  --fs-label: 0.75rem;
+  --lh-head: 1.1;
   --lh-body: 1.65;
   --track-label: 0.14em;
   --track-head: -0.035em;
 
-  /* ---------- space (4px base) ---------- */
-  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px; --s5: 24px;
-  --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 128px;
+  /* ---------- spacing system ----------
+     One scale for the whole page. Sections pad less at the bottom than at the top so
+     each section's content leads straight into the next heading. */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
   --gutter: clamp(16px, 4.5vw, 48px);
-  --maxw: 80rem;                      /* 1280px */
-  --section-y: clamp(72px, 8.5vw, 128px);
+  --maxw: 80rem;
   --nav-h: 72px;
+  --space-section: 52px;          /* major sections: mobile 48–64 */
+  --space-section-compact: 44px;  /* education, contact */
+  --space-head: 24px;             /* heading → content */
+  --gap-grid: 14px;               /* cards and tiles */
+  --gap-stack: 20px;
 
   /* ---------- shape ---------- */
-  --r-xs: 6px; --r-sm: 10px; --r-md: 16px; --r-lg: 24px; --r-xl: 32px; --r-pill: 999px;
-  --stroke: 1px solid var(--border);
-
-  /* ---------- light and depth ---------- */
-  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 32px -18px rgba(0, 0, 0, 0.7);
-  --shadow-2: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 30px 70px -30px rgba(0, 0, 0, 0.85);
-  --glow-cyan: 0 0 0 1px rgba(56, 189, 248, 0.35), 0 10px 40px -12px rgba(56, 189, 248, 0.45);
-  --grad-brand: linear-gradient(100deg, #38BDF8 0%, #818CF8 55%, #A78BFA 100%);
-  --grad-surface: linear-gradient(180deg, rgba(21, 31, 48, 0.9), rgba(16, 24, 39, 0.9));
-  --grad-hair: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), rgba(139, 92, 246, 0.5), transparent);
-  --glass: rgba(10, 16, 32, 0.72);
+  --r-xs: 6px; --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 28px; --r-pill: 999px;
 
   /* ---------- motion ---------- */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -97,32 +147,48 @@
   --t-fast: 160ms;
   --t-mid: 280ms;
   --t-slow: 560ms;
-  --t-reveal: 720ms;
 
-  /* ---------- compatibility: names used by the walkthrough player and the
-     case-study visuals (assets/walkthroughs/*, src/styles/case-visuals.css) ---------- */
+  /* ---------- names used by the walkthrough player and case-study visuals ---------- */
   --bg: var(--bg-0);
   --surface: var(--card);
   --surface-2: var(--elev);
   --line: var(--border);
   --line-2: var(--border-2);
   --accent: var(--cyan);
-  --accent-fill: #38BDF8;
-  --accent-fill-2: #0EA5E9;
+  --accent-fill: var(--cyan);
+  --accent-fill-2: var(--cyan-hover);
   --ok-fill: #059669;
   --info-fill: #2563EB;
   --file-pdf: #DC2626;
-  --btn: #38BDF8;
-  --btn-hover: #7DD3FC;
-  --mark-key: rgba(56, 189, 248, 0.2);
-  --mark-pink: rgba(139, 92, 246, 0.26);
-  --ink: #0A1020;
-  --ink-text: #F8FAFC;
+  --btn: var(--cyan);
+  --btn-hover: var(--cyan-hover);
+  --mark-key: var(--accent-tint);
+  --mark-pink: var(--violet-tint);
+  --ink: var(--bg-1);
+  --ink-text: var(--text);
   --fs-mono: 0.8125rem;
   --ease: var(--ease-out);
+}
+@media (min-width: 640px) {
+  :root { --space-section: 72px; --space-section-compact: 60px; --space-head: 28px; --gap-grid: 18px; --gap-stack: 24px; }
+}
+@media (min-width: 1024px) {
+  :root {
+    --space-section: clamp(88px, 7vw, 108px);
+    --space-section-compact: clamp(64px, 5.4vw, 80px);
+    --space-head: clamp(28px, 2.4vw, 36px);
+    --gap-grid: clamp(18px, 1.6vw, 24px);
+    --gap-stack: 28px;
+  }
 }
 
 [data-tone="cyan"]   { --tone: #38BDF8; --tone-tx: #38BDF8; --tone-soft: rgba(56, 189, 248, 0.12); }
 [data-tone="violet"] { --tone: #8B5CF6; --tone-tx: #A78BFA; --tone-soft: rgba(139, 92, 246, 0.14); }
 [data-tone="green"]  { --tone: #34D399; --tone-tx: #34D399; --tone-soft: rgba(52, 211, 153, 0.12); }
 [data-tone="amber"]  { --tone: #FBBF24; --tone-tx: #FBBF24; --tone-soft: rgba(251, 191, 36, 0.12); }
+[data-tone="blue"]   { --tone: #60A5FA; --tone-tx: #60A5FA; --tone-soft: rgba(96, 165, 250, 0.12); }
+[data-theme="light"] [data-tone="cyan"]   { --tone: #0284C7; --tone-tx: #0369A1; --tone-soft: rgba(3, 105, 161, 0.08); }
+[data-theme="light"] [data-tone="violet"] { --tone: #7C3AED; --tone-tx: #6D28D9; --tone-soft: rgba(124, 58, 237, 0.08); }
+[data-theme="light"] [data-tone="green"]  { --tone: #059669; --tone-tx: #047857; --tone-soft: rgba(5, 150, 105, 0.08); }
+[data-theme="light"] [data-tone="amber"]  { --tone: #D97706; --tone-tx: #A14607; --tone-soft: rgba(217, 119, 6, 0.09); }
+[data-theme="light"] [data-tone="blue"]   { --tone: #2563EB; --tone-tx: #1D4ED8; --tone-soft: rgba(37, 99, 235, 0.08); }

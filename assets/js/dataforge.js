@@ -18,31 +18,77 @@
     else if (mq.addListener) mq.addListener(fn);
   };
 
+  /** the page URL without a fragment that only meant "the top" */
+  var dropTopHash = function () {
+    if (location.hash === '#top' && history.replaceState) history.replaceState(history.state, '', location.pathname + location.search);
+  };
+
   window.DF = {
     root: root,
     reduce: reduce,
     each: each,
     onMedia: onMedia,
-    /** motion is on unless the visitor asked for less, or paused it on this site */
     motionOn: function () { return !reduce.matches && !root.classList.contains('motion-off'); },
     /** @param {() => void} fn called whenever motionOn() may have changed */
     onMotion: function (fn) {
       document.addEventListener('df:motion', fn);
       onMedia(reduce, fn);
     },
-    /**
-     * Calls back with true/false as an element enters or leaves the viewport.
-     * @param {Element} el @param {(on: boolean) => void} fn @param {string} [margin]
-     */
+    /** @param {Element} el @param {(on: boolean) => void} fn @param {string} [margin] */
     watch: function (el, fn, margin) {
       if (!('IntersectionObserver' in window)) { fn(true); return; }
       new IntersectionObserver(function (entries) {
         fn(entries[entries.length - 1].isIntersecting);
       }, { rootMargin: margin || '0px' }).observe(el);
     },
+    /**
+     * Back to the top of the page: smooth unless motion is reduced, focus returns to the
+     * start of the page for keyboard users, and no "#top" is added to the address.
+     * @param {boolean} [home] called from the wordmark
+     */
+    toTop: function (home) {
+      // from the wordmark, a section fragment ("#projects") becomes a new, clean history
+      // entry, so Back returns to that section; a bare "#top" is simply dropped
+      if (home && location.hash && location.hash !== '#top' && history.pushState) history.pushState(null, '', location.pathname + location.search);
+      else dropTopHash();
+      window.scrollTo({ top: 0, behavior: reduce.matches ? 'auto' : 'smooth' });
+      var start = /** @type {HTMLElement|null} */ (document.querySelector('[data-home-link]'));
+      if (start) start.focus({ preventScroll: true });
+    },
   };
 
+  dropTopHash();
   each(document.querySelectorAll('[data-year]'), function (el) { el.textContent = String(new Date().getFullYear()); });
+})();
+
+/* ===== theme.js ===== */
+/* ---------- light / dark theme ----------
+   Dark is the default; the visitor's choice is remembered. The inline head script
+   applies it before the first paint, so there is no flash of the other theme. */
+(function () {
+  'use strict';
+  var DF = window.DF;
+  var meta = document.querySelector('meta[name="theme-color"]');
+  var current = function () { return DF.root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; };
+  var render = function () {
+    var t = current();
+    if (meta) meta.setAttribute('content', t === 'light' ? '#F5F7FB' : '#05070D');
+    DF.each(document.querySelectorAll('[data-theme-toggle]'), function (b) {
+      b.setAttribute('aria-pressed', String(t === 'light'));
+      var l = b.querySelector('[data-theme-label]');
+      if (l) l.textContent = t === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
+    });
+  };
+  DF.each(document.querySelectorAll('[data-theme-toggle]'), function (b) {
+    b.addEventListener('click', function () {
+      var next = current() === 'light' ? 'dark' : 'light';
+      DF.root.setAttribute('data-theme', next);
+      try { localStorage.setItem('df-theme', next); } catch (e) { /* private mode: not remembered */ }
+      render();
+      document.dispatchEvent(new CustomEvent('df:theme'));
+    });
+  });
+  render();
 })();
 
 /* ===== nav.js ===== */
@@ -57,7 +103,6 @@
   /* the bar firms up once the page has scrolled */
   var queued = false;
   var toTop = /** @type {HTMLElement|null} */ (document.querySelector('[data-to-top]'));
-  if (toTop) toTop.hidden = false;
   var onScroll = function () {
     queued = false;
     var y = window.pageYOffset;
@@ -74,7 +119,7 @@
   /* small screens: the menu opens a full-screen sheet */
   var btn = navEl.querySelector('[data-menu-btn]');
   var sheet = navEl.querySelector('[data-sheet]');
-  var wide = window.matchMedia('(min-width: 900px)');
+  var wide = window.matchMedia('(min-width: 1024px)');
   var open = false;
   /** @param {boolean} on @param {boolean} [restore] */
   var setMenu = function (on, restore) {
@@ -102,6 +147,20 @@
     });
     DF.onMedia(wide, function (e) { if (e.matches && open) setMenu(false); });
   }
+
+  /* back to the top without adding "#top": the floating button, the footer link, and the
+     wordmark when it already points at this page */
+  DF.each(document.querySelectorAll('[data-to-top], [data-to-top-link]'), function (b) {
+    b.addEventListener('click', function () { DF.toTop(); });
+  });
+  var brand = /** @type {HTMLAnchorElement|null} */ (navEl.querySelector('[data-home-link]'));
+  if (brand) brand.addEventListener('click', function (e) {
+    if (brand && brand.pathname === location.pathname && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0) {
+      e.preventDefault();
+      if (open) setMenu(false);
+      DF.toTop(true);
+    }
+  });
 
   /* current section: links marked data-spy follow the section in the middle of the screen */
   var ink = /** @type {HTMLElement|null} */ (navEl.querySelector('.nav__ink'));
@@ -179,6 +238,11 @@
    edges that data pulses travel along, with drifting particles and a perspective
    floor grid. Drawn on a 2D canvas with a small projection: no 3D library.
 
+   It behaves like a small nervous system: now and then a node fires and the signal
+   cascades through its neighbours, and nodes near the pointer brighten and reach
+   towards it. Colours come from the theme tokens (--lattice-*), so it redraws when
+   the theme changes.
+
    Budget: it animates only while the hero is on screen and the tab is visible;
    low-power devices and small screens get fewer nodes and 30 fps; reduced motion
    or "Pause motion" leaves one still frame. Seeded, so every load looks the same. */
@@ -206,7 +270,7 @@
     };
   };
 
-  /** @typedef {{x:number,y:number,z:number,core:boolean,px:number,py:number,pz:number,ps:number}} Node */
+  /** @typedef {{x:number,y:number,z:number,core:boolean,px:number,py:number,pz:number,ps:number,h?:number}} Node */
   /** @type {Node[]} */ var nodes = [];
   /** @type {Array<[number, number, boolean]>} */ var edges = [];
   /** @type {number[][]} */ var adj = [];
@@ -217,18 +281,42 @@
   var W = 0, H = 0, DPR = 1, small = false, built = '';
   var CX = 0, CY = 0, S = 1, CAM = 4.4;
   var yaw = 0.6, pitch = 0.34, tYaw = 0, tPitch = 0, oYaw = 0, oPitch = 0;
-  var COLORS = [[56, 189, 248], [139, 92, 246], [52, 211, 153]];
   /** @type {HTMLCanvasElement[]} */ var sprites = [];
+  var T = { a: [56, 189, 248], b: [139, 92, 246], c: [52, 211, 153], edge: '148,184,230', dust: '203,213,225', light: false };
+  /** @param {string} v @param {number[]} fallback */
+  var rgb = function (v, fallback) {
+    var m = String(v || '').split(',').map(function (x) { return parseInt(x, 10); });
+    return m.length === 3 && m.every(function (n) { return n >= 0 && n <= 255; }) ? m : fallback;
+  };
+  // the theme's colours, and one soft glow dot per colour, drawn once per theme
+  var readTheme = function () {
+    var cs = getComputedStyle(document.documentElement);
+    T.a = rgb(cs.getPropertyValue('--lattice-a'), [56, 189, 248]);
+    T.b = rgb(cs.getPropertyValue('--lattice-b'), [139, 92, 246]);
+    T.c = rgb(cs.getPropertyValue('--lattice-c'), [52, 211, 153]);
+    T.edge = rgb(cs.getPropertyValue('--lattice-edge'), [148, 184, 230]).join(',');
+    T.dust = rgb(cs.getPropertyValue('--lattice-dust'), [203, 213, 225]).join(',');
+    T.light = cs.getPropertyValue('--lattice-blend').trim() === 'source-over';
+    sprites = [T.a, T.b, T.c].map(function (c) {
+      var sp = document.createElement('canvas'); sp.width = sp.height = 64;
+      var g = /** @type {CanvasRenderingContext2D} */ (sp.getContext('2d'));
+      var grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, 'rgba(' + c + ',1)'); grad.addColorStop(0.25, 'rgba(' + c + ',0.55)'); grad.addColorStop(1, 'rgba(' + c + ',0)');
+      g.fillStyle = grad; g.fillRect(0, 0, 64, 64);
+      return sp;
+    });
+  };
+  readTheme();
 
-  // soft glow dots, one per accent colour, drawn once
-  COLORS.forEach(function (c) {
-    var s = document.createElement('canvas'); s.width = s.height = 64;
-    var g = /** @type {CanvasRenderingContext2D} */ (s.getContext('2d'));
-    var grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
-    grad.addColorStop(0, 'rgba(' + c + ',1)'); grad.addColorStop(0.25, 'rgba(' + c + ',0.55)'); grad.addColorStop(1, 'rgba(' + c + ',0)');
-    g.fillStyle = grad; g.fillRect(0, 0, 64, 64);
-    sprites.push(s);
-  });
+  // the pointer, in canvas pixels; nodes near it brighten and reach towards it
+  var px = -1e4, py = -1e4, pOn = false, hover = -1, hoverD = 1e9;
+  // firing cascades: a node fires, its neighbours follow a moment later, fading with depth
+  /** @type {Array<{n:number,at:number,d:number,w:number}>} */ var queue = [];
+  /** @type {number[]} */ var fireAt = [];
+  /** @type {number[]} */ var fired = [];
+  var clock = 0, wave = 0, nextWave = 1.1, lastPoke = -9;
+  /** @param {number} n */
+  var ignite = function (n) { wave++; queue.push({ n: n, at: clock, d: 0, w: wave }); };
 
   /* ---------- geometry ---------- */
   var build = function () {
@@ -237,9 +325,9 @@
     built = key;
     var R = seeded(20251027);
     var N = key === 'lite' ? 70 : 128, ring = key === 'lite' ? 6 : 9;
-    nodes = []; edges = []; adj = []; pulses = []; dust = []; grid = [];
+    nodes = []; edges = []; adj = []; pulses = []; dust = []; grid = []; queue = []; fireAt = []; fired = [];
     /** @param {number} x @param {number} y @param {number} z @param {boolean} core */
-    var add = function (x, y, z, core) { nodes.push({ x: x, y: y, z: z, core: core, px: 0, py: 0, pz: 0, ps: 0 }); adj.push([]); };
+    var add = function (x, y, z, core) { nodes.push({ x: x, y: y, z: z, core: core, px: 0, py: 0, pz: 0, ps: 0 }); adj.push([]); fireAt.push(0); fired.push(0); };
     var golden = Math.PI * (3 - Math.sqrt(5));
     for (var i = 0; i < N; i++) {
       var y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), th = golden * i, j = 1 + (R() - 0.5) * 0.09;
@@ -298,7 +386,7 @@
     DPR = Math.min(window.devicePixelRatio || 1, low ? 1.25 : 2);
     W = w; H = h; small = w < 900;
     cv.width = Math.round(w * DPR); cv.height = Math.round(h * DPR);
-    if (small) { CX = w * 0.7; CY = Math.min(h * 0.27, 260); S = Math.min(w * 0.4, h * 0.21); }
+    if (small) { var top = Math.max(120, Math.min(300, w * 0.34)); CX = w * 0.64; CY = 64 + top * 0.55; S = Math.min(w * 0.34, top * 0.62); }
     else if (w < 1200) { CX = w * 0.78; CY = h * 0.52; S = Math.min(w * 0.215, h * 0.31); }
     else { CX = w * 0.71; CY = h * 0.5; S = Math.min(w * 0.25, h * 0.34); }
     build();
@@ -326,15 +414,23 @@
       var depth = (az + tmp[2]) / 2;
       var a = Math.max(0, 0.13 - Math.abs(depth) * 0.03) * (1 - Math.abs(l[0] === l[2] ? l[0] : l[1]) / 2.6);
       if (a <= 0.004) continue;
-      g.strokeStyle = 'rgba(56,189,248,' + a.toFixed(3) + ')';
+      g.strokeStyle = 'rgba(' + T.a + ',' + (a * (T.light ? 0.8 : 1)).toFixed(3) + ')';
       g.beginPath(); g.moveTo(ax, ay); g.lineTo(tmp[0], tmp[1]); g.stroke();
     }
 
-    // nodes: project once per frame
+    // nodes: project once per frame, and find the ones near the pointer
+    var PR = small ? 110 : 160, near = [];
+    hover = -1; hoverD = 1e9;
     for (var n = 0; n < nodes.length; n++) {
       var nd = nodes[n];
       project(nd.x, nd.y, nd.z, tmp);
       nd.px = tmp[0]; nd.py = tmp[1]; nd.pz = tmp[2]; nd.ps = tmp[3];
+      nd.h = 0;
+      if (pOn) {
+        var dx = nd.px - px, dy = nd.py - py, dd = Math.sqrt(dx * dx + dy * dy);
+        if (dd < PR && nd.pz < 0.4) { nd.h = 1 - dd / PR; near.push(n); }
+        if (dd < hoverD) { hoverD = dd; hover = n; }
+      }
     }
 
     // edges in four depth bands, one stroke each
@@ -346,39 +442,63 @@
       var z = (nodes[ed[0]].pz + nodes[ed[1]].pz) / 2;
       bands[Math.max(0, Math.min(3, Math.floor((z + 1) * 2)))].push(ed);
     }
-    var alphas = [0.5, 0.32, 0.18, 0.09];
+    var alphas = T.light ? [0.34, 0.22, 0.13, 0.07] : [0.5, 0.32, 0.18, 0.09];
     for (var b = 3; b >= 0; b--) {
-      g.strokeStyle = 'rgba(148,184,230,' + alphas[b] + ')';
+      g.strokeStyle = 'rgba(' + T.edge + ',' + alphas[b] + ')';
       g.lineWidth = b < 2 ? 1.1 : 0.8;
       g.beginPath();
       bands[b].forEach(function (ed2) { var p = nodes[ed2[0]], q = nodes[ed2[1]]; g.moveTo(p.px, p.py); g.lineTo(q.px, q.py); });
       g.stroke();
     }
-    g.strokeStyle = 'rgba(167,139,250,0.34)'; g.lineWidth = 0.9;
+    g.strokeStyle = 'rgba(' + T.b + ',' + (T.light ? 0.26 : 0.34) + ')'; g.lineWidth = 0.9;
     g.beginPath();
     coreBand.forEach(function (ed3) { var p = nodes[ed3[0]], q = nodes[ed3[1]]; g.moveTo(p.px, p.py); g.lineTo(q.px, q.py); });
     g.stroke();
+
+    // edges carrying a cascade light up between the two firing nodes
+    g.lineWidth = 1.4;
+    for (var f = 0; f < edges.length; f++) {
+      var ef = edges[f], wf = Math.min(fired[ef[0]], fired[ef[1]]);
+      if (wf < 0.05) continue;
+      g.strokeStyle = 'rgba(' + (ef[2] ? T.b : T.a) + ',' + Math.min(0.9, wf * 0.95).toFixed(3) + ')';
+      g.beginPath(); g.moveTo(nodes[ef[0]].px, nodes[ef[0]].py); g.lineTo(nodes[ef[1]].px, nodes[ef[1]].py); g.stroke();
+    }
+    // the pointer: faint threads to the nearest nodes
+    if (near.length) {
+      near.sort(function (p, q) { return (nodes[q].h || 0) - (nodes[p].h || 0); });
+      g.lineWidth = 1;
+      for (var r = 0; r < Math.min(4, near.length); r++) {
+        var nn = nodes[near[r]];
+        g.strokeStyle = 'rgba(' + T.a + ',' + ((nn.h || 0) * (T.light ? 0.35 : 0.45)).toFixed(3) + ')';
+        g.beginPath(); g.moveTo(px, py); g.lineTo(nn.px, nn.py); g.stroke();
+      }
+    }
 
     // particles
     for (var d = 0; d < dust.length; d++) {
       var pt = dust[d];
       project(pt.x, pt.y, pt.z, tmp);
       var da = 0.12 + (1 - (tmp[2] + 2) / 4) * 0.35;
-      g.fillStyle = 'rgba(203,213,225,' + Math.max(0.05, da).toFixed(3) + ')';
+      g.fillStyle = 'rgba(' + T.dust + ',' + Math.max(0.05, da * (T.light ? 0.7 : 1)).toFixed(3) + ')';
       var ds = tmp[3] * 1.6;
       g.fillRect(tmp[0], tmp[1], ds, ds);
     }
 
     // nodes, far to near
-    var order = nodes.slice().sort(function (p, q) { return q.pz - p.pz; });
-    g.globalCompositeOperation = 'lighter';
+    var order = nodes.map(function (_, ix) { return ix; }).sort(function (p, q) { return nodes[q].pz - nodes[p].pz; });
+    g.globalCompositeOperation = T.light ? 'source-over' : 'lighter';
+    var A0 = T.a, B0 = T.b;
     for (var o = 0; o < order.length; o++) {
-      var m = order[o], front = 1 - (m.pz + 1) / 2;
-      var c = m.core ? COLORS[1] : [Math.round(56 + (139 - 56) * (1 - front)), Math.round(189 + (92 - 189) * (1 - front)), Math.round(248 + (246 - 248) * (1 - front))];
-      var rad = (m.core ? 2.1 : 1.3 + front * 1.9) * m.ps;
-      if (front > 0.55 || m.core) { var gs = rad * 7; g.globalAlpha = m.core ? 0.32 : (front - 0.5) * 0.7; g.drawImage(sprites[m.core ? 1 : 0], m.px - gs / 2, m.py - gs / 2, gs, gs); }
-      g.globalAlpha = 0.35 + front * 0.65;
-      g.fillStyle = 'rgb(' + c + ')';
+      var mi = order[o], m = nodes[mi], front = 1 - (m.pz + 1) / 2, lit = Math.min(1, fired[mi] + (m.h || 0) * 0.8);
+      var c = m.core ? B0 : [Math.round(A0[0] + (B0[0] - A0[0]) * (1 - front)), Math.round(A0[1] + (B0[1] - A0[1]) * (1 - front)), Math.round(A0[2] + (B0[2] - A0[2]) * (1 - front))];
+      var rad = (m.core ? 2.1 : 1.3 + front * 1.9) * m.ps * (1 + lit * 0.9);
+      if (front > 0.55 || m.core || lit > 0.05) {
+        var gs = rad * (7 + lit * 3);
+        g.globalAlpha = Math.min(1, (m.core ? 0.32 : Math.max(0, (front - 0.5) * 0.7)) + lit * 0.7) * (T.light ? 0.55 : 1);
+        g.drawImage(sprites[lit > 0.3 ? 2 : m.core ? 1 : 0], m.px - gs / 2, m.py - gs / 2, gs, gs);
+      }
+      g.globalAlpha = Math.min(1, 0.35 + front * 0.65 + lit * 0.4);
+      g.fillStyle = 'rgb(' + (lit > 0.3 ? T.c : c) + ')';
       g.beginPath(); g.arc(m.px, m.py, rad, 0, Math.PI * 2); g.fill();
     }
 
@@ -390,7 +510,7 @@
         var x = A.px + (B.px - A.px) * tt, y = A.py + (B.py - A.py) * tt;
         var fz = 1 - ((A.pz + (B.pz - A.pz) * tt) + 1) / 2;
         var sz = (tr ? 9 - tr * 1.8 : 16) * (0.6 + fz * 0.7);
-        g.globalAlpha = (tr ? 0.5 - tr * 0.11 : 0.95) * (0.45 + fz * 0.55);
+        g.globalAlpha = (tr ? 0.5 - tr * 0.11 : 0.95) * (0.45 + fz * 0.55) * (T.light ? 0.75 : 1);
         g.drawImage(sprites[pu.c], x - sz / 2, y - sz / 2, sz, sz);
       }
     }
@@ -425,7 +545,30 @@
       var r2 = p.x * p.x + p.y * p.y + p.z * p.z;
       if (r2 > 6 || r2 < 1.4) { p.vx = -p.vx; p.vy = -p.vy; p.vz = -p.vz; }
     }
+    cascade(dt);
     draw(now / 1000);
+    // the pointer resting on a node sets off a cascade from it
+    if (pOn && hover >= 0 && hoverD < 34 && clock - lastPoke > 0.9) { lastPoke = clock; ignite(hover); }
+  };
+  /** @param {number} dt */
+  var cascade = function (dt) {
+    clock += dt;
+    if (clock >= nextWave) { ignite(Math.floor(Math.random() * nodes.length)); nextWave = clock + 1.4 + Math.random() * 2.2; }
+    for (var q = queue.length - 1; q >= 0; q--) {
+      var it = queue[q];
+      if (it.at > clock) continue;
+      queue.splice(q, 1);
+      if (fireAt[it.n] === it.w) continue;
+      fireAt[it.n] = it.w;
+      fired[it.n] = Math.max(fired[it.n], 1 - it.d * 0.19);
+      if (it.d >= 4) continue;
+      var nb = adj[it.n];
+      for (var j = 0; j < nb.length; j++) {
+        if (fireAt[nb[j]] !== it.w && Math.random() < 0.62) queue.push({ n: nb[j], at: clock + 0.08 + Math.random() * 0.09, d: it.d + 1, w: it.w });
+      }
+    }
+    var fade = Math.exp(-dt * 2.3);
+    for (var f = 0; f < fired.length; f++) fired[f] = fired[f] > 0.01 ? fired[f] * fade : 0;
   };
   var start = function () {
     if (running || !DF.motionOn() || !visible || document.hidden) return;
@@ -448,8 +591,14 @@
       if (!running) return;
       tYaw = (e.clientX / window.innerWidth - 0.5) * 0.5;
       tPitch = (e.clientY / window.innerHeight - 0.5) * 0.24;
+      var r = cv.getBoundingClientRect();
+      px = e.clientX - r.left; py = e.clientY - r.top;
+      pOn = py >= 0 && py <= r.height;
     }, { passive: true });
+    document.documentElement.addEventListener('pointerleave', function () { pOn = false; });
   }
+  // a new theme: new colours, and a fresh still frame when nothing is animating
+  document.addEventListener('df:theme', function () { readTheme(); if (!running && layout()) draw(0); });
   sync();
 })();
 
@@ -524,436 +673,256 @@
   var DF = window.DF;
 
   if ('IntersectionObserver' in window && DF.motionOn()) {
+    /** @type {HTMLElement[]} */ var pending = [];
+    /** @param {HTMLElement} el */
+    var show = function (el) {
+      io.unobserve(el);
+      pending.splice(pending.indexOf(el), 1);
+      el.classList.add('is-in');
+      var done = function (/** @type {TransitionEvent} */ ev) {
+        if (ev.target !== el || ev.propertyName !== 'transform') return;
+        el.removeEventListener('transitionend', done);
+        el.classList.remove('reveal', 'is-in');
+      };
+      el.addEventListener('transitionend', done);
+    };
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var el = /** @type {HTMLElement} */ (e.target);
-        io.unobserve(el);
-        el.classList.add('is-in');
-        var done = function (/** @type {TransitionEvent} */ ev) {
-          if (ev.target !== el || ev.propertyName !== 'transform') return;
-          el.removeEventListener('transitionend', done);
-          el.classList.remove('reveal', 'is-in');
-        };
-        el.addEventListener('transitionend', done);
-      });
-    }, { rootMargin: '0px 0px -8% 0px' });
+      entries.forEach(function (e) { if (e.isIntersecting) show(/** @type {HTMLElement} */ (e.target)); });
+    }, { rootMargin: '0px 0px -4% 0px' });
     DF.each(document.querySelectorAll('[data-reveal]'), function (el) {
-      if (el.getBoundingClientRect().top < window.innerHeight || (el.parentElement && el.parentElement.closest('.reveal'))) return;
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.96 || (el.parentElement && el.parentElement.closest('.reveal'))) return;
       el.classList.add('reveal');
+      pending.push(el);
       io.observe(el);
     });
+    // a fast scroll or a jump to a section can carry an element past the screen between two
+    // frames, so the observer never sees it; anything the reader has already reached is shown
+    var queued = false;
+    var sweep = function () {
+      queued = false;
+      var reached = pending.filter(function (el) { return el.getBoundingClientRect().top < window.innerHeight; });
+      reached.forEach(show);
+      if (!pending.length) window.removeEventListener('scroll', onScroll);
+    };
+    var onScroll = function () { if (!queued) { queued = true; setTimeout(function () { requestAnimationFrame(sweep); }, 120); } };
+    if (pending.length) window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  // continuous, decorative loops (architecture packets, contact rings) only while visible
-  DF.each(document.querySelectorAll('.arch__wrap, .contact'), function (el) {
+  // continuous, decorative loops (the contact rings) only while visible
+  DF.each(document.querySelectorAll('.contact'), function (el) {
     DF.watch(el, function (on) { el.classList.toggle('is-visible', on); });
   });
 })();
 
-/* ===== expertise.js ===== */
-/* ---------- domain cards: the motif plays while hovered or focused,
-   and once for a few seconds when the card first scrolls into view ---------- */
+/* ===== stepper.js ===== */
+/* ---------- steppers: workflow, architecture, disciplines ----------
+   One stage is open at a time (a single-open accordion). Buttons carry aria-expanded;
+   ←/→ (or ↑/↓), Home and End move between stages. The track fills to the open stage.
+   Hovering a stage with a mouse on a wide screen opens it too (a preview). Without
+   JavaScript every stage is open. */
 (function () {
   'use strict';
   var DF = window.DF;
-  DF.each(document.querySelectorAll('[data-domain]'), function (card) {
-    var hover = false, focus = false, intro = 0, seen = false;
-    var set = function () { card.classList.toggle('is-live', DF.motionOn() && (hover || focus || intro > 0)); };
-    card.addEventListener('pointerenter', function (/** @type {PointerEvent} */ e) { if (e.pointerType === 'mouse') { hover = true; set(); } });
-    card.addEventListener('pointerleave', function () { hover = false; set(); });
-    card.addEventListener('focusin', function () { focus = true; set(); });
-    card.addEventListener('focusout', function () { focus = false; set(); });
-    DF.watch(card, function (on) {
-      if (!on || seen) return;
-      seen = true;
-      intro = window.setTimeout(function () { intro = 0; set(); }, 3600);
-      set();
-    }, '0px 0px -25% 0px');
+  var wide = window.matchMedia('(min-width: 1024px) and (hover: hover)');
+  DF.each(document.querySelectorAll('[data-stepper]'), function (box) {
+    var nodes = /** @type {NodeListOf<HTMLButtonElement>} */ (box.querySelectorAll('.stepper__node'));
+    var panels = /** @type {NodeListOf<HTMLElement>} */ (box.querySelectorAll('.stepper__panel'));
+    var steps = box.querySelectorAll('.stepper__step');
+    if (!nodes.length || nodes.length !== panels.length) return;
+    var current = -1, n = nodes.length;
+    box.classList.add('is-enhanced');
+
+    /** @param {number} i @param {boolean} [focus] */
+    var open = function (i, focus) {
+      if (i !== current) {
+        current = i;
+        DF.each(nodes, function (b, k) { b.setAttribute('aria-expanded', String(k === i)); });
+        DF.each(panels, function (p, k) {
+          p.hidden = k !== i;
+          p.classList.remove('is-entering');
+          if (k === i && DF.motionOn()) { void p.offsetWidth; p.classList.add('is-entering'); }
+        });
+        DF.each(steps, function (s, k) {
+          s.classList.toggle('is-open', k === i);
+          s.classList.toggle('is-done', k < i);
+          s.classList.toggle('is-next', k === i + 1);
+        });
+        box.style.setProperty('--at', String(i));
+        box.style.setProperty('--progress', String(n > 1 ? i / (n - 1) : 1));
+        var tone = steps[i] && steps[i].getAttribute('data-tone');
+        if (tone) box.setAttribute('data-active-tone', tone);
+        box.dispatchEvent(new CustomEvent('stepper:change', { detail: { index: i } }));
+      }
+      if (focus) nodes[i].focus();
+    };
+
+    DF.each(nodes, function (b, i) {
+      b.addEventListener('click', function () { open(i); });
+      b.addEventListener('pointerenter', function (/** @type {PointerEvent} */ e) {
+        if (e.pointerType === 'mouse' && wide.matches && box.hasAttribute('data-hover')) open(i);
+      });
+      b.addEventListener('keydown', function (/** @type {KeyboardEvent} */ e) {
+        var to = -1;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') to = (i + 1) % n;
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') to = (i - 1 + n) % n;
+        else if (e.key === 'Home') to = 0;
+        else if (e.key === 'End') to = n - 1;
+        if (to < 0) return;
+        e.preventDefault();
+        open(to, true);
+      });
+    });
+    DF.each(panels, function (p) { p.addEventListener('animationend', function () { p.classList.remove('is-entering'); }); });
+    open(0);
+    // the track draws itself the first time the stepper is seen
+    DF.watch(box, function (on) { if (on) box.classList.add('is-seen'); }, '0px 0px -20% 0px');
+  });
+})();
+
+/* ===== expertise.js ===== */
+/* ---------- disciplines: a discipline's illustration moves while its stage is open and
+   on screen (or while hovered), and stops otherwise ---------- */
+(function () {
+  'use strict';
+  var DF = window.DF;
+  DF.each(document.querySelectorAll('[data-domain]'), function (disc) {
+    var panel = /** @type {HTMLElement} */ (disc.closest('.stepper__panel') || disc);
+    var box = disc.closest('[data-stepper]');
+    var seen = false, hover = false;
+    var set = function () { disc.classList.toggle('is-live', DF.motionOn() && (hover || (seen && !panel.hidden))); };
+    disc.addEventListener('pointerenter', function (/** @type {PointerEvent} */ e) { if (e.pointerType === 'mouse') { hover = true; set(); } });
+    disc.addEventListener('pointerleave', function () { hover = false; set(); });
+    DF.watch(disc, function (on) { seen = on; set(); }, '0px 0px -15% 0px');
+    if (box) box.addEventListener('stepper:change', function () { window.setTimeout(set, 0); });
     DF.onMotion(set);
   });
 })();
 
-/* ===== filters.js ===== */
-/* ---------- projects: filter by category ----------
-   Buttons are toggle buttons (aria-pressed); one is always on. The result count is
-   announced politely. The first visible card leads (spans the row). */
+/* ===== projects.js ===== */
+/* ---------- projects: filters and the explorer ----------
+   Filters are toggle buttons (aria-pressed); the result count is announced. On wide
+   screens the index selects which project the showcase shows: hover previews it,
+   click or Enter selects it, ↑/↓ move through the index. On smaller screens every
+   project is a full card in a swipeable row, with a counter and previous/next. */
 (function () {
   'use strict';
   var DF = window.DF;
-  var bar = document.querySelector('[data-filters]');
-  var grid = document.querySelector('[data-missions]');
-  if (!bar || !grid) return;
-  var buttons = bar.querySelectorAll('button[data-filter]');
-  var cards = grid.querySelectorAll('[data-mission]');
-  var status = document.querySelector('[data-filter-status]');
-  var total = cards.length;
+  var box = document.querySelector('[data-explorer]');
+  if (!box) return;
+  var buttons = box.querySelectorAll('button[data-filter]');
+  var cards = /** @type {NodeListOf<HTMLElement>} */ (box.querySelectorAll('[data-mission]'));
+  var items = /** @type {NodeListOf<HTMLButtonElement>} */ (box.querySelectorAll('.px__item'));
+  var status = box.querySelector('[data-filter-status]');
+  var wide = window.matchMedia('(min-width: 1024px)');
+  var hoverable = window.matchMedia('(hover: hover)');
+  var total = cards.length, active = '', lastXY = '';
+
+  /** @param {string} slug @param {boolean} [animate] */
+  var show = function (slug, animate) {
+    if (slug === active) return;
+    active = slug;
+    DF.each(items, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-show') === slug)); });
+    DF.each(cards, function (c) {
+      var on = c.id === 'px-' + slug;
+      c.classList.toggle('is-active', on);
+      if (on && animate && wide.matches && DF.motionOn()) { c.classList.remove('is-entering'); void c.offsetWidth; c.classList.add('is-entering'); }
+    });
+  };
+  /** @param {HTMLElement} el */
+  var visible = function (el) { var li = el.closest('li'); return !(li && li.hidden) && !el.hidden; };
+
+  DF.each(items, function (b, i) {
+    var slug = b.getAttribute('data-show') || '';
+    b.addEventListener('click', function () { show(slug, true); });
+    // a mouse that actually moves over an item previews it; Chrome's synthetic moves after a
+    // scroll or a layout change (same position) are ignored, so they can't undo a keyboard choice
+    b.addEventListener('pointermove', function (/** @type {PointerEvent} */ e) {
+      if (e.pointerType !== 'mouse' || !hoverable.matches) return;
+      var xy = e.screenX + ',' + e.screenY;
+      if (xy === lastXY) return;
+      lastXY = xy;
+      show(slug, true);
+    });
+    b.addEventListener('focus', function () { show(slug, true); });
+    b.addEventListener('keydown', function (/** @type {KeyboardEvent} */ e) {
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      e.preventDefault();
+      var step = e.key === 'ArrowDown' ? 1 : -1;
+      for (var k = 1; k <= items.length; k++) {
+        var next = items[(i + step * k + items.length * 2) % items.length];
+        if (visible(next)) { next.focus(); break; }
+      }
+    });
+  });
+  DF.each(cards, function (c) { c.addEventListener('animationend', function () { c.classList.remove('is-entering'); }); });
 
   /** @param {string} key */
-  var apply = function (key) {
-    var shown = 0, lead = false;
+  var filter = function (key) {
+    var shown = 0, first = '';
     DF.each(buttons, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-filter') === key)); });
-    DF.each(cards, function (li) {
-      var cats = (li.getAttribute('data-cats') || '').split(' ');
-      var on = key === 'all' || cats.indexOf(key) !== -1;
-      li.hidden = !on;
-      li.classList.remove('is-lead', 'is-entering');
-      if (!on) return;
-      if (!lead) { li.classList.add('is-lead'); lead = true; }
-      if (DF.motionOn()) {
-        li.style.setProperty('--k', String(shown));
-        void li.offsetWidth;            // restart the entrance animation
-        li.classList.add('is-entering');
+    var match = function (/** @type {Element} */ el) { return key === 'all' || (el.getAttribute('data-cats') || '').split(' ').indexOf(key) !== -1; };
+    DF.each(cards, function (c, i) {
+      var on = match(c);
+      c.hidden = !on;
+      c.classList.remove('is-entering');
+      if (on) {
+        if (!first) first = c.id.slice(3);
+        if (!wide.matches && DF.motionOn()) { c.style.setProperty('--k', String(shown)); void c.offsetWidth; c.classList.add('is-entering'); }
+        shown++;
       }
-      shown++;
+      void i;
     });
+    DF.each(items, function (b) { var li = b.closest('li'); if (li) li.hidden = !match(li); });
+    var cur = document.getElementById('px-' + active);
+    if (!cur || cur.hidden) { active = ''; show(first, true); }
     if (status) {
       var label = '';
       DF.each(buttons, function (b) { if (b.getAttribute('data-filter') === key) label = (b.firstChild && b.firstChild.textContent) || ''; });
       status.textContent = key === 'all' ? 'Showing all ' + total + ' projects' : 'Showing ' + shown + ' of ' + total + ' projects · ' + label.trim();
     }
   };
-  DF.each(buttons, function (b) {
-    b.addEventListener('click', function () { apply(b.getAttribute('data-filter') || 'all'); });
-  });
-  DF.each(cards, function (li) { li.addEventListener('animationend', function () { li.classList.remove('is-entering'); }); });
-})();
+  DF.each(buttons, function (b) { b.addEventListener('click', function () { filter(b.getAttribute('data-filter') || 'all'); sync(true); }); });
+  if (items.length) show(items[0].getAttribute('data-show') || '');
 
-/* ===== career.js ===== */
-/* ---------- experience: the timeline rail fills as the roles are read ---------- */
-(function () {
-  'use strict';
-  var DF = window.DF;
-  var wrap = document.querySelector('.career__wrap');
-  var fill = /** @type {HTMLElement|null} */ (document.querySelector('[data-career-fill]'));
-  if (!wrap || !fill) return;
-  var w = /** @type {HTMLElement} */ (wrap), f = /** @type {HTMLElement} */ (fill);
-  var near = false, queued = false;
-  var update = function () {
+  /* smaller screens: the swipeable row — a position counter, a progress rail, previous/next */
+  var stage = /** @type {HTMLElement|null} */ (box.querySelector('[data-missions]'));
+  var prev = /** @type {HTMLButtonElement|null} */ (box.querySelector('[data-px-prev]'));
+  var next = /** @type {HTMLButtonElement|null} */ (box.querySelector('[data-px-next]'));
+  var pos = box.querySelector('[data-px-pos]'), tot = box.querySelector('[data-px-total]');
+  var rail = /** @type {HTMLElement|null} */ (box.querySelector('[data-px-rail]'));
+  var pad = function (/** @type {number} */ n) { return (n < 10 ? '0' : '') + n; };
+  var shownCards = function () { return Array.prototype.filter.call(cards, function (/** @type {HTMLElement} */ c) { return !c.hidden; }); };
+  var queued = false;
+  /** @param {boolean} [reset] */
+  var sync = function (reset) {
     queued = false;
-    if (!DF.motionOn()) { f.style.setProperty('--p', '1'); return; }
-    var r = w.getBoundingClientRect();
-    var p = (window.innerHeight * 0.62 - r.top) / r.height;
-    f.style.setProperty('--p', String(Math.max(0.04, Math.min(1, p)).toFixed(3)));
+    if (!stage || wide.matches) return;
+    if (reset) stage.scrollLeft = 0;
+    var list = shownCards(), n = list.length, at = 0;
+    var x = stage.scrollLeft, maxX = stage.scrollWidth - stage.clientWidth;
+    for (var i = 0; i < n; i++) if (list[i].offsetLeft - stage.offsetLeft - x <= list[i].offsetWidth / 2) at = i;
+    if (maxX > 0 && x >= maxX - 4) at = n - 1;
+    if (pos) pos.textContent = pad(Math.min(n, at + 1));
+    if (tot) tot.textContent = pad(n);
+    if (rail) { rail.style.setProperty('--w', (100 / Math.max(1, n)) + '%'); rail.style.setProperty('--x', String(at)); }
+    if (prev) prev.disabled = at <= 0;
+    if (next) next.disabled = at >= n - 1;
   };
-  window.addEventListener('scroll', function () { if (near && !queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
-  DF.watch(w, function (on) { near = on; if (on) update(); }, '200px 0px');
-  DF.onMotion(update);
-  update();
-})();
-
-/* ===== architecture.js ===== */
-/* ---------- interactive data architecture ----------
-   Turns the stage list into tabs (WAI-ARIA tabs pattern, automatic activation):
-   pointer or Left/Right/Home/End select a stage and show its panel. Hovering a
-   stage previews its connections. Without JavaScript every panel is shown. */
-(function () {
-  'use strict';
-  var DF = window.DF;
-  var box = document.querySelector('[data-arch]');
-  if (!box) return;
-  var flow = /** @type {HTMLElement} */ (box.querySelector('[data-arch-flow]'));
-  var tabs = /** @type {NodeListOf<HTMLButtonElement>} */ (box.querySelectorAll('.arch__stage'));
-  var steps = box.querySelectorAll('.arch__step');
-  var panels = /** @type {NodeListOf<HTMLElement>} */ (box.querySelectorAll('[data-arch-panel]'));
-  if (!tabs.length || tabs.length !== panels.length) return;
-
-  flow.setAttribute('role', 'tablist');
-  flow.setAttribute('aria-label', 'Architecture stages');
-  DF.each(steps, function (li, i) { li.setAttribute('role', 'presentation'); li.style.setProperty('--k', String(i)); });
-  DF.each(tabs, function (t) { t.setAttribute('role', 'tab'); });
-  DF.each(panels, function (p) { p.setAttribute('role', 'tabpanel'); p.setAttribute('aria-labelledby', p.id.replace('arch-panel-', 'arch-tab-')); });
-
-  var current = -1;
-  /** @param {number} i @param {string} cls */
-  var mark = function (i, cls) {
-    DF.each(steps, function (li, k) {
-      li.classList.toggle(cls === 'sel' ? 'is-linked' : 'is-peek', k === i - 1 || k === i + 1);
-      if (cls === 'sel') li.classList.toggle('is-conn', k === i || k === i + 1);
-    });
+  /** @param {number} dir */
+  var go = function (dir) {
+    if (!stage) return;
+    var list = shownCards(); if (!list.length) return;
+    var gap = list.length > 1 ? list[1].offsetLeft - list[0].offsetLeft - list[0].offsetWidth : 0;
+    stage.scrollBy({ left: dir * (list[0].offsetWidth + gap), behavior: DF.motionOn() ? 'smooth' : 'auto' });
   };
-  /** @param {number} i @param {boolean} [focus] */
-  var select = function (i, focus) {
-    if (i === current) { if (focus) tabs[i].focus(); return; }
-    current = i;
-    DF.each(tabs, function (t, k) {
-      t.setAttribute('aria-selected', String(k === i));
-      t.tabIndex = k === i ? 0 : -1;
-    });
-    DF.each(panels, function (p, k) {
-      p.hidden = k !== i;
-      p.classList.remove('is-entering');
-      if (k === i && DF.motionOn()) { void p.offsetWidth; p.classList.add('is-entering'); }
-    });
-    mark(i, 'sel');
-    if (focus) tabs[i].focus();
-  };
-
-  DF.each(tabs, function (t, i) {
-    t.addEventListener('click', function () { select(i); });
-    t.addEventListener('keydown', function (/** @type {KeyboardEvent} */ e) {
-      var n = tabs.length, to = -1;
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') to = (i + 1) % n;
-      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') to = (i - 1 + n) % n;
-      else if (e.key === 'Home') to = 0;
-      else if (e.key === 'End') to = n - 1;
-      if (to < 0) return;
-      e.preventDefault();
-      select(to, true);
-    });
-  });
-  DF.each(panels, function (p) { p.addEventListener('animationend', function () { p.classList.remove('is-entering'); }); });
-  select(0);
-})();
-
-/* ===== terminal-core.js ===== */
-/* ============================================================
-   Terminal — command logic (no DOM). Shared by the page, the build (which
-   pre-renders the opening output for visitors without JavaScript) and the unit
-   tests in qa/unit/. It answers from portfolio data only: nothing is executed,
-   nothing is sent anywhere.
-
-   A command returns { lines, clear }. A line is a list of segments:
-   { t: text, c?: class, href?: link, ext?: opens in a new tab }.
-   ============================================================ */
-(function (root, factory) {
-  var api = factory();
-  if (typeof module === 'object' && module.exports) module.exports = api;
-  else /** @type {any} */ (root).DFTerminal = api;
-})(typeof self !== 'undefined' ? self : this, function () {
-  'use strict';
-
-  /** @typedef {{ t: string, c?: string, href?: string, ext?: boolean }} Seg */
-  /** @typedef {Seg[]} Line */
-
-  /** @type {Array<[string, string]>} */
-  var COMMANDS = [
-    ['help', 'List the available commands'],
-    ['about', 'Who I am, in four lines'],
-    ['skills', 'The four engineering domains and their tools'],
-    ['projects', 'Engineering missions, with links to case studies'],
-    ['experience', 'Roles, newest first'],
-    ['education', 'Degree and certifications'],
-    ['stack', 'Tools by layer, and what this site is built with'],
-    ['contact', 'Email, LinkedIn, GitHub and résumé'],
-    ['whoami', 'One-line identity'],
-    ['history', 'Commands entered in this session'],
-    ['clear', 'Clear the screen (or press Ctrl+L)'],
-  ];
-  var NAMES = COMMANDS.map(function (c) { return c[0]; });
-  var ALIASES = { ls: 'projects', cls: 'clear', man: 'help', '?': 'help', resume: 'contact', cv: 'contact' };
-
-  /** @param {string} s @param {number} n */
-  var pad = function (s, n) { while (s.length < n) s += ' '; return s; };
-  /** @param {string} t @param {string} [c] @returns {Seg} */
-  var seg = function (t, c) { return c ? { t: t, c: c } : { t: t }; };
-  /** @param {string} t @returns {Line} */
-  var head = function (t) { return [seg(t, 'h')]; };
-  /** @returns {Line} */
-  var blank = function () { return [seg('')]; };
-
-  /** @param {string} input @returns {string[]} names that start with the input */
-  function complete(input) {
-    var v = String(input || '').trim().toLowerCase();
-    if (!v || v.indexOf(' ') !== -1) return [];
-    return NAMES.filter(function (n) { return n.indexOf(v) === 0; });
+  if (stage) {
+    var st = stage;
+    st.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(function () { sync(); }); } }, { passive: true });
+    if (prev) prev.addEventListener('click', function () { go(-1); });
+    if (next) next.addEventListener('click', function () { go(1); });
+    DF.onMedia(wide, function () { sync(true); });
+    sync();
   }
-
-  /**
-   * @param {string} input
-   * @param {any} data  the JSON from src/data/terminal.js
-   * @param {string[]} [history]
-   * @returns {{ lines: Line[], clear: boolean, name: string }}
-   */
-  function run(input, data, history) {
-    var raw = String(input || '').trim();
-    var word = raw.split(/\s+/)[0].toLowerCase();
-    /** @type {any} */ var aliases = ALIASES;
-    var name = aliases[word] || word;
-    /** @type {Line[]} */ var out = [];
-    if (!raw) return { lines: out, clear: false, name: '' };
-
-    switch (name) {
-      case 'help':
-        out.push(head('Available commands'));
-        COMMANDS.forEach(function (c) { out.push([seg(pad(c[0], 12), 'k'), seg(c[1], 'dim')]); });
-        out.push(blank());
-        out.push([seg('Tip: ', 'dim'), seg('↑ ↓', 'k'), seg(' recall commands · ', 'dim'), seg('Tab', 'k'), seg(' completes a command', 'dim')]);
-        break;
-      case 'about':
-        out.push(head('About'));
-        data.about.forEach(function (/** @type {string} */ l) { out.push([seg(l)]); });
-        break;
-      case 'whoami':
-        out.push([seg(data.whoami, 'accent')]);
-        break;
-      case 'skills':
-        data.skills.forEach(function (/** @type {any} */ d, /** @type {number} */ i) {
-          if (i) out.push(blank());
-          out.push(head(d.name));
-          out.push([seg('  ' + d.tech.join(' · '), 'dim')]);
-        });
-        break;
-      case 'projects':
-        out.push(head('Engineering missions'));
-        data.projects.forEach(function (/** @type {any} */ p) {
-          /** @type {Line} */ var line = [seg(pad(p.code, 6), 'k')];
-          line.push(p.url ? { t: p.title, href: p.url } : seg(p.title));
-          if (p.status) line.push(seg('  ● ' + p.status, 'ok'));
-          out.push(line);
-          out.push([seg('      ' + p.kicker + ' · ' + p.role, 'dim')]);
-        });
-        out.push(blank());
-        out.push([seg('Select a title to open its case study.', 'dim')]);
-        break;
-      case 'experience':
-        data.experience.forEach(function (/** @type {any} */ x, /** @type {number} */ i) {
-          if (i) out.push(blank());
-          out.push([seg(x.when, 'k'), seg('  ' + x.role, 'h')]);
-          out.push([seg('  ' + x.org + ', ' + x.place, 'dim')]);
-          x.points.forEach(function (/** @type {string} */ p) { out.push([seg('  › ', 'k'), seg(p)]); });
-        });
-        break;
-      case 'education':
-        out.push(head('Education'));
-        out.push([seg(data.education.degree)]);
-        out.push([seg('  ' + data.education.detail, 'dim')]);
-        out.push(blank());
-        out.push(head('Certifications'));
-        data.education.certs.forEach(function (/** @type {string} */ c) { out.push([seg('  › ', 'k'), seg(c)]); });
-        break;
-      case 'stack':
-        data.stack.forEach(function (/** @type {[string, string[]]} */ g) {
-          out.push([seg(pad(g[0], 11), 'k'), seg(g[1].join(' · '))]);
-        });
-        break;
-      case 'contact':
-        out.push(head('Establish connection'));
-        out.push([seg(pad('email', 10), 'k'), { t: data.contact.email, href: 'mailto:' + data.contact.email }]);
-        out.push([seg(pad('linkedin', 10), 'k'), { t: data.contact.linkedin.replace(/^https:\/\/(www\.)?/, ''), href: data.contact.linkedin, ext: true }]);
-        out.push([seg(pad('github', 10), 'k'), { t: data.contact.github.replace(/^https:\/\//, ''), href: data.contact.github, ext: true }]);
-        out.push([seg(pad('resume', 10), 'k'), { t: 'Open the résumé (Google Drive)', href: data.contact.resume, ext: true }]);
-        break;
-      case 'history':
-        if (!history || !history.length) out.push([seg('No commands yet.', 'dim')]);
-        else history.forEach(function (h, i) { out.push([seg(pad(String(i + 1), 4), 'dim'), seg(h)]); });
-        break;
-      case 'clear':
-        return { lines: [], clear: true, name: name };
-      case 'sudo':
-        out.push([seg('Permission denied: this shell is read-only. Try ', 'warn'), seg('help', 'k'), seg('.', 'warn')]);
-        break;
-      default:
-        var near = complete(word);
-        out.push([seg('command not found: ', 'warn'), seg(raw.slice(0, 40))]);
-        out.push(near.length
-          ? [seg('Did you mean ', 'dim'), seg(near[0], 'k'), seg('? Type ', 'dim'), seg('help', 'k'), seg(' for the full list.', 'dim')]
-          : [seg('Type ', 'dim'), seg('help', 'k'), seg(' to see what this shell can do.', 'dim')]);
-        name = '';
-    }
-    return { lines: out, clear: false, name: name };
-  }
-
-  return { COMMANDS: COMMANDS, NAMES: NAMES, run: run, complete: complete };
-});
-
-/* ===== terminal.js ===== */
-/* ---------- terminal: the DOM side ----------
-   Echoes each command, prints the answer from DFTerminal (terminal-core.js), keeps
-   a history (↑/↓), completes with Tab, clears with `clear` or Ctrl+L. All output is
-   built with DOM methods: typed text is never parsed as HTML. */
-(function () {
-  'use strict';
-  var box = document.querySelector('[data-term]');
-  var core = window.DFTerminal;
-  var dataEl = document.getElementById('term-data');
-  if (!box || !core || !dataEl) return;
-  var data = JSON.parse(dataEl.textContent || '{}');
-  var out = /** @type {HTMLElement} */ (box.querySelector('[data-term-out]'));
-  var body = /** @type {HTMLElement} */ (box.querySelector('[data-term-body]'));
-  var form = /** @type {HTMLFormElement} */ (box.querySelector('[data-term-form]'));
-  var input = /** @type {HTMLInputElement} */ (box.querySelector('.term__input'));
-  if (!out || !body || !form || !input) return;
-  /** @type {string[]} */ var history = [];
-  var at = 0, draft = '';
-
-  /** @param {Array<{t: string, c?: string, href?: string, ext?: boolean}>} segs @param {string} [cls] */
-  var line = function (segs, cls) {
-    var p = document.createElement('p');
-    p.className = 't-line' + (cls ? ' ' + cls : '');
-    segs.forEach(function (s) {
-      if (!s.t) return;
-      var el;
-      if (s.href) {
-        el = document.createElement('a');
-        el.setAttribute('href', s.href);
-        if (s.ext) { el.target = '_blank'; el.rel = 'noopener noreferrer'; }
-      } else el = document.createElement('span');
-      if (s.c) el.className = 't-' + s.c;
-      el.textContent = s.t;
-      p.appendChild(el);
-    });
-    out.appendChild(p);
-  };
-  var toEnd = function () { body.scrollTop = body.scrollHeight; };
-
-  /** @param {string} raw */
-  var exec = function (raw) {
-    var cmd = raw.trim();
-    line([{ t: data.prompt, c: 'prompt' }, { t: ' ' + cmd }], 't-echo');
-    if (cmd) { history.push(cmd); if (history.length > 50) history.shift(); }
-    at = history.length; draft = '';
-    var r = core.run(cmd, data, history);
-    if (r.clear) out.textContent = '';
-    else r.lines.forEach(function (/** @type {any} */ l) { line(l); });
-    toEnd();
-  };
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    exec(input.value);
-    input.value = '';
-  });
-  input.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowUp' && history.length) {
-      e.preventDefault();
-      if (at === history.length) draft = input.value;
-      at = Math.max(0, at - 1);
-      input.value = history[at];
-    } else if (e.key === 'ArrowDown' && history.length) {
-      e.preventDefault();
-      at = Math.min(history.length, at + 1);
-      input.value = at === history.length ? draft : history[at];
-    } else if (e.key === 'Tab' && !e.shiftKey && input.value.trim()) {
-      var m = core.complete(input.value);
-      if (m.length === 1 && m[0] !== input.value.trim()) { e.preventDefault(); input.value = m[0]; }
-      else if (m.length > 1) {
-        e.preventDefault();
-        line([{ t: m.join('   '), c: 'dim' }]);
-        toEnd();
-      }
-    } else if ((e.key === 'l' || e.key === 'L') && e.ctrlKey) {
-      e.preventDefault();
-      out.textContent = '';
-    }
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-      var len = input.value.length;
-      window.requestAnimationFrame(function () { input.setSelectionRange(len, len); });
-    }
-  });
-  // a click anywhere in the window focuses the prompt, unless it is on a link or a selection
-  body.addEventListener('click', function (e) {
-    var sel = window.getSelection();
-    if (/** @type {Element} */ (e.target).closest('a') || (sel && sel.toString())) return;
-    input.focus({ preventScroll: true });
-  });
-  window.DF.each(document.querySelectorAll('[data-cmd]'), function (b) {
-    b.addEventListener('click', function () {
-      exec(b.getAttribute('data-cmd') || '');
-      input.focus({ preventScroll: true });
-    });
-  });
-  toEnd();
 })();
 
 /* ===== walkthrough-loader.js ===== */
@@ -996,7 +965,7 @@
     btn.addEventListener('click', function () {
       if (btn.getAttribute('aria-busy') === 'true') return;
       btn.setAttribute('aria-busy', 'true');
-      var holder = btn.closest('figure, .mission__card, .cs-links li');
+      var holder = btn.closest('figure, .px__card, .cs-links li');
       var note = holder && holder.querySelector('[data-demo-status]');
       load().then(function (player) {
         btn.removeAttribute('aria-busy');

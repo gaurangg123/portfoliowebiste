@@ -16,7 +16,6 @@ const site = require('../src/data/site.js');
 const { PROJECTS, EXPERIMENT_TITLES } = require('../src/data/projects.js');
 const domains = require('../src/data/domains.js');
 const edu = require('../src/data/education.js');
-const terminalData = require('../src/data/terminal.js');
 
 const { head } = require('../src/components/head.js');
 const { navigation, toTop } = require('../src/components/navigation.js');
@@ -28,7 +27,7 @@ const { projects } = require('../src/components/projects.js');
 const { experience } = require('../src/components/experience.js');
 const { education } = require('../src/components/education.js');
 const { architecture } = require('../src/components/architecture.js');
-const { terminal } = require('../src/components/terminal.js');
+const { workflow } = require('../src/components/workflow.js');
 const { contact } = require('../src/components/contact.js');
 const { caseStudy, notFound } = require('../src/components/case-study.js');
 
@@ -47,10 +46,10 @@ const TITLES = { ...EXPERIMENT_TITLES };
 for (const p of CASES) TITLES[p.slug] = DEMOS[p.slug].title;
 
 /* ---------- bundles ---------- */
-const STYLES = ['tokens', 'base', 'navigation', 'hero', 'about', 'expertise', 'projects', 'experience', 'education',
-  'architecture', 'terminal', 'contact', 'footer', 'case-study', 'case-visuals', 'motion'];
-const SCRIPTS = ['core', 'nav', 'motion-pref', 'hero-lattice', 'titles', 'clock', 'reveal', 'expertise', 'filters',
-  'career', 'architecture', 'terminal-core', 'terminal', 'walkthrough-loader', 'explain', 'copy', 'papercut', 'legacy'];
+const STYLES = ['tokens', 'base', 'navigation', 'hero', 'about', 'stepper', 'expertise', 'projects', 'experience',
+  'workflow', 'architecture', 'education', 'contact', 'footer', 'case-study', 'case-visuals', 'motion'];
+const SCRIPTS = ['core', 'theme', 'nav', 'motion-pref', 'hero-lattice', 'titles', 'clock', 'reveal', 'stepper', 'expertise',
+  'projects', 'walkthrough-loader', 'explain', 'copy', 'papercut', 'legacy'];
 
 const read = (f) => fs.readFileSync(f, 'utf8');
 const hash = (s) => crypto.createHash('sha256').update(s).digest('hex').slice(0, 10);
@@ -119,11 +118,11 @@ ${projects(TITLES)}
 
 ${experience()}
 
-${education()}
+${workflow()}
 
 ${architecture()}
 
-${terminal(terminalData(TITLES))}
+${education()}
 
 ${contact()}
 </main>

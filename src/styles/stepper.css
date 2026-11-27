@@ -1,0 +1,95 @@
+/* ---------- stepper: shared by the workflow, the architecture and the disciplines ----------
+   Base: a vertical timeline (small screens, and without JavaScript every stage is open).
+   .stepper--journey ≥1024px: nodes along a horizontal track, one detail area below.
+   .stepper--side    ≥1024px: a vertical list beside a large stage. */
+.stepper { position: relative; display: grid; --dot: 40px; }
+.stepper__track { display: none; }
+.stepper__step { position: relative; padding-left: calc(var(--dot) + 16px); }
+/* the timeline line runs through each dot */
+.stepper__step::before {
+  content: ""; position: absolute; left: calc(var(--dot) / 2 - 1px); top: 0; bottom: 0; width: 2px;
+  background: var(--border-2);
+}
+.stepper__step:first-child::before { top: calc(14px + var(--dot) / 2); }
+.stepper__step:last-child::before { bottom: auto; height: calc(14px + var(--dot) / 2); }
+.stepper__step.is-done::before, .stepper__step.is-open::before { background: linear-gradient(180deg, var(--tone), color-mix(in srgb, var(--tone) 40%, transparent)); }
+.stepper__h { font: inherit; }
+.stepper__node {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; width: 100%;
+  padding: 14px 0 12px; border: 0; background: none; color: var(--text); text-align: left;
+}
+.stepper__dot {
+  position: absolute; left: calc(-1 * (var(--dot) + 16px)); top: 14px; z-index: 1;
+  display: grid; place-items: center; width: var(--dot); height: var(--dot); border-radius: 50%;
+  border: 1px solid var(--border-2); background: var(--card); color: var(--text-2);
+  transition: border-color var(--t-mid) ease, color var(--t-mid) ease, background-color var(--t-mid) ease, box-shadow var(--t-mid) ease, transform var(--t-mid) var(--ease-out);
+}
+.stepper__dot .ico { width: 19px; height: 19px; }
+.stepper__num { font: 500 var(--fs-label) / 1.3 var(--font-mono); letter-spacing: 0.12em; color: var(--text-2); }
+.stepper__name { font: 600 1.125rem / 1.25 var(--font-display); letter-spacing: -0.01em; }
+.stepper__short { color: var(--text-2); font-size: var(--fs-small); line-height: 1.45; }
+.stepper__step.is-open .stepper__dot, .stepper:not(.is-enhanced) .stepper__dot {
+  border-color: var(--tone); color: var(--tone-tx); background: var(--tone-soft);
+  box-shadow: 0 0 0 5px var(--tone-soft), 0 0 28px color-mix(in srgb, var(--tone) 35%, transparent);
+}
+.stepper__step.is-done .stepper__dot { border-color: color-mix(in srgb, var(--tone) 60%, transparent); color: var(--tone-tx); }
+.stepper__step.is-open .stepper__num { color: var(--tone-tx); }
+@media (hover: hover) {
+  .stepper__node:hover .stepper__dot { transform: scale(1.06); border-color: var(--tone); color: var(--tone-tx); }
+  .stepper__node:hover .stepper__name { color: var(--text); }
+}
+.stepper__node:focus-visible { outline-offset: 4px; border-radius: var(--r-sm); }
+.stepper__panel { padding: 2px 0 22px; }
+.stepper__panel.is-entering { animation: step-in 420ms var(--ease-out) both; }
+@keyframes step-in { from { opacity: 0; transform: translateY(10px); } }
+
+/* ---------- journey (≥1024px) ---------- */
+@media (min-width: 1024px) {
+  .stepper--journey.is-enhanced { --dot: 60px; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
+  .stepper--journey.is-enhanced .stepper__step { display: contents; }
+  .stepper--journey.is-enhanced .stepper__step::before { display: none; }
+  .stepper--journey.is-enhanced .stepper__h { grid-row: 1; grid-column: var(--c); }
+  .stepper--journey.is-enhanced .stepper__node { justify-items: center; gap: 4px; padding: 0 8px; text-align: center; }
+  .stepper--journey.is-enhanced .stepper__dot { position: relative; left: auto; top: auto; margin-bottom: 14px; border-radius: 20px; }
+  .stepper--journey.is-enhanced .stepper__dot .ico { width: 24px; height: 24px; }
+  .stepper--journey.is-enhanced .stepper__short { max-width: 22ch; }
+  .stepper--journey.is-enhanced .stepper__panel { grid-row: 2; grid-column: 1 / -1; margin-top: 28px; padding: 0; }
+  /* the track runs from the first node's centre to the last's and fills to the open stage */
+  .stepper--journey.is-enhanced .stepper__track {
+    display: block; position: absolute; z-index: 0; top: calc(var(--dot) / 2 - 1px); height: 2px;
+    left: calc(50% / var(--n)); right: calc(50% / var(--n));
+    background: repeating-linear-gradient(90deg, var(--border-2) 0 6px, transparent 6px 12px);
+  }
+  .stepper__fill {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 0; overflow: hidden;
+    background: linear-gradient(90deg, var(--cyan), var(--violet));
+    transition: width 700ms var(--ease-out);
+  }
+  .stepper--journey.is-enhanced.is-seen .stepper__fill { width: calc(var(--progress, 0) * 100%); }
+  .stepper__pulse { position: absolute; top: -3px; left: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px 3px var(--glow); opacity: 0; }
+}
+
+/* ---------- side (≥1024px): the list on the left, the stage on the right ---------- */
+@media (min-width: 1024px) {
+  /* the list is a column of equal tabs that matches the stage's height */
+  .stepper--side.is-enhanced { --dot: 48px; grid-template-columns: minmax(280px, 0.78fr) minmax(0, 2.22fr); column-gap: clamp(24px, 3vw, 44px); row-gap: 10px; align-items: stretch; }
+  .stepper--side.is-enhanced .stepper__step { display: contents; }
+  .stepper--side.is-enhanced .stepper__step::before { display: none; }
+  .stepper--side.is-enhanced .stepper__h { grid-column: 1; grid-row: var(--c); display: grid; }
+  .stepper--side.is-enhanced .stepper__node {
+    grid-template-columns: var(--dot) minmax(0, 1fr); column-gap: 16px; align-items: center; align-content: center; height: 100%;
+    padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--r-md); background: color-mix(in srgb, var(--card) 55%, transparent);
+    transition: background-color var(--t-mid) ease, border-color var(--t-mid) ease;
+  }
+  .stepper--side.is-enhanced .stepper__dot { position: static; grid-row: span 3; border-radius: 14px; }
+  .stepper--side.is-enhanced .stepper__step.is-open .stepper__node { border-color: color-mix(in srgb, var(--tone) 40%, transparent); background: var(--tone-soft); }
+  .stepper--side.is-enhanced .stepper__panel { grid-column: 2; grid-row: 1 / span var(--n); padding: 0; align-self: stretch; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.motion-off) .stepper--journey.is-enhanced.is-seen .stepper__pulse { animation: step-pulse 2.6s var(--ease-in-out) infinite; }
+}
+@keyframes step-pulse {
+  0% { left: 0; opacity: 0; } 12% { opacity: 1; }
+  88% { opacity: 1; } 100% { left: calc(var(--progress, 0) * 100% - 8px); opacity: 0; }
+}

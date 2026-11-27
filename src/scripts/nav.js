@@ -10,7 +10,6 @@
   /* the bar firms up once the page has scrolled */
   var queued = false;
   var toTop = /** @type {HTMLElement|null} */ (document.querySelector('[data-to-top]'));
-  if (toTop) toTop.hidden = false;
   var onScroll = function () {
     queued = false;
     var y = window.pageYOffset;
@@ -27,7 +26,7 @@
   /* small screens: the menu opens a full-screen sheet */
   var btn = navEl.querySelector('[data-menu-btn]');
   var sheet = navEl.querySelector('[data-sheet]');
-  var wide = window.matchMedia('(min-width: 900px)');
+  var wide = window.matchMedia('(min-width: 1024px)');
   var open = false;
   /** @param {boolean} on @param {boolean} [restore] */
   var setMenu = function (on, restore) {
@@ -55,6 +54,20 @@
     });
     DF.onMedia(wide, function (e) { if (e.matches && open) setMenu(false); });
   }
+
+  /* back to the top without adding "#top": the floating button, the footer link, and the
+     wordmark when it already points at this page */
+  DF.each(document.querySelectorAll('[data-to-top], [data-to-top-link]'), function (b) {
+    b.addEventListener('click', function () { DF.toTop(); });
+  });
+  var brand = /** @type {HTMLAnchorElement|null} */ (navEl.querySelector('[data-home-link]'));
+  if (brand) brand.addEventListener('click', function (e) {
+    if (brand && brand.pathname === location.pathname && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0) {
+      e.preventDefault();
+      if (open) setMenu(false);
+      DF.toTop(true);
+    }
+  });
 
   /* current section: links marked data-spy follow the section in the middle of the screen */
   var ink = /** @type {HTMLElement|null} */ (navEl.querySelector('.nav__ink'));

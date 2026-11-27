@@ -10,7 +10,13 @@ const boot = (legacy) => `<script>
 ${legacy ? `  var m = location.hash.match(/^#\\/trk-0([1-5])$/);
   if (m) { location.replace('work/' + ['knowledge-portal', 'business-sheet', 'contract-intelligence', 'resume-matching', 'data-migration'][m[1] - 1] + '/'); return; }
 ` : ''}  r.className += ' js';
-  try { if (localStorage.getItem('df-motion') === 'off') r.className += ' motion-off'; } catch (e) {}
+  var t = 'dark';
+  try {
+    if (localStorage.getItem('df-motion') === 'off') r.className += ' motion-off';
+    if (localStorage.getItem('df-theme') === 'light') t = 'light';
+  } catch (e) {}
+  r.setAttribute('data-theme', t);
+  if (t === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F5F7FB');
   // page transitions are decorative: when one is cut short, its promises settle quietly
   var q = function () {};
   ['pageswap', 'pagereveal'].forEach(function (t) {
@@ -33,7 +39,7 @@ const head = ({ base, title, description, url = '', ogType = 'website', ogTitle,
 <title>${title}</title>
 <meta name="description" content="${description}" />
 <meta name="author" content="${site.name}" />
-${robots ? `<meta name="robots" content="${robots}" />\n` : ''}<meta name="color-scheme" content="dark" />
+${robots ? `<meta name="robots" content="${robots}" />\n` : ''}<meta name="color-scheme" content="dark light" />
 <meta name="theme-color" content="#05070D" />
 ${url ? `<link rel="canonical" href="${url}" />
 <meta property="og:site_name" content="${site.brand} — ${site.name}" />

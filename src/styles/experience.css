@@ -1,33 +1,45 @@
-/* ---------- 05 · experience timeline ---------- */
-.career__wrap { position: relative; }
-.career__rail { position: absolute; left: 11px; top: 10px; bottom: 10px; width: 2px; border-radius: 2px; background: var(--border); overflow: hidden; }
-.career__fill { position: absolute; inset: 0; transform-origin: 50% 0; transform: scaleY(var(--p, 1)); background: linear-gradient(180deg, var(--cyan), var(--violet)); }
-.career__list { list-style: none; display: grid; gap: 28px; }
-.career__item { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr); column-gap: 18px; row-gap: 10px; }
-.career__when { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
-.career__node {
-  grid-column: 1; grid-row: 1; justify-self: center; width: 14px; height: 14px; margin-top: 4px; border-radius: 50%;
-  border: 2px solid var(--cyan); background: var(--bg-0); box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
+/* ---------- 05 · experience ---------- */
+/* the career track: labels in a column, bars on one time axis */
+.track { display: grid; gap: 6px; margin-bottom: var(--gap-stack); padding: 18px 18px 14px; border: 1px solid var(--border); border-radius: var(--r-lg); background: color-mix(in srgb, var(--card) 70%, transparent); }
+.track__axis { position: relative; height: 18px; margin-left: var(--label-w, 0px); font: 500 0.6875rem / 1 var(--font-mono); color: var(--text-2); }
+.track__axis span { position: absolute; left: var(--x); top: 0; transform: translateX(-50%); }
+.track__axis span:first-child { transform: none; }
+.track__axis span:last-child { transform: translateX(-100%); }
+.track__bars { list-style: none; display: grid; gap: 8px; }
+.track__bar { position: relative; display: grid; gap: 6px; }
+.track__label { font-size: 0.8125rem; color: var(--text-2); }
+.track__label b { color: var(--text); font-weight: 600; margin-right: 4px; }
+.track__bar::after {
+  content: ""; display: block; height: 8px; margin-left: var(--from); width: calc(var(--to) - var(--from)); min-width: 8px; border-radius: var(--r-pill);
+  background: var(--border-2);
 }
-.is-now .career__node { background: var(--cyan); box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.18), 0 0 22px rgba(56, 189, 248, 0.6); }
-.career__card { grid-column: 2; padding: clamp(20px, 3vw, 32px); border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--card); }
-.is-now .career__card { border-color: rgba(56, 189, 248, 0.34); background: linear-gradient(180deg, rgba(56, 189, 248, 0.06), rgba(56, 189, 248, 0) 45%), var(--card); }
-.career__dates { font: 500 0.875rem / 1.4 var(--font-mono); color: var(--text); }
-.career__now { color: var(--green); }
+.track__bar--edu::after { background: linear-gradient(90deg, var(--violet), color-mix(in srgb, var(--violet) 40%, transparent)); }
+.track__bar--intern::after { background: var(--cyan); }
+.track__bar--now::after { background: linear-gradient(90deg, var(--cyan), color-mix(in srgb, var(--cyan) 15%, transparent)); box-shadow: 0 0 14px var(--glow); }
 @media (min-width: 900px) {
-  .career__rail { left: calc(12.5rem + 24px + 11px); }
-  .career__item { grid-template-columns: 12.5rem 24px minmax(0, 1fr); column-gap: 24px; }
-  .career__when { grid-column: 1; grid-row: 1; flex-direction: column; align-items: flex-end; gap: 10px; padding-top: 24px; text-align: right; }
-  .career__node { grid-column: 2; margin-top: 30px; }
-  .career__card { grid-column: 3; grid-row: 1; }
+  .track { --label-w: 290px; padding: 18px 22px 16px; }
+  .track__bar { grid-template-columns: var(--label-w) minmax(0, 1fr); align-items: center; gap: 0; }
+  .track__bar::after { grid-column: 2; }
+  .track__label { padding-right: 16px; }
+  /* faint year lines behind the bars */
+  .track__bars { background: repeating-linear-gradient(90deg, var(--border) 0 1px, transparent 1px calc((100% - var(--label-w)) / 6)) var(--label-w) 0 / calc(100% - var(--label-w)) 100% no-repeat; }
 }
-.career__role { font-size: var(--fs-h3); }
-.career__org { margin-top: 6px; color: var(--cyan); font-weight: 600; }
-.career__desc { margin-top: 14px; color: var(--text-2); }
-.career__k { margin: 22px 0 10px; }
-.career__points { list-style: none; display: grid; gap: 10px; }
-.career__points li { position: relative; padding-left: 22px; }
-.career__points li::before { content: ""; position: absolute; left: 2px; top: 0.78em; width: 10px; height: 1.5px; background: var(--cyan); }
-.career__more { margin-top: 10px; }
-.career__more .career__points { margin: 6px 0 4px; color: var(--text-2); }
-.career__tech { display: grid; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
+
+.roles { display: grid; gap: var(--gap-grid); }
+@media (min-width: 900px) { .roles { grid-template-columns: 1fr 1fr; } .role--now { grid-column: 1 / -1; } }
+.role { padding: clamp(18px, 2.4vw, 28px); border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--card); box-shadow: var(--shadow-1); }
+.role--now { border-color: var(--accent-line); background: linear-gradient(135deg, var(--accent-tint), transparent 45%), var(--card); }
+.role__when { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font: 500 0.8125rem / 1.4 var(--font-mono); color: var(--text-2); }
+.role__now { color: var(--green); }
+.role__title { margin-top: 8px; font-size: var(--fs-h3); }
+.role__org { margin-top: 4px; color: var(--cyan); font-weight: 600; }
+.role__grid { display: grid; gap: 14px; margin-top: 14px; }
+@media (min-width: 900px) { .role--now .role__grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 32px; } }
+.role__desc { color: var(--text-2); }
+.role__k { margin: 16px 0 8px; }
+.role__points { list-style: none; display: grid; gap: 8px; }
+.role__points li { position: relative; padding-left: 20px; }
+.role__points li::before { content: ""; position: absolute; left: 2px; top: 0.78em; width: 10px; height: 1.5px; background: var(--cyan); }
+.role__points--more { margin: 4px 0 8px; color: var(--text-2); font-size: 0.9375rem; }
+.role__more summary { min-height: 40px; }
+.role__tech { display: grid; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }

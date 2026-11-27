@@ -5,11 +5,11 @@
 
 /* sections settle in the first time they are scrolled to (only below the first screen) */
 @media (prefers-reduced-motion: no-preference) {
-  html.js .reveal { opacity: 0; transform: translateY(24px); }
+  html.js .reveal { opacity: 0; transform: translateY(16px); }
   html.js .reveal.is-in {
     opacity: 1; transform: none;
-    transition: opacity 640ms ease, transform var(--t-reveal) var(--ease-out);
-    transition-delay: calc(var(--i, 0) * 70ms);
+    transition: opacity 420ms ease, transform 520ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 55ms);
   }
 
   html:not(.motion-off) .hero__caret { animation: caret 1.05s steps(1, end) infinite; }
@@ -40,7 +40,7 @@
 @media print {
   :root { --bg-0: #FFFFFF; --text: #000000; --text-2: #333333; --card: #FFFFFF; --border: #CCCCCC; }
   body { background: #FFFFFF; color: #000000; }
-  body::before, .nav, .hero__art, .hero__scrim, .hero__scroll, .to-top, .term__under, .term__line, .contact__panel, .missions__bar, .demo-btn, .audio { display: none !important; }
+  body::before, .nav, .hero__art, .hero__scrim, .hero__scroll, .to-top, .contact__signal, .contact__copy, .filters, .px__index, .demo-btn, .audio, .theme-btn { display: none !important; }
   .section, .hero { min-height: 0; padding-block: 24px; }
   .hero__name, .sec-head__title em, .hero__sub, .contact__title em { color: #000000 !important; background: none !important; }
   a { color: #000000; }

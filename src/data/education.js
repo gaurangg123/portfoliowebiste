@@ -1,5 +1,5 @@
 // Education and certifications: only what is verified. Add a certification here
-// (title, issuer, note) and it appears on the homepage and in the terminal.
+// (title, issuer, note) and it appears on the homepage.
 module.exports = {
   degree: {
     title: 'B.Tech, Computer Science Engineering',

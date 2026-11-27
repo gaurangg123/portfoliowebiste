@@ -46,7 +46,7 @@ const caseStudy = ({ p, demo, prev, next, all }) => {
             <div class="walk__text">
               <p class="walk__lede">${p.walk}</p>
               <ul class="walk__meta"><li>${secs} seconds</li><li>Silent</li><li>Pause, replay or choose a step</li></ul>
-              <details class="walk__alt">
+              <details class="disclosure walk__alt">
                 <summary>Read the walkthrough as text</summary>
               ${steps(demo.scenes.map((x) => [x.title, x.text]))}
               </details>
@@ -81,14 +81,14 @@ const caseStudy = ({ p, demo, prev, next, all }) => {
 
   return `<main id="main">
   <article class="cs" aria-labelledby="cs-title">
-    <header class="cs-head" id="top">
+    <header class="cs-head" id="overview">
       <div class="container cs-head__grid">
         <div class="cs-head__text">
           <p class="cs-head__back"><a href="../../#projects">${icon('arrowLeft')}All missions</a></p>
-          <p class="mission__meta"><span class="mission__code">${p.code}</span><span>${p.type}</span><span aria-hidden="true">·</span><span>${p.kicker}</span></p>
+          <p class="px__meta"><span class="px__code">${p.code}</span><span>${p.type}</span><span aria-hidden="true">·</span><span>${p.kicker}</span></p>
           <h1 class="cs-head__title" id="cs-title" data-vt="${p.slug}">${p.title}</h1>
           <p class="cs-head__lede">${p.lede}</p>
-          <ul class="mission__cats" aria-label="Categories">${p.categories.map((c) => `<li data-tone="${TONE[c]}">${CAT[c]}</li>`).join('')}</ul>
+          <ul class="px__cats" aria-label="Categories">${p.categories.map((c) => `<li data-tone="${TONE[c]}">${CAT[c]}</li>`).join('')}</ul>
         </div>
         <figure class="cs-head__cover">
           <img src="../../assets/projects/${p.slug}-1600.webp" srcset="../../assets/projects/${p.slug}-800.webp 800w, ../../assets/projects/${p.slug}-1600.webp 1600w" sizes="(min-width: 1100px) 560px, calc(100vw - 32px)" width="1600" height="1000" alt="" fetchpriority="high" decoding="async" />
@@ -123,7 +123,7 @@ ${body}
 };
 
 const notFound = () => `<main id="main">
-  <section class="nf container" id="top" aria-labelledby="nf-title">
+  <section class="nf container" aria-labelledby="nf-title">
     <p class="label"><span class="t-warn">Error 404</span> // route not found</p>
     <h1 class="nf__title" id="nf-title">This path leads <em>nowhere.</em></h1>
     <p class="nf__lede">The link may be old or mistyped. Everything lives on the homepage.</p>
