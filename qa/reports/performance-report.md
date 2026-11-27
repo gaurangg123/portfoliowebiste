@@ -1,4 +1,4 @@
-# Performance report — DataForge (refinement round)
+# Performance report — DataForge 2.0
 
 ## Lighthouse (measured)
 
@@ -10,14 +10,22 @@
 
 | Page | Form factor | Performance | Accessibility | Best Practices | SEO | FCP | LCP | TBT | CLS |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Homepage | Mobile | **97** | **100** | **100** | **100** | 1.2 s | 2.0 s | 170 ms | 0 |
-| Homepage | Desktop | **100** | **100** | **100** | **100** | 0.4 s | 0.5 s | 0 ms | 0 |
-| Knowledge Portal case study | Mobile | **99** | **100** | **100** | **100** | 1.2 s | 1.8 s | 50 ms | 0 |
+| Homepage | Mobile | **96** | **100** | **100** | **100** | 1.2 s | 2.0 s | 200 ms | 0 |
+| Homepage | Desktop | **100** | **100** | **100** | **100** | 0.3 s | 0.5 s | 0 ms | 0 |
+| Query the Engineer | Mobile | **99** | **100** | **100** | **100** | 1.2 s | 1.8 s | 10 ms | 0 |
+| Query the Engineer | Desktop | **100** | **100** | **100** | **100** | 0.3 s | 0.4 s | 0 ms | 0 |
+| Knowledge Portal case study | Mobile | **99** | **100** | **100** | **100** | 1.2 s | 2.0 s | 50 ms | 0 |
 | Knowledge Portal case study | Desktop | **100** | **100** | **100** | **100** | 0.3 s | 0.4 s | 0 ms | 0 |
 
-Previous round, for comparison: homepage mobile 96, everything else unchanged at 99–100.
+The Query page's first run scored 89 (mobile) and 95 (desktop) for accessibility, and 91 for SEO. That run found three issues:
 
-All four results meet the brief's targets: Performance 90+, Accessibility 95+, Best Practices 95+ and SEO 95+.
+- `role="log"` was placed on a list;
+- the send button had no name on phones;
+- some answer links said only "See more".
+
+All three are fixed, and the page now has its own axe tests in both themes.
+
+All six results meet the brief's targets: Performance 90+, Accessibility 95+, Best Practices 95+ and SEO 95+.
 
 **The live site needs a separate run.**
 
@@ -29,7 +37,7 @@ All four results meet the brief's targets: Performance 90+, Accessibility 95+, B
 
 | Suggestion | Estimate | Why it remains |
 | --- | --- | --- |
-| Render-blocking CSS | about 400 ms | One 23 KB gzipped stylesheet. Kept render-blocking so there is no flash of unstyled content (or of the wrong theme). |
+| Render-blocking CSS | about 400 ms | One 27 KB gzipped stylesheet. Kept render-blocking so there is no flash of unstyled content (or of the wrong theme). |
 | Unused CSS | about 12 KB | One shared bundle serves the homepage and the case studies |
 | Unminified CSS and JS | about 3 KB and 7 KB | The build strips CSS comments but does not minify, to stay dependency-free |
 | Responsive-image and image-delivery savings | about 70–90 KB | The portrait (WebP at 480, 800 and 1200 px) and the lead cover; AVIF would save more |
@@ -39,11 +47,11 @@ All four results meet the brief's targets: Performance 90+, Accessibility 95+, B
 
 | | Transfer (gzip) |
 | --- | --- |
-| HTML (homepage) | 24 KB (134 KB raw) |
-| CSS bundle | 23 KB (127 KB raw) |
-| JS bundle | 18 KB (60 KB raw) |
-| Fonts (3 variable WOFF2, latin) | 100 KB; Space Grotesk and Inter preloaded |
-| Homepage and case study | Within a few KB of the previous round; the terminal's code and data were removed |
+| HTML (homepage) | 22 KB gzip |
+| CSS bundle (shared) | 27 KB gzip |
+| JS bundle (shared) | 17 KB gzip |
+| Query page bundle (engine, conversation, background) | 10 KB gzip, loaded only on `/query-engineer/` |
+| Query page knowledge base | Inline JSON in the page, built from `src/data/` |
 
 **Deferred loads**
 
@@ -79,5 +87,7 @@ The other moving parts are limited the same way:
 - Discipline motifs animate only while their discipline is open and on screen, or on hover.
 - The workflow and architecture tracks draw once when first seen; their pulse and stream loops are gated by reduced motion and Pause motion.
 - Contact rings run only while the section is visible.
+- The Query page's network runs at 30 fps, pauses in background tabs, and is a still frame under reduced motion.
+- The ribbon of tools pauses on hover and is still under reduced motion.
 - The theme toggle redraws the lattice once with the new colours when it is not animating.
 - Reveals use opacity and transform only, and their classes are removed once settled.

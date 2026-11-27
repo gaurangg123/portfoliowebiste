@@ -5,10 +5,12 @@ const { esc } = require('./ui.js');
 
 // runs before first paint: marks JavaScript as available (progressive enhancement)
 // and, on the homepage, sends old shareable links (#/trk-01 … #/trk-05) to their case studies
+// and the old terminal's #terminal to Query the Engineer
 const boot = (legacy) => `<script>
 (function (r) {
 ${legacy ? `  var m = location.hash.match(/^#\\/trk-0([1-5])$/);
   if (m) { location.replace('work/' + ['knowledge-portal', 'business-sheet', 'contract-intelligence', 'resume-matching', 'data-migration'][m[1] - 1] + '/'); return; }
+  if (location.hash === '#terminal') { location.replace('query-engineer/'); return; }
 ` : ''}  r.className += ' js';
   var t = 'dark';
   try {
@@ -28,7 +30,7 @@ ${legacy ? `  var m = location.hash.match(/^#\\/trk-0([1-5])$/);
 })(document.documentElement);
 </script>`;
 
-const head = ({ base, title, description, url = '', ogType = 'website', ogTitle, ogDescription, robots = '', jsonld = null, legacy = false, v }) => {
+const head = ({ base, title, description, url = '', ogType = 'website', ogTitle, ogDescription, robots = '', jsonld = null, legacy = false, v, extra = '' }) => {
   [title, description, ogTitle, ogDescription] = [title, description, ogTitle, ogDescription].map((x) => (x == null ? x : esc(x)));
   const img = `${site.siteUrl}assets/og.jpg`;
   return `<!DOCTYPE html>
@@ -65,7 +67,7 @@ ${url ? `<link rel="canonical" href="${url}" />
 ${boot(legacy)}
 <link rel="stylesheet" href="${base}assets/css/dataforge.css?v=${v.css}" />
 <script src="${base}assets/js/dataforge.js?v=${v.js}" defer></script>
-${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>\n` : ''}</head>`;
+${extra}${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>\n` : ''}</head>`;
 };
 
 module.exports = { head };

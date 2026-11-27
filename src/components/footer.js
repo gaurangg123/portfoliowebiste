@@ -13,7 +13,8 @@ const footer = ({ home, base }) => {
     </div>
     <nav class="footer__nav" aria-label="Footer">
       <ul>
-${site.sections.map(([id, label]) => `        <li><a href="${h}#${id}">${label}</a></li>`).join('\n')}
+${site.sections.filter(([id]) => id !== 'home').map(([id, label]) => `        <li><a href="${h}#${id}">${label}</a></li>`).join('\n')}
+        <li><a class="footer__query" href="${base}${site.queryPath}">Query the Engineer</a></li>
       </ul>
     </nav>
     <ul class="footer__social" aria-label="Profiles">

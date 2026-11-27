@@ -20,7 +20,8 @@
   ::view-transition-group(*) { animation-duration: 380ms; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
   ::view-transition-old(root) { animation-duration: 180ms; }
   ::view-transition-new(root) { animation-duration: 300ms; }
-  .nav { view-transition-name: site-nav; }
+  .rail { view-transition-name: site-rail; }
+  .fab { view-transition-name: site-menu; }
   [data-vt] { view-transition-class: project-name; }
   [data-vt="knowledge-portal"] { view-transition-name: name-knowledge-portal; }
   [data-vt="business-sheet"] { view-transition-name: name-business-sheet; }
@@ -40,7 +41,7 @@
 @media print {
   :root { --bg-0: #FFFFFF; --text: #000000; --text-2: #333333; --card: #FFFFFF; --border: #CCCCCC; }
   body { background: #FFFFFF; color: #000000; }
-  body::before, .nav, .hero__art, .hero__scrim, .hero__scroll, .to-top, .contact__signal, .contact__copy, .filters, .px__index, .demo-btn, .audio, .theme-btn { display: none !important; }
+  body::before, .rail, .fab, .sheet, .masthead, .spine, .ribbon-wrap, .hero__art, .hero__scrim, .hero__scroll, .hero__vert, .to-top, .contact__signal, .contact__copy, .filters, .demo-btn, .audio, .theme-btn, .qe__net, .qe__form { display: none !important; }
   .section, .hero { min-height: 0; padding-block: 24px; }
   .hero__name, .sec-head__title em, .hero__sub, .contact__title em { color: #000000 !important; background: none !important; }
   a { color: #000000; }

@@ -1,4 +1,4 @@
-// 08 · Education & certifications — an editorial record. Verified entries only.
+// 06 · Education & certifications — an editorial record. Verified entries only.
 const { degree, certifications } = require('../data/education.js');
 const { secHead, icon, esc } = require('./ui.js');
 
@@ -6,7 +6,7 @@ const pct = Math.round((Number(degree.cgpa) / Number(degree.scale)) * 1000) / 10
 
 const education = () => `<section class="section section--compact edu" id="education" aria-labelledby="education-title">
   <div class="container">
-    ${secHead({ num: '08', label: 'Education & certifications', id: 'education-title', title: 'Foundations, <em>on record.</em>', split: true, lede: 'A computer science degree with a big-data specialization, and Snowflake training alongside the work.' })}
+    ${secHead({ num: '06', label: 'Education & certifications', id: 'education-title', title: 'Foundations, <em>on record.</em>', split: true, lede: 'A computer science degree with a big-data specialization, and Snowflake training alongside the work.' })}
     <div class="edu__grid">
       <article class="edu__degree" data-reveal aria-labelledby="degree-title">
         <p class="edu__years" aria-hidden="true">${degree.when.split(' – ').map((y) => `<span>${y}</span>`).join('<i>—</i>')}</p>

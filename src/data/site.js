@@ -22,15 +22,19 @@ module.exports = {
   // the hero's rotating line; the first one is what shows without JavaScript
   titles: ['Data Engineer', 'AI Engineer', 'Machine Learning Enthusiast', 'Automation Engineer', 'Analytics Specialist'],
 
-  // homepage sections in page order: [id, label, show in the desktop bar]
+  // homepage sections in page order, as the navigation rail lists them: [id, label, icon]
+  // (the Query the Engineer invitation sits between Architecture and Contact; the rail
+  // links to its own page instead)
   sections: [
-    ['about', 'About', true],
-    ['expertise', 'Expertise', true],
-    ['projects', 'Projects', true],
-    ['experience', 'Experience', true],
-    ['workflow', 'Workflow', true],
-    ['architecture', 'Architecture', false],
-    ['education', 'Education', false],
-    ['contact', 'Contact', true],
+    ['home', 'Home', 'home'],
+    ['about', 'About', 'user'],
+    ['expertise', 'Expertise', 'layers'],
+    ['projects', 'Projects', 'grid'],
+    ['experience', 'Experience', 'briefcase'],
+    ['education', 'Education', 'cap'],
+    ['architecture', 'Architecture', 'network'],
+    ['contact', 'Contact', 'mail'],
   ],
+  queryPath: 'query-engineer/',
+
 };

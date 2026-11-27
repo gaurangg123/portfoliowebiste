@@ -51,7 +51,8 @@
       if (home && location.hash && location.hash !== '#top' && history.pushState) history.pushState(null, '', location.pathname + location.search);
       else dropTopHash();
       window.scrollTo({ top: 0, behavior: reduce.matches ? 'auto' : 'smooth' });
-      var start = /** @type {HTMLElement|null} */ (document.querySelector('[data-home-link]'));
+      // focus the home link that is showing (the rail's mark, or the masthead on small screens)
+      var start = /** @type {HTMLElement|undefined} */ (Array.prototype.filter.call(document.querySelectorAll('[data-home-link]'), function (/** @type {HTMLElement} */ el) { return !!el.offsetParent && !el.closest('[data-sheet]'); })[0]);
       if (start) start.focus({ preventScroll: true });
     },
   };

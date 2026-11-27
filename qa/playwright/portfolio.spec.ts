@@ -100,6 +100,7 @@ test.describe('homepage', () => {
   test('navigation scrolls to sections and marks the current one', async ({ page }) => {
     await page.goto('./');
     if (isMobile(page)) {
+      await expect(page.locator('.rail')).toBeHidden();
       const btn = page.locator('[data-menu-btn]');
       await btn.click();
       await expect(btn).toHaveAttribute('aria-expanded', 'true');
@@ -108,11 +109,39 @@ test.describe('homepage', () => {
       await expect(page.locator('#nav-sheet')).toBeHidden();
       await expect(page.locator('#experience')).toBeInViewport();
     } else {
-      await page.locator('.nav__links').getByRole('link', { name: 'Experience' }).click();
+      const rail = page.locator('.rail');
+      await expect(rail).toBeVisible();
+      await expect(page.locator('[data-menu-btn]')).toBeHidden();
+      const link = rail.locator('.rail__link[href="#experience"]');
+      // the name appears on hover
+      await link.hover();
+      await expect(link.locator('.rail__label')).toHaveCSS('opacity', '1');
+      await link.click();
       await expect(page.locator('#experience')).toBeInViewport();
-      await expect(page.locator('.nav__links a[href="#experience"]')).toHaveAttribute('aria-current', 'true');
-      await expect(page.locator('.nav__ink')).toHaveClass(/is-on/);
+      await expect(link).toHaveAttribute('aria-current', 'location');
+      await expect(rail.locator('.rail__ink')).toHaveClass(/is-on/);
+      // the ink sits on the current link
+      const [inkY, linkY] = await Promise.all([rail.locator('.rail__ink').boundingBox(), link.boundingBox()]);
+      await expect.poll(async () => Math.abs((await rail.locator('.rail__ink').boundingBox())!.y - (await link.boundingBox())!.y)).toBeLessThan(3);
+      void inkY; void linkY;
+      // reading progress fills as the page is read
+      expect(Number(await rail.locator('[data-progress]').evaluate((e) => getComputedStyle(e).getPropertyValue('--p')))).toBeGreaterThan(0.1);
     }
+  });
+
+  test('the rail never covers the content', async ({ page }) => {
+    test.skip(isMobile(page), 'the rail is a wide-screen control');
+    await page.goto('./');
+    const rail = await page.locator('.rail').boundingBox();
+    const overlaps = await page.evaluate((railLeft) => {
+      const out: string[] = [];
+      document.querySelectorAll('main .container, footer .container').forEach((c) => {
+        const r = c.getBoundingClientRect();
+        if (r.right - parseFloat(getComputedStyle(c).paddingRight) > railLeft) out.push(String((c as HTMLElement).className));
+      });
+      return out;
+    }, rail!.x);
+    expect(overlaps).toEqual([]);
   });
 
   test('mobile menu opens, closes with Escape and returns focus', async ({ page }) => {
@@ -128,71 +157,65 @@ test.describe('homepage', () => {
     await expect(btn).toHaveAttribute('aria-expanded', 'false');
   });
 
-  test('back to top appears after scrolling and returns to the top', async ({ page }) => {
+  test('back to top returns to the top', async ({ page }) => {
     await page.goto('./');
-    const top = page.locator('[data-to-top]');
-    await expect(top).not.toHaveClass(/is-on/);
     await page.locator('#architecture').scrollIntoViewIfNeeded();
-    await expect(top).toHaveClass(/is-on/);
-    await top.click();
+    if (isMobile(page)) {
+      const top = page.locator('[data-to-top]');
+      await expect(top).toHaveClass(/is-on/);
+      await top.click();
+    } else {
+      await page.locator('.rail__link[data-home-link]').click();
+    }
     await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 5000 }).toBeLessThan(10);
+    expect(page.url()).not.toContain('#top');
   });
 
-  test('project filters update the explorer and announce the count', async ({ page }) => {
+  test('project filters narrow the gallery and announce the count', async ({ page }) => {
     await page.goto('./#projects');
     const cards = page.locator('[data-mission]:not([hidden])');
-    const index = page.locator('.px__index li:not([hidden])');
     await expect(cards).toHaveCount(7);
     await page.locator('[data-filter="data"]').click();
     await expect(page.locator('[data-filter="data"]')).toHaveAttribute('aria-pressed', 'true');
     await expect(cards).toHaveCount(1);
-    await expect(index).toHaveCount(1);
     await expect(cards.first()).toContainText('Enterprise Data Migration');
-    await expect(page.locator('#px-data-migration')).toBeVisible();
+    await expect(page.locator('.px__lab')).toBeHidden();
     await expect(page.locator('[data-filter-status]')).toHaveText(/Showing 1 of 7 projects · Data Engineering/);
     await page.locator('[data-filter="automation"]').click();
     await expect(cards).toHaveCount(3);
-    await expect(index).toHaveCount(3);
-    // exactly one project is on show, and it is one that matches
-    await expect(page.locator('[data-mission]:visible').first()).toBeVisible();
+    await expect(page.locator('.px__lab')).toBeVisible();
     await page.locator('[data-filter="all"]').click();
     await expect(cards).toHaveCount(7);
     await expect(page.locator('[data-filter-status]')).toHaveText('Showing all 7 projects');
   });
 
-  test('the explorer shows one project at a time (desktop) or a swipeable row (mobile)', async ({ page }) => {
+  test('the gallery: a lead project, numbered projects, a lab row', async ({ page }) => {
     await page.goto('./#projects');
-    if (isMobile(page)) {
-      await expect(page.locator('.px__index')).toBeHidden();
-      const pos = page.locator('[data-px-pos]');
-      await expect(pos).toHaveText('01');
-      await expect(page.locator('[data-px-prev]')).toBeDisabled();
-      await page.locator('[data-px-next]').click();
-      await expect(pos).toHaveText('02');
-      // the second card has scrolled to the start of the row
-      await expect.poll(() => page.locator('#px-business-sheet').evaluate((c) => Math.round(c.getBoundingClientRect().left - (c.parentElement as HTMLElement).getBoundingClientRect().left))).toBeLessThan(40);
-      await page.locator('[data-filter="data"]').click();
-      await expect(page.locator('[data-px-total]')).toHaveText('01');
-      await expect(page.locator('[data-px-next]')).toBeDisabled();
+    const lead = page.locator('#px-knowledge-portal');
+    await expect(lead).toHaveClass(/px--feature/);
+    for (const k of ['Problem', 'What I built', 'How it works', 'Results']) await expect(lead.locator('.px__facts')).toContainText(k);
+    const nums = await page.locator('.px__num').allTextContents();
+    expect(nums).toEqual(['01', '02', '03', '04', '05', '06', '07']);
+    await expect(page.locator('.px__lab [data-mission]')).toHaveCount(2);
+    // every company project links its case study and its walkthrough
+    for (const slug of ['knowledge-portal', 'business-sheet', 'contract-intelligence', 'resume-matching', 'data-migration']) {
+      await expect(page.locator(`#px-${slug} .px__title a`)).toHaveAttribute('href', `work/${slug}/`);
+      await expect(page.locator(`#px-${slug} [data-demo="${slug}"]`)).toHaveCount(1);
+    }
+    if (!isMobile(page)) {
+      // asymmetric: wide and narrow cards are not the same width
+      const [bs, ci] = await Promise.all([page.locator('#px-business-sheet').boundingBox(), page.locator('#px-contract-intelligence').boundingBox()]);
+      expect(Math.abs(bs!.width - ci!.width)).toBeGreaterThan(60);
     } else {
-      await expect(page.locator('[data-mission]:visible')).toHaveCount(1);
-      await expect(page.locator('#px-knowledge-portal')).toBeVisible();
-      const item = page.locator('[data-show="contract-intelligence"]');
-      await item.click();
-      await expect(item).toHaveAttribute('aria-pressed', 'true');
-      await expect(page.locator('#px-contract-intelligence')).toBeVisible();
-      await expect(page.locator('#px-knowledge-portal')).toBeHidden();
-      await page.keyboard.press('ArrowDown');
-      await expect(page.locator('[data-show="resume-matching"]')).toBeFocused();
-      await expect(page.locator('#px-resume-matching')).toBeVisible();
-      for (const k of ['Problem', 'What I built', 'How it works', 'Results']) await expect(page.locator('#px-resume-matching .px__facts')).toContainText(k);
+      // the rest sit in a row that scrolls sideways
+      const row = page.locator('.px__gallery--more');
+      expect(await row.evaluate((r) => r.scrollWidth > r.clientWidth + 100)).toBe(true);
     }
   });
 
   test('a mission opens its case study, and the case study links back', async ({ page }) => {
     const problems = watchErrors(page);
     await page.goto('./#projects');
-    if (!isMobile(page)) await page.locator('[data-show="data-migration"]').click();
     await page.locator('#px-data-migration .px__title a').click();
     await expect(page).toHaveURL(/work\/data-migration\/$/);
     await expect(page.locator('h1')).toHaveText('Enterprise Data Migration');
@@ -216,38 +239,23 @@ test.describe('homepage', () => {
     expect(await page.evaluate(() => { const a = document.getElementById('papercut') as HTMLAudioElement; return { src: a.getAttribute('src'), paused: a.paused }; })).toEqual({ src: null, paused: true });
   });
 
-  test('the engineering workflow: five stages, one open, keyboard and content', async ({ page }) => {
-    await page.goto('./#workflow');
-    const section = page.locator('#workflow');
-    await expect(section.getByRole('heading', { level: 2 })).toHaveText(/Inside my engineering workflow/i);
-    const stages = section.locator('.stepper__node');
-    await expect(stages).toHaveCount(5);
-    for (const [i, name] of ['Understand the problem', 'Design the system', 'Build & engineer', 'Test & validate', 'Deploy & improve'].entries()) {
-      await expect(stages.nth(i)).toContainText(name);
-    }
-    await expect(stages.first()).toHaveAttribute('aria-expanded', 'true');
-    await expect(section.locator('.stepper__panel:visible')).toHaveCount(1);
-    const panel = page.locator('#wf-panel-understand');
-    for (const k of ['What I do here', 'Tools & techniques', 'In practice']) await expect(panel).toContainText(k);
-    await stages.nth(2).click();
-    await expect(stages.nth(2)).toHaveAttribute('aria-expanded', 'true');
-    await expect(stages.first()).toHaveAttribute('aria-expanded', 'false');
-    await expect(page.locator('#wf-panel-build')).toBeVisible();
-    await expect(page.locator('#wf-panel-build')).toContainText('Develop data pipelines, applications, AI capabilities and automation workflows');
-    await page.keyboard.press('ArrowRight');
-    await expect(stages.nth(3)).toBeFocused();
-    await expect(page.locator('#wf-panel-validate')).toContainText('Validate functionality, data quality, performance, accuracy and reliability');
-    await page.keyboard.press('End');
-    await expect(page.locator('#wf-panel-deploy')).toContainText('Deploy the solution, monitor its performance and continuously improve it');
-    await page.keyboard.press('Home');
-    await expect(page.locator('#wf-panel-understand')).toBeVisible();
-    // each example points to a documented case study that exists
-    const links = await section.locator('.stepper__panel a[href^="work/"]').evaluateAll((l) => l.map((a) => a.getAttribute('href')));
-    expect(links.length).toBeGreaterThanOrEqual(5);
+  test('About: how I approach the work, in five stages with documented examples', async ({ page }) => {
+    await page.goto('./#about');
+    const steps = page.locator('.approach__step');
+    await expect(steps).toHaveCount(5);
+    const lines = [
+      'Understand business requirements, data sources, constraints and desired outcomes',
+      'Plan the architecture, technology stack, data flow and implementation strategy',
+      'Develop data pipelines, applications, AI capabilities and automation workflows',
+      'Validate functionality, data quality, performance, accuracy and reliability',
+      'Deploy the solution, monitor its performance and continuously improve it',
+    ];
+    for (const [i, line] of lines.entries()) await expect(steps.nth(i)).toContainText(line);
+    await expect(page.locator('.approach__note')).toContainText('not every activity applies to every project');
+    const links = await page.locator('.approach__ex').evaluateAll((l) => l.map((a) => a.getAttribute('href')));
     for (const href of new Set(links)) expect((await page.request.get(href!)).status(), href!).toBe(200);
-    // the terminal is gone everywhere
-    await expect(page.locator('#terminal, [data-term-out]')).toHaveCount(0);
-    await expect(page.getByText(/query the engineer/i)).toHaveCount(0);
+    // the old terminal is gone from the homepage
+    await expect(page.locator('#terminal, [data-term-out], [data-term-form]')).toHaveCount(0);
   });
 
   test('architecture stages select by pointer and keyboard', async ({ page }) => {
@@ -272,44 +280,42 @@ test.describe('homepage', () => {
     await expect(stages.first()).toHaveAttribute('aria-expanded', 'true');
   });
 
-  test('disciplines: four, with the exact tool lists', async ({ page }) => {
+  test('disciplines: four plates, with the exact tool lists', async ({ page }) => {
     await page.goto('./#expertise');
-    const section = page.locator('#expertise');
-    const stages = section.locator('.stepper__node');
-    await expect(stages).toHaveCount(4);
-    const tools: Record<number, string[]> = {
-      0: ['Snowflake', 'Databricks', 'Python', 'SQL', 'ETL / ELT', 'Data Pipelines', 'Data Warehousing'],
-      1: ['Machine Learning', 'Generative AI', 'Large Language Models', 'Retrieval-Augmented Generation', 'AI Agents', 'Model Evaluation'],
-      2: ['Workflow Automation', 'API Integrations', 'Intelligent Assistants', 'Process Automation'],
-      3: ['Power BI', 'Tableau', 'DAX', 'Business Intelligence', 'Data Storytelling'],
-    };
-    for (const [i, list] of Object.entries(tools)) {
-      await stages.nth(Number(i)).click();
-      const panel = section.locator('.stepper__panel:visible');
-      await expect(panel.locator('.tag')).toHaveText(list);
-    }
+    const plates = page.locator('#expertise .dom');
+    await expect(plates).toHaveCount(4);
+    const tools = [
+      ['Snowflake', 'Databricks', 'Python', 'SQL', 'ETL / ELT', 'Data Pipelines', 'Data Warehousing'],
+      ['Machine Learning', 'Generative AI', 'Large Language Models', 'Retrieval-Augmented Generation', 'AI Agents', 'Model Evaluation'],
+      ['Workflow Automation', 'API Integrations', 'Intelligent Assistants', 'Process Automation'],
+      ['Power BI', 'Tableau', 'DAX', 'Business Intelligence', 'Data Storytelling'],
+    ];
+    for (const [i, list] of tools.entries()) await expect(plates.nth(i).locator('.tag')).toHaveText(list);
+    await expect(plates.nth(0).locator('.dom__n')).toHaveText('01');
   });
 
   test('the wordmark and back to top return to the top without adding #top', async ({ page }) => {
     await page.goto('./');
+    const mark = isMobile(page) ? page.locator('.masthead') : page.locator('.rail__mono');
+    // the wordmark from the top of the page (mobile: the masthead scrolls with the page)
     await page.locator('#education').scrollIntoViewIfNeeded();
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(1000);
-    await page.locator('[data-home-link]').click();
+    if (isMobile(page)) {
+      await page.locator('[data-to-top]').click();
+    } else {
+      await mark.click();
+      await expect(mark).toBeFocused();
+    }
     await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 5000 }).toBeLessThan(10);
     expect(new URL(page.url()).hash).toBe('');
-    await expect(page.locator('[data-home-link]')).toBeFocused();
-    // back to top: the floating button
-    await page.locator('#architecture').scrollIntoViewIfNeeded();
-    const top = page.locator('[data-to-top]');
-    await expect(top).toHaveClass(/is-on/);
-    await top.click();
-    await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 5000 }).toBeLessThan(10);
-    expect(page.url()).not.toContain('#top');
-    // and the footer link
+    // the footer link
     await page.locator('footer').scrollIntoViewIfNeeded();
     await page.locator('[data-to-top-link]').click();
     await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 5000 }).toBeLessThan(10);
     expect(page.url()).not.toContain('#top');
+    // the masthead (mobile) or Home (desktop) at the top: still no fragment
+    await (isMobile(page) ? mark : page.locator('.rail__link[data-home-link]')).click();
+    expect(new URL(page.url()).hash).toBe('');
     // no link on the page points at #top
     await expect(page.locator('a[href$="#top"]')).toHaveCount(0);
   });
@@ -318,9 +324,9 @@ test.describe('homepage', () => {
     await page.goto('./#top');
     await expect.poll(() => page.url()).not.toContain('#top');
     await expect(page.locator('h1')).toBeInViewport();
-    await page.goto('./#workflow');
-    expect(page.url()).toMatch(/#workflow$/);
-    await expect(page.locator('#workflow')).toBeInViewport();
+    await page.goto('./#architecture');
+    expect(page.url()).toMatch(/#architecture$/);
+    await expect(page.locator('#architecture')).toBeInViewport();
   });
 
   test('back and forward move between sections and the top', async ({ page }) => {
@@ -328,11 +334,11 @@ test.describe('homepage', () => {
     await page.goto('./');
     // let each smooth scroll finish, so each history entry records where it ended
     const settled = () => page.evaluate(() => new Promise<number>((done) => { let last = -1; const tick = () => { if (scrollY === last) done(scrollY); else { last = scrollY; setTimeout(tick, 120); } }; tick(); }));
-    await page.locator('.nav__links').getByRole('link', { name: 'Projects' }).click();
+    await page.locator('.rail__link[href="#projects"]').click();
     await expect(page).toHaveURL(/#projects$/);
     await expect(page.locator('#projects')).toBeInViewport();
     await settled();
-    await page.locator('.nav__links').getByRole('link', { name: 'Contact' }).click();
+    await page.locator('.rail__link[href="#contact"]').click();
     await expect(page).toHaveURL(/#contact$/);
     await expect(page.locator('#contact')).toBeInViewport();
     await settled();
@@ -340,7 +346,7 @@ test.describe('homepage', () => {
     await expect(page).toHaveURL(/#projects$/);
     await expect(page.locator('#projects')).toBeInViewport();
     // the wordmark adds a clean entry, so Back returns to the section
-    await page.locator('[data-home-link]').click();
+    await page.locator('.rail__mono').click();
     await expect.poll(() => new URL(page.url()).hash).toBe('');
     await expect.poll(() => page.evaluate(() => scrollY), { timeout: 5000 }).toBeLessThan(10);
     await page.goBack();
@@ -353,6 +359,7 @@ test.describe('homepage', () => {
     await page.goto('./');
     const html = page.locator('html');
     await expect(html).toHaveAttribute('data-theme', 'dark');
+    if (isMobile(page)) await page.locator('[data-menu-btn]').click();
     const btn = page.locator('[data-theme-toggle]:visible').first();
     await btn.click();
     await expect(html).toHaveAttribute('data-theme', 'light');
@@ -363,6 +370,7 @@ test.describe('homepage', () => {
     await expect(html).toHaveAttribute('data-theme', 'light');
     await page.goto('./work/knowledge-portal/');
     await expect(html).toHaveAttribute('data-theme', 'light');
+    if (isMobile(page)) await page.locator('[data-menu-btn]').click();
     await page.locator('[data-theme-toggle]:visible').first().click();
     await expect(html).toHaveAttribute('data-theme', 'dark');
   });
@@ -384,7 +392,7 @@ test.describe('homepage', () => {
     await expect(page.locator('html')).toHaveClass(/motion-off/);
     await page.reload();
     await expect(page.locator('html')).toHaveClass(/motion-off/);
-    await expect(page.locator('[data-typed]')).toHaveText('Data Engineer');
+    await expect(page.locator('.hero__role')).toHaveText('Data & AI Engineer.');
   });
 
   test('no serious accessibility violations (axe)', async ({ page }) => {

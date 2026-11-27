@@ -52,7 +52,8 @@
       if (home && location.hash && location.hash !== '#top' && history.pushState) history.pushState(null, '', location.pathname + location.search);
       else dropTopHash();
       window.scrollTo({ top: 0, behavior: reduce.matches ? 'auto' : 'smooth' });
-      var start = /** @type {HTMLElement|null} */ (document.querySelector('[data-home-link]'));
+      // focus the home link that is showing (the rail's mark, or the masthead on small screens)
+      var start = /** @type {HTMLElement|undefined} */ (Array.prototype.filter.call(document.querySelectorAll('[data-home-link]'), function (/** @type {HTMLElement} */ el) { return !!el.offsetParent && !el.closest('[data-sheet]'); })[0]);
       if (start) start.focus({ preventScroll: true });
     },
   };
@@ -92,78 +93,95 @@
 })();
 
 /* ===== nav.js ===== */
-/* ---------- navigation: bar state, small-screen menu, current section, back to top ---------- */
+/* ---------- navigation: the rail, the small-screen menu, the current section ----------
+   The rail's ink glides to the section being read and its line fills with reading
+   progress. The menu is a modal sheet: Escape or a link closes it, focus returns to
+   the button, and the page behind is inert while it is open. The wordmark and Home go
+   back to the top without adding "#top". */
 (function () {
   'use strict';
   var DF = window.DF;
-  var nav = document.querySelector('[data-nav]');
-  if (!nav) return;
-  var navEl = /** @type {HTMLElement} */ (nav);
+  var rail = /** @type {HTMLElement|null} */ (document.querySelector('[data-nav]'));
+  if (!rail) return;
+  var railEl = rail;
 
-  /* the bar firms up once the page has scrolled */
-  var queued = false;
+  /* reading progress: the rail's line and the small-screen back-to-top ring */
+  var fill = /** @type {HTMLElement|null} */ (railEl.querySelector('[data-progress]'));
   var toTop = /** @type {HTMLElement|null} */ (document.querySelector('[data-to-top]'));
+  var spine = /** @type {HTMLElement|null} */ (document.querySelector('[data-spine]'));
+  var queued = false;
   var onScroll = function () {
     queued = false;
     var y = window.pageYOffset;
-    navEl.classList.toggle('is-scrolled', y > 8);
-    if (toTop) {
-      var max = document.documentElement.scrollHeight - window.innerHeight;
-      toTop.classList.toggle('is-on', y > window.innerHeight * 0.9);
-      toTop.style.setProperty('--p', String(max > 0 ? Math.min(1, y / max) : 0));
-    }
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = String(max > 0 ? Math.min(1, y / max) : 0);
+    if (fill) fill.style.setProperty('--p', p);
+    if (spine) spine.style.setProperty('--p', p);
+    if (toTop) { toTop.style.setProperty('--p', p); toTop.classList.toggle('is-on', y > window.innerHeight * 0.9); }
+    DF.root.classList.toggle('is-scrolled', y > 8);
   };
   window.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
   onScroll();
 
-  /* small screens: the menu opens a full-screen sheet */
-  var btn = navEl.querySelector('[data-menu-btn]');
-  var sheet = navEl.querySelector('[data-sheet]');
+  /* small screens: the menu sheet */
+  var btn = /** @type {HTMLButtonElement|null} */ (document.querySelector('[data-menu-btn]'));
+  var sheet = /** @type {HTMLElement|null} */ (document.querySelector('[data-sheet]'));
   var wide = window.matchMedia('(min-width: 1024px)');
+  var behind = document.querySelectorAll('main, footer, .rail, .masthead, .to-top');
   var open = false;
   /** @param {boolean} on @param {boolean} [restore] */
   var setMenu = function (on, restore) {
     if (!btn || !sheet) return;
     open = on;
-    navEl.classList.toggle('is-open', on);
     DF.root.classList.toggle('menu-open', on);
     btn.setAttribute('aria-expanded', String(on));
-    var txt = btn.querySelector('.nav__menu-txt');
-    if (txt) txt.textContent = on ? 'Close' : 'Menu';
+    var label = btn.querySelector('[data-menu-label]');
+    if (label) label.textContent = on ? 'Close menu' : 'Open menu';
+    DF.each(behind, function (n) { if (on) n.setAttribute('inert', ''); else n.removeAttribute('inert'); });
     if (on) {
       var first = /** @type {HTMLElement|null} */ (sheet.querySelector('a'));
       if (first) first.focus({ preventScroll: true });
     } else if (restore) {
-      /** @type {HTMLElement} */ (btn).focus();
+      btn.focus();
     }
   };
   if (btn && sheet) {
-    btn.addEventListener('click', function () { setMenu(!open); });
-    sheet.addEventListener('click', function (e) { if (/** @type {Element} */ (e.target).closest('a')) setMenu(false); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && open) setMenu(false, true); });
-    navEl.addEventListener('focusout', function (e) {
-      var to = /** @type {FocusEvent} */ (e).relatedTarget;
-      if (open && to && !navEl.contains(/** @type {Node} */ (to))) setMenu(false);
+    var b = btn, sh = sheet;
+    b.addEventListener('click', function () { setMenu(!open); });
+    sh.addEventListener('click', function (e) { if (/** @type {Element} */ (e.target).closest('a')) setMenu(false); });
+    document.addEventListener('keydown', function (e) {
+      if (!open) return;
+      if (e.key === 'Escape') { setMenu(false, true); return; }
+      // keep Tab inside the menu and its button
+      if (e.key !== 'Tab') return;
+      var items = /** @type {HTMLElement[]} */ ([b].concat(Array.prototype.slice.call(sh.querySelectorAll('a, button'))));
+      var at = items.indexOf(/** @type {HTMLElement} */ (document.activeElement));
+      var next = e.shiftKey ? (at <= 0 ? items.length - 1 : at - 1) : (at === items.length - 1 ? 0 : at + 1);
+      e.preventDefault();
+      items[next].focus();
     });
     DF.onMedia(wide, function (e) { if (e.matches && open) setMenu(false); });
   }
 
-  /* back to the top without adding "#top": the floating button, the footer link, and the
-     wordmark when it already points at this page */
-  DF.each(document.querySelectorAll('[data-to-top], [data-to-top-link]'), function (b) {
-    b.addEventListener('click', function () { DF.toTop(); });
+  /* back to the top without "#top": the wordmark and Home when they point at this page,
+     the small-screen button, and the footer link */
+  DF.each(document.querySelectorAll('[data-to-top], [data-to-top-link]'), function (el) {
+    el.addEventListener('click', function () { DF.toTop(); });
   });
-  var brand = /** @type {HTMLAnchorElement|null} */ (navEl.querySelector('[data-home-link]'));
-  if (brand) brand.addEventListener('click', function (e) {
-    if (brand && brand.pathname === location.pathname && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0) {
-      e.preventDefault();
-      if (open) setMenu(false);
-      DF.toTop(true);
-    }
+  DF.each(document.querySelectorAll('[data-home-link]'), function (a) {
+    a.addEventListener('click', function (/** @type {MouseEvent} */ e) {
+      if (a.pathname === location.pathname && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0) {
+        e.preventDefault();
+        if (open) setMenu(false);
+        DF.toTop(true);
+      }
+    });
   });
 
-  /* current section: links marked data-spy follow the section in the middle of the screen */
-  var ink = /** @type {HTMLElement|null} */ (navEl.querySelector('.nav__ink'));
+  /* the current section: links marked data-spy follow the section in the middle of the
+     screen; the rail's ink glides to it. Between rail sections, the last one stays lit. */
+  var ink = /** @type {HTMLElement|null} */ (railEl.querySelector('.rail__ink'));
   var links = document.querySelectorAll('a[data-spy]');
   /** @type {Record<string, HTMLAnchorElement[]>} */
   var byId = {};
@@ -172,18 +190,21 @@
     if (!document.getElementById(id)) return;
     (byId[id] = byId[id] || []).push(a);
   });
+  var current = '';
   var moveInk = function () {
     if (!ink) return;
-    var cur = /** @type {HTMLElement|null} */ (navEl.querySelector('.nav__links a[aria-current]'));
-    if (!cur || !cur.offsetParent) { ink.classList.remove('is-on'); return; }
-    ink.style.setProperty('--x', cur.offsetLeft + 'px');
-    ink.style.setProperty('--w', cur.offsetWidth + 'px');
+    var cur = /** @type {HTMLElement|null} */ (railEl.querySelector('.rail__list .rail__link[aria-current], .rail__list .rail__link[data-context]'));
+    var box = ink.parentElement;
+    if (!cur || !box || !cur.offsetParent) { ink.classList.remove('is-on'); return; }
+    ink.style.setProperty('--y', Math.round(cur.getBoundingClientRect().top - box.getBoundingClientRect().top) + 'px');
     ink.classList.add('is-on');
   };
-  /** @param {string|null} id */
+  /** @param {string} id */
   var setCurrent = function (id) {
+    if (!id || id === current) return;
+    current = id;
     DF.each(links, function (a) { a.removeAttribute('aria-current'); });
-    if (id && byId[id]) byId[id].forEach(function (a) { a.setAttribute('aria-current', 'true'); });
+    if (byId[id]) byId[id].forEach(function (a) { a.setAttribute('aria-current', 'location'); });
     moveInk();
   };
   var ids = Object.keys(byId);
@@ -192,14 +213,15 @@
     var inView = {};
     var spy = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { inView[e.target.id] = e.isIntersecting; });
-      var hit = null;
+      var hit = '';
       for (var i = 0; i < ids.length; i++) if (inView[ids[i]]) hit = ids[i];
       setCurrent(hit);
     }, { rootMargin: '-42% 0px -52% 0px' });
     ids.forEach(function (id) { spy.observe(/** @type {Element} */ (document.getElementById(id))); });
-    window.addEventListener('resize', moveInk, { passive: true });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(moveInk);
+    if (window.pageYOffset < 40) setCurrent(ids[0]);
   }
+  window.addEventListener('resize', moveInk, { passive: true });
+  moveInk();
 })();
 
 /* ===== motion-pref.js ===== */
@@ -602,48 +624,6 @@
   sync();
 })();
 
-/* ===== titles.js ===== */
-/* ---------- hero: the rotating role line ----------
-   Types each title, holds it, deletes it, moves on. Screen readers get the full list
-   once (a visually hidden sentence), so this element is aria-hidden. Still when
-   motion is reduced or paused, and while the hero is off screen. */
-(function () {
-  'use strict';
-  var DF = window.DF;
-  var el = /** @type {HTMLElement|null} */ (document.querySelector('[data-typed]'));
-  if (!el) return;
-  var box = /** @type {HTMLElement} */ (el);
-  var titles = /** @type {string[]} */ (JSON.parse(box.getAttribute('data-titles') || '[]'));
-  if (titles.length < 2) return;
-  var i = 0, n = titles[0].length, deleting = false, timer = 0, visible = true;
-
-  var tick = function () {
-    timer = 0;
-    if (!DF.motionOn() || !visible) return;
-    var word = titles[i];
-    if (!deleting) {
-      n++;
-      box.textContent = word.slice(0, n);
-      if (n >= word.length) { deleting = true; timer = window.setTimeout(tick, 1900); return; }
-      timer = window.setTimeout(tick, 55 + Math.random() * 40);
-    } else {
-      n--;
-      box.textContent = word.slice(0, n);
-      if (n <= 0) { deleting = false; i = (i + 1) % titles.length; timer = window.setTimeout(tick, 320); return; }
-      timer = window.setTimeout(tick, 28);
-    }
-  };
-  var sync = function () {
-    if (DF.motionOn() && visible) { if (!timer) timer = window.setTimeout(tick, deleting || n < titles[i].length ? 60 : 1900); }
-    else {
-      window.clearTimeout(timer); timer = 0;
-      if (!DF.motionOn()) { box.textContent = titles[i]; n = titles[i].length; deleting = false; }
-    }
-  };
-  DF.watch(box, function (on) { visible = on; sync(); });
-  DF.onMotion(sync);
-})();
-
 /* ===== clock.js ===== */
 /* ---------- hero: local time in Pune ---------- */
 (function () {
@@ -780,30 +760,25 @@
 })();
 
 /* ===== expertise.js ===== */
-/* ---------- disciplines: a discipline's illustration moves while its stage is open and
-   on screen (or while hovered), and stops otherwise ---------- */
+/* ---------- disciplines: each illustration moves while its plate is on screen (or
+   hovered), and stops otherwise, under reduced motion and "Pause motion" ---------- */
 (function () {
   'use strict';
   var DF = window.DF;
-  DF.each(document.querySelectorAll('[data-domain]'), function (disc) {
-    var panel = /** @type {HTMLElement} */ (disc.closest('.stepper__panel') || disc);
-    var box = disc.closest('[data-stepper]');
+  DF.each(document.querySelectorAll('[data-domain]'), function (dom) {
     var seen = false, hover = false;
-    var set = function () { disc.classList.toggle('is-live', DF.motionOn() && (hover || (seen && !panel.hidden))); };
-    disc.addEventListener('pointerenter', function (/** @type {PointerEvent} */ e) { if (e.pointerType === 'mouse') { hover = true; set(); } });
-    disc.addEventListener('pointerleave', function () { hover = false; set(); });
-    DF.watch(disc, function (on) { seen = on; set(); }, '0px 0px -15% 0px');
-    if (box) box.addEventListener('stepper:change', function () { window.setTimeout(set, 0); });
+    var set = function () { dom.classList.toggle('is-live', DF.motionOn() && (hover || seen)); };
+    dom.addEventListener('pointerenter', function (/** @type {PointerEvent} */ e) { if (e.pointerType === 'mouse') { hover = true; set(); } });
+    dom.addEventListener('pointerleave', function () { hover = false; set(); });
+    DF.watch(dom, function (on) { seen = on; set(); }, '0px 0px -15% 0px');
     DF.onMotion(set);
   });
 })();
 
 /* ===== projects.js ===== */
-/* ---------- projects: filters and the explorer ----------
-   Filters are toggle buttons (aria-pressed); the result count is announced. On wide
-   screens the index selects which project the showcase shows: hover previews it,
-   click or Enter selects it, ↑/↓ move through the index. On smaller screens every
-   project is a full card in a swipeable row, with a counter and previous/next. */
+/* ---------- projects: the filters ----------
+   Toggle buttons (aria-pressed) narrow the gallery to one category; the result is
+   announced. The lab row hides when none of its experiments match. */
 (function () {
   'use strict';
   var DF = window.DF;
@@ -811,118 +786,33 @@
   if (!box) return;
   var buttons = box.querySelectorAll('button[data-filter]');
   var cards = /** @type {NodeListOf<HTMLElement>} */ (box.querySelectorAll('[data-mission]'));
-  var items = /** @type {NodeListOf<HTMLButtonElement>} */ (box.querySelectorAll('.px__item'));
+  var lab = /** @type {HTMLElement|null} */ (box.querySelector('.px__lab'));
   var status = box.querySelector('[data-filter-status]');
-  var wide = window.matchMedia('(min-width: 1024px)');
-  var hoverable = window.matchMedia('(hover: hover)');
-  var total = cards.length, active = '', lastXY = '';
-
-  /** @param {string} slug @param {boolean} [animate] */
-  var show = function (slug, animate) {
-    if (slug === active) return;
-    active = slug;
-    DF.each(items, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-show') === slug)); });
-    DF.each(cards, function (c) {
-      var on = c.id === 'px-' + slug;
-      c.classList.toggle('is-active', on);
-      if (on && animate && wide.matches && DF.motionOn()) { c.classList.remove('is-entering'); void c.offsetWidth; c.classList.add('is-entering'); }
-    });
-  };
-  /** @param {HTMLElement} el */
-  var visible = function (el) { var li = el.closest('li'); return !(li && li.hidden) && !el.hidden; };
-
-  DF.each(items, function (b, i) {
-    var slug = b.getAttribute('data-show') || '';
-    b.addEventListener('click', function () { show(slug, true); });
-    // a mouse that actually moves over an item previews it; Chrome's synthetic moves after a
-    // scroll or a layout change (same position) are ignored, so they can't undo a keyboard choice
-    b.addEventListener('pointermove', function (/** @type {PointerEvent} */ e) {
-      if (e.pointerType !== 'mouse' || !hoverable.matches) return;
-      var xy = e.screenX + ',' + e.screenY;
-      if (xy === lastXY) return;
-      lastXY = xy;
-      show(slug, true);
-    });
-    b.addEventListener('focus', function () { show(slug, true); });
-    b.addEventListener('keydown', function (/** @type {KeyboardEvent} */ e) {
-      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
-      e.preventDefault();
-      var step = e.key === 'ArrowDown' ? 1 : -1;
-      for (var k = 1; k <= items.length; k++) {
-        var next = items[(i + step * k + items.length * 2) % items.length];
-        if (visible(next)) { next.focus(); break; }
-      }
-    });
-  });
-  DF.each(cards, function (c) { c.addEventListener('animationend', function () { c.classList.remove('is-entering'); }); });
+  var total = cards.length;
 
   /** @param {string} key */
   var filter = function (key) {
-    var shown = 0, first = '';
+    var shown = 0;
     DF.each(buttons, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-filter') === key)); });
-    var match = function (/** @type {Element} */ el) { return key === 'all' || (el.getAttribute('data-cats') || '').split(' ').indexOf(key) !== -1; };
-    DF.each(cards, function (c, i) {
-      var on = match(c);
+    DF.each(cards, function (c) {
+      var on = key === 'all' || (c.getAttribute('data-cats') || '').split(' ').indexOf(key) !== -1;
       c.hidden = !on;
       c.classList.remove('is-entering');
       if (on) {
-        if (!first) first = c.id.slice(3);
-        if (!wide.matches && DF.motionOn()) { c.style.setProperty('--k', String(shown)); void c.offsetWidth; c.classList.add('is-entering'); }
+        if (DF.motionOn()) { c.style.setProperty('--k', String(shown)); void c.offsetWidth; c.classList.add('is-entering'); }
         shown++;
       }
-      void i;
     });
-    DF.each(items, function (b) { var li = b.closest('li'); if (li) li.hidden = !match(li); });
-    var cur = document.getElementById('px-' + active);
-    if (!cur || cur.hidden) { active = ''; show(first, true); }
+    if (lab) lab.hidden = !lab.querySelector('[data-mission]:not([hidden])');
+    DF.root.setAttribute('data-filtered', key === 'all' ? '' : key);
     if (status) {
       var label = '';
       DF.each(buttons, function (b) { if (b.getAttribute('data-filter') === key) label = (b.firstChild && b.firstChild.textContent) || ''; });
       status.textContent = key === 'all' ? 'Showing all ' + total + ' projects' : 'Showing ' + shown + ' of ' + total + ' projects · ' + label.trim();
     }
   };
-  DF.each(buttons, function (b) { b.addEventListener('click', function () { filter(b.getAttribute('data-filter') || 'all'); sync(true); }); });
-  if (items.length) show(items[0].getAttribute('data-show') || '');
-
-  /* smaller screens: the swipeable row — a position counter, a progress rail, previous/next */
-  var stage = /** @type {HTMLElement|null} */ (box.querySelector('[data-missions]'));
-  var prev = /** @type {HTMLButtonElement|null} */ (box.querySelector('[data-px-prev]'));
-  var next = /** @type {HTMLButtonElement|null} */ (box.querySelector('[data-px-next]'));
-  var pos = box.querySelector('[data-px-pos]'), tot = box.querySelector('[data-px-total]');
-  var rail = /** @type {HTMLElement|null} */ (box.querySelector('[data-px-rail]'));
-  var pad = function (/** @type {number} */ n) { return (n < 10 ? '0' : '') + n; };
-  var shownCards = function () { return Array.prototype.filter.call(cards, function (/** @type {HTMLElement} */ c) { return !c.hidden; }); };
-  var queued = false;
-  /** @param {boolean} [reset] */
-  var sync = function (reset) {
-    queued = false;
-    if (!stage || wide.matches) return;
-    if (reset) stage.scrollLeft = 0;
-    var list = shownCards(), n = list.length, at = 0;
-    var x = stage.scrollLeft, maxX = stage.scrollWidth - stage.clientWidth;
-    for (var i = 0; i < n; i++) if (list[i].offsetLeft - stage.offsetLeft - x <= list[i].offsetWidth / 2) at = i;
-    if (maxX > 0 && x >= maxX - 4) at = n - 1;
-    if (pos) pos.textContent = pad(Math.min(n, at + 1));
-    if (tot) tot.textContent = pad(n);
-    if (rail) { rail.style.setProperty('--w', (100 / Math.max(1, n)) + '%'); rail.style.setProperty('--x', String(at)); }
-    if (prev) prev.disabled = at <= 0;
-    if (next) next.disabled = at >= n - 1;
-  };
-  /** @param {number} dir */
-  var go = function (dir) {
-    if (!stage) return;
-    var list = shownCards(); if (!list.length) return;
-    var gap = list.length > 1 ? list[1].offsetLeft - list[0].offsetLeft - list[0].offsetWidth : 0;
-    stage.scrollBy({ left: dir * (list[0].offsetWidth + gap), behavior: DF.motionOn() ? 'smooth' : 'auto' });
-  };
-  if (stage) {
-    var st = stage;
-    st.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(function () { sync(); }); } }, { passive: true });
-    if (prev) prev.addEventListener('click', function () { go(-1); });
-    if (next) next.addEventListener('click', function () { go(1); });
-    DF.onMedia(wide, function () { sync(true); });
-    sync();
-  }
+  DF.each(buttons, function (b) { b.addEventListener('click', function () { filter(b.getAttribute('data-filter') || 'all'); }); });
+  DF.each(cards, function (c) { c.addEventListener('animationend', function () { c.classList.remove('is-entering'); }); });
 })();
 
 /* ===== walkthrough-loader.js ===== */
@@ -1246,5 +1136,6 @@
   window.addEventListener('hashchange', function () {
     var m = location.hash.match(/^#\/trk-0([1-5])$/);
     if (m) location.replace('work/' + slugs[Number(m[1]) - 1] + '/');
+    else if (location.hash === '#terminal') location.replace('query-engineer/');
   });
 })();

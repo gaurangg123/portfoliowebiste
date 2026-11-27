@@ -9,5 +9,6 @@
   window.addEventListener('hashchange', function () {
     var m = location.hash.match(/^#\/trk-0([1-5])$/);
     if (m) location.replace('work/' + slugs[Number(m[1]) - 1] + '/');
+    else if (location.hash === '#terminal') location.replace('query-engineer/');
   });
 })();

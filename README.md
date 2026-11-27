@@ -4,7 +4,16 @@ The portfolio of **Gaurang Ashava**, GET – Data and AI Engineer at Tata Techno
 
 - **Live:** https://gaurangg123.github.io/portfoliowebiste/
 - **What it covers:** the engineering domains I work across, the enterprise applications and experiments I've built, my experience and education.
-- **Interactive pieces:** an engineering-workflow journey, a reference data architecture, a project explorer, and a light/dark theme.
+- **Pages:**
+  - the homepage, an editorial journey in nine chapters;
+  - five case studies at `work/<slug>/`;
+  - **Query the Engineer** at [`query-engineer/`](https://gaurangg123.github.io/portfoliowebiste/query-engineer/), a local portfolio assistant.
+- **Interactive pieces:**
+  - a right-side navigation rail;
+  - an asymmetric project gallery;
+  - a reference data architecture;
+  - the Query the Engineer assistant;
+  - a light/dark theme.
 
 It is a static site: Node generates the HTML from `src/`, and GitHub Pages serves the files as they are. There is no runtime framework and no runtime dependency. Every page reads fully without JavaScript; scripts only add behaviour.
 
@@ -71,12 +80,15 @@ The site lives under the `/portfoliowebiste/` subpath:
 
 ```
 src/
-  data/         content only: site.js · projects.js · experience.js · education.js · domains.js · workflow.js · architecture.js
-  components/   templates: head · navigation · hero · about · expertise (+ motifs) · projects · experience · workflow ·
-                architecture · education · contact · footer · stepper · scenes · case-study · explain · illustrations · icons · ui
-  styles/       tokens · base · stepper · one file per section · case-visuals · motion
-  scripts/      core · theme · nav · motion-pref · hero-lattice · titles · clock · reveal · stepper · expertise · projects ·
+  data/         content only: site.js · profile.js · projects.js · experience.js · education.js · domains.js · workflow.js ·
+                architecture.js · query.js (what the Query the Engineer assistant knows, assembled from the rest)
+  components/   templates: head · navigation (rail + small-screen menu) · hero · about (+ ribbon) · expertise (+ motifs) ·
+                projects · experience · education · architecture · query (page + homepage invitation) · contact · footer ·
+                stepper · scenes · case-study · explain · illustrations · icons · ui
+  styles/       tokens · base · navigation · stepper · one file per section · query · case-visuals · motion
+  scripts/      core · theme · nav · motion-pref · hero-lattice · clock · reveal · stepper · expertise · projects ·
                 walkthrough-loader · explain · copy · papercut · legacy
+                Query page bundle (assets/js/query.js): query-engine · query-ui · net-field
 tools/          build.js · serve.js · render-assets.js · package-assets.js · art/ (cover and diagram drawings)
 assets/         css/ js/ (generated) · fonts/ · hero/ · data-engineering/ · ai-ml/ · automation/ · analytics/ ·
                 projects/ · diagrams/ · backgrounds/ · icons/ · profile/ · audio/ · walkthroughs/ (illustrative player)
@@ -116,7 +128,16 @@ All content is in `src/data/`. Edit it there, then run `npm run build`.
 
 **Links:** edit `src/data/site.js`. The résumé must stay the Google Drive *viewing* URL, unchanged. A unit test checks this.
 
-**Sections and navigation:** the order and the menu come from `sections` in `src/data/site.js`; `tools/build.js` assembles the page in that order.
+**Sections and navigation:**
+- The rail and the small-screen menu list `sections` from `src/data/site.js` (id, label, icon). `tools/build.js` assembles the homepage in the same order.
+- On screens 1024px and wider, the rail is fixed to the right edge. `.container` keeps clear of it through `--rail-space`, so content never runs underneath.
+
+**Query the Engineer** (`/query-engineer/`) is a transparent, local assistant, not an AI chatbot. It has no model, no API and no network calls.
+- **Where answers come from:** `src/scripts/query-engine.js` matches a question against `src/data/query.js`, which the build assembles from the same data as the pages.
+- **Adding knowledge:** add it to the data. Add aliases for a project or organisation in `src/data/query.js`.
+- **Tests:** `qa/unit/query.test.js` checks that answers stay on topic, link only to places the data names, and decline what isn't documented.
+- **Without JavaScript:** the page shows the engine's answers to the eight suggested questions, pre-rendered at build time.
+- **Old links:** the old terminal's `#terminal` address on the homepage now opens this page.
 
 **Theme:** colours are tokens in `src/styles/tokens.css`, with a `:root[data-theme="light"]` block for the light theme. Dark is the default; the visitor's choice is stored in `localStorage` (`df-theme`) and applied before the first paint. `qa/unit/contrast.test.js` checks text contrast for both themes from the tokens.
 
@@ -130,8 +151,11 @@ All content is in `src/data/`. Edit it there, then run `npm run build`.
 ## Accessibility and motion
 
 - Semantic landmarks, one `h1` per page, a skip link, and visible focus everywhere.
-- The workflow, architecture and disciplines are single-open accordions: each stage is a heading with a button (`aria-expanded`); arrow keys, Home and End move between stages.
-- The project explorer's filters are toggle buttons and the result count is announced.
+- The navigation rail is a list of links with names that appear on hover and focus. The current section is marked with `aria-current`.
+- The small-screen menu is a modal: Escape closes it, focus stays inside, and the page behind is inert.
+- The architecture is a single-open accordion: each stage is a heading with a button (`aria-expanded`), and arrow keys, Home and End move between stages.
+- The Query page's conversation is a polite live region. Typed text is only ever set as text, never parsed as HTML.
+- The project gallery's filters are toggle buttons, and the result count is announced.
 - The wordmark, the floating button and the footer link return to the top without adding `#top` to the address; an old `#top` address is cleaned on load. Section and case-study fragments are kept, and Back returns to the section you left.
 - `prefers-reduced-motion` is honoured: still lattice, instant scrolling, no reveals, no loops.
 - The hero's **Pause motion** control stops every continuous animation and is remembered.

@@ -1,5 +1,6 @@
 /* ---------- case studies ---------- */
-.cs-head { padding: calc(12px + 60px + clamp(40px, 7vh, 72px)) 0 clamp(32px, 4vw, 48px); }
+.cs-head { padding: calc(84px + env(safe-area-inset-top)) 0 clamp(32px, 4vw, 48px); }
+@media (min-width: 1024px) { .cs-head { padding-top: clamp(40px, 7vh, 72px); } }
 .cs-head__grid { display: grid; gap: 32px; align-items: center; }
 @media (min-width: 1100px) { .cs-head__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 56px; } }
 .cs-head__back { margin-bottom: 18px; }
@@ -82,7 +83,7 @@
 }
 
 /* ---------- 404 ---------- */
-.nf { display: grid; justify-items: start; gap: 22px; min-height: 70vh; align-content: center; padding-block: calc(12px + 60px + 64px) 96px; }
+.nf { display: grid; justify-items: start; gap: 22px; min-height: 70vh; align-content: center; padding-block: 96px 80px; }
 .nf__title { font-size: var(--fs-h1); line-height: 1.02; letter-spacing: var(--track-head); }
 .nf__title em { font-style: normal; background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .nf__lede { max-width: 36rem; color: var(--text-2); font-size: var(--fs-lede); }

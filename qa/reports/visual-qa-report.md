@@ -1,91 +1,71 @@
-# Visual QA report — DataForge (refinement round)
+# Visual QA report — DataForge 2.0
 
-Rendered-page inspection of the production build, served the way GitHub Pages serves it (`/portfoliowebiste/` subpath, 404 fallback, gzip).
+Rendered-page inspection of the production build, served the way GitHub Pages serves it.
 
 **Method**
 
 - Pages were opened in headless Chromium 1243 through Playwright 1.63.
-- Screenshots were captured and inspected by eye, section by section, in both themes.
-- Spacing was measured, not estimated: a script finds the last visible content of each section and the first visible content of the next, and reports the empty space between them.
-- Every issue below was found in a screenshot, a measurement or a test, then fixed and re-shot.
+- Screenshots were captured and inspected by eye, in both themes, at desktop, tablet and phone sizes.
+- Every issue below was found in a screenshot, a measurement, a test or Lighthouse, then fixed and re-shot.
 
-## Summary
+## What changed, visually
 
-| | |
-| --- | --- |
-| Refinement passes | **3**: spacing and layout; visuals and motion; mobile and polish |
-| Viewports | **9**: 1920×1080, 1440×900, 1366×768, 1024×768, 768×1024, 430×932, 390×844, 375×812, 360×800 |
-| Themes | Dark (default) and light, on the homepage and the case studies |
-| Automated layout checks, final run | **9 / 9 viewports clean**: no horizontal overflow, nothing past the edge, no clipped controls, no broken images, no console errors |
-| Open visual issues | **0** blocking |
+| Area | Before | Now |
+| --- | --- | --- |
+| Navigation | A horizontal bar across the top | A translucent rail fixed to the right edge, with a monogram, icon links with sliding names, a gliding ink on the current section, a reading-progress line, then Query the Engineer, the theme and the résumé. Phones get a floating button and a full-screen menu that opens as a circle from the button. |
+| Opening | Name and tagline over the lattice | An editorial composition: a studio masthead line; the name in two staggered lines; *Engineering Intelligence.* and *Data & AI Engineer.*; vertical running text on the left edge; an index of what the page holds (05 enterprise applications · 02 AI-agent experiments · 04 disciplines, counts of documented work) at the lattice's foot |
+| Between sections | Stacked rectangles | Slanted bands with a blueprint grid; a thin "spine" down the left margin that fills as you read; giant outlined chapter numbers behind each heading; a tilted ribbon of tools under the opening |
+| About | Photo and text side by side | The portrait set off-grid with a plate, an ID card and a running label; *Now* and *Studied* facts; the path so far; "How I approach the work" in five connected steps |
+| Expertise | A tab list beside one stage | An editorial spread: four numbered plates, the right column stepped down, each with its own animated illustration |
+| Projects | An index beside one showcase | A gallery: the lead project across the width with every fact; the rest in wide and narrow cards that step out of line; large outlined project numbers; a separate "lab" row for the experiments. On phones the rest become swipeable rows. |
+| Experience | Track bars and cards | A compact timeline: big year marks on the left, a line with a node per role, the current role lit |
+| Query the Engineer | A terminal section on the homepage | Its own page (a brief in large stacked type, the conversation beside it, a quiet data network behind), plus an invitation section on the homepage |
 
-## The spacing problem, measured
-
-The space between one section's last content and the next section's first content, and the page height:
-
-| Viewport | Gaps before | Gaps after | Page before | Page after | Contact → footer |
-| --- | --- | --- | --- | --- | --- |
-| 1440×900 | 245–314 px | 123–202 px | 13,265 px | 9,507 px | 163 → 111 px |
-| 768×1024 | 145–168 px | 112–143 px | 15,480 px | 12,861 px | 513 → 95 px |
-| 390×844 | 144–167 px | 87–108 px | 19,535 px | 14,799 px | 492 → 75 px |
-
-**Where the space came from, and what replaced it**
-
-- **Section padding** went up to 128 px on both edges, and heading margins up to 80 px. One spacing system in `tokens.css` replaces them:
-
-  | | Section padding (top; bottom is 72% of it) | Heading → content | Grid gap |
-  | --- | --- | --- | --- |
-  | Desktop (≥1024) | 88–108 px (compact 64–80 px) | 28–36 px | 18–24 px |
-  | Tablet (640–1023) | 72 px (compact 60 px) | 28 px | 18 px |
-  | Mobile | 52 px (compact 44 px) | 24 px | 14 px |
-
-- **Reveals** waited until 8% into the screen and travelled 24 px. They now start at 4%, travel 16 px and take about half as long.
-- **The hero** on tablets and phones had a full-height band above the text. Its height now follows its content, with the lattice in a band above the text.
-- **The contact section** carried a ~300 px decorative panel on phones, and the footer was large. Contact is now a conclusion with its channels beside it, and the footer is one compact row.
-- **Projects on phones** were seven full cards stacked (about 5,100 px). They are now a swipeable row with a counter, a progress rail and previous/next buttons (about 1,600 px). Without JavaScript they still stack.
-
-## Pass 1: spacing, layout and transitions
+## Pass 1: composition, navigation and spacing
 
 | # | Finding | Fix |
 | --- | --- | --- |
-| 1 | Gaps of 245–314 px between sections on desktop | Spacing tokens (above) |
-| 2 | Disciplines: the four tabs floated apart to match the stage's height | Equal-height tabs that fill the column, 10 px apart |
-| 3 | Education: the years ran together ("20212025") and squeezed the degree title into four lines | Years set as one large row above the record; certificates share the record's height |
-| 4 | Project showcase cropped the bottom of the illustrations | The showcase letterboxes the illustration (`contain`) instead of cropping it |
-| 5 | Mobile project row: shorter cards left a gap above the controls | Cards in the row share one height |
-| 6 | The terminal section and its navigation item | Removed; replaced by the engineering workflow |
+| 1 | Content would run under a right-hand rail | `.container` keeps clear of `--rail-space`; a test checks every container against the rail |
+| 2 | Query page: the brief column overflowed by 115px on phones (the topic row set its minimum width) | Columns sized `minmax(0, 1fr)` |
+| 3 | The tilted ribbon caused 8–29px of horizontal scroll | The ribbon sits in a clipping wrapper |
+| 4 | The portrait's running label sat inside the photo | Moved outside the frame |
+| 5 | The lead project's illustration was letterboxed in a tall box, leaving empty bands | The illustration keeps its own proportions |
+| 6 | Phones: Projects measured 6,304px and About 3,187px | The lead project stays whole and the rest scroll sideways (3,345px); the five approach steps scroll sideways (2,479px) |
+| 7 | Case studies and the 404 page kept ~150px of space for the old top bar | Padding matches the new navigation |
 
-## Pass 2: visuals and motion
-
-| # | Finding | Fix |
-| --- | --- | --- |
-| 7 | The site felt plain: sections were text and cards | Stage illustrations (16 inline SVG scenes), a blueprint grid behind the workflow, a framed architecture stream, a layered portrait with an ID card, a career track, an editorial education record, contact signal rings |
-| 8 | The hero lattice was the same in both themes and did not respond | Colours read from theme tokens and redrawn on a theme change; nodes near the pointer brighten and reach towards it; firing cascades travel through neighbours |
-| 9 | Light theme: amber text on the alternate band was 4.43:1 | Darker amber token (`#A14607`); contrast now unit-tested for both themes |
-| 10 | Case-study header lost its meta line and category styles (old class names) | Moved to the explorer's classes; a class audit found no other unstyled content |
-| 11 | 404 log colours came from the removed terminal stylesheet | Restored in the case-study stylesheet |
-| 12 | Under load, a fast scroll could leave sections hidden until scrolled back to | A catch-up sweep shows anything already reached |
-
-## Pass 3: mobile and polish
+## Pass 2: visual identity, animations and transitions
 
 | # | Finding | Fix |
 | --- | --- | --- |
-| 13 | Menu breakpoint left a cramped bar between 900 and 1023 px | The bar shows from 1024 px; the menu sheet below |
-| 14 | The wordmark added `#top` to the address | It scrolls to the top without a fragment and keeps Back working; an old `#top` is cleaned on load |
-| 15 | Workflow and architecture on phones | Vertical timelines with one stage open, numbered nodes on a line |
-| 16 | Hover preview in the explorer could override a keyboard choice after a scroll | Only a mouse that actually moves previews a project |
+| 8 | Light theme: rail, Query page, gallery and architecture | Checked; all on theme tokens. The Query page's network reads the theme colours |
+| 9 | Page transitions and print rules still named the old top bar | Moved to the rail and the menu button |
+| 10 | Motion | The lattice (pointer and cascades), plate illustrations, the ribbon, the Query network and the contact rings run only while visible, and stop under reduced motion or Pause motion |
+
+## Pass 3: mobile, interaction and polish
+
+| # | Finding | Fix |
+| --- | --- | --- |
+| 11 | 1024×768: the opening's index collided with the "Currently" line | The index stands at the lattice's foot only at 1280px and wider; below that it flows under the buttons |
+| 12 | 1366×768: the scroll cue sat on the "Currently" line | Shown only where there is room |
+| 13 | Phones: on the Query page the back-to-top button covered the send button | Hidden there, since the question box owns the bottom of the screen |
+| 14 | Phones: the floating menu button covered a question scrolled into view | Questions scroll to clear it |
+| 15 | Lighthouse (Query page): `role="log"` on a list, a send button without a name on phones, "See more" links | A `div` log; the button is labelled "Ask"; links say "Case study", "On the homepage", "Write" or "Open", with the item's name for screen readers |
+| 16 | A question typed while an answer was still arriving was dropped | Queued |
+
+## Automated layout checks (final run)
+
+**9 / 9 viewports clean.** The checks found no horizontal overflow, nothing past the edge (the intentional sideways rows excepted), no clipped controls, no broken images, no targets under 24px and no console errors. Details are in `qa/screenshots/layout-checks.json`.
 
 ## Screenshots
 
-- `qa/screenshots/desktop/`, `qa/screenshots/tablet/` and `qa/screenshots/mobile/` hold the curated set:
-  - the hero at all nine sizes;
-  - every section at 1440×900, 1024×768 and 390×844;
-  - the case-study header at three sizes;
-  - the mobile navigation, and the light theme.
-- The automated checks from the final run are in `qa/screenshots/layout-checks.json`.
-- Regenerate with `node qa/capture-screenshots.js qa/screenshots --jpg`, after starting `node tools/serve.js 4173`.
+- `qa/screenshots/requested/`: the 17 views asked for. They cover:
+  - desktop hero, right-side navigation, About, Expertise, Projects, Experience, Education, Architecture, Query promo, Contact and the Query page;
+  - mobile homepage, mobile navigation, mobile Query page and mobile projects;
+  - the light theme.
+- `qa/screenshots/desktop/`, `tablet/`, `mobile/`: the hero at all nine sizes, every section at 1440×900, 1024×768 and 390×844, and the case-study head.
+- Regenerate them with `node qa/capture-screenshots.js qa/screenshots --jpg`, after starting `node tools/serve.js 4173`.
 
 ## Known limitations
 
-- **Live site:** `gaurangg123.github.io` is not reachable from this environment, so the deployed site was not inspected visually here.
-- **Interrupted view transitions:** Chromium logs "Transition was aborted…" if a second navigation starts while a page-to-page transition is still playing. It cannot be caught from page code and has no visible effect.
+- **Live site:** the deployed site was not inspected visually here, because the host is unreachable from this environment.
+- **Phone page length:** the homepage is about 17,400px tall on a phone. Every chapter is shown in full except where noted, and there are no empty bands.

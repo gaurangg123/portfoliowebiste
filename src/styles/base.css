@@ -2,7 +2,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 html {
   -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
-  scroll-padding-top: calc(var(--nav-h) + 12px);
+  scroll-padding-top: 20px;
   background: var(--bg-0);
 }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
@@ -49,14 +49,52 @@ body::after {
 @keyframes grid-drift { to { transform: translateY(64px); } }
 
 /* ---------- layout ---------- */
+/* the container keeps clear of the navigation rail on wide screens (--rail-space), and
+   gives the left margin a little less than the right, where the rail sits */
 .container { width: 100%; max-width: calc(var(--maxw) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
+@media (min-width: 1024px) {
+  .container {
+    width: auto; max-width: none;
+    margin-left: max(calc(var(--rail-space) * 0.4), calc((100% - var(--maxw) - 2 * var(--gutter)) / 2));
+    margin-right: max(var(--rail-space), calc((100% - var(--maxw) - 2 * var(--gutter)) / 2));
+  }
+}
 .section { position: relative; padding-block: var(--space-section) calc(var(--space-section) * 0.72); }
 .section--compact { padding-block: var(--space-section-compact) calc(var(--space-section-compact) * 0.8); }
 /* a band: the section sits on the alternate surface, with soft edges so sections join */
 .section--band { background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--bg-1) 88%, transparent) 72px, color-mix(in srgb, var(--bg-1) 88%, transparent) calc(100% - 72px), transparent); }
+/* a slanted band: the alternate surface cut on a diagonal, so a section doesn't end in a
+   straight edge; --slant-r mirrors the cut */
+.section--slant { isolation: isolate; }
+.section--slant::before {
+  --cut: clamp(22px, 3.4vw, 56px);
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(var(--hairline) 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(90deg, var(--hairline) 1px, transparent 1px) 0 0 / 40px 40px,
+    var(--bg-1);
+  clip-path: polygon(0 var(--cut), 100% 0, 100% calc(100% - var(--cut)), 0 100%);
+}
+.section--slant-r::before { clip-path: polygon(0 0, 100% var(--cut), 100% 100%, 0 calc(100% - var(--cut))); }
+.section--slant { padding-block: calc(var(--space-section) + 12px) calc(var(--space-section) * 0.72 + 20px); }
 
-/* a section's head: index and label in mono, then the title, then a lede */
-.sec-head { display: grid; gap: 14px; margin-bottom: var(--space-head); max-width: 50rem; }
+/* the spine: a thin line down the left margin that fills as the page is read (≥1024px) */
+.spine { display: none; }
+@media (min-width: 1024px) {
+  .spine { display: block; position: absolute; z-index: 0; left: max(14px, calc(var(--rail-space) * 0.18)); top: 100vh; bottom: 0; width: 1px; background: var(--border); pointer-events: none; }
+  .spine i { position: absolute; inset: 0; transform-origin: top; transform: scaleY(var(--p, 0)); background: linear-gradient(180deg, var(--cyan), var(--violet), var(--green)); }
+}
+main { position: relative; }
+
+/* a section's head: a large outlined chapter number behind it, the index and label in mono,
+   then the title, then a lede */
+.sec-head { position: relative; display: grid; gap: 14px; margin-bottom: var(--space-head); max-width: 50rem; }
+.sec-head__num {
+  position: absolute; z-index: -1; left: -0.06em; top: -0.42em; pointer-events: none; user-select: none;
+  font: 700 clamp(6rem, 4rem + 9vw, 12.5rem) / 1 var(--font-display); letter-spacing: -0.06em;
+  color: transparent; -webkit-text-stroke: 1px var(--border-2); opacity: 0.7;
+}
+.sec-head { isolation: isolate; }
 .sec-head--split { max-width: none; }
 @media (min-width: 1024px) {
   .sec-head--split { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); column-gap: 56px; align-items: end; }
