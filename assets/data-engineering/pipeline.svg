@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="440" class="motif motif--pipeline" viewBox="0 0 400 220" role="img"><title>pipeline motif</title>
+  <style>
+    svg{--tone:#38BDF8;background:#0A1020}
+    *{fill:none;stroke:#94A3B8;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+    .m-src ellipse,.m-src path,.m-rack rect,.m-rack-top,.m-rack-side,.m-box,.m-kpi rect{fill:#151F30;stroke:rgba(148,163,184,.45)}
+    .m-soft{stroke:rgba(148,163,184,.3)} .m-pipes path,.m-grid path{stroke:rgba(148,163,184,.25)} .m-axis{stroke:rgba(148,163,184,.5)}
+    .m-flow path,.m-run path{stroke:var(--tone);stroke-width:2.4;stroke-dasharray:6 14}
+    .m-node{fill:#101827;stroke:var(--tone);stroke-width:2} .m-glyph{stroke:var(--tone);stroke-width:2}
+    .m-led,.m-pt{fill:var(--tone);stroke:none} .m-layer circle{fill:#101827;stroke:var(--tone);stroke-width:2}
+    .m-edges path{stroke:var(--tone);stroke-opacity:.28;stroke-width:1} .m-token{fill:var(--tone);fill-opacity:.55;stroke:none}
+    .m-bar{fill:var(--tone);fill-opacity:.35;stroke:none} .m-bar--key{fill-opacity:1} .m-line{stroke:var(--tone);stroke-width:2.4}
+    .m-end{stroke:var(--tone)} .m-tick{stroke:var(--tone)}
+    text{fill:#94A3B8;stroke:none;font:600 10px 'JetBrains Mono',monospace;letter-spacing:.12em} .m-glyph-t{fill:var(--tone);stroke:none;font:700 16px 'Space Grotesk',sans-serif}
+  </style>
+    <g class="m-src"><path d="M26 39v22a22 7 0 0 0 44 0v-22"/><ellipse cx="48" cy="39" rx="22" ry="7"/><path class="m-soft" d="M26 50a22 7 0 0 0 44 0"/></g><g class="m-src"><path d="M26 99v22a22 7 0 0 0 44 0v-22"/><ellipse cx="48" cy="99" rx="22" ry="7"/><path class="m-soft" d="M26 110a22 7 0 0 0 44 0"/></g><g class="m-src"><path d="M26 159v22a22 7 0 0 0 44 0v-22"/><ellipse cx="48" cy="159" rx="22" ry="7"/><path class="m-soft" d="M26 170a22 7 0 0 0 44 0"/></g>
+    <g class="m-pipes"><path d="M72 50 C128 50 136 110 176 110"/><path d="M72 110 C128 110 136 110 176 110"/><path d="M72 170 C128 170 136 110 176 110"/><path d="M224 110H290"/></g>
+    <g class="m-flow"><path style="--d:0s" d="M72 50 C128 50 136 110 176 110"/><path style="--d:0.25s" d="M72 110 C128 110 136 110 176 110"/><path style="--d:0.5s" d="M72 170 C128 170 136 110 176 110"/><path style="--d:0.6s" d="M224 110H290"/></g>
+    <polygon class="m-node" points="200,86 220.8,98 220.8,122 200,134 179.2,122 179.2,98"/>
+    <path class="m-glyph" d="M190 102h20l-7 8v8l-6 3v-11z"/>
+    <g class="m-rack">
+      <path class="m-rack-top" d="M296 58 318 46h48l-22 12z"/>
+      <path class="m-rack-side" d="M340 58 362 46v112l-22 12z"/>
+      <rect x="296" y="58" width="44" height="112" rx="3"/>
+      <path class="m-soft" d="M302 72h24"/><path class="m-soft" d="M302 88h24"/><path class="m-soft" d="M302 104h24"/><path class="m-soft" d="M302 120h24"/><path class="m-soft" d="M302 136h24"/><path class="m-soft" d="M302 152h24"/>
+      <circle class="m-led" style="--d:0s" cx="333" cy="72" r="2.2"/><circle class="m-led" style="--d:0.37s" cx="333" cy="88" r="2.2"/><circle class="m-led" style="--d:0.74s" cx="333" cy="104" r="2.2"/><circle class="m-led" style="--d:1.1099999999999999s" cx="333" cy="120" r="2.2"/><circle class="m-led" style="--d:0.08000000000000007s" cx="333" cy="136" r="2.2"/><circle class="m-led" style="--d:0.4500000000000002s" cx="333" cy="152" r="2.2"/>
+    </g>
+    <text class="m-label" x="48" y="206" text-anchor="middle">SOURCES</text>
+    <text class="m-label" x="200" y="152" text-anchor="middle">TRANSFORM</text>
+    <text class="m-label" x="329" y="206" text-anchor="middle">WAREHOUSE</text>
+  </svg>

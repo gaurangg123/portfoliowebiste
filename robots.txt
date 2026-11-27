@@ -1,0 +1,6 @@
+# GitHub Pages serves this site under /portfoliowebiste/. Crawlers read robots.txt only
+# at a host's root, so this file documents intent; submit the sitemap in Search Console.
+User-agent: *
+Allow: /
+
+Sitemap: https://gaurangg123.github.io/portfoliowebiste/sitemap.xml

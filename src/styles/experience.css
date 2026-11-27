@@ -1,0 +1,33 @@
+/* ---------- 05 · experience timeline ---------- */
+.career__wrap { position: relative; }
+.career__rail { position: absolute; left: 11px; top: 10px; bottom: 10px; width: 2px; border-radius: 2px; background: var(--border); overflow: hidden; }
+.career__fill { position: absolute; inset: 0; transform-origin: 50% 0; transform: scaleY(var(--p, 1)); background: linear-gradient(180deg, var(--cyan), var(--violet)); }
+.career__list { list-style: none; display: grid; gap: 28px; }
+.career__item { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr); column-gap: 18px; row-gap: 10px; }
+.career__when { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.career__node {
+  grid-column: 1; grid-row: 1; justify-self: center; width: 14px; height: 14px; margin-top: 4px; border-radius: 50%;
+  border: 2px solid var(--cyan); background: var(--bg-0); box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
+}
+.is-now .career__node { background: var(--cyan); box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.18), 0 0 22px rgba(56, 189, 248, 0.6); }
+.career__card { grid-column: 2; padding: clamp(20px, 3vw, 32px); border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--card); }
+.is-now .career__card { border-color: rgba(56, 189, 248, 0.34); background: linear-gradient(180deg, rgba(56, 189, 248, 0.06), rgba(56, 189, 248, 0) 45%), var(--card); }
+.career__dates { font: 500 0.875rem / 1.4 var(--font-mono); color: var(--text); }
+.career__now { color: var(--green); }
+@media (min-width: 900px) {
+  .career__rail { left: calc(12.5rem + 24px + 11px); }
+  .career__item { grid-template-columns: 12.5rem 24px minmax(0, 1fr); column-gap: 24px; }
+  .career__when { grid-column: 1; grid-row: 1; flex-direction: column; align-items: flex-end; gap: 10px; padding-top: 24px; text-align: right; }
+  .career__node { grid-column: 2; margin-top: 30px; }
+  .career__card { grid-column: 3; grid-row: 1; }
+}
+.career__role { font-size: var(--fs-h3); }
+.career__org { margin-top: 6px; color: var(--cyan); font-weight: 600; }
+.career__desc { margin-top: 14px; color: var(--text-2); }
+.career__k { margin: 22px 0 10px; }
+.career__points { list-style: none; display: grid; gap: 10px; }
+.career__points li { position: relative; padding-left: 22px; }
+.career__points li::before { content: ""; position: absolute; left: 2px; top: 0.78em; width: 10px; height: 1.5px; background: var(--cyan); }
+.career__more { margin-top: 10px; }
+.career__more .career__points { margin: 6px 0 4px; color: var(--text-2); }
+.career__tech { display: grid; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }

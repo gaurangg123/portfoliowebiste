@@ -1,0 +1,89 @@
+/* ---------- 07 · interactive data architecture ---------- */
+.arch__wrap {
+  position: relative; padding: clamp(18px, 3vw, 40px); border: 1px solid var(--border); border-radius: var(--r-xl);
+  background:
+    radial-gradient(ellipse 60% 70% at 50% -10%, rgba(56, 189, 248, 0.1), transparent 65%),
+    linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px) 0 0 / 32px 32px,
+    rgba(10, 16, 32, 0.75);
+}
+.arch__flow { list-style: none; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.arch__step { position: relative; display: flex; justify-content: center; --ico: 64px; }
+/* the connection into each stage from the one before it */
+.arch__step + .arch__step::before, .arch__step + .arch__step::after {
+  content: ""; position: absolute; top: calc(30px + var(--ico) / 2); height: 2px;
+  left: calc(-50% + var(--ico) / 2 + 6px); right: calc(50% + var(--ico) / 2 + 6px);
+}
+.arch__step + .arch__step::before { background: repeating-linear-gradient(90deg, rgba(148, 163, 184, 0.38) 0 6px, transparent 6px 11px); }
+.arch__step + .arch__step::after { background: linear-gradient(90deg, transparent, var(--cyan) 50%, transparent) 0 0 / 45% 100% no-repeat; background-position: -50% 0; opacity: 0; }
+.arch__step.is-conn::before { background: linear-gradient(90deg, var(--violet), var(--cyan)); }
+
+.arch__stage {
+  display: grid; justify-items: center; align-content: start; gap: 10px; width: 100%; padding: 4px 4px 10px;
+  border: 0; border-radius: var(--r-md); background: transparent; color: var(--text-2); text-align: center;
+}
+.arch__num { font: 500 0.6875rem / 16px var(--font-mono); letter-spacing: 0.12em; }
+.arch__ico {
+  display: grid; place-items: center; width: var(--ico); height: var(--ico); border: 1px solid var(--border-2); border-radius: 20px;
+  background: var(--card); color: var(--text-2);
+  transition: border-color var(--t-mid) ease, color var(--t-mid) ease, background-color var(--t-mid) ease, box-shadow var(--t-mid) ease, transform var(--t-mid) var(--ease-out);
+}
+.arch__ico .ico { width: 26px; height: 26px; }
+.arch__name { max-width: 11ch; color: var(--text); font: 600 0.875rem / 1.25 var(--font-sans); }
+.arch__stage[aria-selected="true"] .arch__num { color: var(--cyan); }
+.arch__stage[aria-selected="true"] .arch__ico {
+  border-color: var(--cyan); background: rgba(56, 189, 248, 0.14); color: var(--cyan);
+  box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.08), 0 0 36px rgba(56, 189, 248, 0.38);
+}
+.arch__step.is-linked .arch__ico { border-color: rgba(139, 92, 246, 0.55); color: var(--violet-tx); }
+.arch__stage:focus-visible { outline-offset: 2px; }
+@media (hover: hover) {
+  .arch__stage:hover .arch__ico { color: var(--text); border-color: rgba(148, 163, 184, 0.5); transform: translateY(-3px); }
+  .arch__stage[aria-selected="true"]:hover .arch__ico { color: var(--cyan); border-color: var(--cyan); }
+}
+
+.arch__panels { margin-top: clamp(20px, 3vw, 32px); }
+.arch__panel { padding-top: clamp(22px, 3vw, 30px); border-top: 1px solid var(--border); }
+html:not(.js) .arch__panel + .arch__panel { margin-top: 28px; }
+.arch__panel.is-entering { animation: arch-in 420ms var(--ease-out) both; }
+@keyframes arch-in { from { opacity: 0; transform: translateY(10px); } }
+.arch__phead { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; }
+.arch__pico { display: grid; place-items: center; width: 52px; height: 52px; flex: none; border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 16px; background: rgba(56, 189, 248, 0.12); color: var(--cyan); }
+.arch__pico .ico { width: 24px; height: 24px; }
+.arch__ptitle { margin-top: 4px; font-size: var(--fs-h3); }
+.arch__cols { display: grid; gap: 22px; }
+@media (min-width: 640px) { .arch__cols { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .arch__cols { grid-template-columns: 1.35fr 1fr 1.25fr 1fr; gap: 28px; } }
+.arch__col .label { margin-bottom: 10px; }
+.arch__col--does p:last-child { color: var(--text); }
+.arch__uses { list-style: none; display: grid; gap: 8px; }
+.arch__uses li { position: relative; padding-left: 18px; font-size: 0.9375rem; }
+.arch__uses li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 8px; height: 8px; border-top: 1.5px solid var(--cyan); border-right: 1.5px solid var(--cyan); transform: translateY(-50%) rotate(45deg); }
+.arch__uses a { display: inline-block; padding-block: 2px; color: var(--text); line-height: 1.45; text-decoration-color: rgba(56, 189, 248, 0.5); }
+@media (hover: hover) { .arch__uses a:hover { color: var(--cyan); } }
+.arch__links { display: grid; gap: 8px; color: var(--text-2); font-size: 0.9375rem; }
+.arch__links > span { display: flex; align-items: baseline; gap: 8px; }
+.arch__links .ico { align-self: center; }
+.arch__links .ico { width: 16px; height: 16px; flex: none; color: var(--cyan); }
+.arch__links b { color: var(--text); font-weight: 600; }
+
+/* data moving through the connections while the diagram is on screen */
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.motion-off) .arch__wrap.is-visible .arch__step + .arch__step::after { opacity: 1; animation: arch-packet 2.4s linear infinite; animation-delay: calc(var(--k, 0) * 0.34s); }
+}
+@keyframes arch-packet { from { background-position: -60% 0; } to { background-position: 160% 0; } }
+
+/* small screens: a compact stepper; the selected stage is named in its panel */
+@media (max-width: 899.98px) {
+  .arch__step { --ico: 42px; }
+  .arch__step + .arch__step::before, .arch__step + .arch__step::after { top: calc(26px + var(--ico) / 2); left: calc(-50% + var(--ico) / 2 + 2px); right: calc(50% + var(--ico) / 2 + 2px); }
+  .arch__ico { border-radius: 13px; }
+  .arch__ico .ico { width: 20px; height: 20px; }
+  .arch__stage { gap: 8px; padding: 0 0 4px; }
+  .arch__name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  html:not(.js) .arch__flow { grid-template-columns: 1fr; gap: 8px; }
+  html:not(.js) .arch__step + .arch__step::before, html:not(.js) .arch__step + .arch__step::after { display: none; }
+  html:not(.js) .arch__stage { grid-template-columns: auto auto 1fr; justify-items: start; align-items: center; }
+  html:not(.js) .arch__name { position: static; width: auto; height: auto; clip-path: none; }
+}
+@media (max-width: 379.98px) { .arch__step { --ico: 38px; } .arch__wrap { padding: 14px 10px 20px; } }

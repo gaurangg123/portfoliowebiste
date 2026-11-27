@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="440" class="motif motif--workflow" viewBox="0 0 400 220" role="img"><title>workflow motif</title>
+  <style>
+    svg{--tone:#34D399;background:#0A1020}
+    *{fill:none;stroke:#94A3B8;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+    .m-src ellipse,.m-src path,.m-rack rect,.m-rack-top,.m-rack-side,.m-box,.m-kpi rect{fill:#151F30;stroke:rgba(148,163,184,.45)}
+    .m-soft{stroke:rgba(148,163,184,.3)} .m-pipes path,.m-grid path{stroke:rgba(148,163,184,.25)} .m-axis{stroke:rgba(148,163,184,.5)}
+    .m-flow path,.m-run path{stroke:var(--tone);stroke-width:2.4;stroke-dasharray:6 14}
+    .m-node{fill:#101827;stroke:var(--tone);stroke-width:2} .m-glyph{stroke:var(--tone);stroke-width:2}
+    .m-led,.m-pt{fill:var(--tone);stroke:none} .m-layer circle{fill:#101827;stroke:var(--tone);stroke-width:2}
+    .m-edges path{stroke:var(--tone);stroke-opacity:.28;stroke-width:1} .m-token{fill:var(--tone);fill-opacity:.55;stroke:none}
+    .m-bar{fill:var(--tone);fill-opacity:.35;stroke:none} .m-bar--key{fill-opacity:1} .m-line{stroke:var(--tone);stroke-width:2.4}
+    .m-end{stroke:var(--tone)} .m-tick{stroke:var(--tone)}
+    text{fill:#94A3B8;stroke:none;font:600 10px 'JetBrains Mono',monospace;letter-spacing:.12em} .m-glyph-t{fill:var(--tone);stroke:none;font:700 16px 'Space Grotesk',sans-serif}
+  </style>
+    <g class="m-pipes"><path d="M92 110H124"/><path d="M176 110H216"/><path d="M240 86V57H298"/><path d="M240 134V163H298"/></g>
+    <g class="m-run"><path pathLength="100" style="--d:0s" d="M92 110H124"/><path pathLength="100" style="--d:0.45s" d="M176 110H216"/><path pathLength="100" style="--d:0.95s" d="M240 86V57H298"/><path pathLength="100" style="--d:0.95s" d="M240 134V163H298"/></g>
+    <rect class="m-box" x="20" y="92" width="72" height="36" rx="10"/>
+    <path class="m-glyph" d="M40 104l6 6-6 6M50 116h10"/>
+    <circle class="m-node m-agent" cx="150" cy="110" r="26"/>
+    <path class="m-glyph" d="M150 97v26M137 110h26M141 101l18 18M159 101l-18 18"/>
+    <path class="m-node" d="M240 86l24 24-24 24-24-24z"/>
+    <text class="m-glyph-t" x="240" y="114" text-anchor="middle">?</text>
+    <rect class="m-box m-end" style="--d:1.5s" x="298" y="40" width="84" height="34" rx="10"/>
+    <rect class="m-box m-end" style="--d:1.5s" x="298" y="146" width="84" height="34" rx="10"/>
+    <path class="m-glyph m-tick" style="--d:1.7s" d="M310 57l5 5 9-9"/>
+    <path class="m-glyph m-tick" style="--d:1.7s" d="M310 163l5 5 9-9"/>
+    <text class="m-label" x="56" y="150" text-anchor="middle">TRIGGER</text>
+    <text class="m-label" x="150" y="156" text-anchor="middle">AGENT</text>
+    <text class="m-label" x="240" y="156" text-anchor="middle">DECIDE</text>
+    <text class="m-label" x="352" y="61" text-anchor="middle">ACT</text>
+    <text class="m-label" x="352" y="167" text-anchor="middle">NOTIFY</text>
+  </svg>

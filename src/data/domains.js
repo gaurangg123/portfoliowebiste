@@ -1,0 +1,48 @@
+// The four engineering domains. Technologies are the owner's own list.
+// "applied" points only at documented work; there are no skill percentages anywhere.
+module.exports = [
+  {
+    id: 'data',
+    code: 'D-01',
+    name: 'Data Engineering',
+    tone: 'cyan',
+    motif: 'pipeline',
+    line: 'Moving data reliably from source systems into warehouses, and modelling it so analytics and AI can trust it.',
+    applied: 'Contributed to a completed SQL Server → Snowflake migration, covering data, dashboards and their data sources.',
+    link: 'work/data-migration/',
+    tech: ['Snowflake', 'Databricks', 'Apache Spark', 'Python', 'SQL', 'ETL / ELT', 'Data Modeling', 'Data Pipelines', 'Data Warehousing'],
+  },
+  {
+    id: 'ai',
+    code: 'D-02',
+    name: 'AI & Machine Learning',
+    tone: 'violet',
+    motif: 'neural',
+    line: 'Building applications on language models that read, match, extract and answer, with people kept in the loop.',
+    applied: 'A knowledge-portal chatbot, contract clause and obligation extraction, and the Resume Matching proof of concept, now live.',
+    link: '#projects',
+    tech: ['Machine Learning', 'Generative AI', 'Large Language Models', 'Retrieval-Augmented Generation', 'AI Agents', 'Prompt Engineering', 'Model Evaluation', 'Python'],
+  },
+  {
+    id: 'automation',
+    code: 'D-03',
+    name: 'Intelligent Automation',
+    tone: 'green',
+    motif: 'workflow',
+    line: 'Replacing repetitive, manual steps with workflows, integrations and AI agents that hand the result back to a person.',
+    applied: 'Business Sheet automates manual Excel reporting; two AI-agent experiments write bug reports and adapt code.',
+    link: 'work/business-sheet/',
+    tech: ['Workflow Automation', 'AI-powered Workflows', 'API Integrations', 'Process Automation', 'Intelligent Assistants', 'System Integrations'],
+  },
+  {
+    id: 'analytics',
+    code: 'D-04',
+    name: 'Analytics & Visualization',
+    tone: 'amber',
+    motif: 'chart',
+    line: 'Turning data into charts, dashboards and comparisons that make a decision easier to take.',
+    applied: 'Financial-year comparisons in Business Sheet, migrated dashboards, and SQL reporting during a data-analytics internship.',
+    link: 'work/business-sheet/',
+    tech: ['Power BI', 'Tableau', 'DAX', 'Business Intelligence', 'Dashboard Development', 'Data Storytelling'],
+  },
+];

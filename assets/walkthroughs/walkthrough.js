@@ -270,7 +270,7 @@
     if (!ui.stage.getAnimations) return;
     ui.stage.getAnimations({ subtree: true }).forEach(function (a) {
       if (a.id === 'wt-fade') return;               /* the jump fade runs its own short course */
-      try { a[fn](); } catch (e) {}
+      try { a[fn](); } catch (e) { /* not supported here */ }
     });
   }
   function setButton() {
@@ -400,7 +400,7 @@
     if (!cur) return;
     cancelAnimationFrame(cur.raf);
     if (cur.fade) { cur.fade.anim.cancel(); cur.fade = null; }
-    if (cur.video) { try { cur.video.pause(); } catch (e) {} }
+    if (cur.video) { try { cur.video.pause(); } catch (e) { /* already stopped */ } }
     ui.stage.innerHTML = '';
     ui.ind.classList.remove('is-on');
     dlg.classList.remove('is-playing');
