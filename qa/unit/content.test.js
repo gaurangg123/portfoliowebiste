@@ -77,7 +77,7 @@ test('walkthroughs are never presented as recordings and never autoplay', () => 
     assert.doesNotMatch(html, /screen recording|real recording|live product/i, page);
     assert.doesNotMatch(html, /<(video|audio)[^>]*\bautoplay\b/i, page);
   }
-  assert.match(built('index.html'), /<audio id="papercut" data-src="[^"]+" preload="none"><\/audio>/, 'Papercut is not requested until Play');
+  assert.doesNotMatch(built('index.html'), /<audio\b/, 'no audio player on the homepage');
 });
 
 test('no contact form: the only form is the Query page\'s question box, which sends nothing', () => {

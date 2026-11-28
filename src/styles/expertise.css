@@ -1,14 +1,9 @@
 /* ---------- 03 · engineering disciplines: an editorial spread ----------
-   Four plates in two columns; the right column drops by a step so the grid reads as a
-   composition rather than a table. Each plate is open on its edges: a rule in its tone,
-   a giant outlined number, the illustration, then the words. */
+   Four plates in an even two-by-two grid. Each plate is open on its edges: a rule in its
+   tone, a giant outlined number, the illustration, then the words. */
 .expertise { overflow: clip; }
 .doms { display: grid; gap: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 64px); }
-@media (min-width: 900px) {
-  .doms { grid-template-columns: 1fr 1fr; }
-  .dom--b { margin-top: clamp(48px, 7vw, 110px); margin-bottom: calc(-1 * clamp(48px, 7vw, 110px)); }
-  .doms { padding-bottom: clamp(48px, 7vw, 110px); }
-}
+@media (min-width: 900px) { .doms { grid-template-columns: 1fr 1fr; align-items: start; } }
 .dom { position: relative; display: grid; gap: 18px; padding-top: 18px; border-top: 2px solid var(--tone); }
 .dom__n {
   position: absolute; right: 0; top: -0.2em; z-index: 0; pointer-events: none;
@@ -17,13 +12,12 @@
 }
 .dom__art {
   position: relative; z-index: 1; height: clamp(150px, 16vw, 210px); margin-right: clamp(60px, 9vw, 120px); padding: 12px 18px;
-  border-radius: var(--r-lg);
+  border: 1px solid color-mix(in srgb, var(--tone) 22%, var(--border)); border-radius: var(--r-lg);
   background:
     radial-gradient(ellipse 70% 90% at 50% 115%, var(--tone-soft), transparent 70%),
     linear-gradient(var(--hairline) 1px, transparent 1px) 0 0 / 22px 22px,
-    linear-gradient(90deg, var(--hairline) 1px, transparent 1px) 0 0 / 22px 22px;
-  -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 50%, #000 60%, transparent 100%);
-  mask-image: radial-gradient(ellipse 90% 100% at 50% 50%, #000 60%, transparent 100%);
+    linear-gradient(90deg, var(--hairline) 1px, transparent 1px) 0 0 / 22px 22px,
+    color-mix(in srgb, var(--bg-1) 70%, transparent);
 }
 .dom__art .motif { width: 100%; height: 100%; }
 @media (max-width: 639.98px) { .dom__art { height: 120px; margin-right: 72px; padding: 8px 10px; } .dom__n { font-size: 4rem; } .dom { gap: 12px; } }
@@ -89,3 +83,17 @@
 @keyframes m-glow { 0%, 60%, 100% { stroke-opacity: 0.55; } 75% { stroke-opacity: 1; } }
 @keyframes m-grow { 0% { transform: scaleY(0.12); } 40%, 100% { transform: scaleY(1); } }
 @keyframes m-draw { 0% { stroke-dashoffset: 100; } 50%, 100% { stroke-dashoffset: 0; } }
+
+/* light theme: the drawings need firmer lines and fills to hold up on a pale page */
+[data-theme="light"] .motif { stroke: rgba(15, 23, 42, 0.42); }
+[data-theme="light"] .motif .m-soft, [data-theme="light"] .motif .m-axis { stroke: rgba(15, 23, 42, 0.36); }
+[data-theme="light"] .motif .m-pipes path, [data-theme="light"] .motif .m-grid path { stroke: rgba(15, 23, 42, 0.2); }
+[data-theme="light"] .motif .m-src ellipse, [data-theme="light"] .motif .m-src path:first-child, [data-theme="light"] .motif .m-rack rect, [data-theme="light"] .motif .m-box, [data-theme="light"] .motif .m-kpi rect { fill: #FFFFFF; stroke: rgba(15, 23, 42, 0.42); }
+[data-theme="light"] .motif .m-rack-top { fill: #E2E8F0; stroke: rgba(15, 23, 42, 0.42); }
+[data-theme="light"] .motif .m-rack-side { fill: #CBD5E1; stroke: rgba(15, 23, 42, 0.42); }
+[data-theme="light"] .motif .m-edges { opacity: 0.8; }
+[data-theme="light"] .motif .m-edges path { stroke-opacity: 0.55; }
+[data-theme="light"] .motif .m-bar { fill-opacity: 0.45; }
+[data-theme="light"] .motif .m-token { fill-opacity: 0.8; }
+[data-theme="light"] .motif text { fill: #334155; }
+[data-theme="light"] .dom__art { background-color: #FFFFFF; }

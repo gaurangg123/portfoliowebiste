@@ -13,13 +13,13 @@ Rendered-page inspection of the production build, served the way GitHub Pages se
 | Area | Before | Now |
 | --- | --- | --- |
 | Navigation | A horizontal bar across the top | A translucent rail fixed to the right edge, with a monogram, icon links with sliding names, a gliding ink on the current section, a reading-progress line, then Query the Engineer, the theme and the résumé. Phones get a floating button and a full-screen menu that opens as a circle from the button. |
-| Opening | Name and tagline over the lattice | An editorial composition: a studio masthead line; the name in two staggered lines; *Engineering Intelligence.* and *Data & AI Engineer.*; vertical running text on the left edge; an index of what the page holds (05 enterprise applications · 02 AI-agent experiments · 04 disciplines, counts of documented work) at the lattice's foot |
-| Between sections | Stacked rectangles | Slanted bands with a blueprint grid; a thin "spine" down the left margin that fills as you read; giant outlined chapter numbers behind each heading; a tilted ribbon of tools under the opening |
-| About | Photo and text side by side | The portrait set off-grid with a plate, an ID card and a running label; *Now* and *Studied* facts; the path so far; "How I approach the work" in five connected steps |
-| Expertise | A tab list beside one stage | An editorial spread: four numbered plates, the right column stepped down, each with its own animated illustration |
-| Projects | An index beside one showcase | A gallery: the lead project across the width with every fact; the rest in wide and narrow cards that step out of line; large outlined project numbers; a separate "lab" row for the experiments. On phones the rest become swipeable rows. |
+| Opening | Name and tagline over the lattice | An editorial composition: a studio masthead line; the name in two staggered lines; *Engineering Intelligence.* and *Data & AI Engineer.* |
+| Between sections | Stacked rectangles | Slanted bands with a blueprint grid; giant outlined chapter numbers behind each heading; a tilted ribbon of tools under the opening |
+| About | Photo and text side by side | The portrait set off-grid with a plate and an ID card; *Now* and *Studied* facts; one panel with the path so far beside how I approach the work |
+| Expertise | A tab list beside one stage | Four numbered plates in an even grid, each with its own animated illustration |
+| Projects | An index beside one showcase | Three labelled groups: the featured project (illustration beside its headline and buttons, the four facts beneath), an even 2×2 grid of the other company projects, and the lab. Large outlined project numbers. On phones the grids become swipeable rows. |
 | Experience | Track bars and cards | A compact timeline: big year marks on the left, a line with a node per role, the current role lit |
-| Query the Engineer | A terminal section on the homepage | Its own page (a brief in large stacked type, the conversation beside it, a quiet data network behind), plus an invitation section on the homepage |
+| Query the Engineer | A terminal section on the homepage | Its own page on one screen (a brief in large stacked type, the conversation beside it, a quiet data network behind; only the conversation scrolls), plus an invitation section on the homepage |
 
 ## Pass 1: composition, navigation and spacing
 
@@ -52,6 +52,20 @@ Rendered-page inspection of the production build, served the way GitHub Pages se
 | 15 | Lighthouse (Query page): `role="log"` on a list, a send button without a name on phones, "See more" links | A `div` log; the button is labelled "Ask"; links say "Case study", "On the homepage", "Write" or "Open", with the item's name for screen readers |
 | 16 | A question typed while an answer was still arriving was dropped | Queued |
 
+## Owner review: changes after the first deployment
+
+| # | Feedback | Change |
+| --- | --- | --- |
+| 17 | The running text on the left of the opening didn't look good | Removed |
+| 18 | The index under the opening (enterprise applications · experiments · disciplines) didn't look good | Removed |
+| 19 | "Read my resume" appeared twice; the audio channel wasn't wanted | Both removed from About (the résumé stays in the opening, the rail, the menu and Contact); the audio player, its script and file are gone |
+| 20 | The path so far and how I approach the work didn't look good | One panel with two matching columns: a dated timeline, and five numbered stages |
+| 21 | "In practice" opened a case study; Back then led somewhere else | The approach no longer links away. A case study's "Back to projects" now returns to the exact place on the homepage you left; opened directly, it goes to Projects. |
+| 22 | Light theme: the drawings were hard to see | Firmer lines and white panels for the discipline and architecture drawings in the light theme |
+| 23 | Projects felt hodgepodge: the lead project appeared without context; uneven gaps and offsets | Three labelled groups. The featured project is balanced. The other cards share one size, rows align and buttons line up. Disciplines are an even grid too. |
+| 24 | Query the Engineer should be one page, with no page scrolling and no "Try asking" list | The page fits the screen on desktop and phones; only the conversation scrolls; the list is removed |
+| 25 | Revalidate the whole site | Full-page review in both themes on desktop and phone. The thin line down the left margin and the label beside the portrait were also removed, for a cleaner edge. |
+
 ## Automated layout checks (final run)
 
 **9 / 9 viewports clean.** The checks found no horizontal overflow, nothing past the edge (the intentional sideways rows excepted), no clipped controls, no broken images, no targets under 24px and no console errors. Details are in `qa/screenshots/layout-checks.json`.
@@ -68,4 +82,4 @@ Rendered-page inspection of the production build, served the way GitHub Pages se
 ## Known limitations
 
 - **Live site:** the deployed site was not inspected visually here, because the host is unreachable from this environment.
-- **Phone page length:** the homepage is about 17,400px tall on a phone. Every chapter is shown in full except where noted, and there are no empty bands.
+- **Phone page length:** the homepage is about 17,900px tall on a phone. Every chapter is shown in full except where noted, and there are no empty bands.

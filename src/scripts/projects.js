@@ -1,6 +1,6 @@
 /* ---------- projects: the filters ----------
    Toggle buttons (aria-pressed) narrow the gallery to one category; the result is
-   announced. The lab row hides when none of its experiments match. */
+   announced. A group (featured, more, the lab) hides when nothing in it matches. */
 // @ts-check
 (function () {
   'use strict';
@@ -9,7 +9,7 @@
   if (!box) return;
   var buttons = box.querySelectorAll('button[data-filter]');
   var cards = /** @type {NodeListOf<HTMLElement>} */ (box.querySelectorAll('[data-mission]'));
-  var lab = /** @type {HTMLElement|null} */ (box.querySelector('.px__lab'));
+  var groups = /** @type {NodeListOf<HTMLElement>} */ (box.querySelectorAll('[data-group]'));
   var status = box.querySelector('[data-filter-status]');
   var total = cards.length;
 
@@ -26,7 +26,7 @@
         shown++;
       }
     });
-    if (lab) lab.hidden = !lab.querySelector('[data-mission]:not([hidden])');
+    DF.each(groups, function (g) { g.hidden = !g.querySelector('[data-mission]:not([hidden])'); });
     DF.root.setAttribute('data-filtered', key === 'all' ? '' : key);
     if (status) {
       var label = '';

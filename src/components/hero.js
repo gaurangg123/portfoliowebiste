@@ -2,24 +2,13 @@
 // The lattice is a <canvas> drawn by src/scripts/hero-lattice.js; without JavaScript a
 // still render of the same lattice is shown instead.
 const site = require('../data/site.js');
-const { PROJECTS } = require('../data/projects.js');
-const domains = require('../data/domains.js');
 const { icon, ext } = require('./ui.js');
-
-const pad = (n) => String(n).padStart(2, '0');
-// an index of what the page documents: counts of real content, not metrics
-const INDEX = [
-  [pad(PROJECTS.filter((p) => p.type === 'Company project').length), 'Enterprise applications', '#projects'],
-  [pad(PROJECTS.filter((p) => p.type === 'Experiment').length), 'AI-agent experiments', '#projects'],
-  [pad(domains.length), 'Engineering disciplines', '#expertise'],
-];
 
 const hero = () => `<section class="hero" id="home" aria-labelledby="hero-title">
   <div class="hero__art" aria-hidden="true">
     <canvas class="hero__canvas" data-lattice></canvas>
   </div>
   <div class="hero__scrim" aria-hidden="true"></div>
-  <p class="hero__vert" aria-hidden="true">Engineering intelligence <i></i> Data &amp; AI engineer <i></i> ${site.brand}</p>
 
   <div class="container hero__inner">
     <div class="hero__studio">
@@ -55,10 +44,6 @@ const hero = () => `<section class="hero" id="home" aria-labelledby="hero-title"
         <p class="hero__now"><span class="label">Currently</span> ${site.role} at ${site.company}</p>
       </div>
     </div>
-
-    <ol class="hero__index" aria-label="On this page">
-${INDEX.map(([n, label, href]) => `      <li><a href="${href}"><b>${n}</b><span>${label}</span></a></li>`).join('\n')}
-    </ol>
   </div>
 
   <a class="hero__scroll" href="#about"><span class="hero__scroll-txt" aria-hidden="true">Scroll</span><span class="visually-hidden">Scroll to About</span><span class="hero__scroll-line" aria-hidden="true"></span></a>

@@ -14,7 +14,6 @@
   /* reading progress: the rail's line and the small-screen back-to-top ring */
   var fill = /** @type {HTMLElement|null} */ (railEl.querySelector('[data-progress]'));
   var toTop = /** @type {HTMLElement|null} */ (document.querySelector('[data-to-top]'));
-  var spine = /** @type {HTMLElement|null} */ (document.querySelector('[data-spine]'));
   var queued = false;
   var onScroll = function () {
     queued = false;
@@ -22,7 +21,6 @@
     var max = document.documentElement.scrollHeight - window.innerHeight;
     var p = String(max > 0 ? Math.min(1, y / max) : 0);
     if (fill) fill.style.setProperty('--p', p);
-    if (spine) spine.style.setProperty('--p', p);
     if (toTop) { toTop.style.setProperty('--p', p); toTop.classList.toggle('is-on', y > window.innerHeight * 0.9); }
     DF.root.classList.toggle('is-scrolled', y > 8);
   };

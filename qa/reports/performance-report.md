@@ -10,9 +10,9 @@
 
 | Page | Form factor | Performance | Accessibility | Best Practices | SEO | FCP | LCP | TBT | CLS |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Homepage | Mobile | **96** | **100** | **100** | **100** | 1.2 s | 2.0 s | 200 ms | 0 |
-| Homepage | Desktop | **100** | **100** | **100** | **100** | 0.3 s | 0.5 s | 0 ms | 0 |
-| Query the Engineer | Mobile | **99** | **100** | **100** | **100** | 1.2 s | 1.8 s | 10 ms | 0 |
+| Homepage | Mobile | **95** | **100** | **100** | **100** | 1.2 s | 2.2 s | 220 ms | 0 |
+| Homepage | Desktop | **100** | **100** | **100** | **100** | 0.4 s | 0.5 s | 0 ms | 0 |
+| Query the Engineer | Mobile | **99** | **100** | **100** | **100** | 1.2 s | 1.8 s | 0 ms | 0 |
 | Query the Engineer | Desktop | **100** | **100** | **100** | **100** | 0.3 s | 0.4 s | 0 ms | 0 |
 | Knowledge Portal case study | Mobile | **99** | **100** | **100** | **100** | 1.2 s | 2.0 s | 50 ms | 0 |
 | Knowledge Portal case study | Desktop | **100** | **100** | **100** | **100** | 0.3 s | 0.4 s | 0 ms | 0 |
@@ -57,7 +57,6 @@ All six results meet the brief's targets: Performance 90+, Accessibility 95+, Be
 
 - **Covers** (WebP, 10–15 KB at 800 px): lazy.
 - **Walkthrough player** (CSS, JS and demo data): only on the first "Watch walkthrough" click.
-- **Papercut audio** (3 MB): only on the first Play.
 
 ## Animation cost (measured)
 
