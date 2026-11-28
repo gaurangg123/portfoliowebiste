@@ -78,12 +78,6 @@ body::after {
 .section--slant-r::before { clip-path: polygon(0 0, 100% var(--cut), 100% 100%, 0 calc(100% - var(--cut))); }
 .section--slant { padding-block: calc(var(--space-section) + 12px) calc(var(--space-section) * 0.72 + 20px); }
 
-/* the spine: a thin line down the left margin that fills as the page is read (≥1024px) */
-.spine { display: none; }
-@media (min-width: 1024px) {
-  .spine { display: block; position: absolute; z-index: 0; left: max(14px, calc(var(--rail-space) * 0.18)); top: 100vh; bottom: 0; width: 1px; background: var(--border); pointer-events: none; }
-  .spine i { position: absolute; inset: 0; transform-origin: top; transform: scaleY(var(--p, 0)); background: linear-gradient(180deg, var(--cyan), var(--violet), var(--green)); }
-}
 main { position: relative; }
 
 /* a section's head: a large outlined chapter number behind it, the index and label in mono,

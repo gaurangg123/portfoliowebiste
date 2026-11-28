@@ -29,7 +29,7 @@ const checks = () => {
   const visible = (el) => { const s = getComputedStyle(el); const r = el.getBoundingClientRect(); return s.clipPath !== 'inset(50%)' && s.visibility !== 'hidden' && s.display !== 'none' && r.width > 0 && r.height > 0 && !el.closest('[hidden], .nav__sheet, .visually-hidden, dialog'); };
   const name = (el) => (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/)[0] : el.tagName.toLowerCase()) + (el.id ? '#' + el.id : '');
   document.querySelectorAll('main *, .nav__bar *, footer *').forEach((el) => {
-    if (!visible(el) || el.closest('.hero__art, svg, canvas, .contact__signal, .ribbon-wrap, .px__gallery--more, .px__gallery--lab, .approach__steps, .qe__topics ul, .exp__code, .nf__log')) return;
+    if (!visible(el) || el.closest('.hero__art, svg, canvas, .contact__signal, .ribbon-wrap, .px__grid--more, .px__grid--lab, .exp__code, .nf__log')) return;
     const r = el.getBoundingClientRect();
     if (r.right > vw + 1 && out.offRight.length < 12) out.offRight.push(name(el) + ' right=' + Math.round(r.right));
   });

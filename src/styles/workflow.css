@@ -54,3 +54,11 @@
 }
 @keyframes sc-draw { from { stroke-dashoffset: 400; } to { stroke-dashoffset: 0; } }
 @keyframes sc-spin { to { transform: rotate(360deg); } }
+
+/* light theme: firmer lines and fills for the stage drawings */
+[data-theme="light"] .scene .sc-box, [data-theme="light"] .scene .sc-box path, [data-theme="light"] .scene .sc-box ellipse, [data-theme="light"] .scene .sc-box rect { fill: #FFFFFF; stroke: rgba(15, 23, 42, 0.42); }
+[data-theme="light"] .scene .sc-soft { stroke: rgba(15, 23, 42, 0.36); }
+[data-theme="light"] .scene .sc-grid { stroke: rgba(15, 23, 42, 0.12); }
+[data-theme="light"] .scene .sc-edge { stroke: color-mix(in srgb, var(--tone) 55%, transparent); }
+[data-theme="light"] .scene .sc-bar { fill: color-mix(in srgb, var(--tone) 45%, transparent); }
+[data-theme="light"] .scene text { fill: #334155; }

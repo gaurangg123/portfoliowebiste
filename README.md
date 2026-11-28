@@ -10,7 +10,7 @@ The portfolio of **Gaurang Ashava**, GET – Data and AI Engineer at Tata Techno
   - **Query the Engineer** at [`query-engineer/`](https://gaurangg123.github.io/portfoliowebiste/query-engineer/), a local portfolio assistant.
 - **Interactive pieces:**
   - a right-side navigation rail;
-  - an asymmetric project gallery;
+  - a project gallery in three labelled groups;
   - a reference data architecture;
   - the Query the Engineer assistant;
   - a light/dark theme.
@@ -87,11 +87,11 @@ src/
                 stepper · scenes · case-study · explain · illustrations · icons · ui
   styles/       tokens · base · navigation · stepper · one file per section · query · case-visuals · motion
   scripts/      core · theme · nav · motion-pref · hero-lattice · clock · reveal · stepper · expertise · projects ·
-                walkthrough-loader · explain · copy · papercut · legacy
+                walkthrough-loader · explain · copy · back-link · legacy
                 Query page bundle (assets/js/query.js): query-engine · query-ui · net-field
 tools/          build.js · serve.js · render-assets.js · package-assets.js · art/ (cover and diagram drawings)
 assets/         css/ js/ (generated) · fonts/ · hero/ · data-engineering/ · ai-ml/ · automation/ · analytics/ ·
-                projects/ · diagrams/ · backgrounds/ · icons/ · profile/ · audio/ · walkthroughs/ (illustrative player)
+                projects/ · diagrams/ · backgrounds/ · icons/ · profile/ · walkthroughs/ (illustrative player)
 qa/             playwright/ · unit/ · reports/ · screenshots/{desktop,tablet,mobile}/ · capture-screenshots.js
 docs/           audit-and-plan.md
 deliverables/   dataforge-assets.zip (artwork package; the site never reads it)
@@ -160,7 +160,7 @@ All content is in `src/data/`. Edit it there, then run `npm run build`.
 - `prefers-reduced-motion` is honoured: still lattice, instant scrolling, no reveals, no loops.
 - The hero's **Pause motion** control stops every continuous animation and is remembered.
 - Continuous animations run only while on screen. The lattice pauses in background tabs and uses fewer nodes on low-power devices.
-- Walkthroughs never autoplay. Papercut plays only when Play is pressed, and its file isn't requested before that.
+- Walkthroughs never autoplay, and the site plays no audio.
 
 ## Licences
 

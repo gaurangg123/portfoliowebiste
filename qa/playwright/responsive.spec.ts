@@ -22,7 +22,7 @@ for (const [name, width, height] of VIEWPORTS) {
           const off: string[] = [];
           document.querySelectorAll('main *, footer *, .nav__bar *').forEach((el) => {
             const s = getComputedStyle(el);
-            if (s.display === 'none' || s.visibility === 'hidden' || s.clipPath === 'inset(50%)' || el.closest('[hidden], svg, canvas, .hero__art, .contact__signal, .px__gallery--more, .px__gallery--lab, .approach__steps, .qe__topics ul, .ribbon-wrap, .nf__log, .visually-hidden, .nav__sheet')) return;
+            if (s.display === 'none' || s.visibility === 'hidden' || s.clipPath === 'inset(50%)' || el.closest('[hidden], svg, canvas, .hero__art, .contact__signal, .px__grid--more, .px__grid--lab, .ribbon-wrap, .nf__log, .visually-hidden, .nav__sheet')) return;
             const r = el.getBoundingClientRect();
             if (r.width && (r.right > vw + 1 || r.left < -1)) off.push(`${el.tagName.toLowerCase()}.${String((el as HTMLElement).className).split(' ')[0]} ${Math.round(r.left)}–${Math.round(r.right)}`);
           });

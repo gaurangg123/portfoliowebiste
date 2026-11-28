@@ -27,6 +27,7 @@
 
 .arch-panel { display: grid; gap: 18px; }
 .arch-panel__art { display: grid; place-items: center; padding: 12px; border: 1px solid var(--border); border-radius: var(--r-md); background: linear-gradient(135deg, var(--tone-soft), transparent 70%), var(--bg-1); }
+[data-theme="light"] .arch-panel__art { background: linear-gradient(135deg, var(--tone-soft), transparent 70%), #FFFFFF; border-color: rgba(15, 23, 42, 0.14); }
 .arch-panel__art .scene { width: 100%; max-width: 260px; height: auto; }
 .arch-panel__step { color: var(--tone-tx); }
 .arch-panel__does { margin-top: 6px; color: var(--text); font-size: 1.0625rem; line-height: 1.55; max-width: 46rem; }

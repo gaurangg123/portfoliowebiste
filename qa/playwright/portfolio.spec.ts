@@ -180,6 +180,7 @@ test.describe('homepage', () => {
     await expect(cards).toHaveCount(1);
     await expect(cards.first()).toContainText('Enterprise Data Migration');
     await expect(page.locator('.px__lab')).toBeHidden();
+    await expect(page.locator('.px__group').first()).toBeHidden();   // the featured project doesn't match
     await expect(page.locator('[data-filter-status]')).toHaveText(/Showing 1 of 7 projects · Data Engineering/);
     await page.locator('[data-filter="automation"]').click();
     await expect(cards).toHaveCount(3);
@@ -189,26 +190,31 @@ test.describe('homepage', () => {
     await expect(page.locator('[data-filter-status]')).toHaveText('Showing all 7 projects');
   });
 
-  test('the gallery: a lead project, numbered projects, a lab row', async ({ page }) => {
+  test('the gallery: three labelled groups, numbered, with even cards', async ({ page }) => {
     await page.goto('./#projects');
+    const groups = page.locator('#projects .px__group-h .label');
+    await expect(groups).toHaveText(['Featured project', 'More from Tata Technologies', 'The lab']);
     const lead = page.locator('#px-knowledge-portal');
     await expect(lead).toHaveClass(/px--feature/);
     for (const k of ['Problem', 'What I built', 'How it works', 'Results']) await expect(lead.locator('.px__facts')).toContainText(k);
-    const nums = await page.locator('.px__num').allTextContents();
-    expect(nums).toEqual(['01', '02', '03', '04', '05', '06', '07']);
+    expect(await page.locator('.px__num').allTextContents()).toEqual(['01', '02', '03', '04', '05', '06', '07']);
     await expect(page.locator('.px__lab [data-mission]')).toHaveCount(2);
-    // every company project links its case study and its walkthrough
     for (const slug of ['knowledge-portal', 'business-sheet', 'contract-intelligence', 'resume-matching', 'data-migration']) {
       await expect(page.locator(`#px-${slug} .px__title a`)).toHaveAttribute('href', `work/${slug}/`);
       await expect(page.locator(`#px-${slug} [data-demo="${slug}"]`)).toHaveCount(1);
     }
     if (!isMobile(page)) {
-      // asymmetric: wide and narrow cards are not the same width
-      const [bs, ci] = await Promise.all([page.locator('#px-business-sheet').boundingBox(), page.locator('#px-contract-intelligence').boundingBox()]);
-      expect(Math.abs(bs!.width - ci!.width)).toBeGreaterThan(60);
+      // an even grid: same widths, rows aligned, and the buttons line up along the bottom
+      const box = async (s: string) => (await page.locator(s).boundingBox())!;
+      const [bs, ci, rm, dm] = await Promise.all(['#px-business-sheet', '#px-contract-intelligence', '#px-resume-matching', '#px-data-migration'].map(box));
+      expect(Math.abs(bs.width - ci.width)).toBeLessThan(2);
+      expect(Math.abs(bs.y - ci.y)).toBeLessThan(2);
+      expect(Math.abs(rm.y - dm.y)).toBeLessThan(2);
+      expect(Math.abs(bs.height - ci.height)).toBeLessThan(2);
+      const [b1, b2] = await Promise.all(['#px-business-sheet .px__go', '#px-contract-intelligence .px__go'].map(box));
+      expect(Math.abs(b1.y - b2.y)).toBeLessThan(2);
     } else {
-      // the rest sit in a row that scrolls sideways
-      const row = page.locator('.px__gallery--more');
+      const row = page.locator('.px__grid--more');
       expect(await row.evaluate((r) => r.scrollWidth > r.clientWidth + 100)).toBe(true);
     }
   });
@@ -223,12 +229,12 @@ test.describe('homepage', () => {
       await expect(page.getByRole('heading', { name: h })).toBeVisible();
     }
     await expect(page.locator('.cs-facts')).toContainText('Completed');
-    await page.locator('.cs-head__back a').click();
-    await expect(page).toHaveURL(/#projects$/);
+    await page.locator('[data-back]').click();
+    await expect(page).toHaveURL(/\/portfoliowebiste\/(#projects)?$/);
     expect(problems).toEqual([]);
   });
 
-  test('the walkthrough opens, plays silently and closes without touching Papercut', async ({ page }) => {
+  test('the walkthrough opens, plays silently and closes', async ({ page }) => {
     await page.goto('./#projects');
     await page.locator('[data-demo="knowledge-portal"]').first().click();
     const dlg = page.locator('dialog.wt');
@@ -236,12 +242,15 @@ test.describe('homepage', () => {
     await expect(dlg).toContainText('Illustrative walkthrough');
     await page.keyboard.press('Escape');
     await expect(dlg).toBeHidden();
-    expect(await page.evaluate(() => { const a = document.getElementById('papercut') as HTMLAudioElement; return { src: a.getAttribute('src'), paused: a.paused }; })).toEqual({ src: null, paused: true });
+    expect(await page.locator('audio, video[autoplay]').count()).toBe(0);
   });
 
-  test('About: how I approach the work, in five stages with documented examples', async ({ page }) => {
+  test('About: the path so far beside how I approach the work, with no résumé or audio duplicates', async ({ page }) => {
     await page.goto('./#about');
-    const steps = page.locator('.approach__step');
+    const about = page.locator('#about');
+    await expect(about.locator('.story__title')).toHaveText(['The path so far', 'How I approach the work']);
+    await expect(about.locator('.path__step')).toHaveCount(5);
+    const steps = about.locator('.how__step');
     await expect(steps).toHaveCount(5);
     const lines = [
       'Understand business requirements, data sources, constraints and desired outcomes',
@@ -251,11 +260,32 @@ test.describe('homepage', () => {
       'Deploy the solution, monitor its performance and continuously improve it',
     ];
     for (const [i, line] of lines.entries()) await expect(steps.nth(i)).toContainText(line);
-    await expect(page.locator('.approach__note')).toContainText('not every activity applies to every project');
-    const links = await page.locator('.approach__ex').evaluateAll((l) => l.map((a) => a.getAttribute('href')));
-    for (const href of new Set(links)) expect((await page.request.get(href!)).status(), href!).toBe(200);
+    await expect(about).toContainText('not every activity applies to every project');
+    // nothing here navigates away, and the résumé button and audio player are gone
+    await expect(about.locator('.story a')).toHaveCount(0);
+    await expect(about.locator('a[href*="drive.google.com"], [data-music], audio')).toHaveCount(0);
     // the old terminal is gone from the homepage
     await expect(page.locator('#terminal, [data-term-out], [data-term-form]')).toHaveCount(0);
+  });
+
+  test('the opening has no running side text and no index', async ({ page }) => {
+    await page.goto('./');
+    await expect(page.locator('.hero__vert, .hero__index')).toHaveCount(0);
+  });
+
+  test('a case study\'s back link returns to where you were on the homepage', async ({ page }) => {
+    await page.goto('./');
+    await page.locator('#px-business-sheet').scrollIntoViewIfNeeded();
+    const before = await page.evaluate(() => scrollY);
+    await page.locator('#px-business-sheet .px__title a').click();
+    await expect(page).toHaveURL(/work\/business-sheet\/$/);
+    await page.locator('[data-back]').click();
+    await expect(page).toHaveURL(/\/portfoliowebiste\/$/);
+    await expect.poll(() => page.evaluate(() => scrollY), { timeout: 5000 }).toBeGreaterThan(before - 200);
+    // arriving at a case study directly, it goes to the projects section
+    await page.goto('./work/data-migration/');
+    await page.locator('[data-back]').click();
+    await expect(page).toHaveURL(/#projects$/);
   });
 
   test('architecture stages select by pointer and keyboard', async ({ page }) => {

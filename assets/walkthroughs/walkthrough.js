@@ -10,7 +10,7 @@
    - one walkthrough at a time; closing stops every timer and animation
    - reduced motion: a static sequence with Previous/Next instead
    - a real recording (demo.video) plays in a native <video> instead
-   It never touches the Papercut player or the hero animation.
+   It never touches the hero animation, and it plays no sound.
 
    One clock drives everything: the elapsed time picks the step, and the
    scene, caption, step indicator, its ring and the progress bar all follow

@@ -84,7 +84,7 @@ const caseStudy = ({ p, demo, prev, next, all }) => {
     <header class="cs-head" id="overview">
       <div class="container cs-head__grid">
         <div class="cs-head__text">
-          <p class="cs-head__back"><a href="../../#projects">${icon('arrowLeft')}All missions</a></p>
+          <p class="cs-head__back"><a href="../../#projects" data-back>${icon('arrowLeft')}Back to projects</a></p>
           <p class="px__meta"><span class="px__code">${p.code}</span><span>${p.type}</span><span aria-hidden="true">·</span><span>${p.kicker}</span></p>
           <h1 class="cs-head__title" id="cs-title" data-vt="${p.slug}">${p.title}</h1>
           <p class="cs-head__lede">${p.lede}</p>

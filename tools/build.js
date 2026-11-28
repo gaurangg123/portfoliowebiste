@@ -50,7 +50,7 @@ for (const p of CASES) TITLES[p.slug] = DEMOS[p.slug].title;
 const STYLES = ['tokens', 'base', 'navigation', 'hero', 'about', 'stepper', 'expertise', 'projects', 'experience',
   'workflow', 'architecture', 'education', 'query', 'contact', 'footer', 'case-study', 'case-visuals', 'motion'];
 const SCRIPTS = ['core', 'theme', 'nav', 'motion-pref', 'hero-lattice', 'clock', 'reveal', 'stepper', 'expertise',
-  'projects', 'walkthrough-loader', 'explain', 'copy', 'papercut', 'legacy'];
+  'projects', 'walkthrough-loader', 'explain', 'copy', 'back-link', 'legacy'];
 // the Query the Engineer page loads its own small bundle on top of the shared one
 const QUERY_SCRIPTS = ['query-engine', 'query-ui', 'net-field'];
 
@@ -115,7 +115,6 @@ const home = page(head({
 }), 'page-home', `${navigation({ page: 'home', base: '' })}
 
 <main id="main">
-<span class="spine" data-spine aria-hidden="true"><i></i></span>
 ${hero()}
 
 ${ribbon()}
@@ -138,10 +137,7 @@ ${contact()}
 </main>
 
 ${footer({ home: true, base: '' })}
-${toTop()}
-
-<!-- Papercut (instrumental): silent until someone presses Play; the file isn't requested before that. -->
-<audio id="papercut" data-src="assets/audio/papercut-instrumental.mp3?v=2" preload="none"></audio>`);
+${toTop()}`);
 write('index.html', home);
 
 /* ---------- case studies ---------- */
@@ -189,10 +185,7 @@ ${toTop()}`));
     extra: `<script src="${base}assets/js/query.js?v=${v.q}" defer></script>\n<script type="application/json" id="qe-kb">${JSON.stringify(KB).replace(/</g, '\\u003c')}</script>\n`,
   }), 'page-query', `${navigation({ page: 'query', base })}
 
-${queryPage({ kb: KB, base })}
-
-${footer({ home: false, base })}
-${toTop()}`));
+${queryPage({ kb: KB, base })}`));
 }
 
 /* ---------- /work/ → the projects section ---------- */

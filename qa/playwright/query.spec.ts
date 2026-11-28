@@ -14,9 +14,15 @@ test.describe('Query the Engineer', () => {
     await expect(page).toHaveTitle(/Query the Engineer/);
     await expect(page.locator('h1')).toHaveText(/Query\s+the\s+Engineer\./);
     await expect(page.getByText('Curious about what I build, how I think, or the technologies I work with?')).toBeVisible();
-    await expect(page.getByText(/Explore my engineering profile through an interactive workspace/)).toBeVisible();
-    // it says plainly what it is
-    await expect(page.locator('.qe__how')).toContainText('not an AI chatbot');
+    // the full description and the "how this works" note on wide screens; phones keep the
+    // page to one screen with a shorter note in the conversation's header
+    if (isMobile(page)) {
+      await expect(page.getByText(/Explore my engineering profile through an interactive workspace/)).toBeAttached();
+      await expect(page.locator('.qe__mode')).toContainText('not an AI model');
+    } else {
+      await expect(page.getByText(/Explore my engineering profile through an interactive workspace/)).toBeVisible();
+      await expect(page.locator('.qe__how')).toContainText('not an AI chatbot');
+    }
     await page.reload();
     expect((await page.request.get('./query-engineer/')).status()).toBe(200);
     // without the trailing slash, the host redirects to the folder
@@ -25,19 +31,39 @@ test.describe('Query the Engineer', () => {
     expect(errors).toEqual([]);
   });
 
-  test('suggested questions answer from the portfolio', async ({ page }) => {
+  test('fits one screen: the page never scrolls, the conversation does', async ({ page }) => {
     await page.goto('./query-engineer/');
-    const topics = page.locator('.qe__topics [data-qe-ask]');
-    await expect(topics).toHaveCount(8);
-    await topics.nth(2).click();   // Snowflake
+    await expect(page.locator('.qe__topics')).toHaveCount(0);   // no "Try asking" list
+    const input = page.locator('[data-qe-input]');
+    for (const q of ['What is your experience with Snowflake?', 'Tell me about your AI projects.', 'Tell me about your professional journey.']) {
+      await input.fill(q);
+      await input.press('Enter');
+      await expect(page.locator('.qe-msg--q').last()).toHaveText(q);
+    }
+    await expect(page.locator('.qe-msg--a').last().locator('.qe-ans__title')).toHaveText('My professional journey');
+    const m = await page.evaluate(() => {
+      const log = document.querySelector('[data-qe-log]') as HTMLElement;
+      const form = (document.querySelector('.qe__form') as HTMLElement).getBoundingClientRect();
+      return { page: document.documentElement.scrollHeight - innerHeight, log: log.scrollHeight - log.clientHeight, formInView: form.bottom <= innerHeight && form.top >= 0 };
+    });
+    expect(m.page).toBeLessThanOrEqual(0);
+    expect(m.log).toBeGreaterThan(100);
+    expect(m.formInView).toBe(true);
+  });
+
+  test('suggested questions in the conversation answer from the portfolio', async ({ page }) => {
+    await page.goto('./query-engineer/');
+    const chips = page.locator('[data-qe-welcome] [data-qe-ask]');
+    await chips.filter({ hasText: 'Snowflake' }).click();
     const answer = page.locator('.qe-msg--a').last();
     await expect(answer.locator('.qe-ans__title')).toHaveText('Experience with Snowflake');
     await expect(answer).toContainText('Enterprise Data Migration');
     await expect(answer).toContainText('Snowflake Ascent');
     await expect(answer.locator('a[href="../work/data-migration/"]').first()).toBeVisible();
-    await topics.nth(0).click();   // Tata Technologies
+    await chips.filter({ hasText: 'Tata Technologies' }).click();
     await expect(page.locator('.qe-msg--a').last().locator('.qe-ans__title')).toHaveText('Experience · Tata Technologies');
-    await topics.nth(7).click();   // contact
+    await page.locator('[data-qe-input]').fill('How can I contact you?');
+    await page.locator('[data-qe-input]').press('Enter');
     const contact = page.locator('.qe-msg--a').last();
     await expect(contact.locator('a[href="mailto:gaurangashava@gmail.com"]')).toHaveCount(1);
     await expect(contact.locator('a[href*="drive.google.com"]')).toHaveAttribute('href', 'https://drive.google.com/file/d/1LbktI3_wzj6RZ04ig9SzPOV6p41pssqJ/view?usp=sharing');
@@ -132,7 +158,8 @@ test.describe('Query the Engineer', () => {
     await page.addInitScript(() => localStorage.setItem('df-theme', 'light'));
     await page.goto('./query-engineer/');
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-    await page.locator('.qe__topics [data-qe-ask]').nth(5).click();
+    await page.locator('[data-qe-input]').fill('What technologies do you work with?');
+    await page.locator('[data-qe-input]').press('Enter');
     await expect(page.locator('.qe-msg--a').last().locator('.qe-ans__title')).toHaveText('Technologies I work with');
   });
 });

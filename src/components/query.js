@@ -43,19 +43,13 @@ const queryPage = ({ kb, base }) => {
         <p class="qe__how-h">${icon('lock')}How this works</p>
         <p>This is a portfolio assistant, not an AI chatbot. It matches your question against this portfolio’s own content, in your browser, and answers from it. Nothing you type is sent anywhere, and when the portfolio doesn’t cover something, it says so rather than guessing.</p>
       </div>
-      <div class="qe__topics js-only">
-        <h2 class="label qe__topics-h">Try asking</h2>
-        <ul>
-${kb.suggestions.map((q, i) => `          <li><button class="qe-topic" type="button" data-qe-ask="${esc(q)}"><span class="qe-topic__n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>${esc(q)}</button></li>`).join('\n')}
-        </ul>
-      </div>
     </aside>
 
     <section class="qe__chat js-only" aria-labelledby="qe-chat-title">
       <header class="qe__chat-head">
         <span class="qe__status" aria-hidden="true"></span>
         <h2 class="qe__chat-title" id="qe-chat-title">Portfolio assistant</h2>
-        <span class="qe__mode">Local · answers from portfolio data</span>
+        <span class="qe__mode">Local · answers from this portfolio, not an AI model</span>
         <button class="qe__clear" type="button" data-qe-clear>Clear</button>
       </header>
       <div class="qe__log" data-qe-log role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation">

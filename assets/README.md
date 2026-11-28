@@ -30,7 +30,6 @@ Other folders are not part of the artwork package:
 | --- | --- |
 | `profile/` | Portrait photograph |
 | `fonts/` | Space Grotesk, Inter, JetBrains Mono (SIL OFL 1.1) |
-| `audio/` | Papercut, instrumental |
 | `walkthroughs/` | The illustrative walkthrough player |
 | `css/`, `js/` | Generated bundles |
 

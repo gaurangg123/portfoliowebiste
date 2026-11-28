@@ -1,66 +1,50 @@
-/* ---------- Query the Engineer: its own page ----------
-   A workspace: a brief on the left set in large stacked type, the conversation on the
-   right, a quiet data network behind both. */
-.page-query { min-height: 100vh; }
-.qe { position: relative; isolation: isolate; min-height: 100vh; padding-block: clamp(84px, 9vh, 112px) 48px; }
-@media (min-width: 1024px) { .qe { padding-top: clamp(40px, 7vh, 72px); } }
+/* ---------- Query the Engineer: its own page, on one screen ----------
+   The page is exactly the height of the screen: a brief on the left set in large
+   stacked type, the conversation on the right. Only the conversation scrolls. Phones
+   stack a compact brief above the conversation, still on one screen. */
+.page-query { height: 100vh; height: 100dvh; overflow: hidden; }
+.qe { position: relative; isolation: isolate; display: flex; flex-direction: column; height: 100vh; height: 100dvh; padding-block: clamp(20px, 4vh, 44px); }
 .qe__net { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100%; opacity: 0; transition: opacity 1.2s ease; pointer-events: none; }
 .qe__net.is-ready { opacity: 1; }
 .qe::before {
   content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
   background: radial-gradient(ellipse 60% 55% at 78% 18%, var(--violet-tint), transparent 70%), radial-gradient(ellipse 55% 50% at 10% 90%, var(--accent-tint), transparent 70%);
 }
-.qe__grid { display: grid; gap: 28px; }
-.qe__grid > * { min-width: 0; }
-@media (min-width: 1024px) { .qe__grid { grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.25fr); gap: clamp(28px, 4vw, 64px); align-items: start; } }
+.qe__grid { flex: 1; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 14px; }
+.qe__grid > * { min-width: 0; min-height: 0; }
+@media (min-width: 1024px) { .qe__grid { grid-template-columns: minmax(300px, 0.85fr) minmax(0, 1.3fr); grid-template-rows: minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); } }
 
 /* the brief */
-.qe__brief { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 16px; }
-@media (min-width: 1024px) { .qe__brief { position: sticky; top: 32px; } }
+.qe__brief { display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; gap: clamp(10px, 1.8vh, 16px); }
 .qe__back { display: inline-flex; align-items: center; gap: 8px; width: fit-content; min-height: 40px; color: var(--text-2); font-weight: 600; text-decoration: none; }
 .qe__back .ico { width: 18px; height: 18px; transition: transform var(--t-fast) var(--ease-out); }
 @media (hover: hover) { .qe__back:hover { color: var(--text); } .qe__back:hover .ico { transform: translateX(-3px); } }
 .qe__kicker { font: 500 var(--fs-label) / 1.4 var(--font-mono); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--text-2); }
 .qe__kicker span { color: var(--violet-tx); }
-.qe__title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.22em; font: 700 clamp(3rem, 1.6rem + 5.6vw, 6.25rem) / 0.9 var(--font-display); letter-spacing: -0.05em; text-transform: uppercase; }
+.qe__title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.22em; font: 700 clamp(2.75rem, min(1.4rem + 5vw, 11vh), 6rem) / 0.9 var(--font-display); letter-spacing: -0.05em; text-transform: uppercase; }
 .qe__title > span:last-child { flex-basis: 100%; background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: 0.06em; }
 .qe__the { font: 400 0.42em / 1 var(--font-mono); letter-spacing: 0.1em; color: var(--text-2); transform: translateY(-0.6em); }
-.qe__lead { font: 600 clamp(1.25rem, 1rem + 0.9vw, 1.625rem) / 1.3 var(--font-display); letter-spacing: -0.015em; color: var(--text); max-width: 32ch; }
+.qe__lead { font: 600 clamp(1.125rem, 0.95rem + 0.8vw, 1.5rem) / 1.3 var(--font-display); letter-spacing: -0.015em; color: var(--text); max-width: 32ch; }
 .qe__desc { color: var(--text-2); max-width: 46ch; }
-.qe__how { padding: 14px 16px; border: 1px dashed var(--border-2); border-radius: var(--r-md); background: color-mix(in srgb, var(--card) 60%, transparent); color: var(--text-2); font-size: var(--fs-small); }
+.qe__how { padding: 12px 14px; border: 1px dashed var(--border-2); border-radius: var(--r-md); background: color-mix(in srgb, var(--card) 60%, transparent); color: var(--text-2); font-size: var(--fs-small); }
 .qe__how-h { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; color: var(--text); font-weight: 600; }
 .qe__how-h .ico { width: 16px; height: 16px; color: var(--green); }
-.qe__topics-h { margin: 6px 0 8px; }
-.qe__topics ul { list-style: none; display: grid; gap: 4px; }
-.qe-topic {
-  display: grid; grid-template-columns: 2.4ch minmax(0, 1fr); gap: 10px; width: 100%; padding: 9px 10px; border: 1px solid transparent; border-radius: var(--r-sm);
-  background: transparent; color: var(--text); font: 500 0.9375rem / 1.35 var(--font-sans); text-align: left;
-  transition: background-color var(--t-fast) ease, border-color var(--t-fast) ease;
-}
-.qe-topic__n { font: 500 0.75rem / 1.8 var(--font-mono); color: var(--cyan); }
-@media (hover: hover) { .qe-topic:hover { background: var(--tint); border-color: var(--border); } }
-/* phones: the suggestions become one swipeable row */
-@media (max-width: 1023.98px) {
-  .qe__topics ul { grid-auto-flow: column; grid-auto-columns: min(72%, 260px); overflow-x: auto; margin-inline: calc(-1 * var(--gutter)); padding: 2px var(--gutter) 6px; scroll-padding-inline: var(--gutter); scroll-snap-type: x mandatory; scrollbar-width: none; }
-  .qe__topics ul::-webkit-scrollbar { display: none; }
-  .qe__topics li { scroll-snap-align: start; }
-  .qe-topic { height: 100%; border-color: var(--border); background: color-mix(in srgb, var(--card) 70%, transparent); }
-}
+@media (min-width: 1024px) and (max-height: 760px) { .qe__desc { display: none; } }
 
-/* the conversation */
+/* the conversation: a panel that fills the rest of the screen; only its log scrolls */
 .qe__chat {
-  position: relative; display: grid; grid-template-rows: auto 1fr auto auto; min-height: min(78vh, 760px);
+  position: relative; display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; min-height: 0; height: 100%;
   border: 1px solid var(--border-2); border-radius: var(--r-xl); background: color-mix(in srgb, var(--bg-1) 82%, transparent);
-  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: var(--shadow-2);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: var(--shadow-2); overflow: hidden;
 }
-.qe__chat-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+.qe__chat-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); }
 .qe__status { width: 9px; height: 9px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px color-mix(in srgb, var(--green) 20%, transparent); }
 .qe__chat-title { font: 600 1rem / 1.2 var(--font-display); }
 .qe__mode { font: 500 0.75rem / 1.3 var(--font-mono); color: var(--text-2); }
 .qe__clear { margin-left: auto; min-height: 36px; padding: 0 12px; border: 1px solid var(--border-2); border-radius: var(--r-pill); background: transparent; color: var(--text-2); font-weight: 600; font-size: 0.8125rem; }
 @media (hover: hover) { .qe__clear:hover { color: var(--text); border-color: var(--text-2); } }
-.qe__log { display: grid; align-content: start; gap: 18px; padding: 20px 18px; scroll-margin-top: 16px; }
-.qe-msg { display: grid; gap: 10px; scroll-margin-top: 20px; }
+.qe__log { display: grid; align-content: start; gap: 18px; min-height: 0; padding: 18px 16px; overflow-y: auto; overscroll-behavior: contain; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--border-2) transparent; }
+.qe-msg { display: grid; gap: 10px; scroll-margin-top: 12px; }
 .qe-msg--a { grid-template-columns: 34px minmax(0, 1fr); align-items: start; }
 .qe-msg__who { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--grad-brand); color: var(--on-accent); font: 700 0.75rem / 1 var(--font-display); letter-spacing: 0.04em; }
 .qe-msg--q { justify-items: end; }
@@ -92,7 +76,7 @@
 @keyframes qe-in { from { opacity: 0; transform: translateY(8px); } }
 
 .qe__form {
-  position: sticky; bottom: max(10px, env(safe-area-inset-bottom)); z-index: 2; display: flex; gap: 8px; margin: 0 12px; padding: 8px;
+  position: relative; z-index: 2; display: flex; gap: 8px; margin: 0 12px 10px; padding: 8px;
   border: 1px solid var(--border-2); border-radius: var(--r-pill); background: var(--glass-strong);
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: var(--shadow-2);
 }
@@ -104,7 +88,7 @@
 .qe__send .ico { width: 18px; height: 18px; }
 @media (hover: hover) { .qe__send:hover { background: var(--cyan-hover); } }
 .qe__hint { padding: 8px 18px 14px; color: var(--text-2); font: 500 0.75rem / 1.4 var(--font-mono); text-align: center; }
-@media (max-width: 479.98px) { .qe__send span { display: none; } .qe__send { padding: 0 14px; } .qe__chat { margin-inline: calc(-0.5 * var(--gutter)); } .qe__hint { display: none; } }
+@media (max-width: 479.98px) { .qe__send span { display: none; } .qe__send { padding: 0 14px; } .qe__hint { display: none; } }
 
 /* without JavaScript: the same answers, pre-rendered */
 .qe__faq { display: grid; gap: 10px; }
@@ -140,9 +124,24 @@
 .qpromo__chips { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
 .qpromo__chips li { padding: 6px 12px; border: 1px solid var(--accent-line); border-radius: var(--r-pill); background: var(--accent-tint); color: var(--text); font-size: 0.8125rem; }
 
-/* small screens: the question box owns the bottom of the screen, so the back-to-top
-   button stands aside; a question scrolled into view clears the floating menu button */
+/* phones and tablets: a compact brief above the conversation, still on one screen */
 @media (max-width: 1023.98px) {
-  .page-query .to-top { display: none; }
-  .qe-msg { scroll-margin-top: 84px; }
+  .qe { padding-top: calc(76px + env(safe-area-inset-top)); padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+  .qe__brief { align-content: start; gap: 6px; }
+  .qe__kicker, .qe__desc, .qe__how { display: none; }
+  .qe__back { min-height: 32px; font-size: 0.875rem; }
+  .qe__title { font-size: clamp(1.75rem, 1rem + 4vw, 2.75rem); }
+  .qe__title > span:last-child { flex-basis: auto; }
+  .qe__the { transform: none; }
+  .qe__lead { font-size: 1rem; max-width: none; }
+  .qe__chat-head { padding: 10px 14px; }
+  .qe__clear { order: 2; min-height: 32px; }
+  .qe__mode { order: 3; flex-basis: 100%; }
+  .qe__log { padding: 14px 12px; }
+}
+/* very short screens (a phone on its side): let the page scroll rather than squeeze */
+@media (max-height: 520px) {
+  .page-query { height: auto; overflow: auto; }
+  .qe { height: auto; min-height: 100vh; }
+  .qe__chat { height: 80vh; }
 }

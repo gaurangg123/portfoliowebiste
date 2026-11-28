@@ -14,17 +14,6 @@ html:not(.js) .hero__art { background: url("../hero/lattice-poster.webp") 72% 50
     linear-gradient(90deg, color-mix(in srgb, var(--bg-0) 92%, transparent) 0%, color-mix(in srgb, var(--bg-0) 70%, transparent) 36%, transparent 64%),
     linear-gradient(0deg, var(--bg-0) 0%, transparent 22%);
 }
-/* running text up the left edge */
-.hero__vert { display: none; }
-@media (min-width: 1024px) {
-  .hero__vert {
-    display: flex; align-items: center; gap: 14px; position: absolute; left: 24px; top: 78%;
-    transform: rotate(-90deg); transform-origin: left center; white-space: nowrap;
-    font: 500 0.6875rem / 1 var(--font-mono); letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-2); opacity: 0.8;
-  }
-  .hero__vert i { width: 28px; height: 1px; background: var(--border-2); }
-}
-
 .hero__inner { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); }
 .hero__studio { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; margin-bottom: clamp(28px, 6vh, 64px); }
 .hero__studio-name { display: none; }
@@ -64,18 +53,6 @@ html:not(.js) .hero__art { background: url("../hero/lattice-poster.webp") 72% 50
 .hero__social { list-style: none; display: flex; gap: 10px; }
 .hero__now { color: var(--text-2); font-size: var(--fs-small); }
 .hero__now .label { margin-right: 8px; color: var(--cyan); }
-
-/* an index of what the page holds, set like a table of contents */
-.hero__index { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: clamp(24px, 4vh, 40px); }
-.hero__index a { display: flex; align-items: baseline; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); color: var(--text-2); text-decoration: none; transition: border-color var(--t-fast) ease, color var(--t-fast) ease; }
-.hero__index b { font: 700 clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem) / 1 var(--font-display); letter-spacing: -0.04em; color: var(--text); }
-.hero__index span { font: 500 0.75rem / 1.3 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; }
-@media (hover: hover) { .hero__index a:hover { color: var(--text); border-color: var(--cyan); } }
-/* wide screens: the index stands at the lattice's foot, right-aligned */
-@media (min-width: 1280px) and (min-height: 760px) {
-  .hero__index { position: absolute; right: 0; bottom: 0; flex-direction: column; gap: 10px; text-align: right; }
-  .hero__index a { justify-content: flex-end; min-width: 240px; }
-}
 
 .hero__scroll { position: absolute; left: 50%; bottom: 18px; display: grid; justify-items: center; gap: 6px; min-width: 44px; margin-left: -22px; color: var(--text-2); text-decoration: none; }
 .hero__scroll-txt { font: 500 0.625rem / 1 var(--font-mono); letter-spacing: 0.3em; text-transform: uppercase; }
